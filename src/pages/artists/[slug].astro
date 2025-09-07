@@ -1,0 +1,434 @@
+---
+// Dynamic artist profile page
+import Layout from '../../layouts/Layout.astro';
+import cisData from '../../data/cis.json';
+
+export async function getStaticPaths() {
+  return cisData.artists.map((artist) => ({
+    params: { slug: artist.slug },
+    props: { artist },
+  }));
+}
+
+const { artist } = Astro.props;
+const title = `${artist.name} — Tattoo Artist | Cursed Ink Society`;
+const description = `${artist.positioning} Specializing in ${artist.specialties.join(', ')}. View ${artist.name}'s portfolio and book a consultation at Cursed Ink Society.`;
+---
+
+<Layout title={title} description={description}>
+  <!-- Artist Hero Section -->
+  <section class="artist-hero">
+    <div class="container">
+      <div class="artist-hero-content">
+        <div class="artist-hero-image">
+          <img
+            src={artist.avatar}
+            alt={`${artist.name} - Professional tattoo artist`}
+            class="hero-avatar"
+            loading="lazy"
+            width="400"
+            height="400"
+          />
+        </div>
+        <div class="artist-hero-info">
+          <div class="artist-badge">
+            <span class="badge">Master Artist</span>
+          </div>
+          <h1 class="artist-hero-name shine">{artist.name}</h1>
+          <p class="artist-hero-positioning">{artist.positioning}</p>
+
+          <div class="artist-quick-stats">
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Years Combined Experience</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">6</span>
+              <span class="stat-label">Expert Artists</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">2024</span>
+              <span class="stat-label">Founded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artist Specialties Section -->
+  <section class="artist-specialties">
+    <div class="container">
+      <h2>Specialties & Expertise</h2>
+      <div class="specialties-grid">
+        {artist.specialties.map((specialty) => (
+          <div class="specialty-card">
+            <div class="specialty-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+            </div>
+            <h3>{specialty}</h3>
+            <p>Expert-level proficiency in {specialty.toLowerCase()} techniques and styles.</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Work Gallery -->
+  {artist.featuredWork && artist.featuredWork.length > 0 && (
+    <section class="artist-gallery">
+      <div class="container">
+        <h2>Featured Work</h2>
+        <div class="gallery-grid">
+          {artist.featuredWork.map((image, index) => (
+            <div class="gallery-item">
+              <img
+                src={image}
+                alt={`${artist.name} tattoo artwork ${index + 1}`}
+                class="gallery-image"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Artist CTA Section -->
+  <section class="artist-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Work with {artist.name.split(' ')[0]}?</h2>
+        <p>Book a free consultation to discuss your vision and start your tattoo journey.</p>
+        <div class="cta-actions">
+          <a href={artist.cta.url} class="btn btn--primary btn--large" target="_blank" rel="noopener">
+            {artist.cta.text}
+          </a>
+          <a href="/artists" class="btn btn--outline btn--large">
+            View All Artists
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Information -->
+  <section class="artist-contact">
+    <div class="container">
+      <h2>Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <h3>Location</h3>
+          <p>123 Main Street<br/>Houma, LA 70360</p>
+        </div>
+        <div class="contact-item">
+          <h3>Hours</h3>
+          <p>Tuesday - Friday: 12:00 PM - 8:00 PM<br/>
+             Saturday: 12:00 PM - 10:00 PM</p>
+        </div>
+        <div class="contact-item">
+          <h3>Contact</h3>
+          <p><a href="https://instagram.com/cursedingksociety" target="_blank" rel="noopener">Follow @cursedingksociety</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Artist Hero */
+  .artist-hero {
+    padding: 6rem 0 4rem;
+    background:
+      radial-gradient(1200px 800px at 30% 10%, rgba(255, 60, 43, 0.03) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+  }
+
+  .artist-hero-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .artist-hero-image {
+    position: relative;
+  }
+
+  .hero-avatar {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 3px solid rgba(255, 60, 43, 0.3);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(255, 60, 43, 0.2);
+  }
+
+  .artist-badge {
+    margin-bottom: 1rem;
+  }
+
+  .artist-hero-name {
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+
+  .artist-hero-positioning {
+    font-size: 1.3rem;
+    color: var(--accent0);
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0 0 2rem;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-primary);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+  }
+
+  /* Specialties Section */
+  .artist-specialties {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+  }
+
+  .artist-specialties h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .specialties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .specialty-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: var(--border-glass);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .specialty-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .specialty-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 2px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent0);
+    margin: 0 auto 1.5rem;
+  }
+
+  .specialty-card h3 {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+  }
+
+  .specialty-card p {
+    opacity: 0.8;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Gallery Section */
+  .artist-gallery {
+    padding: 6rem 0;
+  }
+
+  .artist-gallery h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+  }
+
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+  }
+
+  /* CTA Section */
+  .artist-cta {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+    text-align: center;
+  }
+
+  .artist-cta h2 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-cta p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0 0 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Contact Section */
+  .artist-contact {
+    padding: 6rem 0;
+  }
+
+  .artist-contact h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .contact-item h3 {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+    color: var(--accent0);
+  }
+
+  .contact-item p {
+    margin: 0;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .contact-item a {
+    color: var(--accent0);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+  }
+
+  .contact-item a:hover {
+    text-shadow: var(--glow-subtle);
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: var(--breakpoint-mobile-max)) {
+    .artist-hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .artist-hero-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .hero-avatar {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .artist-quick-stats {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .specialties-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+// Import research-informed process data
+import siteData from '../data/cis.json';
+const { process } = siteData;
+---
+
+<section class="py-20 bg-cursed-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-display font-bold text-cursed-white mb-4">
+        Our Process
+      </h2>
+      <p class="text-xl text-cursed-muted max-w-3xl mx-auto">
+        A meticulous approach to creating timeless art. From consultation to completion, every step is crafted with precision and care.
+      </p>
+    </div>
+
+    <!-- Process Timeline -->
+    <div class="relative">
+      <!-- Timeline Line -->
+      <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-cursed-red via-cursed-gold to-cursed-red transform -translate-y-1/2"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        {process.map((step, index) => (
+          <div class="relative group">
+            <!-- Step Number (Mobile) -->
+            <div class="md:hidden flex items-center justify-center mb-6">
+              <div class="w-16 h-16 bg-cursed-red rounded-full flex items-center justify-center text-cursed-white font-display font-bold text-2xl shadow-lg">
+                {step.step}
+              </div>
+            </div>
+
+            <!-- Timeline Node (Desktop) -->
+            <div class="hidden md:block absolute -top-8 left-1/2 transform -translate-x-1/2 z-10">
+              <div class="w-16 h-16 bg-cursed-red rounded-full flex items-center justify-center text-cursed-white font-display font-bold text-xl shadow-xl group-hover:bg-cursed-gold group-hover:text-cursed-dark transition-all duration-300">
+                {step.step}
+              </div>
+            </div>
+
+            <!-- Step Card -->
+            <div class="bg-gradient-to-b from-cursed-black/50 to-cursed-dark/50 rounded-xl p-8 border border-cursed-gold/20 group-hover:border-cursed-gold/40 transition-all duration-300 md:mt-12">
+              <!-- Step Title -->
+              <h3 class="text-2xl font-display font-bold text-cursed-white mb-4 text-center md:text-left">
+                {step.title}
+              </h3>
+
+              <!-- Step Description -->
+              <p class="text-cursed-muted leading-relaxed text-center md:text-left">
+                {step.description}
+              </p>
+
+              <!-- Decorative Element -->
+              <div class="mt-6 flex justify-center md:justify-start">
+                <div class="w-12 h-0.5 bg-gradient-to-r from-cursed-gold to-cursed-red"></div>
+              </div>
+            </div>
+
+            <!-- Connection Arrow (Desktop) -->
+            {index < process.length - 1 && (
+              <div class="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-5">
+                <svg class="w-12 h-12 text-cursed-gold" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16">
+      <p class="text-cursed-muted mb-6">
+        Ready to experience our meticulous process firsthand?
+      </p>
+      <a
+        href="#contact"
+        class="inline-flex items-center px-8 py-4 bg-cursed-gold hover:bg-cursed-gold/90 text-cursed-dark font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cursed-gold/25"
+      >
+        <span>Begin Your Journey</span>
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Performance optimization: Reduce paint on timeline animations */
+  .timeline-node {
+    will-change: transform;
+  }
+
+  /* Research-aligned: Ensure proper spacing and alignment */
+  @media (min-width: 768px) {
+    .timeline-line {
+      background: linear-gradient(90deg, var(--cursed-red) 0%, var(--cursed-gold) 50%, var(--cursed-red) 100%);
+    }
+  }
+
+  /* Accessibility: Ensure focus states are visible */
+  .timeline-step:focus-within {
+    outline: 2px solid var(--cursed-gold);
+    outline-offset: 2px;
+  }
+</style>

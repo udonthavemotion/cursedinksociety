@@ -1,0 +1,512 @@
+---
+// Featured Artists data - Cursed Ink Society Team
+const artists = [
+  {
+    id: 1,
+    name: "Anthony Boudreaux",
+    specialty: "Versatile Tattoo Artist",
+    image: "/assets/artists/anthony-boudreaux.jpg",
+    bio: "Versatile tattoo artist with extensive experience across multiple styles. Known for taking walk-ins and bringing client visions to life with precision and artistry. A cornerstone of the Cursed Ink Society collective.",
+    styles: ["Traditional", "Neo-Traditional", "Blackwork", "Custom"],
+    bookingUrl: "/contact?artist=anthony"
+  },
+  {
+    id: 2,
+    name: "Ashley Wood",
+    specialty: "Artistic Excellence",
+    image: "/assets/artists/ashley-wood.jpg",
+    bio: "Talented tattoo artist building a strong reputation in the Houma area. Known for her artistic approach and dedication to client satisfaction. Brings creativity and passion to every piece.",
+    styles: ["Realism", "Portraits", "Watercolor", "Fine Line"],
+    bookingUrl: "/contact?artist=ashley"
+  },
+  {
+    id: 3,
+    name: "Cody Crochet",
+    specialty: "Collaborative Mastery",
+    image: "/assets/artists/cody-crochet.jpg",
+    bio: "Professional tattoo artist known for collaborative work and exceptional craftsmanship. Brings technical expertise and artistic vision to create meaningful, lasting pieces.",
+    styles: ["Traditional", "American", "Black & Grey", "Large Scale"],
+    bookingUrl: "/contact?artist=cody"
+  },
+  {
+    id: 4,
+    name: "Seth Wood",
+    specialty: "Quality & Precision",
+    image: "/assets/artists/seth-wood.jpg",
+    bio: "Tattoo artist with strong local presence and commitment to quality. Focuses on precision work and building lasting relationships with clients through exceptional service.",
+    styles: ["Traditional", "Neo-Traditional", "Geometric", "Custom"],
+    bookingUrl: "/contact?artist=seth"
+  },
+  {
+    id: 5,
+    name: "Luis Reymundo",
+    specialty: "Versatile Craftsmanship",
+    image: "/assets/artists/luis-reymundo.jpg",
+    bio: "Versatile tattoo artist bringing broad technical skills and artistic range to the collective. Known for adapting to diverse client needs while maintaining the highest standards of quality.",
+    styles: ["Realism", "Traditional", "Blackwork", "Portrait"],
+    bookingUrl: "/contact?artist=luis"
+  },
+  {
+    id: 6,
+    name: "Trent",
+    specialty: "Collective Contributor",
+    image: "/assets/artists/trent.jpg",
+    bio: "Valuable member of the Cursed Ink Society collective, contributing diverse offerings and technical expertise. Committed to the studio's mission of artistic excellence in Houma.",
+    styles: ["Traditional", "Custom", "Black & Grey", "Fine Line"],
+    bookingUrl: "/contact?artist=trent"
+  }
+];
+---
+
+<section class="featured-artists" id="artists">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge">Our Collective</span>
+      <h2 class="section-title shine">Meet the Cursed Ink Society</h2>
+      <p class="section-description">
+        Our talented team of artists brings decades of combined experience and diverse expertise to Houma, Louisiana.
+        Each member of our collective is committed to creating meaningful, high-quality tattoos that tell your story.
+      </p>
+    </div>
+
+    <div class="artists-grid">
+      {artists.map((artist) => (
+        <article class="artist-card" data-artist-id={artist.id}>
+          <div class="artist-image-container">
+            <img 
+              src={artist.image} 
+              alt={`${artist.name} - ${artist.specialty}`}
+              class="artist-image"
+              loading="lazy"
+              width="400"
+              height="500"
+            />
+            <div class="artist-overlay">
+              <div class="artist-styles">
+                {artist.styles.map((style) => (
+                  <span class="style-tag">{style}</span>
+                ))}
+              </div>
+              <a href={artist.bookingUrl} class="btn btn--primary artist-book-btn">
+                Contact {artist.name.split(' ')[0]}
+              </a>
+            </div>
+          </div>
+          
+          <div class="artist-info">
+            <h3 class="artist-name">{artist.name}</h3>
+            <p class="artist-specialty">{artist.specialty}</p>
+            <p class="artist-bio">{artist.bio}</p>
+            
+            <div class="artist-actions">
+              <a href={`/gallery?artist=${artist.name.toLowerCase().replace(' ', '-')}`} class="btn btn--ghost">
+                View Work
+              </a>
+              <a href={artist.bookingUrl} class="btn btn--primary">
+                Get In Touch
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="artists-cta">
+      <p>Ready to start your tattoo journey? Our collective is here to bring your vision to life.</p>
+      <a href="/contact" class="btn btn--outline">Start Your Journey</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// Add staggered animation indices to artist cards
+document.addEventListener('DOMContentLoaded', () => {
+  const artistCards = document.querySelectorAll('.artist-card');
+  artistCards.forEach((card, index) => {
+    card.style.setProperty('--card-index', index.toString());
+  });
+
+  // Add intersection observer for enhanced scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+      }
+    });
+  }, observerOptions);
+
+  // Observe elements for enhanced animations
+  document.querySelectorAll('.artist-card, .artists-cta').forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>
+
+<style>
+  .featured-artists {
+    padding: 6rem 0;
+    background:
+      radial-gradient(1000px 600px at 20% 30%, rgba(255, 60, 43, 0.03) 0%, transparent 60%),
+      radial-gradient(800px 400px at 80% 70%, rgba(255, 122, 24, 0.02) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-artists::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 25% 25%, rgba(255, 60, 43, 0.02) 0%, transparent 40%),
+      radial-gradient(circle at 75% 75%, rgba(255, 122, 24, 0.01) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.1;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent0), var(--accent1));
+    border-radius: 2px;
+    animation: expandWidth 1.5s ease-out 1s forwards;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .artist-card {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--card-index) * 0.2s + 0.5s);
+  }
+
+  .artist-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(255, 60, 43, 0.1),
+      0 0 60px rgba(255, 122, 24, 0.05);
+  }
+
+  .artist-card:hover::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, var(--accent0), var(--accent1), var(--accent0));
+    border-radius: 22px;
+    z-index: -1;
+    animation: rotateGlow 3s linear infinite;
+  }
+
+  .artist-image-container {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+
+  .artist-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+  }
+
+  .artist-card:hover .artist-image {
+    transform: scale(1.05);
+  }
+
+  .artist-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(11, 11, 13, 0.9) 0%,
+      rgba(11, 11, 13, 0.6) 40%,
+      transparent 70%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: var(--transition-smooth);
+  }
+
+  .artist-card:hover .artist-overlay {
+    opacity: 1;
+  }
+
+  .artist-styles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .style-tag {
+    background: rgba(255, 60, 43, 0.2);
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    color: var(--accent0);
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .artist-book-btn {
+    align-self: flex-start;
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .artist-info {
+    padding: 2rem;
+  }
+
+  .artist-name {
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-specialty {
+    color: var(--accent0);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0 0 2rem;
+  }
+
+  .artist-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .artist-actions .btn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .btn--ghost {
+    background: transparent;
+    border: var(--border-glass);
+    color: var(--ink);
+    backdrop-filter: blur(5px);
+  }
+
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .artists-cta {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .artists-cta p {
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem;
+    opacity: 0.9;
+  }
+
+  .btn--outline {
+    background: transparent;
+    border: 2px solid var(--accent0);
+    color: var(--accent0);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn--outline::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent0);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .btn--outline:hover::before {
+    transform: translateX(0);
+  }
+
+  .btn--outline:hover {
+    color: var(--bg0);
+  }
+
+  .btn--outline span {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .featured-artists {
+      padding: 4rem 0;
+    }
+
+    .artists-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .artist-card {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .artist-overlay {
+      opacity: 1;
+      background: linear-gradient(
+        to top,
+        rgba(11, 11, 13, 0.95) 0%,
+        rgba(11, 11, 13, 0.7) 50%,
+        transparent 80%
+      );
+    }
+
+    .artist-actions {
+      flex-direction: column;
+    }
+
+    .artists-cta {
+      padding: 2rem 1rem;
+    }
+  }
+
+  /* New Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes expandWidth {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100px;
+    }
+  }
+
+  @keyframes rotateGlow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Enhanced button animations */
+  .btn--primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .btn--primary:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .artist-card,
+    .section-header,
+    .section-title::after,
+    .artist-card:hover::before {
+      animation: none;
+    }
+
+    .artist-card:hover {
+      transform: none;
+    }
+
+    .artist-card:hover .artist-image {
+      transform: none;
+    }
+
+    .artist-overlay {
+      opacity: 1;
+    }
+
+    .btn--primary::before {
+      display: none;
+    }
+  }
+</style>

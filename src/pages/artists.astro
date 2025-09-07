@@ -1,0 +1,438 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Our Artists — Cursed Ink Society";
+const description = "Meet the master tattoo artists of Cursed Ink Society. Each brings unique expertise in traditional, realism, fine line, and Japanese tattooing styles.";
+
+// Import artist data from structured data source
+import cisData from '../data/cis.json';
+
+const artists = cisData.artists;
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="artists-hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="badge">Our Masters</span>
+        <h1 class="hero-title shine">Meet Our Artists</h1>
+        <p class="hero-description">
+          Each artist in our collective brings decades of experience, unique specializations, 
+          and unwavering dedication to their craft. Discover the perfect artist for your vision.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artists Grid -->
+  <section class="artists-section">
+    <div class="container">
+      <div class="artists-grid">
+        {artists.map((artist, index) => (
+          <article class="artist-profile" data-artist-slug={artist.slug}>
+            <div class="artist-header">
+              <div class="artist-image-container">
+                <img
+                  src={artist.avatar}
+                  alt={`${artist.name} - ${artist.positioning}`}
+                  class="artist-image"
+                  loading="lazy"
+                  width="300"
+                  height="300"
+                />
+                <div class="artist-social">
+                  <a
+                    href={artist.cta.url}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={`Contact ${artist.name} on Instagram`}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="artist-info">
+                <h2 class="artist-name">{artist.name}</h2>
+                <p class="artist-positioning">{artist.positioning}</p>
+              </div>
+            </div>
+
+            <div class="artist-details">
+              <div class="artist-specialties-section">
+                <h4>Specialties</h4>
+                <div class="specialty-tags">
+                  {artist.specialties.map((specialty) => (
+                    <span class="specialty-tag">{specialty}</span>
+                  ))}
+                </div>
+              </div>
+
+              {artist.featuredWork && artist.featuredWork.length > 0 && (
+                <div class="artist-portfolio-preview">
+                  <h4>Featured Work</h4>
+                  <div class="portfolio-grid">
+                    {artist.featuredWork.slice(0, 3).map((image, imgIndex) => (
+                      <img
+                        src={image}
+                        alt={`${artist.name} featured work ${imgIndex + 1}`}
+                        class="portfolio-image"
+                        loading="lazy"
+                        width="150"
+                        height="150"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div class="artist-actions">
+                <a href={artist.cta.url} class="btn btn--primary" target="_blank" rel="noopener">
+                  {artist.cta.text}
+                </a>
+                <a href={`/artists/${artist.slug}`} class="btn btn--outline">
+                  View Profile
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="artists-cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Work with Our Artists?</h2>
+        <p>Book a free consultation to discuss your ideas and find the perfect artist for your vision.</p>
+        <div class="cta-actions">
+          <a href="/consultation" class="btn btn--primary btn--large">Book Free Consultation</a>
+          <a href="/gallery" class="btn btn--outline btn--large">Browse All Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Artists Hero */
+  .artists-hero {
+    padding: 8rem 0 4rem;
+    text-align: center;
+    background: 
+      radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.1;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* Artists Section */
+  .artists-section {
+    padding: 4rem 0 6rem;
+  }
+
+  .artists-grid {
+    display: grid;
+    gap: 4rem;
+  }
+
+  .artist-profile {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 24px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .artist-profile:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+      0 24px 48px rgba(0, 0, 0, 0.2),
+      0 0 40px rgba(255, 60, 43, 0.1);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .artist-header {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    align-items: center;
+  }
+
+  .artist-image-container {
+    position: relative;
+  }
+
+  .artist-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 60, 43, 0.2);
+  }
+
+  .artist-social {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .artist-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(11, 11, 13, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: var(--ink);
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .artist-social a:hover {
+    background: rgba(255, 60, 43, 0.2);
+    border-color: var(--accent0);
+    color: var(--accent0);
+    transform: scale(1.1);
+  }
+
+  .artist-name {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-positioning {
+    font-size: 1.2rem;
+    color: var(--accent0);
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-experience {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .artist-details {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .artist-specialties-section h4,
+  .artist-portfolio-preview h4 {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-bio p {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  .specialty-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .specialty-tag {
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    color: var(--accent0);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .specialties-list,
+  .awards-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .specialty-item,
+  .award-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .specialty-item svg,
+  .award-item svg {
+    color: var(--accent0);
+    flex-shrink: 0;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .portfolio-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition-smooth);
+  }
+
+  .portfolio-image:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 60, 43, 0.3);
+  }
+
+  .view-portfolio-link {
+    color: var(--accent0);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+  }
+
+  .view-portfolio-link:hover {
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artist-actions {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  .artist-actions .btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Artists CTA */
+  .artists-cta {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+    text-align: center;
+  }
+
+  .artists-cta .cta-content h2 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .artists-cta .cta-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0 0 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .artists-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .artists-section {
+      padding: 3rem 0 4rem;
+    }
+
+    .artist-profile {
+      padding: 2rem 1.5rem;
+    }
+
+    .artist-header {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .artist-image-container {
+      max-width: 250px;
+      margin: 0 auto;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .artist-actions {
+      flex-direction: column;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .artist-profile:hover {
+      transform: none;
+    }
+
+    .portfolio-image:hover {
+      transform: none;
+    }
+
+    .artist-social a:hover {
+      transform: none;
+    }
+  }
+</style>

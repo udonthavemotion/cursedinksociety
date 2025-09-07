@@ -1,0 +1,100 @@
+---
+// Import research-informed contact data
+import siteData from '../data/cis.json';
+const { contactCta } = siteData;
+---
+
+<section class="py-20 bg-gradient-to-b from-cursed-black to-cursed-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Contact CTA Container -->
+    <div class="bg-gradient-to-r from-cursed-dark/80 to-cursed-black/80 rounded-2xl border border-cursed-gold/30 overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,215,0,0.3)_1px,transparent_0)] bg-[length:24px_24px]"></div>
+      </div>
+
+      <div class="relative p-8 md:p-16">
+        <div class="text-center">
+          <!-- Headline -->
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-cursed-white mb-6 leading-tight">
+            {contactCta.headline}
+          </h2>
+
+          <!-- Subheadline -->
+          <p class="text-xl md:text-2xl text-cursed-muted max-w-4xl mx-auto mb-12 leading-relaxed">
+            {contactCta.subhead}
+          </p>
+
+          <!-- CTA Buttons (Lead-only, research-aligned) -->
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <!-- Primary CTA: Instagram DM -->
+            <a
+              href={contactCta.primaryCta.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex items-center px-8 py-4 bg-cursed-red hover:bg-cursed-red/90 text-cursed-white font-semibold text-lg rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cursed-red/25"
+              aria-label="Contact Cursed Ink Society via Instagram Direct Message"
+            >
+              <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.017 0C8.396 0 7.983.015 6.677.072 5.37.128 4.536.267 3.853.508c-.783.264-1.447.652-2.105 1.31C.086 2.476 0 3.14 0 3.923c0 .783.086 1.447.748 2.105.658.658 1.322 1.046 2.105 1.31.683.241 1.517.38 2.825.436 1.306.057 1.719.072 5.34.072s4.034-.015 5.34-.072c1.308-.057 2.142-.195 2.825-.436.783-.264 1.447-.652 2.105-1.31.662-.658 1.046-1.322 1.31-2.105.241-.683.38-1.517.436-2.825C23.985.015 23.4 0 12.017 0zM12 5.838a6.162 6.162 0 100 12.324A6.162 6.162 0 0012 5.838zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+              <span>{contactCta.primaryCta.text}</span>
+              <svg class="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+
+            <!-- Secondary CTA: Browse Work -->
+            <a
+              href={contactCta.secondaryCta.url}
+              class="inline-flex items-center px-8 py-4 border-2 border-cursed-gold text-cursed-gold hover:bg-cursed-gold hover:text-cursed-dark font-semibold text-lg rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cursed-gold/25"
+            >
+              <span>{contactCta.secondaryCta.text}</span>
+              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Trust Indicators -->
+          <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-cursed-muted">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-cursed-gold mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>50+ Years Combined Experience</span>
+            </div>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-cursed-gold mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>2000+ Lives Transformed by Art</span>
+            </div>
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-cursed-gold mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              <span>100% Satisfaction Rate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="mt-12 text-center">
+      <div class="flex flex-wrap justify-center gap-8 text-sm text-cursed-muted">
+        <a href="#artists" class="hover:text-cursed-gold transition-colors">Our Artists</a>
+        <a href="#portfolio" class="hover:text-cursed-gold transition-colors">Portfolio</a>
+        <a href="#process" class="hover:text-cursed-gold transition-colors">Our Process</a>
+        <a href="https://instagram.com/cursedingksociety" target="_blank" rel="noopener noreferrer" class="hover:text-cursed-gold transition-colors">Follow Us</a>
+      </div>
+
+      <!-- Copyright -->
+      <p class="mt-8 text-xs text-cursed-muted">
+        © 2025 Cursed Ink Society. Timeless Art. Meticulous Execution.
+      </p>
+    </div>
+  </div>
+</section>

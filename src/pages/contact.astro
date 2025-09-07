@@ -1,0 +1,891 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Contact Us — Cursed Ink Society";
+const description = "Get in touch with Cursed Ink Society. Book consultations, ask questions, or visit our Houma, LA studio. We're here to help bring your tattoo vision to life.";
+
+// Contact information
+const contactInfo = {
+  phone: "(985) 555-CURSE",
+  phoneLink: "tel:+19855552873",
+  email: "info@cursedinksociety.com",
+  emailLink: "mailto:info@cursedinksociety.com",
+  address: {
+    street: "123 Main Street",
+    city: "Houma",
+    state: "LA",
+    zip: "70360",
+    full: "123 Main Street, Houma, LA 70360"
+  },
+  hours: [
+    { days: "Tuesday - Thursday", time: "12:00 PM - 8:00 PM" },
+    { days: "Friday - Saturday", time: "12:00 PM - 10:00 PM" },
+    { days: "Sunday - Monday", time: "Closed" }
+  ],
+  socialMedia: {
+    instagram: "https://instagram.com/cursedinksociety",
+    facebook: "https://facebook.com/cursedinksociety"
+  }
+};
+
+// FAQ data
+const faqs = [
+  {
+    question: "How do I book a consultation?",
+    answer: "You can book a free consultation by calling us, filling out our online form, or visiting us during business hours. We recommend booking in advance to ensure availability with your preferred artist."
+  },
+  {
+    question: "What should I bring to my consultation?",
+    answer: "Bring reference images, ideas, and any questions you have. We'll discuss placement, sizing, pricing, and timeline. Don't worry if your ideas aren't fully formed - we're here to help develop your concept."
+  },
+  {
+    question: "How much do tattoos cost?",
+    answer: "Our hourly rates range from $150-280 depending on the artist and complexity. We have minimum charges starting at $100. We'll provide a detailed quote during your consultation based on your specific design."
+  },
+  {
+    question: "Do you require deposits?",
+    answer: "Yes, we require a deposit to secure your appointment. Deposits range from $75-200 depending on the size of the piece and are applied to your final cost. Deposits are non-refundable but can be transferred to a new appointment."
+  },
+  {
+    question: "What's your cancellation policy?",
+    answer: "We require 48 hours notice for cancellations or rescheduling. Last-minute cancellations may result in deposit forfeiture. We understand emergencies happen and will work with you when possible."
+  },
+  {
+    question: "Do you do walk-ins?",
+    answer: "We welcome walk-ins based on artist availability, but appointments are recommended to guarantee your preferred time and artist. Call ahead or check our social media for daily availability updates."
+  }
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="badge">Get in Touch</span>
+        <h1 class="hero-title shine">Contact Us</h1>
+        <p class="hero-description">
+          Ready to start your tattoo journey? We're here to answer questions, 
+          provide consultations, and help bring your vision to life.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Information -->
+  <section class="contact-info">
+    <div class="container">
+      <div class="contact-info-grid">
+        <!-- Contact Methods -->
+        <div class="contact-methods">
+          <h2 class="section-title">Get in Touch</h2>
+          
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Phone</h3>
+              <p><a href={contactInfo.phoneLink}>{contactInfo.phone}</a></p>
+              <small>Call for immediate assistance or booking</small>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Email</h3>
+              <p><a href={contactInfo.emailLink}>{contactInfo.email}</a></p>
+              <small>Send detailed inquiries and reference images</small>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Location</h3>
+              <p>{contactInfo.address.full}</p>
+              <small>Visit us for walk-ins and consultations</small>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Hours</h3>
+              <div class="hours-list">
+                {contactInfo.hours.map((hour) => (
+                  <div class="hour-item">
+                    <span class="hour-days">{hour.days}</span>
+                    <span class="hour-time">{hour.time}</span>
+                  </div>
+                ))}
+              </div>
+              <small>Walk-ins welcome based on availability</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-section">
+          <h2 class="section-title">Send us a Message</h2>
+          <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" name="firstName" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" name="lastName" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select a topic...</option>
+                <option value="consultation">Book Consultation</option>
+                <option value="pricing">Pricing Inquiry</option>
+                <option value="cover-up">Cover-up Consultation</option>
+                <option value="appointment">Appointment Question</option>
+                <option value="general">General Question</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="preferredArtist">Preferred Artist (Optional)</label>
+              <select id="preferredArtist" name="preferredArtist">
+                <option value="">No preference</option>
+                <option value="raven">Raven Blackthorne</option>
+                <option value="phoenix">Phoenix Ashwood</option>
+                <option value="sage">Sage Moonwright</option>
+                <option value="dante">Dante Crimson</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="6" required placeholder="Tell us about your tattoo idea, questions, or anything else we can help with..."></textarea>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <input type="checkbox" id="newsletter" name="newsletter" />
+              <label for="newsletter">I'd like to receive updates about events and new work</label>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--large form-submit">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <div class="container">
+      <h2 class="section-title">Find Our Studio</h2>
+      <div class="map-container">
+        <!-- Placeholder for Google Maps -->
+        <div class="map-placeholder">
+          <div class="map-content">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <h3>Cursed Ink Society</h3>
+            <p>{contactInfo.address.full}</p>
+            <a href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo.address.full)}`} 
+               target="_blank" 
+               rel="noopener" 
+               class="btn btn--outline">
+              Get Directions
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        {faqs.map((faq, index) => (
+          <div class="faq-item">
+            <button class="faq-question" data-faq-toggle={index}>
+              <span>{faq.question}</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </button>
+            <div class="faq-answer" data-faq-content={index}>
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Media -->
+  <section class="social-section">
+    <div class="container">
+      <div class="social-content">
+        <h2 class="section-title">Follow Our Work</h2>
+        <p class="social-description">
+          Stay connected with our latest work, behind-the-scenes content, and studio updates.
+        </p>
+        <div class="social-links">
+          <a href={contactInfo.socialMedia.instagram} target="_blank" rel="noopener" class="social-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+            </svg>
+            <span>Follow on Instagram</span>
+          </a>
+          <a href={contactInfo.socialMedia.facebook} target="_blank" rel="noopener" class="social-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <span>Follow on Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // FAQ Accordion functionality
+  class FAQManager {
+    constructor() {
+      this.faqButtons = document.querySelectorAll('.faq-question');
+      this.init();
+    }
+
+    init() {
+      this.faqButtons.forEach(button => {
+        button.addEventListener('click', (e) => this.toggleFAQ(e));
+      });
+    }
+
+    toggleFAQ(e) {
+      const button = e.currentTarget;
+      const index = button.dataset.faqToggle;
+      const content = document.querySelector(`[data-faq-content="${index}"]`);
+      const icon = button.querySelector('.faq-icon');
+      const faqItem = button.closest('.faq-item');
+
+      // Close other open FAQs
+      this.faqButtons.forEach((otherButton, otherIndex) => {
+        if (otherIndex.toString() !== index) {
+          const otherContent = document.querySelector(`[data-faq-content="${otherIndex}"]`);
+          const otherIcon = otherButton.querySelector('.faq-icon');
+          const otherItem = otherButton.closest('.faq-item');
+          
+          otherItem.classList.remove('faq-item--open');
+          otherContent.style.maxHeight = null;
+          otherIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Toggle current FAQ
+      const isOpen = faqItem.classList.contains('faq-item--open');
+      
+      if (isOpen) {
+        faqItem.classList.remove('faq-item--open');
+        content.style.maxHeight = null;
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        faqItem.classList.add('faq-item--open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  }
+
+  // Contact form handling
+  class ContactFormManager {
+    constructor() {
+      this.form = document.querySelector('.contact-form');
+      this.submitButton = document.querySelector('.form-submit');
+      this.init();
+    }
+
+    init() {
+      if (this.form) {
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+      }
+    }
+
+    async handleSubmit(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      this.submitButton.textContent = 'Sending...';
+      this.submitButton.disabled = true;
+
+      try {
+        const formData = new FormData(this.form);
+        const response = await fetch(this.form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          this.showSuccess();
+          this.form.reset();
+        } else {
+          this.showError();
+        }
+      } catch (error) {
+        this.showError();
+      } finally {
+        this.submitButton.textContent = 'Send Message';
+        this.submitButton.disabled = false;
+      }
+    }
+
+    showSuccess() {
+      // Create success message
+      const message = document.createElement('div');
+      message.className = 'form-message form-message--success';
+      message.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+        <span>Thank you! Your message has been sent. We'll get back to you soon.</span>
+      `;
+      
+      this.form.insertBefore(message, this.form.firstChild);
+      
+      // Remove message after 5 seconds
+      setTimeout(() => {
+        message.remove();
+      }, 5000);
+    }
+
+    showError() {
+      // Create error message
+      const message = document.createElement('div');
+      message.className = 'form-message form-message--error';
+      message.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>Sorry, there was an error sending your message. Please try again or call us directly.</span>
+      `;
+      
+      this.form.insertBefore(message, this.form.firstChild);
+      
+      // Remove message after 5 seconds
+      setTimeout(() => {
+        message.remove();
+      }, 5000);
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new FAQManager();
+      new ContactFormManager();
+    });
+  } else {
+    new FAQManager();
+    new ContactFormManager();
+  }
+</script>
+
+<style>
+  /* Contact Hero */
+  .contact-hero {
+    padding: 8rem 0 4rem;
+    text-align: center;
+    background: 
+      radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.1;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* Contact Info */
+  .contact-info {
+    padding: 6rem 0;
+  }
+
+  .contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .contact-method:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    flex-shrink: 0;
+  }
+
+  .contact-details h3 {
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-details p {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact-details a {
+    color: var(--accent0);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+  }
+
+  .contact-details a:hover {
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-details small {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hour-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hour-days {
+    font-weight: 600;
+  }
+
+  .hour-time {
+    opacity: 0.8;
+  }
+
+  /* Contact Form */
+  .contact-form-section {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 24px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 1rem;
+    border: var(--border-glass);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--ink);
+    font-size: 1rem;
+    backdrop-filter: blur(5px);
+    transition: var(--transition-smooth);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: rgba(255, 60, 43, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 60, 43, 0.2);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+  }
+
+  .checkbox-group label {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .form-submit {
+    align-self: flex-start;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    min-height: 56px;
+  }
+
+  .form-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-message--success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .form-message--error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  /* Map Section */
+  .map-section {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+  }
+
+  .map-container {
+    border-radius: 20px;
+    overflow: hidden;
+    border: var(--border-glass);
+    height: 400px;
+  }
+
+  .map-placeholder {
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 30% 30%, rgba(255, 60, 43, 0.1) 0%, transparent 60%),
+      var(--bg-glass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .map-content {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .map-content svg {
+    color: var(--accent0);
+    margin-bottom: 1rem;
+  }
+
+  .map-content h3 {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+  }
+
+  .map-content p {
+    margin: 0 0 1.5rem;
+    opacity: 0.8;
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    padding: 6rem 0;
+  }
+
+  .faq-grid {
+    display: grid;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .faq-item--open {
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1.5rem 2rem;
+    text-align: left;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-smooth);
+  }
+
+  .faq-question:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .faq-icon {
+    color: var(--accent0);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .faq-answer p {
+    padding: 0 2rem 1.5rem;
+    margin: 0;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  /* Social Section */
+  .social-section {
+    padding: 6rem 0;
+    background: 
+      radial-gradient(1000px 600px at 50% 50%, rgba(255, 60, 43, 0.05) 0%, transparent 60%);
+    text-align: center;
+  }
+
+  .social-description {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0 0 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 50px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .social-link:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .social-link svg {
+    color: var(--accent0);
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .contact-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .contact-info-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .contact-form-section {
+      padding: 2rem 1.5rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-submit {
+      width: 100%;
+      text-align: center;
+    }
+
+    .contact-method {
+      padding: 1.5rem;
+    }
+
+    .map-container {
+      height: 300px;
+    }
+
+    .faq-question {
+      padding: 1rem 1.5rem;
+    }
+
+    .faq-answer p {
+      padding: 0 1.5rem 1rem;
+    }
+
+    .social-links {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .social-link {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .contact-method:hover {
+      transform: none;
+    }
+
+    .social-link:hover {
+      transform: none;
+    }
+
+    .faq-icon {
+      transition: none;
+    }
+  }
+</style>

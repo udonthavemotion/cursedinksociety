@@ -1,0 +1,165 @@
+{
+  "site": {
+    "name": "Cursed Ink Society",
+    "domain": "cursedingksociety.com",
+    "description": "Premium tattoo collective in Houma, Louisiana - Where artistry meets community",
+    "palette": {
+      "primary": "#dc143c",
+      "secondary": "#b22222",
+      "accent": "#d4af37",
+      "background": "#0a0a0c",
+      "text": "#f5f5f5",
+      "muted": "#e9e2d8",
+      "gold": "#d4af37",
+      "silver": "#c0c0c0"
+    },
+    "logo": "/assets/logo-cursed-ink-society.svg",
+    "ogImage": "/assets/og-cursed-ink-society.jpg"
+  },
+  "hero": {
+    "kicker": "HOUMA'S PREMIER TATTOO COLLECTIVE",
+    "headline": "Timeless Art. Meticulous Execution.",
+    "subhead": "Six master artists, one extraordinary collective. From traditional to contemporary, we bring your vision to life with uncompromising quality and artistic integrity.",
+    "video": "/assets/hero-showcase.mp4",
+    "poster": "/assets/hero-poster.jpg"
+  },
+  "stats": [
+    {"label": "Masterpieces Created", "value": "150+"},
+    {"label": "Expert Artists", "value": "6"},
+    {"label": "Years Combined Experience", "value": "50+"},
+    {"label": "Houma's Premier Collective", "value": "2024"}
+  ],
+  "artists": [
+    {
+      "name": "Seth Wood",
+      "slug": "seth-wood",
+      "positioning": "Master of Naturalistic American Traditional & Japanese - Timeless artistry with 25+ years of mastery",
+      "specialties": ["Naturalistic American Traditional", "Naturalistic Japanese", "Black & Grey"],
+      "avatar": "/assets/artists/seth-wood-avatar.jpg",
+      "instagram": "@sethta2_bp",
+      "featuredWork": ["/assets/portfolio/seth-1.jpg", "/assets/portfolio/seth-2.jpg", "/assets/portfolio/seth-3.jpg"],
+      "cta": {"text": "DM Seth", "url": "https://instagram.com/sethta2_bp"}
+    },
+    {
+      "name": "Ashley Wood",
+      "slug": "ashley-wood",
+      "positioning": "Color & Newschool Specialist - Injecting vibrant energy and pop culture magic into every piece",
+      "specialties": ["Color", "Newschool", "Kawaii", "Dotwork"],
+      "avatar": "/assets/artists/ashley-wood-avatar.jpg",
+      "instagram": "@ashleyxxkarma",
+      "featuredWork": ["/assets/portfolio/ashley-1.jpg", "/assets/portfolio/ashley-2.jpg", "/assets/portfolio/ashley-3.jpg"],
+      "cta": {"text": "DM Ashley", "url": "https://instagram.com/ashleyxxkarma"}
+    },
+    {
+      "name": "Anthony Boudreaux",
+      "slug": "anthony-boudreaux",
+      "positioning": "Versatile Walk-In Specialist - Your vision, our expertise, immediate availability",
+      "specialties": ["Traditional", "Color", "Custom Design"],
+      "avatar": "/assets/artists/anthony-avatar.jpg",
+      "instagram": "@buddha_ta2",
+      "featuredWork": ["/assets/portfolio/anthony-1.jpg", "/assets/portfolio/anthony-2.jpg", "/assets/portfolio/anthony-3.jpg"],
+      "cta": {"text": "DM Anthony", "url": "https://instagram.com/buddha_ta2"}
+    },
+    {
+      "name": "Luis Reymundo",
+      "slug": "luis-reymundo",
+      "positioning": "Bold Linework & Geometric Master - Precision meets creativity in every design",
+      "specialties": ["Geometric", "Bold Linework", "Abstract"],
+      "avatar": "/assets/artists/luis-avatar.jpg",
+      "instagram": "@luisreyart",
+      "featuredWork": ["/assets/portfolio/luis-1.jpg", "/assets/portfolio/luis-2.jpg", "/assets/portfolio/luis-3.jpg"],
+      "cta": {"text": "DM Luis", "url": "https://instagram.com/luisreyart"}
+    },
+    {
+      "name": "Cody Crochet",
+      "slug": "cody-crochet",
+      "positioning": "Realism & Portrait Specialist - Capturing life's moments with photorealistic precision",
+      "specialties": ["Realism", "Portraits", "Fine Detail"],
+      "avatar": "/assets/artists/cody-avatar.jpg",
+      "instagram": "@codyink",
+      "featuredWork": ["/assets/portfolio/cody-1.jpg", "/assets/portfolio/cody-2.jpg", "/assets/portfolio/cody-3.jpg"],
+      "cta": {"text": "DM Cody", "url": "https://instagram.com/codyink"}
+    },
+    {
+      "name": "Trent",
+      "slug": "trent",
+      "positioning": "Neo-Traditional & Illustrative - Classic techniques meet modern vision",
+      "specialties": ["Neo-Traditional", "Illustrative", "Watercolor"],
+      "avatar": "/assets/artists/trent-avatar.jpg",
+      "instagram": "@trenttattoo",
+      "featuredWork": ["/assets/portfolio/trent-1.jpg", "/assets/portfolio/trent-2.jpg", "/assets/portfolio/trent-3.jpg"],
+      "cta": {"text": "DM Trent", "url": "https://instagram.com/trenttattoo"}
+    }
+  ],
+  "portfolio": {
+    "categories": [
+      {"name": "Anime & Illustrative", "slug": "anime-illustrative", "priority": 1},
+      {"name": "Japanese", "slug": "japanese", "priority": 2},
+      {"name": "Color", "slug": "color", "priority": 3},
+      {"name": "Traditional", "slug": "traditional", "priority": 4},
+      {"name": "Newschool", "slug": "newschool", "priority": 5},
+      {"name": "Black & Grey", "slug": "black-grey", "priority": 6}
+    ],
+    "featured": [
+      {
+        "title": "Phoenix Rising",
+        "category": "japanese",
+        "artist": "seth-wood",
+        "image": "/assets/portfolio/phoenix-rising.jpg",
+        "alt": "Intricate Japanese phoenix tattoo with naturalistic shading and traditional motifs"
+      },
+      {
+        "title": "Kawaii Dreamscape",
+        "category": "anime-illustrative",
+        "artist": "ashley-wood",
+        "image": "/assets/portfolio/kawaii-dreamscape.jpg",
+        "alt": "Vibrant kawaii tattoo featuring whimsical characters in a colorful dreamscape"
+      },
+      {
+        "title": "Geometric Mandala",
+        "category": "color",
+        "artist": "luis-reymundo",
+        "image": "/assets/portfolio/geometric-mandala.jpg",
+        "alt": "Bold geometric mandala with precise linework and vibrant color gradients"
+      }
+    ]
+  },
+  "process": [
+    {
+      "step": "01",
+      "title": "Consultation & Design",
+      "description": "We start with your vision. Our artists collaborate with you to refine concepts, discuss placement, and create a custom design that exceeds expectations.",
+      "icon": "design"
+    },
+    {
+      "step": "02",
+      "title": "Precision Application",
+      "description": "Using only premium equipment and techniques, your tattoo is applied with meticulous attention to detail, sterilization, and client comfort.",
+      "icon": "tattoo"
+    },
+    {
+      "step": "03",
+      "title": "Healing & Aftercare",
+      "description": "Complete aftercare instructions, premium healing products, and ongoing support ensure your tattoo heals beautifully and maintains its vibrancy.",
+      "icon": "heart"
+    }
+  ],
+  "contactCta": {
+    "headline": "Ready to Begin Your Artistic Journey?",
+    "subhead": "Connect with our master artists and transform your vision into wearable art that tells your story.",
+    "primaryCta": {"text": "Start a Conversation", "url": "https://instagram.com/cursedingksociety"},
+    "secondaryCta": {"text": "Browse Our Work", "url": "#portfolio"}
+  },
+  "seo": {
+    "title": "Cursed Ink Society | Premium Tattoo Collective | Houma, LA",
+    "description": "Houma's premier tattoo collective featuring 6 master artists. Traditional, Japanese, color, and newschool tattoos with 50+ years combined experience.",
+    "keywords": ["tattoo shop houma", "premium tattoos louisiana", "japanese tattoos", "traditional tattoos", "color tattoos"],
+    "localBusiness": {
+      "@type": "TattooParlor",
+      "name": "Cursed Ink Society",
+      "address": "Houma, LA 70360",
+      "telephone": "(985) 555-CURSED",
+      "priceRange": "$$$"
+    }
+  }
+}

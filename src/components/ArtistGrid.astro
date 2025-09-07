@@ -1,0 +1,128 @@
+---
+// Import research-informed artist data
+import siteData from '../data/cis.json';
+const { artists } = siteData;
+
+// Sort artists by research-determined market demand priority
+const sortedArtists = [...artists].sort((a, b) => {
+  const priorityOrder = {
+    'Anime & Illustrative': 1,
+    'Color': 2,
+    'Newschool': 3,
+    'Traditional': 4,
+    'Japanese': 5,
+    'Black & Grey': 6
+  };
+
+  // Find primary specialty priority
+  const aPriority = Math.min(...a.specialties.map(specialty => priorityOrder[specialty] || 99));
+  const bPriority = Math.min(...b.specialties.map(specialty => priorityOrder[specialty] || 99));
+
+  return aPriority - bPriority;
+});
+---
+
+<section class="py-20 bg-cursed-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-display font-bold text-cursed-white mb-4">
+        Our Master Artists
+      </h2>
+      <p class="text-xl text-cursed-muted max-w-3xl mx-auto">
+        Six extraordinary artists, one legendary collective. Each master brings decades of expertise and unique artistry to every piece.
+      </p>
+    </div>
+
+    <!-- Artist Grid (Research-aligned ordering) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sortedArtists.map((artist) => (
+        <article class="group bg-gradient-to-b from-cursed-black/50 to-cursed-dark/50 rounded-xl overflow-hidden border border-cursed-gold/20 hover:border-cursed-gold/40 transition-all duration-300 hover:transform hover:scale-105">
+          <!-- Artist Avatar -->
+          <div class="relative h-64 overflow-hidden">
+            <img
+              src={artist.avatar}
+              alt={`Portrait of ${artist.name}, ${artist.specialties.join(', ')} tattoo artist`}
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              loading="lazy"
+              width="400"
+              height="400"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-cursed-dark/80 to-transparent"></div>
+
+            <!-- Instagram Badge -->
+            <div class="absolute top-4 right-4">
+              <a
+                href={artist.cta.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center px-3 py-1 bg-cursed-red/90 hover:bg-cursed-red text-cursed-white text-sm font-medium rounded-full transition-colors duration-300"
+                aria-label={`Follow ${artist.name} on Instagram`}
+              >
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.017 0C8.396 0 7.983.015 6.677.072 5.37.128 4.536.267 3.853.508c-.783.264-1.447.652-2.105 1.31C.086 2.476 0 3.14 0 3.923c0 .783.086 1.447.748 2.105.658.658 1.322 1.046 2.105 1.31.683.241 1.517.38 2.825.436 1.306.057 1.719.072 5.34.072s4.034-.015 5.34-.072c1.308-.057 2.142-.195 2.825-.436.783-.264 1.447-.652 2.105-1.31.662-.658 1.046-1.322 1.31-2.105.241-.683.38-1.517.436-2.825C23.985.015 23.4 0 12.017 0zM12 5.838a6.162 6.162 0 100 12.324A6.162 6.162 0 0012 5.838zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+                @{artist.instagram.replace('@', '')}
+              </a>
+            </div>
+          </div>
+
+          <!-- Artist Info -->
+          <div class="p-6">
+            <!-- Name and Positioning Statement -->
+            <h3 class="text-2xl font-display font-bold text-cursed-white mb-2">
+              {artist.name}
+            </h3>
+            <p class="text-cursed-gold text-sm font-medium mb-3">
+              {artist.positioning}
+            </p>
+
+            <!-- Specialties -->
+            <div class="mb-4">
+              <h4 class="text-sm font-semibold text-cursed-muted uppercase tracking-wider mb-2">
+                Specialties
+              </h4>
+              <div class="flex flex-wrap gap-2">
+                {artist.specialties.map((specialty) => (
+                  <span class="px-2 py-1 bg-cursed-red/20 text-cursed-gold text-xs rounded-full">
+                    {specialty}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- CTA Button (Lead-only, research-aligned) -->
+            <a
+              href={artist.cta.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group/btn inline-flex items-center w-full justify-center px-4 py-3 bg-cursed-gold hover:bg-cursed-gold/90 text-cursed-dark font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cursed-gold/25"
+              aria-label={`Contact ${artist.name} for tattoo consultation`}
+            >
+              <span>{artist.cta.text}</span>
+              <svg class="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-16">
+      <p class="text-cursed-muted mb-6">
+        Ready to work with one of our master artists?
+      </p>
+      <a
+        href="#contact"
+        class="inline-flex items-center px-8 py-4 bg-cursed-red hover:bg-cursed-red/90 text-cursed-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cursed-red/25"
+      >
+        <span>Start Your Journey</span>
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

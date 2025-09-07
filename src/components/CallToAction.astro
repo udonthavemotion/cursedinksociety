@@ -1,0 +1,626 @@
+---
+// CTA data
+const ctaOptions = [
+  {
+    title: "Ready to Start Your Journey?",
+    description: "Book a free consultation and bring your vision to life with our master artists.",
+    primaryAction: {
+      text: "Book Free Consultation",
+      url: "/consultation",
+      icon: "calendar"
+    },
+    secondaryAction: {
+      text: "View Portfolio",
+      url: "/gallery",
+      icon: "gallery"
+    }
+  }
+];
+
+const quickActions = [
+  {
+    title: "Free Consultation",
+    description: "Discuss your ideas with our artists",
+    icon: "consultation",
+    url: "/consultation"
+  },
+  {
+    title: "View Gallery",
+    description: "Browse our latest work",
+    icon: "gallery",
+    url: "/gallery"
+  },
+  {
+    title: "Meet Artists",
+    description: "Learn about our team",
+    icon: "artists",
+    url: "/artists"
+  },
+  {
+    title: "Get Pricing",
+    description: "Transparent pricing information",
+    icon: "pricing",
+    url: "/services"
+  }
+];
+
+const contactInfo = {
+  phone: "(985) 555-CURSE",
+  phoneLink: "tel:+19855552873",
+  address: "123 Main Street, Houma, LA 70360",
+  hours: [
+    "Tuesday - Thursday: 12PM - 8PM",
+    "Friday - Saturday: 12PM - 10PM",
+    "Sunday - Monday: Closed"
+  ],
+  email: "info@cursedinksociety.com",
+  emailLink: "mailto:info@cursedinksociety.com"
+};
+---
+
+<section class="call-to-action" id="book">
+  <div class="container">
+    <!-- Main CTA -->
+    <div class="main-cta">
+      <div class="cta-content">
+        <span class="badge">Ready to Begin?</span>
+        <h2 class="cta-title shine">{ctaOptions[0].title}</h2>
+        <p class="cta-description">{ctaOptions[0].description}</p>
+        
+        <div class="cta-actions">
+          <a href={ctaOptions[0].primaryAction.url} class="btn btn--primary btn--large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+            </svg>
+            {ctaOptions[0].primaryAction.text}
+          </a>
+          
+          <a href={ctaOptions[0].secondaryAction.url} class="btn btn--outline btn--large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+            </svg>
+            {ctaOptions[0].secondaryAction.text}
+          </a>
+        </div>
+      </div>
+      
+      <div class="cta-visual">
+        <div class="cta-image-container">
+          <img 
+            src="/assets/hero-showcase.mp4" 
+            alt="Cursed Ink Society studio atmosphere"
+            class="cta-image"
+            loading="lazy"
+            width="600"
+            height="400"
+          />
+          <div class="cta-overlay">
+            <div class="cta-stats">
+              <div class="cta-stat">
+                <span class="cta-stat-number">500+</span>
+                <span class="cta-stat-label">Happy Clients</span>
+              </div>
+              <div class="cta-stat">
+                <span class="cta-stat-number">4.9★</span>
+                <span class="cta-stat-label">Google Rating</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="quick-actions-title">What would you like to do?</h3>
+      <div class="quick-actions-grid">
+        {quickActions.map((action) => (
+          <a href={action.url} class="quick-action-card">
+            <div class="quick-action-icon" data-icon={action.icon}>
+              {action.icon === 'consultation' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              )}
+              {action.icon === 'gallery' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                </svg>
+              )}
+              {action.icon === 'artists' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.997 2.997 0 0 0 17.5 6.5c-.8 0-1.54.37-2.01.95L14 9l-1.5-2.5A2.997 2.997 0 0 0 10 5.5c-.8 0-1.54.37-2.01.95L6.5 8.5 4 22h2.5v-6H8v6h2v-6h2v6h2v-6h2.5V22H20z"/>
+                </svg>
+              )}
+              {action.icon === 'pricing' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                </svg>
+              )}
+            </div>
+            <h4 class="quick-action-title">{action.title}</h4>
+            <p class="quick-action-description">{action.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-section">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3 class="contact-title">Get in Touch</h3>
+          <div class="contact-methods">
+            <div class="contact-method">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
+              </svg>
+              <div>
+                <span class="contact-label">Call Us</span>
+                <a href={contactInfo.phoneLink} class="contact-value">{contactInfo.phone}</a>
+              </div>
+            </div>
+            
+            <div class="contact-method">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <div>
+                <span class="contact-label">Email</span>
+                <a href={contactInfo.emailLink} class="contact-value">{contactInfo.email}</a>
+              </div>
+            </div>
+            
+            <div class="contact-method">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <div>
+                <span class="contact-label">Location</span>
+                <span class="contact-value">{contactInfo.address}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hours-info">
+          <h3 class="hours-title">Studio Hours</h3>
+          <ul class="hours-list">
+            {contactInfo.hours.map((hour) => (
+              <li class="hours-item">{hour}</li>
+            ))}
+          </ul>
+          <p class="hours-note">Walk-ins welcome based on availability</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .call-to-action {
+    padding: 6rem 0;
+    background: 
+      radial-gradient(1200px 800px at 50% 0%, rgba(255, 60, 43, 0.05) 0%, transparent 60%),
+      linear-gradient(180deg, transparent 0%, rgba(16, 11, 18, 0.3) 100%);
+  }
+
+  /* Main CTA */
+  .main-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 6rem;
+  }
+
+  .cta-content {
+    max-width: 500px;
+  }
+
+  .cta-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.1;
+  }
+
+  .cta-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0 0 2.5rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn--large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 56px;
+  }
+
+  .cta-visual {
+    position: relative;
+  }
+
+  .cta-image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3/2;
+  }
+
+  .cta-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(11, 11, 13, 0.9) 0%, transparent 100%);
+    padding: 2rem;
+  }
+
+  .cta-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .cta-stat {
+    text-align: center;
+  }
+
+  .cta-stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .cta-stat-label {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  /* Quick Actions */
+  .quick-actions {
+    margin-bottom: 6rem;
+  }
+
+  .quick-actions-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin: 0 0 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .quick-action-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--action-index) * 0.15s + 0.3s);
+    overflow: hidden;
+  }
+
+  .quick-action-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 60, 43, 0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .quick-action-card:hover::before {
+    transform: translateX(100%);
+  }
+
+  .quick-action-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 16px 32px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(255, 60, 43, 0.1),
+      0 0 30px rgba(255, 122, 24, 0.05);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .quick-action-card:hover::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, var(--accent0), var(--accent1), var(--accent0));
+    border-radius: 22px;
+    z-index: -1;
+    animation: rotateGlow 3s linear infinite;
+  }
+
+  .quick-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    margin: 0 auto 1.5rem;
+  }
+
+  .quick-action-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .quick-action-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Contact Section */
+  .contact-section {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .contact-title,
+  .hours-title {
+    font-size: 1.5rem;
+    margin: 0 0 2rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact-method svg {
+    color: var(--accent0);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent0);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .contact-value {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+  }
+
+  .contact-value:hover {
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .hours-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+
+  .hours-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem;
+  }
+
+  .hours-item:last-child {
+    border-bottom: none;
+  }
+
+  .hours-note {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .call-to-action {
+      padding: 4rem 0;
+    }
+
+    .main-cta {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .cta-actions {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn--large {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+
+    .cta-stats {
+      justify-content: center;
+    }
+
+    .quick-actions-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .quick-action-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .quick-action-icon {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1rem;
+    }
+
+    .contact-section {
+      padding: 2rem 1rem;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .quick-actions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-stats {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+
+  /* New Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes rotateGlow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Enhanced button animations */
+  .btn--primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .btn--primary:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .quick-action-card,
+    .quick-action-card:hover::before,
+    .quick-action-card:hover::after {
+      animation: none;
+    }
+
+    .quick-action-card:hover {
+      transform: none;
+    }
+
+    .btn--primary::before {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+// Add staggered animation indices to quick action cards
+document.addEventListener('DOMContentLoaded', () => {
+  const actionCards = document.querySelectorAll('.quick-action-card');
+  actionCards.forEach((card, index) => {
+    card.style.setProperty('--action-index', index.toString());
+  });
+
+  // Add intersection observer for enhanced scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+      }
+    });
+  }, observerOptions);
+
+  // Observe elements for enhanced animations
+  document.querySelectorAll('.quick-action-card, .contact-section').forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>

@@ -1,0 +1,55 @@
+---
+const title = "TEST - Full Homepage Works";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <style>
+        body {
+            background: #0b0b0d;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+        .success {
+            color: #00ff00;
+            font-size: 2rem;
+            margin: 2rem 0;
+        }
+        .test-links {
+            margin: 2rem 0;
+        }
+        .test-links a {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 60, 43, 0.2);
+            border: 1px solid rgba(255, 60, 43, 0.5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+        .test-links a:hover {
+            background: rgba(255, 60, 43, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="success">✅ ROUTING WORKS!</h1>
+    <p>If you can see this page, then Astro routing is working correctly.</p>
+    
+    <div class="test-links">
+        <a href="/">Go to Homepage</a>
+        <a href="/coming-soon">Go to Coming Soon</a>
+        <a href="/test-homepage">Reload This Test</a>
+    </div>
+    
+    <p>Current URL: <code>http://localhost:4321/test-homepage</code></p>
+    <p>If the "Go to Homepage" button takes you to coming-soon instead of the full homepage, there's still a routing issue.</p>
+</body>
+</html>

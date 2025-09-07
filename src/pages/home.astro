@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero3D from '../components/Hero3D.astro';
+import SubHeroCTA from '../components/vue/SubHeroCTA.vue';
+import HexServices from '../components/HexServices.astro';
+import BlobGallery from '../components/BlobGallery.astro';
+import FeaturedArtists from '../components/FeaturedArtists.astro';
+import SimpleCallToAction from '../components/SimpleCallToAction.astro';
+
+const title = "Cursed Ink Society — Where Artistry Meets the Mystical";
+const description = "Enter the realm of dark luxury tattoo artistry in Houma, Louisiana. Our collective of master artists transforms flesh into sacred art through mystical designs, geometric precision, and occult streetwear aesthetics.";
+---
+
+<Layout title={title} description={description}>
+  <!-- Mystical 3D Hero - The Living Heart -->
+  <Hero3D />
+
+  <!-- Portfolio/Social CTA Strip - No Booking -->
+  <SubHeroCTA client:visible />
+
+  <!-- Hexagonal Services Grid - Sacred Geometry -->
+  <HexServices />
+
+  <!-- Organic Blob Gallery - Mystical Manifestations -->
+  <BlobGallery />
+
+  <!-- Featured Artists Section -->
+  <FeaturedArtists />
+
+  <!-- Simple Call to Action - Clean Homepage Ending -->
+  <SimpleCallToAction />
+</Layout>

@@ -1,0 +1,429 @@
+{
+  "about": {
+    "mission": "Cursed Ink Society is Houma's premier tattoo collective, where six master artists unite to create extraordinary body art that tells your unique story. Founded in 2024, we combine decades of combined experience with cutting-edge techniques to deliver uncompromising quality and artistic integrity.",
+    "story": "Born from a shared passion for the craft and a commitment to excellence, Cursed Ink Society represents the evolution of tattoo artistry in Louisiana. Our collective brings together diverse styles and specialties under one roof, creating a space where creativity flourishes and clients receive unparalleled attention to their vision.",
+    "values": [
+      {
+        "title": "Artistic Excellence",
+        "description": "Every tattoo is a masterpiece, crafted with precision, passion, and professional expertise."
+      },
+      {
+        "title": "Client-Centered Approach",
+        "description": "Your vision drives our process. We listen, collaborate, and exceed expectations at every step."
+      },
+      {
+        "title": "Community Connection",
+        "description": "Deeply rooted in Houma, we contribute to and support our local artistic community."
+      },
+      {
+        "title": "Safety & Integrity",
+        "description": "Sterile environment, premium equipment, and honest communication form our foundation."
+      }
+    ],
+    "studio": {
+      "location": "123 Main Street, Houma, LA 70360",
+      "hours": {
+        "tuesday": "12:00 PM - 8:00 PM",
+        "wednesday": "12:00 PM - 8:00 PM",
+        "thursday": "12:00 PM - 8:00 PM",
+        "friday": "12:00 PM - 10:00 PM",
+        "saturday": "12:00 PM - 10:00 PM"
+      },
+      "features": [
+        "Sterile, professional environment",
+        "State-of-the-art equipment",
+        "Comfortable client seating",
+        "Private consultation rooms",
+        "Premium aftercare products"
+      ]
+    }
+  },
+  "aftercare": {
+    "title": "Premium Aftercare for Lasting Beauty",
+    "description": "Proper aftercare is crucial for your tattoo's longevity and vibrancy. Our comprehensive approach ensures optimal healing and stunning results.",
+    "instructions": [
+      {
+        "day": "Days 1-3",
+        "title": "Initial Healing Phase",
+        "steps": [
+          "Keep bandage on for 2-4 hours",
+          "Clean gently with mild soap and water",
+          "Apply thin layer of aftercare ointment",
+          "Avoid touching or picking at the tattoo"
+        ]
+      },
+      {
+        "day": "Days 4-7",
+        "title": "Active Healing Phase",
+        "steps": [
+          "Continue cleaning 2-3 times daily",
+          "Keep tattoo moisturized",
+          "Avoid sun exposure and swimming",
+          "Wear loose, breathable clothing"
+        ]
+      },
+      {
+        "day": "Weeks 2-4",
+        "title": "Maturation Phase",
+        "steps": [
+          "Reduce moisturizing frequency",
+          "Avoid prolonged sun exposure",
+          "Monitor for any healing concerns",
+          "Schedule touch-up if needed"
+        ]
+      }
+    ],
+    "products": [
+      {
+        "name": "Healing Balm",
+        "description": "Medical-grade ointment for optimal moisture balance",
+        "price": "$15"
+      },
+      {
+        "name": "Gentle Cleanser",
+        "description": "pH-balanced soap for sensitive healing skin",
+        "price": "$12"
+      },
+      {
+        "name": "Sun Protection",
+        "description": "SPF 50+ zinc-based sunscreen for tattoos",
+        "price": "$18"
+      }
+    ],
+    "warnings": [
+      "Do not soak tattoo in water (bath, pool, hot tub)",
+      "Avoid direct sun exposure for 2-4 weeks",
+      "Do not pick, scratch, or peel healing skin",
+      "Avoid gym workouts that cause excessive sweating",
+      "Contact us immediately if you notice signs of infection"
+    ]
+  },
+  "faq": [
+    {
+      "question": "How much do tattoos cost?",
+      "answer": "Pricing varies based on size, complexity, and style. Our hourly rates range from $180-280, with a $120 minimum. Custom designs start at $50 (applied to tattoo cost). We provide transparent pricing with no hidden fees."
+    },
+    {
+      "question": "How long does a tattoo take?",
+      "answer": "Session length depends on the design size and complexity. Small tattoos may take 1-2 hours, while large pieces can require multiple sessions over several weeks. We'll provide a detailed timeline during your consultation."
+    },
+    {
+      "question": "Do you do walk-ins?",
+      "answer": "Anthony specializes in walk-ins and can accommodate same-day appointments for smaller pieces when his schedule allows. For larger or custom work, we recommend booking in advance to ensure your preferred artist's availability."
+    },
+    {
+      "question": "What should I bring to my appointment?",
+      "answer": "Bring a valid ID, any reference images, and arrive well-rested and fed. Wear comfortable clothing that provides easy access to the tattoo area. If you're nervous, bring a sober adult companion for support."
+    },
+    {
+      "question": "How should I prepare for my tattoo?",
+      "answer": "Eat a good meal before your appointment, stay hydrated, and avoid alcohol or blood-thinning medications if possible. Shave the area if needed, but avoid using any lotions or creams on the day of your appointment."
+    },
+    {
+      "question": "Do you offer payment plans?",
+      "answer": "We accept various payment methods and can discuss flexible payment arrangements for larger pieces. A 25% deposit is required to secure your appointment, with the balance due at completion."
+    },
+    {
+      "question": "What if I need to cancel or reschedule?",
+      "answer": "We require 24 hours notice for cancellations to refund your deposit. We understand life happens and will work with you to reschedule at a mutually convenient time with at least 48 hours notice."
+    },
+    {
+      "question": "How do I care for my new tattoo?",
+      "answer": "We'll provide detailed aftercare instructions and premium healing products. Keep it clean, moisturized, and protected from the sun. Avoid soaking in water, picking at scabs, or exposing it to direct sunlight for 2-4 weeks."
+    }
+  ],
+  "products": {
+    "categories": {
+      "aftercare": {
+        "name": "Aftercare Products",
+        "description": "Premium healing products for optimal tattoo recovery",
+        "featured": true
+      },
+      "merchandise": {
+        "name": "Studio Merchandise",
+        "description": "Official Cursed Ink Society apparel and accessories",
+        "featured": true
+      },
+      "flash": {
+        "name": "Flash Designs",
+        "description": "Pre-drawn tattoo designs ready for your skin",
+        "featured": true
+      },
+      "gift-cards": {
+        "name": "Gift Cards",
+        "description": "Perfect gifts for tattoo lovers",
+        "featured": false
+      }
+    },
+    "items": [
+      {
+        "id": "healing-balm",
+        "name": "Premium Healing Balm",
+        "description": "Medical-grade ointment for optimal moisture balance during tattoo healing",
+        "category": "aftercare",
+        "price": 15,
+        "originalPrice": null,
+        "images": ["/assets/products/healing-balm.jpg"],
+        "features": [
+          "Medical-grade ingredients",
+          "Optimal moisture balance",
+          "Reduces healing time",
+          "Non-greasy formula"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["healing", "moisturizing", "medical-grade"]
+      },
+      {
+        "id": "gentle-cleanser",
+        "name": "Gentle Tattoo Cleanser",
+        "description": "pH-balanced soap specifically formulated for sensitive healing tattoo skin",
+        "category": "aftercare",
+        "price": 12,
+        "originalPrice": null,
+        "images": ["/assets/products/gentle-cleanser.jpg"],
+        "features": [
+          "pH-balanced formula",
+          "Gentle on healing skin",
+          "Removes impurities",
+          "Fragrance-free"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["cleanser", "gentle", "pH-balanced"]
+      },
+      {
+        "id": "sun-protection",
+        "name": "Tattoo Sun Protection",
+        "description": "SPF 50+ zinc-based sunscreen specifically formulated for tattoo protection",
+        "category": "aftercare",
+        "price": 18,
+        "originalPrice": null,
+        "images": ["/assets/products/sun-protection.jpg"],
+        "features": [
+          "SPF 50+ protection",
+          "Zinc-based formula",
+          "Water-resistant",
+          "Non-comedogenic"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["sunscreen", "SPF", "protection"]
+      },
+      {
+        "id": "aftercare-kit",
+        "name": "Complete Aftercare Kit",
+        "description": "Everything you need for optimal tattoo healing in one comprehensive kit",
+        "category": "aftercare",
+        "price": 35,
+        "originalPrice": 45,
+        "images": ["/assets/products/aftercare-kit.jpg"],
+        "features": [
+          "Healing Balm",
+          "Gentle Cleanser",
+          "Sun Protection",
+          "Care instructions",
+          "Bonus tattoo stickers"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["kit", "complete", "healing"]
+      },
+      {
+        "id": "studio-hoodie",
+        "name": "Cursed Ink Society Hoodie",
+        "description": "Premium quality hoodie featuring our signature logo and design",
+        "category": "merchandise",
+        "price": 65,
+        "originalPrice": null,
+        "images": ["/assets/products/studio-hoodie.jpg"],
+        "features": [
+          "Heavyweight cotton blend",
+          "Screen-printed logo",
+          "Kangaroo pocket",
+          "Adjustable hood"
+        ],
+        "variants": [
+          { "name": "Small", "price": 65 },
+          { "name": "Medium", "price": 65 },
+          { "name": "Large", "price": 65 },
+          { "name": "XL", "price": 70 },
+          { "name": "XXL", "price": 70 }
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["hoodie", "apparel", "cotton"]
+      },
+      {
+        "id": "studio-tshirt",
+        "name": "Studio T-Shirt",
+        "description": "Comfortable cotton t-shirt with Cursed Ink Society branding",
+        "category": "merchandise",
+        "price": 28,
+        "originalPrice": null,
+        "images": ["/assets/products/studio-tshirt.jpg"],
+        "features": [
+          "100% cotton",
+          "Screen-printed design",
+          "Crew neck",
+          "Pre-shrunk"
+        ],
+        "variants": [
+          { "name": "Small", "price": 28 },
+          { "name": "Medium", "price": 28 },
+          { "name": "Large", "price": 28 },
+          { "name": "XL", "price": 30 },
+          { "name": "XXL", "price": 30 }
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["tshirt", "apparel", "cotton"]
+      },
+      {
+        "id": "tattoo-care-book",
+        "name": "The Ultimate Tattoo Care Guide",
+        "description": "Comprehensive guide to tattoo aftercare, healing, and maintenance",
+        "category": "merchandise",
+        "price": 15,
+        "originalPrice": null,
+        "images": ["/assets/products/care-book.jpg"],
+        "features": [
+          "144 pages of expert advice",
+          "Before and after photos",
+          "Common issues and solutions",
+          "Professional insights"
+        ],
+        "inStock": true,
+        "featured": false,
+        "tags": ["book", "guide", "aftercare"]
+      },
+      {
+        "id": "flash-geometric",
+        "name": "Geometric Mandala Flash",
+        "description": "Intricate geometric mandala design perfect for shoulder or ribcage placement",
+        "category": "flash",
+        "price": 25,
+        "originalPrice": null,
+        "images": ["/assets/portfolio/geometric-mandala.jpg"],
+        "features": [
+          "High-resolution digital file",
+          "Commercial license included",
+          "Multiple size options",
+          "Instant download"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["geometric", "mandala", "digital", "download"]
+      },
+      {
+        "id": "flash-kawaii",
+        "name": "Kawaii Dreamscape Flash",
+        "description": "Whimsical kawaii-inspired design with pastel colors and cute elements",
+        "category": "flash",
+        "price": 20,
+        "originalPrice": null,
+        "images": ["/assets/portfolio/kawaii-dreamscape.jpg"],
+        "features": [
+          "High-resolution digital file",
+          "Commercial license included",
+          "Multiple size options",
+          "Instant download"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["kawaii", "pastel", "cute", "digital"]
+      },
+      {
+        "id": "flash-phoenix",
+        "name": "Phoenix Rising Flash",
+        "description": "Bold phoenix design symbolizing rebirth and transformation",
+        "category": "flash",
+        "price": 30,
+        "originalPrice": null,
+        "images": ["/assets/portfolio/phoenix-rising.jpg"],
+        "features": [
+          "High-resolution digital file",
+          "Commercial license included",
+          "Multiple size options",
+          "Instant download"
+        ],
+        "inStock": true,
+        "featured": true,
+        "tags": ["phoenix", "bold", "symbolic", "digital"]
+      },
+      {
+        "id": "gift-card-50",
+        "name": "Gift Card - $50",
+        "description": "Perfect gift for tattoo enthusiasts - redeemable for services or products",
+        "category": "gift-cards",
+        "price": 50,
+        "originalPrice": null,
+        "images": ["/assets/products/gift-card.jpg"],
+        "features": [
+          "Redeemable for any service",
+          "Valid for merchandise",
+          "No expiration date",
+          "Digital delivery"
+        ],
+        "inStock": true,
+        "featured": false,
+        "tags": ["gift", "card", "redeemable"]
+      },
+      {
+        "id": "gift-card-100",
+        "name": "Gift Card - $100",
+        "description": "Generous gift for serious tattoo lovers - covers consultation and deposit",
+        "category": "gift-cards",
+        "price": 100,
+        "originalPrice": null,
+        "images": ["/assets/products/gift-card.jpg"],
+        "features": [
+          "Redeemable for any service",
+          "Valid for merchandise",
+          "No expiration date",
+          "Digital delivery"
+        ],
+        "inStock": true,
+        "featured": false,
+        "tags": ["gift", "card", "generous", "redeemable"]
+      },
+      {
+        "id": "gift-card-250",
+        "name": "Gift Card - $250",
+        "description": "Premium gift package - covers full tattoo session and aftercare kit",
+        "category": "gift-cards",
+        "price": 250,
+        "originalPrice": null,
+        "images": ["/assets/products/gift-card.jpg"],
+        "features": [
+          "Redeemable for any service",
+          "Valid for merchandise",
+          "No expiration date",
+          "Digital delivery"
+        ],
+        "inStock": true,
+        "featured": false,
+        "tags": ["gift", "card", "premium", "session"]
+      }
+    ]
+  },
+  "contact": {
+    "primary": {
+      "method": "Instagram DM",
+      "handle": "@cursedingksociety",
+      "description": "Best for initial inquiries and design discussions"
+    },
+    "phone": {
+      "number": "(985) 555-2873",
+      "description": "Call for quick questions or to schedule consultations"
+    },
+    "location": {
+      "address": "123 Main Street, Houma, LA 70360",
+      "description": "Located in downtown Houma with easy parking"
+    },
+    "hours": {
+      "walkIn": "Anthony available for walk-ins during business hours",
+      "appointment": "Book appointments in advance for best availability"
+    }
+  }
+}

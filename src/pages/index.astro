@@ -1,11 +1,160 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Hero3D from '../components/Hero3D.astro';
+import '../styles/global.css';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// SEO and Meta Configuration
+const title = "Cursed Ink Society — Coming Soon";
+const description = "Cursed Ink Society — tattoos, sigils, and community. Official site conjuring soon. Join the circle for first access to bookings & drops.";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og/og-image.jpg', Astro.url);
+
+// Launch configuration - Update this date for your launch
+const launchISO = '2025-10-31T17:00:00Z';
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Cursed Ink Society",
+  "description": description,
+  "url": canonicalURL.toString(),
+  "logo": new URL('/brand/cursed-ink-logo.png', Astro.url).toString(),
+  "sameAs": [
+    "https://instagram.com/cursedinksociety"
+  ]
+};
+
+export const prerender = true;
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Essential Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="color-scheme" content="dark" />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Cursed Ink Society" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
+    
+    <!-- Icons and Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/brand/favicon-375.png" />
+    <link rel="apple-touch-icon" href="/brand/favicon-375.png" />
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
+    
+    <!-- DNS Prefetch for External Resources -->
+    <link rel="dns-prefetch" href="//formspree.io" />
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    
+    <!-- Performance Hints -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+  </head>
+  
+  <body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <main id="main-content">
+      <Hero3D showPreviewButton={true} previewUrl="/home" />
+    </main>
+
+    <footer class="container">
+      <small>© {new Date().getFullYear()} Cursed Ink Society — forged in fire & pigment.</small>
+    </footer>
+
+    <!-- Service Worker Registration for Future PWA -->
+    <script>
+      // Register service worker for future offline capabilities
+      if ('serviceWorker' in navigator && location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Silent fail - service worker is optional
+          });
+        });
+      }
+    </script>
+
+    <style>
+      /* Skip link for accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--accent0);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 1000;
+        font-weight: 600;
+        transition: top 0.2s;
+      }
+
+      .skip-link:focus {
+        top: 6px;
+      }
+
+      /* Critical loading styles */
+      body {
+        opacity: 0;
+        animation: fadeIn 0.5s ease-out 0.1s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Prevent layout shift */
+      .hero {
+        min-height: 100vh;
+        contain: layout style paint;
+      }
+
+      /* Performance: GPU acceleration for animations */
+      .btn, .logo, .shine {
+        will-change: transform;
+      }
+
+      /* Reduce motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        body {
+          animation: none;
+          opacity: 1;
+        }
+        
+        .btn, .logo, .shine {
+          will-change: auto;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+{
+  "services": [
+    {
+      "id": "custom-design",
+      "title": "Custom Design Consultation",
+      "description": "Personalized tattoo design creation tailored to your vision, style preferences, and story.",
+      "pricing": {
+        "starting": "$50",
+        "note": "Applied to tattoo cost"
+      },
+      "features": [
+        "One-on-one consultation with artist",
+        "Multiple design concepts",
+        "Digital mockups and revisions",
+        "Placement and sizing recommendations"
+      ],
+      "duration": "1-2 hours",
+      "popular": true
+    },
+    {
+      "id": "traditional-tattoo",
+      "title": "Traditional Tattoo",
+      "description": "Classic American traditional style with bold lines, vibrant colors, and timeless motifs.",
+      "pricing": {
+        "hourly": "$190-230",
+        "minimum": "$120"
+      },
+      "features": [
+        "Bold linework and vibrant colors",
+        "Classic motifs and symbolism",
+        "Premium ink and techniques",
+        "Sterile environment and equipment"
+      ],
+      "artists": ["Anthony Boudreaux", "Cody Crochet"],
+      "popular": true
+    },
+    {
+      "id": "japanese-tattoo",
+      "title": "Japanese Traditional",
+      "description": "Authentic Japanese tattoo artistry with intricate details and cultural symbolism.",
+      "pricing": {
+        "hourly": "$200-250",
+        "minimum": "$150"
+      },
+      "features": [
+        "Traditional Japanese techniques",
+        "Cultural symbolism and meaning",
+        "Intricate linework and shading",
+        "Full sleeve and large piece expertise"
+      ],
+      "artists": ["Seth Wood"],
+      "popular": true
+    },
+    {
+      "id": "realism-tattoo",
+      "title": "Realism & Portrait",
+      "description": "Photorealistic tattoos that capture lifelike detail and emotional depth.",
+      "pricing": {
+        "hourly": "$220-280",
+        "minimum": "$180"
+      },
+      "features": [
+        "Photorealistic detail",
+        "Portrait and memorial work",
+        "Fine line techniques",
+        "Multiple session planning"
+      ],
+      "artists": ["Ashley Wood", "Cody Crochet"],
+      "popular": true
+    },
+    {
+      "id": "black-grey-tattoo",
+      "title": "Black & Grey Work",
+      "description": "Monochromatic tattoos with exceptional depth, contrast, and artistic expression.",
+      "pricing": {
+        "hourly": "$180-220",
+        "minimum": "$120"
+      },
+      "features": [
+        "Exceptional shading techniques",
+        "Monochromatic artistry",
+        "Fine detail work",
+        "Contrast and depth mastery"
+      ],
+      "artists": ["Seth Wood", "Luis Reymundo"],
+      "popular": false
+    },
+    {
+      "id": "color-tattoo",
+      "title": "Full Color Tattoo",
+      "description": "Vibrant, colorful tattoos that bring designs to life with premium pigments.",
+      "pricing": {
+        "hourly": "$210-260",
+        "minimum": "$150"
+      },
+      "features": [
+        "Premium pigment selection",
+        "Vibrant color matching",
+        "Layering and blending techniques",
+        "Color correction expertise"
+      ],
+      "artists": ["Ashley Wood", "Anthony Boudreaux"],
+      "popular": false
+    },
+    {
+      "id": "cover-up-tattoo",
+      "title": "Cover-Up Tattoo",
+      "description": "Expert cover-up services to transform or conceal existing tattoos.",
+      "pricing": {
+        "consultation": "$75",
+        "hourly": "$230-300",
+        "note": "Price varies by complexity"
+      },
+      "features": [
+        "Free initial assessment",
+        "Digital design mockups",
+        "Strategic placement planning",
+        "Multi-session planning"
+      ],
+      "artists": ["All Artists"],
+      "popular": false
+    },
+    {
+      "id": "touch-up-session",
+      "title": "Touch-Up Session",
+      "description": "Maintenance and enhancement of existing tattoos to restore vibrancy and detail.",
+      "pricing": {
+        "starting": "$80",
+        "hourly": "$150-200"
+      },
+      "features": [
+        "Color restoration",
+        "Line work enhancement",
+        "Detail refinement",
+        "Healing assessment"
+      ],
+      "artists": ["All Artists"],
+      "popular": false
+    }
+  ],
+  "pricing": {
+    "deposit": "25% of estimated total or $100 minimum",
+    "payment": "Cash, card, or digital payment accepted",
+    "cancellation": "24-hour notice required for deposit refund",
+    "rescheduling": "Flexible rescheduling with 48-hour notice"
+  },
+  "policies": {
+    "age": "18+ years old (valid ID required)",
+    "health": "No active infections, uncontrolled diabetes, or blood thinners",
+    "preparation": "Eat well, stay hydrated, wear comfortable clothing",
+    "accompaniment": "May bring one sober adult companion",
+    "consent": "Clear communication and consent at every step"
+  }
+}

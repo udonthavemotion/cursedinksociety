@@ -1,0 +1,343 @@
+/* Font imports for efficient loading */
+@import "@fontsource-variable/cinzel";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+:root{
+  /* Minimal B/W + Red Accent Theme */
+  --black: #000000;
+  --white: #ffffff;
+  --gray-200: #E5E7EB; /* Foreground text */
+  --gray-300: #D1D5DB; /* Inactive link */
+  --gray-400: #9CA3AF; /* Muted text */
+  --red-600: #DC2626; /* Accent */
+  --red-700: #B91C1C; /* Accent hover */
+
+  /* Border and Shadow System */
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  /* Font Family Variables */
+  --font-family-display: "Cinzel Variable", ui-serif, Georgia, serif;
+  --font-family-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Transitions */
+  --transition: all 0.2s ease;
+
+  /* Responsive Breakpoints */
+  --breakpoint-mobile-max: 767px;
+  --breakpoint-tablet-min: 768px;
+  --breakpoint-tablet-max: 1023px;
+  --breakpoint-desktop-min: 1024px;
+  --breakpoint-desktop-large-min: 1440px;
+}
+
+*{box-sizing:border-box}
+*::before, *::after{box-sizing:border-box}
+
+html{
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-width: 320px; /* Minimum viewport width for accessibility */
+}
+
+html,body{height:100%}
+body{
+  margin:0;
+  color: var(--gray-200);
+  background: var(--black);
+  font-family: var(--font-family-body);
+  line-height: 1.6;
+  position: relative;
+}
+
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+
+.container{max-width:1100px; margin:0 auto; padding:0 1.2rem}
+.badge{font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+  display:inline-block; padding:.35rem .6rem; border-radius:999px;
+  border:1px solid var(--border); background:rgba(255,255,255,.03)}
+
+/* Minimal Typography */
+h1, h2, h3 {
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--white);
+}
+
+h1{
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  line-height: 0.96;
+  margin: 0.8rem 0 1rem;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  margin: 1.5rem 0 1rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  line-height: 1.2;
+  margin: 1.2rem 0 0.8rem;
+  font-weight: 500;
+}
+
+
+.hero{position:relative; min-height:92vh; display:grid; place-items:center; text-align:center; overflow:hidden}
+.hero canvas{position:absolute; inset:0; width:100%; height:100%; z-index:0}
+.hero .content{position:relative; z-index:1}
+
+.row{display:flex; gap:1rem; justify-content:center; flex-wrap:wrap}
+/* Minimal Button System */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 999px;
+  background: var(--red-600);
+  color: var(--white);
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-align: center;
+  white-space: nowrap;
+  min-height: 44px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.btn:hover, .btn:focus-visible{
+  background: var(--red-700);
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible{
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* Ghost Button */
+.btn--ghost {
+  background: transparent;
+  color: var(--gray-200);
+  border: 1px solid var(--border);
+}
+
+.btn--ghost:hover, .btn--ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+/* Outline Button */
+.btn--outline {
+  background: transparent;
+  color: var(--gray-200);
+  border: 1px solid var(--border);
+}
+
+.btn--outline:hover, .btn--outline:focus-visible {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+.input{
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  width: min(420px, 80vw);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--gray-200);
+  outline: none;
+  font-size: 1rem;
+  min-height: 44px;
+  transition: var(--transition);
+}
+
+.input:focus{
+  border-color: var(--red-600);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.input::placeholder{
+  color: var(--gray-400);
+}
+.input:focus::placeholder{
+  opacity: 0.4;
+}
+
+small{opacity:.7; font-size:.85rem}
+footer{padding:3rem 0; text-align:center}
+.social a{opacity:.85; transition:var(--transition-smooth)} 
+.social a:hover, .social a:focus-visible{opacity:1; transform:scale(1.05)}
+
+
+/* Responsive Breakpoints & Global Styles */
+
+/* Mobile (320px - 767px) - Enhanced Performance */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .container{
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+  .hero{
+    min-height: 100vh;
+    padding: 2rem 0;
+  }
+  .logo{
+    height: 100px;
+    /* Optimize for mobile rendering */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  h1{
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    /* Reduce complex effects on mobile */
+    text-shadow: var(--crimson-glow);
+  }
+  .row{
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+  }
+  .btn{
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    /* Optimize touch targets */
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+  }
+  .input{
+    width: 100%;
+    max-width: 320px;
+    /* Optimize touch targets */
+    min-height: 48px;
+  }
+  .social{
+    flex-direction: row;
+    gap: .8rem;
+    justify-content: center;
+  }
+  .social .btn{
+    width: auto;
+    max-width: none;
+    flex: 1;
+    min-width: 44px;
+  }
+  body{
+    padding: 0 0.5rem;
+  }
+  
+  /* Reduce animations on mobile for performance */
+  *, *::before, *::after {
+    animation-duration: 0.3s !important;
+  }
+  
+  /* Optimize background patterns */
+  body::before {
+    background-size: 80px 80px, 80px 80px;
+    opacity: 0.2;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .container{
+    padding: 0 1.5rem;
+    max-width: 900px;
+  }
+  .hero{
+    min-height: 85vh;
+    padding: 3rem 0;
+  }
+  h1{font-size: clamp(2.8rem, 6vw, 4.2rem)}
+  .btn{
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+  }
+  .input{
+    width: min(400px, 70vw);
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .container{
+    padding: 0 2rem;
+    max-width: 1100px;
+  }
+  .hero{
+    min-height: 90vh;
+    padding: 4rem 0;
+  }
+  h1{font-size: clamp(3.2rem, 5vw, 4.6rem)}
+  .btn{
+    padding: 1.1rem 1.8rem;
+    font-size: 1.15rem;
+  }
+  .input{
+    width: min(420px, 60vw);
+  }
+}
+
+/* Large Desktop (1440px+) */
+@media (min-width: var(--breakpoint-desktop-large-min)) {
+  .container{
+    max-width: 1400px;
+    padding: 0 3rem;
+  }
+  .hero{
+    min-height: 95vh;
+    padding: 5rem 0;
+  }
+  h1{font-size: clamp(3.6rem, 4vw, 5.2rem)}
+  .btn{
+    padding: 1.2rem 2rem;
+    font-size: 1.2rem;
+  }
+  .input{
+    width: min(480px, 50vw);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn{border-width:2px}
+  .input{border-width:2px}
+  .badge{border-width:2px}
+}
+
+/* Loading state for form */
+.btn--loading{
+  pointer-events:none; opacity:.7;
+}
+
+.btn--loading::after{
+  content:''; width:16px; height:16px; margin-left:.5rem;
+  border:2px solid currentColor; border-top-color:transparent;
+  border-radius:50%; animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}

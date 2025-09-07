@@ -1,0 +1,808 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "About Cursed Ink Society — Premier Tattoo Studio in Houma, LA";
+const description = "Learn about Cursed Ink Society's mission, values, and commitment to excellence in tattoo artistry. Discover why we're Houma's premier destination for custom tattoos.";
+
+// Studio information
+const studioInfo = {
+  founded: "2024",
+  location: "Houma, Louisiana",
+  philosophy: "Where artistry meets the mystical",
+  mission: "To create meaningful, beautiful tattoos that tell your unique story while honoring the ancient traditions of the craft.",
+  values: [
+    "Artistic Excellence",
+    "Cultural Respect", 
+    "Client Safety",
+    "Community Connection",
+    "Continuous Learning"
+  ]
+};
+
+const certifications = [
+  {
+    title: "Louisiana Health Department Certified",
+    description: "Current certification and regular health inspections",
+    icon: "health"
+  },
+  {
+    title: "Bloodborne Pathogen Certified",
+    description: "All artists maintain current bloodborne pathogen certification",
+    icon: "safety"
+  },
+  {
+    title: "Professional Tattoo Association",
+    description: "Active members of professional tattoo organizations",
+    icon: "professional"
+  },
+  {
+    title: "First Aid & CPR Certified",
+    description: "Emergency response training for all staff members",
+    icon: "medical"
+  }
+];
+
+const studioFeatures = [
+  {
+    title: "Private Consultation Rooms",
+    description: "Comfortable, private spaces to discuss your vision",
+    icon: "consultation"
+  },
+  {
+    title: "State-of-the-Art Equipment",
+    description: "Latest technology for precision and safety",
+    icon: "equipment"
+  },
+  {
+    title: "Sterile Environment",
+    description: "Hospital-grade sterilization and cleanliness standards",
+    icon: "sterile"
+  },
+  {
+    title: "Comfortable Atmosphere",
+    description: "Relaxing environment designed for your comfort",
+    icon: "comfort"
+  }
+];
+
+const communityInvolvement = [
+  {
+    title: "Local Art Community",
+    description: "Supporting local artists and art education programs",
+    icon: "art"
+  },
+  {
+    title: "Charity Events",
+    description: "Regular participation in community fundraising events",
+    icon: "charity"
+  },
+  {
+    title: "Educational Workshops",
+    description: "Hosting workshops on tattoo history and cultural significance",
+    icon: "education"
+  },
+  {
+    title: "Youth Mentorship",
+    description: "Mentoring aspiring artists in proper techniques and ethics",
+    icon: "mentorship"
+  }
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="badge">Our Story</span>
+        <h1 class="hero-title shine">About Cursed Ink Society</h1>
+        <p class="hero-description">
+          {studioInfo.philosophy}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Values -->
+  <section class="mission-values">
+    <div class="container">
+      <div class="mission-values-grid">
+        <div class="mission-section">
+          <h2 class="section-title">Our Mission</h2>
+          <p class="mission-text">{studioInfo.mission}</p>
+          
+          <div class="studio-stats">
+            <div class="stat">
+              <span class="stat-number">Est. {studioInfo.founded}</span>
+              <span class="stat-label">Founded</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">500+</span>
+              <span class="stat-label">Happy Clients</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4.9★</span>
+              <span class="stat-label">Google Rating</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="values-section">
+          <h2 class="section-title">Our Values</h2>
+          <ul class="values-list">
+            {studioInfo.values.map((value) => (
+              <li class="value-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                {value}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Studio Features -->
+  <section class="studio-features">
+    <div class="container">
+      <h2 class="section-title">Our Studio</h2>
+      <p class="section-description">
+        Step into a space designed for comfort, creativity, and safety. Our studio combines 
+        modern amenities with a welcoming atmosphere where art comes to life.
+      </p>
+      
+      <div class="features-grid">
+        {studioFeatures.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon" data-icon={feature.icon}>
+              {feature.icon === 'consultation' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              )}
+              {feature.icon === 'equipment' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                </svg>
+              )}
+              {feature.icon === 'sterile' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+                </svg>
+              )}
+              {feature.icon === 'comfort' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              )}
+            </div>
+            <h3 class="feature-title">{feature.title}</h3>
+            <p class="feature-description">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Safety & Certifications -->
+  <section class="safety-certifications">
+    <div class="container">
+      <div class="safety-content">
+        <div class="safety-text">
+          <h2 class="section-title">Safety & Certifications</h2>
+          <p class="safety-description">
+            Your safety is our highest priority. We maintain the strictest health and safety 
+            standards, exceeding industry requirements to ensure every client's well-being.
+          </p>
+          
+          <div class="safety-highlights">
+            <div class="safety-highlight">
+              <h4>Sterilization Process</h4>
+              <p>All equipment is sterilized using hospital-grade autoclaves between each client.</p>
+            </div>
+            <div class="safety-highlight">
+              <h4>Single-Use Needles</h4>
+              <p>Every needle is brand new, single-use, and disposed of safely after each session.</p>
+            </div>
+            <div class="safety-highlight">
+              <h4>Clean Environment</h4>
+              <p>Our studio is cleaned and sanitized throughout the day using medical-grade products.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="certifications-grid">
+          {certifications.map((cert) => (
+            <div class="certification-card">
+              <div class="certification-icon" data-icon={cert.icon}>
+                {cert.icon === 'health' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                )}
+                {cert.icon === 'safety' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+                  </svg>
+                )}
+                {cert.icon === 'professional' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                )}
+                {cert.icon === 'medical' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3V8zM4 8h2v8H4V8zm4-2h2v12H8V6zm4 4h2v8h-2v-8z"/>
+                  </svg>
+                )}
+              </div>
+              <h4 class="certification-title">{cert.title}</h4>
+              <p class="certification-description">{cert.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Involvement -->
+  <section class="community-involvement">
+    <div class="container">
+      <h2 class="section-title">Community Involvement</h2>
+      <p class="section-description">
+        We believe in giving back to the community that supports us. Through various initiatives, 
+        we strive to make a positive impact in Houma and beyond.
+      </p>
+      
+      <div class="community-grid">
+        {communityInvolvement.map((involvement) => (
+          <div class="community-card">
+            <div class="community-icon" data-icon={involvement.icon}>
+              {involvement.icon === 'art' && (
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              )}
+              {involvement.icon === 'charity' && (
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              )}
+              {involvement.icon === 'education' && (
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                </svg>
+              )}
+              {involvement.icon === 'mentorship' && (
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.997 2.997 0 0 0 17.5 6.5c-.8 0-1.54.37-2.01.95L14 9l-1.5-2.5A2.997 2.997 0 0 0 10 5.5c-.8 0-1.54.37-2.01.95L6.5 8.5 4 22h2.5v-6H8v6h2v-6h2v6h2v-6h2.5V22H20z"/>
+                </svg>
+              )}
+            </div>
+            <h3 class="community-title">{involvement.title}</h3>
+            <p class="community-description">{involvement.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Contact -->
+  <section class="location-contact">
+    <div class="container">
+      <div class="location-contact-grid">
+        <div class="location-info">
+          <h2 class="section-title">Visit Our Studio</h2>
+          <div class="location-details">
+            <div class="location-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <div>
+                <h4>Address</h4>
+                <p>123 Main Street<br />Houma, LA 70360</p>
+              </div>
+            </div>
+            
+            <div class="location-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
+              </svg>
+              <div>
+                <h4>Phone</h4>
+                <p><a href="tel:+19855552873">(985) 555-CURSE</a></p>
+              </div>
+            </div>
+            
+            <div class="location-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l.09.06c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L16.26 6c.33-.69.78-1.33 1.36-1.91l.84-.84c.58-.58 1.22-1.03 1.91-1.36L20.43 2c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L24 6.17c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L20.43 10c-.69-.33-1.33-.78-1.91-1.36l-.84-.84c-.58-.58-1.03-1.22-1.36-1.91L16.26 6c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L12 10.06z"/>
+              </svg>
+              <div>
+                <h4>Hours</h4>
+                <p>Tuesday - Thursday: 12PM - 8PM<br />
+                   Friday - Saturday: 12PM - 10PM<br />
+                   Sunday - Monday: Closed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-cta">
+          <h3>Ready to Start Your Journey?</h3>
+          <p>Visit us for a consultation or reach out with any questions about our services, artists, or the tattoo process.</p>
+          <div class="contact-actions">
+            <a href="/consultation" class="btn btn--primary">Book Consultation</a>
+            <a href="/contact" class="btn btn--outline">Get Directions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* About Hero */
+  .about-hero {
+    padding: 8rem 0 4rem;
+    text-align: center;
+    background: 
+      radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+  }
+
+  .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.1;
+  }
+
+  .hero-description {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* Mission & Values */
+  .mission-values {
+    padding: 6rem 0;
+  }
+
+  .mission-values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 2rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .mission-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin: 0 0 3rem;
+  }
+
+  .studio-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .values-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    transition: var(--transition-smooth);
+  }
+
+  .value-item:hover {
+    border-color: rgba(255, 60, 43, 0.2);
+    transform: translateX(8px);
+  }
+
+  .value-item svg {
+    color: var(--accent0);
+  }
+
+  /* Studio Features */
+  .studio-features {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+  }
+
+  .section-description {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    transition: var(--transition-smooth);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    margin: 0 auto 2rem;
+  }
+
+  .feature-title {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .feature-description {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Safety & Certifications */
+  .safety-certifications {
+    padding: 6rem 0;
+  }
+
+  .safety-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .safety-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0 0 3rem;
+  }
+
+  .safety-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .safety-highlight h4 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .safety-highlight p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .certifications-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .certification-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .certification-card:hover {
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .certification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    flex-shrink: 0;
+  }
+
+  .certification-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+  }
+
+  .certification-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Community Involvement */
+  .community-involvement {
+    padding: 6rem 0;
+    background: 
+      radial-gradient(1000px 600px at 30% 50%, rgba(255, 60, 43, 0.02) 0%, transparent 60%);
+  }
+
+  .community-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .community-card {
+    text-align: center;
+    padding: 2rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .community-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .community-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    margin: 0 auto 1.5rem;
+  }
+
+  .community-title {
+    font-size: 1.1rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .community-description {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Location & Contact */
+  .location-contact {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+  }
+
+  .location-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .location-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .location-item svg {
+    color: var(--accent0);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .location-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--accent0);
+  }
+
+  .location-item p {
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .location-item a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+  }
+
+  .location-item a:hover {
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-cta {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+  }
+
+  .contact-cta h3 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .contact-cta p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+
+  .contact-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .about-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .mission-values-grid,
+    .safety-content,
+    .location-contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .studio-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .features-grid,
+    .community-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .certifications-grid {
+      gap: 1rem;
+    }
+
+    .certification-card {
+      padding: 1rem;
+    }
+
+    .contact-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .contact-actions .btn {
+      width: 100%;
+      max-width: 250px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .value-item:hover {
+      transform: none;
+    }
+
+    .feature-card:hover,
+    .community-card:hover {
+      transform: none;
+    }
+  }
+</style>

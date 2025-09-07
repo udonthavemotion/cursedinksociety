@@ -1,0 +1,204 @@
+---
+// Mystical interactive enhancements for the dark luxury aesthetic
+---
+
+<script>
+  // Mystical Cursor Effects and Section Reveals
+  class MysticalEnhancements {
+    constructor() {
+      this.init();
+    }
+
+    init() {
+      this.createCursorEffect();
+      this.setupSectionReveals();
+      this.setupHexInteractions();
+    }
+
+    // Create mystical cursor trail effect
+    createCursorEffect() {
+      const cursor = document.createElement('div');
+      cursor.className = 'mystical-cursor';
+      document.body.appendChild(cursor);
+
+      const trail: HTMLElement[] = [];
+      const maxTrail = 8;
+
+      // Create trail particles
+      for (let i = 0; i < maxTrail; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'cursor-particle';
+        particle.style.opacity = (1 - i / maxTrail).toString();
+        document.body.appendChild(particle);
+        trail.push(particle);
+      }
+
+      let mouseX = 0, mouseY = 0;
+      let cursorX = 0, cursorY = 0;
+
+      // Update mouse position
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Animate cursor and trail
+      const animate = () => {
+        // Smooth cursor following
+        cursorX += (mouseX - cursorX) * 0.1;
+        cursorY += (mouseY - cursorY) * 0.1;
+
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+
+        // Update trail
+        for (let i = trail.length - 1; i > 0; i--) {
+          const current = trail[i];
+          const previous = trail[i - 1];
+          const rect = previous.getBoundingClientRect();
+          current.style.transform = `translate(${rect.left + rect.width / 2}px, ${rect.top + rect.height / 2}px)`;
+        }
+
+        if (trail[0]) {
+          trail[0].style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+        }
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+    }
+
+    // Setup section spotlight reveals
+    setupSectionReveals() {
+      const sections = document.querySelectorAll('section');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+      });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    }
+
+    // Setup hexagonal hover interactions
+    setupHexInteractions() {
+      // Add hex tile effects on hover over certain elements
+      const interactiveElements = document.querySelectorAll('.hex-card, .blob-item, .btn');
+      
+      interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', this.createHexBurst.bind(this));
+      });
+    }
+
+    // Create hexagonal particle burst effect
+    createHexBurst(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      for (let i = 0; i < 6; i++) {
+        const hex = document.createElement('div');
+        hex.className = 'hex-particle';
+        
+        const angle = (i * 60) * Math.PI / 180;
+        const distance = 50 + Math.random() * 30;
+        const endX = centerX + Math.cos(angle) * distance;
+        const endY = centerY + Math.sin(angle) * distance;
+
+        hex.style.left = centerX + 'px';
+        hex.style.top = centerY + 'px';
+        
+        document.body.appendChild(hex);
+
+        // Animate hex particle
+        hex.animate([
+          { 
+            transform: `translate(-50%, -50%) scale(0) rotate(0deg)`,
+            opacity: 1 
+          },
+          { 
+            transform: `translate(${endX - centerX}px, ${endY - centerY}px) scale(1) rotate(360deg)`,
+            opacity: 0 
+          }
+        ], {
+          duration: 800,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        }).onfinish = () => {
+          hex.remove();
+        };
+      }
+    }
+  }
+
+  // Initialize mystical enhancements
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new MysticalEnhancements());
+  } else {
+    new MysticalEnhancements();
+  }
+</script>
+
+<style>
+  /* Mystical Cursor Styles */
+  .mystical-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(255, 51, 0, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+  }
+
+  .cursor-particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255, 102, 0, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Hex Particle Effects */
+  .hex-particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 51, 0, 0.8);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Hide cursor effects on touch devices */
+  @media (hover: none) {
+    .mystical-cursor,
+    .cursor-particle {
+      display: none;
+    }
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .mystical-cursor,
+    .cursor-particle,
+    .hex-particle {
+      display: none;
+    }
+  }
+</style>

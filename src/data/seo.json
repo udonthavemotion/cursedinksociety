@@ -1,0 +1,129 @@
+{
+  "site": {
+    "name": "Cursed Ink Society",
+    "domain": "cursedingksociety.com",
+    "description": "Houma's premier tattoo collective featuring six master artists. Custom designs, traditional work, and mystical ink with 50+ years combined experience.",
+    "keywords": [
+      "tattoo shop houma",
+      "premium tattoos louisiana",
+      "custom tattoo design",
+      "traditional tattoos",
+      "japanese tattoos",
+      "color tattoos",
+      "tattoo collective",
+      "houma tattoo artists",
+      "body art houma",
+      "professional tattoo studio"
+    ],
+    "author": "Cursed Ink Society",
+    "robots": "index, follow",
+    "themeColor": "#dc143c",
+    "backgroundColor": "#0a0a0c"
+  },
+  "pages": {
+    "home": {
+      "title": "Cursed Ink Society — Premier Tattoo Artists in Houma, LA",
+      "description": "Experience the finest tattoo artistry in Houma, Louisiana. Our collective of master artists specializes in custom designs, traditional work, and mystical ink. Book your consultation today.",
+      "keywords": ["tattoo shop houma", "premium tattoos", "custom tattoo design", "tattoo collective"],
+      "ogImage": "/og/og-image.jpg",
+      "canonical": "/"
+    },
+    "artists": {
+      "title": "Meet Our Artists — Cursed Ink Society | Houma, LA",
+      "description": "Meet Anthony, Ashley, Cody, Seth, Luis, and Trent — six master artists with 50+ years combined experience. Discover your perfect tattoo artist in Houma.",
+      "keywords": ["tattoo artists houma", "tattoo collective", "master tattooists", "custom tattoo artists"],
+      "ogImage": "/og/artists-og.jpg",
+      "canonical": "/artists"
+    },
+    "gallery": {
+      "title": "Portfolio Gallery — Cursed Ink Society | Tattoo Examples",
+      "description": "Explore our extensive portfolio of custom tattoos, traditional work, and artistic designs. See the quality and craftsmanship that defines Cursed Ink Society.",
+      "keywords": ["tattoo portfolio", "tattoo examples", "custom tattoo gallery", "tattoo showcase"],
+      "ogImage": "/og/gallery-og.jpg",
+      "canonical": "/gallery"
+    },
+    "services": {
+      "title": "Services & Pricing — Cursed Ink Society | Houma Tattoo Shop",
+      "description": "Transparent pricing for custom tattoos, traditional work, and specialty services. Starting at $120 with experienced artists. View our complete service menu.",
+      "keywords": ["tattoo pricing", "tattoo services", "tattoo shop prices", "custom tattoo cost"],
+      "ogImage": "/og/services-og.jpg",
+      "canonical": "/services"
+    },
+    "about": {
+      "title": "About Us — Cursed Ink Society | Our Story & Studio",
+      "description": "Learn about Houma's premier tattoo collective. Six master artists, state-of-the-art studio, and a commitment to artistic excellence since 2024.",
+      "keywords": ["tattoo shop about", "tattoo studio houma", "tattoo collective story", "professional tattoo artists"],
+      "ogImage": "/og/about-og.jpg",
+      "canonical": "/about"
+    },
+    "contact": {
+      "title": "Contact & Book — Cursed Ink Society | Start Your Tattoo Journey",
+      "description": "Ready to get inked? Contact Cursed Ink Society for consultations, walk-ins with Anthony, or to start planning your custom tattoo design.",
+      "keywords": ["book tattoo appointment", "tattoo consultation", "contact tattoo shop", "tattoo booking"],
+      "ogImage": "/og/contact-og.jpg",
+      "canonical": "/contact"
+    }
+  },
+  "localBusiness": {
+    "@type": "TattooParlor",
+    "name": "Cursed Ink Society",
+    "image": "/brand/cursed-ink-logo.png",
+    "description": "Houma's premier tattoo collective featuring six master artists",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Main Street",
+      "addressLocality": "Houma",
+      "addressRegion": "LA",
+      "postalCode": "70360",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "29.5958",
+      "longitude": "-90.7195"
+    },
+    "telephone": "+1-985-555-2873",
+    "priceRange": "$$$",
+    "openingHours": [
+      "Tu-Th 12:00-20:00",
+      "Fr-Sa 12:00-22:00"
+    ],
+    "sameAs": [
+      "https://instagram.com/cursedingksociety",
+      "https://facebook.com/cursedingksociety"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Tattoo Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Custom Tattoo Design",
+            "description": "Personalized tattoo design consultation and creation"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Traditional Tattoo",
+            "description": "Classic American traditional tattoo artistry"
+          }
+        }
+      ]
+    }
+  },
+  "social": {
+    "instagram": "@cursedingksociety",
+    "facebook": "Cursed Ink Society",
+    "hashtags": [
+      "#CursedInkSociety",
+      "#HoumaTattoos",
+      "#LouisianaTattoos",
+      "#CustomTattoos",
+      "#TattooCollective"
+    ]
+  }
+}

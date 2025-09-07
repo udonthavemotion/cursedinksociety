@@ -1,0 +1,547 @@
+---
+// Social proof data - In a real app, this would come from APIs/CMS
+const stats = [
+  {
+    number: "500+",
+    label: "Happy Clients",
+    description: "Satisfied customers with beautiful ink"
+  },
+  {
+    number: "4.9",
+    label: "Google Rating",
+    description: "Based on 150+ verified reviews"
+  },
+  {
+    number: "12+",
+    label: "Years Experience",
+    description: "Combined artist expertise"
+  },
+  {
+    number: "100%",
+    label: "Custom Work",
+    description: "Every piece is uniquely yours"
+  }
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Martinez",
+    location: "Houma, LA",
+    rating: 5,
+    text: "Raven created the most beautiful memorial piece for my grandmother. The attention to detail and emotional care throughout the process was incredible. Highly recommend!",
+    service: "Custom Memorial Tattoo",
+    artist: "Raven Blackthorne",
+    image: "/assets/testimonials/sarah-m.jpg"
+  },
+  {
+    id: 2,
+    name: "Marcus Johnson",
+    location: "Thibodaux, LA",
+    rating: 5,
+    text: "Phoenix's realism work is absolutely mind-blowing. My portrait tattoo looks exactly like the photo - people can't believe it's real. Worth every penny!",
+    service: "Portrait Realism",
+    artist: "Phoenix Ashwood",
+    image: "/assets/testimonials/marcus-j.jpg"
+  },
+  {
+    id: 3,
+    name: "Emma Chen",
+    location: "New Orleans, LA",
+    rating: 5,
+    text: "First tattoo experience and Sage made it perfect. The fine line botanical piece is exactly what I dreamed of. Professional, clean, and beautiful work.",
+    service: "Fine Line Botanical",
+    artist: "Sage Moonwright",
+    image: "/assets/testimonials/emma-c.jpg"
+  },
+  {
+    id: 4,
+    name: "David Boudreaux",
+    location: "Houma, LA",
+    rating: 5,
+    text: "Dante's Japanese traditional work is authentic and powerful. The full sleeve took months but every session was worth it. True master of the craft.",
+    service: "Japanese Traditional Sleeve",
+    artist: "Dante Crimson",
+    image: "/assets/testimonials/david-b.jpg"
+  }
+];
+
+const certifications = [
+  {
+    name: "Louisiana Health Department Certified",
+    icon: "health",
+    description: "Current health department certification and regular inspections"
+  },
+  {
+    name: "BBB A+ Rating",
+    icon: "bbb",
+    description: "Better Business Bureau accreditation with A+ rating"
+  },
+  {
+    name: "Professional Tattoo Association",
+    icon: "pta",
+    description: "Member of professional tattoo artist associations"
+  },
+  {
+    name: "Bloodborne Pathogen Certified",
+    icon: "safety",
+    description: "All artists certified in bloodborne pathogen safety"
+  }
+];
+---
+
+<section class="social-proof" id="reviews">
+  <div class="container">
+    <!-- Statistics Section -->
+    <div class="stats-section">
+      <div class="section-header">
+        <span class="badge">Proven Excellence</span>
+        <h2 class="section-title shine">Trusted by the Community</h2>
+      </div>
+      
+      <div class="stats-grid">
+        {stats.map((stat) => (
+          <div class="stat-item">
+            <div class="stat-number">{stat.number}</div>
+            <div class="stat-label">{stat.label}</div>
+            <div class="stat-description">{stat.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+      <h3 class="testimonials-title">What Our Clients Say</h3>
+      
+      <div class="testimonials-grid">
+        {testimonials.map((testimonial) => (
+          <article class="testimonial-card">
+            <div class="testimonial-header">
+              <img 
+                src={testimonial.image} 
+                alt={testimonial.name}
+                class="testimonial-avatar"
+                loading="lazy"
+                width="60"
+                height="60"
+              />
+              <div class="testimonial-info">
+                <h4 class="testimonial-name">{testimonial.name}</h4>
+                <p class="testimonial-location">{testimonial.location}</p>
+                <div class="testimonial-rating">
+                  {Array.from({ length: testimonial.rating }, (_, i) => (
+                    <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <blockquote class="testimonial-text">
+              "{testimonial.text}"
+            </blockquote>
+            
+            <div class="testimonial-meta">
+              <span class="testimonial-service">{testimonial.service}</span>
+              <span class="testimonial-artist">by {testimonial.artist}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- Certifications Section -->
+    <div class="certifications-section">
+      <h3 class="certifications-title">Licensed & Certified</h3>
+      <p class="certifications-description">
+        Your safety and satisfaction are our top priorities. We maintain the highest standards 
+        in cleanliness, professionalism, and artistic excellence.
+      </p>
+      
+      <div class="certifications-grid">
+        {certifications.map((cert) => (
+          <div class="certification-item">
+            <div class="certification-icon" data-icon={cert.icon}>
+              {cert.icon === 'health' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              )}
+              {cert.icon === 'bbb' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              )}
+              {cert.icon === 'pta' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l.09.06c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L16.26 6c.33-.69.78-1.33 1.36-1.91l.84-.84c.58-.58 1.22-1.03 1.91-1.36L20.43 2c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L24 6.17c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L20.43 10c-.69-.33-1.33-.78-1.91-1.36l-.84-.84c-.58-.58-1.03-1.22-1.36-1.91L16.26 6c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L12 10.06z"/>
+                </svg>
+              )}
+              {cert.icon === 'safety' && (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+                </svg>
+              )}
+            </div>
+            <h4 class="certification-name">{cert.name}</h4>
+            <p class="certification-description">{cert.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Google Reviews CTA -->
+    <div class="reviews-cta">
+      <div class="reviews-cta-content">
+        <h3>See What Others Are Saying</h3>
+        <p>Read more reviews and share your experience with future clients.</p>
+        <div class="reviews-cta-actions">
+          <a href="https://g.page/r/CurredInkSocietyReviews" class="btn btn--primary" target="_blank" rel="noopener">
+            Read Google Reviews
+          </a>
+          <a href="/book" class="btn btn--outline">Book Your Experience</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .social-proof {
+    padding: 6rem 0;
+    background: 
+      radial-gradient(1000px 700px at 10% 50%, rgba(255, 60, 43, 0.02) 0%, transparent 60%),
+      radial-gradient(800px 500px at 90% 30%, rgba(255, 122, 24, 0.03) 0%, transparent 60%);
+  }
+
+  /* Stats Section */
+  .stats-section {
+    margin-bottom: 6rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .stat-number {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+
+  /* Testimonials Section */
+  .testimonials-section {
+    margin-bottom: 6rem;
+  }
+
+  .testimonials-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 3rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 1.5rem;
+    font-size: 4rem;
+    color: var(--accent0);
+    font-family: serif;
+    line-height: 1;
+    opacity: 0.3;
+  }
+
+  .testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 60, 43, 0.2);
+  }
+
+  .testimonial-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: var(--ink);
+  }
+
+  .testimonial-location {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin: 0 0 0.5rem;
+  }
+
+  .testimonial-rating {
+    display: flex;
+    gap: 0.25rem;
+    color: var(--accent1);
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+    font-style: italic;
+    opacity: 0.9;
+  }
+
+  .testimonial-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    gap: 1rem;
+  }
+
+  .testimonial-service {
+    color: var(--accent0);
+    font-weight: 600;
+  }
+
+  .testimonial-artist {
+    opacity: 0.7;
+  }
+
+  /* Certifications Section */
+  .certifications-section {
+    margin-bottom: 4rem;
+  }
+
+  .certifications-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .certifications-description {
+    text-align: center;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  .certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .certification-item {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .certification-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .certification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    border-radius: 50%;
+    color: var(--accent0);
+    margin: 0 auto 1.5rem;
+  }
+
+  .certification-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .certification-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Reviews CTA */
+  .reviews-cta {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+
+  .reviews-cta-content h3 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .reviews-cta-content p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0 0 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .reviews-cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .social-proof {
+      padding: 4rem 0;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-item {
+      padding: 1.5rem 1rem;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      padding: 1.5rem;
+    }
+
+    .testimonial-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .certifications-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .reviews-cta {
+      padding: 2rem 1rem;
+    }
+
+    .reviews-cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .reviews-cta-actions .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .stat-item:hover,
+    .testimonial-card:hover,
+    .certification-item:hover {
+      transform: none;
+    }
+  }
+</style>

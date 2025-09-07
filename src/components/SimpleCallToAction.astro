@@ -1,0 +1,204 @@
+---
+// Simple CTA for homepage - ends cleanly after "Start Your Journey"
+---
+
+<section class="simple-cta">
+  <div class="container">
+    <div class="cta-content">
+      <div class="cta-badge">Ready to Begin?</div>
+      <h2 class="cta-title shine">Start Your Journey</h2>
+      <p class="cta-description">
+        Book a free consultation and bring your vision to life with our master artists.
+      </p>
+      
+      <div class="cta-actions">
+        <a href="/consultation" class="btn btn--primary btn--journey">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+          </svg>
+          Book Free Consultation
+        </a>
+        
+        <a href="/gallery" class="btn btn--electric btn--journey">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+          </svg>
+          View Our Work
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .simple-cta {
+    padding: 4rem 0 6rem;
+    text-align: center;
+    position: relative;
+    background: 
+      var(--spotlight),
+      var(--marble-base),
+      linear-gradient(180deg, transparent 0%, var(--charcoal) 100%);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .simple-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--rim-light), transparent);
+    box-shadow: var(--rim-glow);
+    opacity: 0.9;
+  }
+
+  .cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-badge {
+    display: inline-block;
+    background: var(--glass-medium);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--pure-white);
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    text-shadow: var(--soft-glow);
+    backdrop-filter: blur(15px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .cta-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin: 0 0 1.5rem;
+    line-height: 1.1;
+  }
+
+  .cta-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0 0 3rem;
+    text-shadow: var(--glow-warm);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn--journey {
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 200px;
+    justify-content: center;
+  }
+
+  /* Enhanced hover effects for journey buttons */
+  .btn--journey:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--glow-inferno), 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn--journey.btn--electric:hover {
+    box-shadow: var(--glow-electric), 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Mystical particle effects on hover */
+  .btn--journey::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: 
+      conic-gradient(from 0deg at 50% 50%, 
+        transparent 0deg, 
+        rgba(255, 51, 0, 0.1) 90deg, 
+        transparent 180deg, 
+        rgba(255, 51, 0, 0.1) 270deg, 
+        transparent 360deg);
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    animation: rotateHex 6s linear infinite;
+  }
+
+  .btn--journey:hover::after {
+    opacity: 1;
+  }
+
+  @keyframes rotateHex {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .simple-cta {
+      padding: 3rem 0 4rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn--journey {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .cta-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .btn--journey::after {
+      animation: none;
+    }
+
+    .btn--journey:hover {
+      transform: translateY(-2px);
+    }
+  }
+</style>
+
+<script>
+  // Simple intersection observer for entrance animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+
+  // Observe the CTA section
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctaSection = document.querySelector('.simple-cta');
+    if (ctaSection) {
+      observer.observe(ctaSection);
+    }
+  });
+</script>

@@ -1,0 +1,117 @@
+{
+  "main": [
+    {
+      "label": "Home",
+      "href": "/",
+      "description": "Discover Cursed Ink Society"
+    },
+    {
+      "label": "Artists",
+      "href": "/artists",
+      "description": "Meet our talented collective"
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery",
+      "description": "Explore our portfolio"
+    },
+    {
+      "label": "Services",
+      "href": "/services",
+      "description": "Our offerings and pricing"
+    },
+    {
+      "label": "About",
+      "href": "/about",
+      "description": "Our story and studio"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact",
+      "description": "Start your journey"
+    }
+  ],
+  "footer": {
+    "brand": {
+      "name": "Cursed Ink Society",
+      "tagline": "Where artistry meets the mystical",
+      "description": "Houma's premier tattoo collective"
+    },
+    "links": {
+      "quick": [
+        {
+          "label": "Our Artists",
+          "href": "/artists"
+        },
+        {
+          "label": "Gallery",
+          "href": "/gallery"
+        },
+        {
+          "label": "Services & Pricing",
+          "href": "/services"
+        },
+        {
+          "label": "/contact",
+          "href": "Get In Touch"
+        }
+      ],
+      "studio": [
+        {
+          "label": "About Us",
+          "href": "/about"
+        },
+        {
+          "label": "Aftercare Guide",
+          "href": "/aftercare"
+        },
+        {
+          "label": "FAQ",
+          "href": "/faq"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact"
+        }
+      ],
+      "legal": [
+        {
+          "label": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "label": "Terms of Service",
+          "href": "/terms"
+        }
+      ]
+    },
+    "social": [
+      {
+        "platform": "Instagram",
+        "handle": "@cursedingksociety",
+        "url": "https://instagram.com/cursedingksociety",
+        "icon": "instagram"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Cursed Ink Society",
+        "url": "https://facebook.com/cursedingksociety",
+        "icon": "facebook"
+      }
+    ],
+    "contact": {
+      "address": "123 Main Street, Houma, LA 70360",
+      "phone": "(985) 555-2873",
+      "hours": [
+        "Tue-Thu: 12PM-8PM",
+        "Fri-Sat: 12PM-10PM"
+      ]
+    },
+    "copyright": "© 2024 Cursed Ink Society — forged in fire & pigment."
+  },
+  "mobile": {
+    "breakpoint": "768px",
+    "animation": "slide-in-right",
+    "closeOnNavigate": true
+  }
+}
