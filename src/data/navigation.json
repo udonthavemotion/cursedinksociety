@@ -6,9 +6,9 @@
       "description": "Discover Cursed Ink Society"
     },
     {
-      "label": "Artists",
+      "label": "Guild",
       "href": "/artists",
-      "description": "Meet our talented collective"
+      "description": "Meet our legendary artisans"
     },
     {
       "label": "Gallery",
@@ -40,7 +40,7 @@
     "links": {
       "quick": [
         {
-          "label": "Our Artists",
+          "label": "Our Guild",
           "href": "/artists"
         },
         {
@@ -52,8 +52,8 @@
           "href": "/services"
         },
         {
-          "label": "/contact",
-          "href": "Get In Touch"
+          "label": "Get In Touch",
+          "href": "/contact"
         }
       ],
       "studio": [

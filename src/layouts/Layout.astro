@@ -1,8 +1,5 @@
 ---
 import '../styles/global.css';
-import Cart from '../components/Cart.astro';
-import MysticalEnhancements from '../components/MysticalEnhancements.astro';
-import LEDTileOverlay from '../components/LEDTileOverlay.astro';
 
 export interface Props {
   title: string;
@@ -63,8 +60,15 @@ const structuredData = {
     <!-- Essential Meta Tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="theme-color" content="#dc143c" />
     <meta name="color-scheme" content="dark" />
+    
+    <!-- Additional theme colors for different platforms -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#dc143c" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0d" />
+    
+    <!-- Safari Pinned Tab -->
+    <link rel="mask-icon" href="/favicon.svg" color="#dc143c" />
     
     <!-- SEO Meta Tags -->
     <title>{title}</title>
@@ -89,10 +93,33 @@ const structuredData = {
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />
     
-    <!-- Icons and Manifest -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" href="/brand/favicon-375.png" />
-    <link rel="apple-touch-icon" href="/brand/favicon-375.png" />
+    <!-- Comprehensive Favicon & Icon System -->
+    <!-- Primary favicon with cache busting -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    
+    <!-- Modern browsers (SVG favicon) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    
+    <!-- PNG favicons for different sizes -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
+    
+    <!-- Apple Touch Icons for iOS devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
+    
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png?v=3" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png?v=3" />
+    
+    <!-- Web App Manifest for PWA support -->
+    <link rel="manifest" href="/site.webmanifest?v=3" />
+    
+    <!-- Microsoft Tiles for Windows -->
+    <meta name="msapplication-TileColor" content="#dc143c" />
+    <meta name="msapplication-TileImage" content="/android-chrome-192x192.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
@@ -111,9 +138,6 @@ const structuredData = {
   </head>
   
   <body>
-    <!-- LED Tile Overlay - Shop Lighting System -->
-    <LEDTileOverlay intensity="subtle" pattern="hex" />
-    
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -133,18 +157,14 @@ const structuredData = {
         <div class="nav-menu" id="nav-menu">
           <ul class="nav-links">
             <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/artists" class="nav-link">Artists</a></li>
+            <li><a href="/artists" class="nav-link">Guild</a></li>
             <li><a href="/gallery" class="nav-link">Gallery</a></li>
             <li><a href="/services" class="nav-link">Services</a></li>
-            <li><a href="/shop" class="nav-link">Shop</a></li>
             <li><a href="/about" class="nav-link">About</a></li>
             <li><a href="/contact" class="nav-link">Contact</a></li>
           </ul>
-          <div class="nav-actions">
-            <Cart />
-            <div class="nav-cta">
-              <a href="/contact" class="btn btn--primary">Start Your Journey</a>
-            </div>
+          <div class="nav-cta">
+            <a href="/contact" class="btn btn--primary">Start Your Journey</a>
           </div>
         </div>
       </div>
@@ -154,71 +174,62 @@ const structuredData = {
       <slot />
     </main>
 
-    <!-- Mystical Interactive Enhancements -->
-    <MysticalEnhancements />
-
     <!-- Footer -->
     <footer class="main-footer">
       <div class="container">
+        <!-- Main Footer Content - Centered -->
         <div class="footer-content">
-          <div class="footer-section footer-brand">
-            <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" width="80" height="80" class="footer-logo" />
+          <!-- Brand Section - Centered -->
+          <div class="footer-brand">
+            <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" width="60" height="60" class="footer-logo" />
             <h3 class="footer-title">Cursed Ink Society</h3>
             <p class="footer-tagline">Where artistry meets the mystical</p>
           </div>
           
-          <div class="footer-section">
-            <h4>Quick Links</h4>
-            <ul class="footer-links">
-              <li><a href="/artists">Our Artists</a></li>
-              <li><a href="/gallery">Gallery</a></li>
-              <li><a href="/services">Services & Pricing</a></li>
-              <li><a href="/contact">Get In Touch</a></li>
-            </ul>
+          <!-- Navigation Links - Horizontal -->
+          <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
+            <a href="/artists" class="footer-link">Guild</a>
+            <a href="/gallery" class="footer-link">Gallery</a>
+            <a href="/services" class="footer-link">Services</a>
+            <a href="/about" class="footer-link">About</a>
+            <a href="/contact" class="footer-link">Contact</a>
+          </nav>
+          
+          <!-- Contact Info - Compact -->
+          <div class="footer-contact">
+            <p class="contact-location">123 Main Street, Houma, LA 70360</p>
+            <p class="contact-hours">Tue-Thu: 12PM-8PM • Fri-Sat: 12PM-10PM</p>
           </div>
           
-          <div class="footer-section">
-            <h4>Studio Info</h4>
-            <ul class="footer-links">
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/aftercare">Aftercare Guide</a></li>
-              <li><a href="/faq">FAQ</a></li>
-              <li><a href="/contact">Contact</a></li>
-            </ul>
+          <!-- Social Links -->
+          <div class="footer-social">
+            <a href="https://instagram.com/cursedinksociety" aria-label="Instagram" rel="noopener" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com/cursedinksociety" aria-label="Facebook" rel="noopener" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="tel:+19855552873" aria-label="Phone: (985) 555-CURSE" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
+              </svg>
+            </a>
           </div>
-          
-          <div class="footer-section">
-            <h4>Connect</h4>
-            <div class="social-links">
-              <a href="https://instagram.com/cursedinksociety" aria-label="Instagram" rel="noopener" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-                </svg>
-              </a>
-              <a href="https://facebook.com/cursedinksociety" aria-label="Facebook" rel="noopener" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-              </a>
-              <a href="tel:+19855552873" aria-label="Phone">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
-                </svg>
-              </a>
-            </div>
-            <div class="contact-info">
-              <p>123 Main Street<br />Houma, LA 70360</p>
-              <p>(985) 555-CURSE</p>
-              <p>Tue-Thu: 12PM-8PM<br />Fri-Sat: 12PM-10PM</p>
-            </div>
-          </div>
-		</div>
+        </div>
 
+        <!-- Footer Bottom - Copyright & Legal -->
         <div class="footer-bottom">
-          <small>© {new Date().getFullYear()} Cursed Ink Society — forged in fire & pigment.</small>
+          <div class="footer-copyright">
+            <small>© {new Date().getFullYear()} Cursed Ink Society — forged in fire & pigment</small>
+          </div>
           <div class="footer-legal">
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms of Service</a>
+            <a href="/privacy" class="legal-link">Privacy</a>
+            <span class="legal-separator">•</span>
+            <a href="/terms" class="legal-link">Terms</a>
           </div>
         </div>
       </div>
@@ -228,6 +239,11 @@ const structuredData = {
 		<script>
       // Enhanced navigation with accessibility
       class Navigation {
+        private navToggle: HTMLElement | null;
+        private navMenu: HTMLElement | null;
+        private navLinks: NodeListOf<HTMLElement>;
+        private isOpen: boolean;
+
         constructor() {
           this.navToggle = document.querySelector('.nav-toggle');
           this.navMenu = document.querySelector('.nav-menu');
@@ -237,19 +253,20 @@ const structuredData = {
           this.init();
         }
 
-        init() {
+        init(): void {
           if (!this.navToggle || !this.navMenu) return;
           
           this.navToggle.addEventListener('click', this.toggleMenu.bind(this));
           
           // Close menu when clicking nav links
-          this.navLinks.forEach(link => {
+          this.navLinks.forEach((link: HTMLElement) => {
             link.addEventListener('click', () => this.closeMenu());
           });
           
           // Close menu when clicking outside
-          document.addEventListener('click', (e) => {
-            if (!e.target.closest('.main-nav') && this.isOpen) {
+          document.addEventListener('click', (e: Event) => {
+            const target = e.target as HTMLElement;
+            if (target && !target.closest('.main-nav') && this.isOpen) {
               this.closeMenu();
             }
           });
@@ -263,13 +280,45 @@ const structuredData = {
           
           // Set active nav link
           this.setActiveLink();
+          
+          // Setup transparent navbar on scroll
+          this.setupScrollTransparency();
         }
 
-        toggleMenu() {
+        setupScrollTransparency(): void {
+          const nav = document.querySelector('.main-nav');
+          let ticking = false;
+
+          const updateNavTransparency = () => {
+            const scrolled = window.pageYOffset;
+            const threshold = 100; // Start transparency after 100px scroll
+            
+            if (scrolled > threshold) {
+              nav?.classList.add('nav-transparent');
+            } else {
+              nav?.classList.remove('nav-transparent');
+            }
+            
+            ticking = false;
+          };
+
+          const requestTick = () => {
+            if (!ticking) {
+              requestAnimationFrame(updateNavTransparency);
+              ticking = true;
+            }
+          };
+
+          window.addEventListener('scroll', requestTick, { passive: true });
+        }
+
+        toggleMenu(): void {
           this.isOpen ? this.closeMenu() : this.openMenu();
         }
 
-        openMenu() {
+        openMenu(): void {
+          if (!this.navMenu || !this.navToggle) return;
+          
           this.isOpen = true;
           this.navMenu.classList.add('nav-menu--open');
           this.navToggle.classList.add('nav-toggle--open');
@@ -277,7 +326,9 @@ const structuredData = {
           document.body.style.overflow = 'hidden';
         }
 
-        closeMenu() {
+        closeMenu(): void {
+          if (!this.navMenu || !this.navToggle) return;
+          
           this.isOpen = false;
           this.navMenu.classList.remove('nav-menu--open');
           this.navToggle.classList.remove('nav-toggle--open');
@@ -285,9 +336,9 @@ const structuredData = {
           document.body.style.overflow = '';
         }
 
-        setActiveLink() {
+        setActiveLink(): void {
           const currentPath = window.location.pathname;
-          this.navLinks.forEach(link => {
+          this.navLinks.forEach((link: HTMLElement) => {
             const href = link.getAttribute('href');
             if (href === currentPath || (currentPath === '/' && href === '/')) {
               link.classList.add('nav-link--active');
@@ -315,7 +366,24 @@ const structuredData = {
         background: rgba(11, 11, 13, 0.95);
         backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        transition: var(--transition-smooth);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      /* Transparent navbar on scroll */
+      .main-nav.nav-transparent {
+        background: rgba(11, 11, 13, 0.1);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-nav.nav-transparent .nav-logo img {
+        filter: drop-shadow(0 0 15px rgba(255, 60, 43, 0.8));
+      }
+
+      .main-nav.nav-transparent .nav-link {
+        color: rgba(245, 245, 245, 0.9);
+        text-shadow: 0 0 10px rgba(255, 60, 43, 0.3);
       }
 
       .nav-container {
@@ -329,12 +397,12 @@ const structuredData = {
       .nav-logo img {
         height: 50px;
         width: auto;
-        filter: drop-shadow(0 0 15px rgba(220, 20, 60, 0.4));
+        filter: drop-shadow(0 0 10px rgba(255, 60, 43, 0.3));
         transition: var(--transition-smooth);
       }
 
       .nav-logo:hover img {
-        filter: drop-shadow(0 0 25px rgba(220, 20, 60, 0.7));
+        filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
         transform: scale(1.05);
       }
 
@@ -404,7 +472,7 @@ const structuredData = {
         left: 0;
         width: 0;
         height: 2px;
-        background: var(--crimson-primary);
+        background: var(--accent0);
         transition: width 0.3s ease;
       }
 
@@ -415,14 +483,8 @@ const structuredData = {
 
       .nav-link:hover,
       .nav-link--active {
-        color: var(--crimson-primary);
-        text-shadow: var(--crimson-glow);
-      }
-
-      .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+        color: var(--accent0);
+        text-shadow: var(--glow-subtle);
       }
 
       .nav-cta .btn {
@@ -430,136 +492,194 @@ const structuredData = {
         padding: 0.7rem 1.2rem;
       }
 
-      /* Footer Styles - Architectural Foundation */
+      /* Footer Styles - Modern, Elegant, Compact */
       .main-footer {
-        background: 
-          var(--marble-base),
-          linear-gradient(180deg, var(--charcoal), var(--deep-charcoal));
-        border-top: 2px solid rgba(255, 255, 255, 0.2);
-        padding: 4rem 0 2rem;
+        background:
+          radial-gradient(ellipse at 50% 20%, rgba(255, 60, 43, 0.08) 0%, transparent 60%),
+          linear-gradient(135deg, #0a0a0c 0%, #0f0f11 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 3rem 0 1.5rem;
         margin-top: 4rem;
-        position: relative;
-        box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.5);
       }
 
       .footer-content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 3rem;
-        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
       }
 
+      /* Brand Section - Compact & Centered */
       .footer-brand {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
       }
 
       .footer-logo {
-        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
-        margin-bottom: 1rem;
+        filter: drop-shadow(0 0 12px rgba(255, 60, 43, 0.4));
+        transition: var(--transition-smooth);
+      }
+
+      .footer-logo:hover {
+        filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.6));
+        transform: scale(1.05);
       }
 
       .footer-title {
-        font-size: 1.5rem;
-        margin: 0.5rem 0;
+        font-size: 1.3rem;
+        margin: 0;
         color: var(--ink);
-        text-shadow: var(--glow-subtle);
+        text-shadow: 0 0 8px rgba(220, 20, 60, 0.6), var(--glow-subtle);
+        font-weight: 600;
       }
 
       .footer-tagline {
-        font-size: 1rem;
-        opacity: 0.8;
+        font-size: 0.9rem;
+        opacity: 0.7;
         margin: 0;
+        font-style: italic;
+        color: var(--ink);
+        text-shadow: 0 0 6px rgba(220, 20, 60, 0.4);
       }
 
-      .footer-section h4 {
-        color: var(--crimson-primary);
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-        text-shadow: var(--crimson-glow);
+      /* Navigation Links - Horizontal & Compact */
+      .footer-nav {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
-      .footer-links {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .footer-links li {
-        margin-bottom: 0.5rem;
-      }
-
-      .footer-links a {
+      .footer-link {
         color: var(--ink);
         text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
         opacity: 0.8;
         transition: var(--transition-smooth);
+        position: relative;
+        padding: 0.25rem 0;
       }
 
-      .footer-links a:hover {
+      .footer-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 1px;
+        background: var(--accent0);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .footer-link:hover {
         opacity: 1;
-        color: var(--crimson-primary);
-        text-shadow: var(--crimson-glow);
+        color: var(--accent0);
+        text-shadow: 0 0 6px rgba(220, 20, 60, 0.5), var(--glow-subtle);
       }
 
-      .social-links {
+      .footer-link:hover::after {
+        width: 100%;
+      }
+
+      /* Contact Info - Compact */
+      .footer-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .contact-location,
+      .contact-hours {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        margin: 0;
+        line-height: 1.4;
+        color: var(--ink);
+        text-shadow: 0 0 4px rgba(220, 20, 60, 0.3);
+      }
+
+      .contact-hours {
+        font-weight: 500;
+      }
+
+      /* Social Links - Compact & Modern */
+      .footer-social {
         display: flex;
         gap: 1rem;
-        margin-bottom: 1.5rem;
+        justify-content: center;
       }
 
-      .social-links a {
+      .social-link {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         color: var(--ink);
         transition: var(--transition-smooth);
-      }
-
-      .social-links a:hover {
-        background: rgba(220, 20, 60, 0.15);
-        border-color: var(--crimson-primary);
-        color: var(--crimson-primary);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
-      }
-
-      .contact-info {
-        font-size: 0.9rem;
         opacity: 0.8;
-        line-height: 1.6;
       }
 
+      .social-link:hover {
+        opacity: 1;
+        background: rgba(255, 60, 43, 0.1);
+        border-color: rgba(255, 60, 43, 0.3);
+        color: var(--accent0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 60, 43, 0.15);
+      }
+
+      /* Footer Bottom - Minimal & Elegant */
       .footer-bottom {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        flex-wrap: wrap;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
         gap: 1rem;
+      }
+
+      .footer-copyright small {
+        font-size: 0.8rem;
+        opacity: 0.6;
+        color: var(--ink);
+        text-shadow: 0 0 5px rgba(220, 20, 60, 0.4), var(--glow-subtle);
       }
 
       .footer-legal {
         display: flex;
-        gap: 1.5rem;
+        align-items: center;
+        gap: 0.75rem;
       }
 
-      .footer-legal a {
+      .legal-link {
         color: var(--ink);
         text-decoration: none;
-        opacity: 0.7;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        opacity: 0.6;
         transition: var(--transition-smooth);
+        font-weight: 500;
       }
 
-      .footer-legal a:hover {
+      .legal-link:hover {
         opacity: 1;
-        color: var(--crimson-primary);
+        color: var(--accent0);
+        text-shadow: 0 0 5px rgba(220, 20, 60, 0.5), var(--glow-subtle);
+      }
+
+      .legal-separator {
+        color: var(--ink);
+        opacity: 0.4;
+        font-size: 0.8rem;
       }
 
       /* Mobile Navigation */
@@ -579,7 +699,7 @@ const structuredData = {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          gap: 2rem;
+          gap: 0;
           transform: translateX(-100%);
           transition: transform 0.3s ease;
         }
@@ -599,34 +719,22 @@ const structuredData = {
           text-align: center;
         }
 
-        .footer-content {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-          text-align: center;
+        .footer-nav {
+          gap: 1.5rem;
+        }
+
+        .footer-link {
+          font-size: 0.85rem;
         }
 
         .footer-bottom {
           flex-direction: column;
           text-align: center;
+          gap: 1rem;
         }
 
-        .social-links {
+        .footer-legal {
           justify-content: center;
-        }
-
-        .nav-actions {
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .nav-cta {
-          width: 100%;
-          text-align: center;
-        }
-
-        .nav-cta .btn {
-          width: 100%;
-          max-width: 280px;
         }
       }
 
@@ -640,7 +748,7 @@ const structuredData = {
         position: absolute;
         top: -40px;
         left: 6px;
-        background: var(--crimson-primary);
+        background: var(--accent0);
         color: white;
         padding: 8px;
         text-decoration: none;

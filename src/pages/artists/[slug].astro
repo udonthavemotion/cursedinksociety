@@ -1,6 +1,8 @@
 ---
 // Dynamic artist profile page
 import Layout from '../../layouts/Layout.astro';
+import ArtistPortfolioGallery from '../../components/ArtistPortfolioGallery.astro';
+import MicroInteractions from '../../components/MicroInteractions.astro';
 import cisData from '../../data/cis.json';
 
 export async function getStaticPaths() {
@@ -13,10 +15,226 @@ export async function getStaticPaths() {
 const { artist } = Astro.props;
 const title = `${artist.name} — Tattoo Artist | Cursed Ink Society`;
 const description = `${artist.positioning} Specializing in ${artist.specialties.join(', ')}. View ${artist.name}'s portfolio and book a consultation at Cursed Ink Society.`;
+
+// Check if this is Cody's page for special RPG layout
+const isCodyPage = artist.slug === 'cody-crochet';
+
+// Cody's RPG-style data - Anime & Color Specialist
+const codyData = {
+  stats: { hp: 98, atk: 92, def: 95, ink: 100 },
+  moves: [
+    { title: "Anime Awakening", desc: "Brings anime characters to life with vibrant colors and emotional depth." },
+    { title: "Color Symphony", desc: "Creates stunning color palettes that tell stories through hue and saturation." },
+    { title: "Manga Precision", desc: "Captures the intricate linework and shading of manga illustrations." },
+    { title: "Character Genesis", desc: "Breathes life into beloved characters with photorealistic anime styling." }
+  ],
+  badges: ["Anime Master", "Color Virtuoso", "Manga Artist", "Character Creator", "10yr Veteran"],
+  rates: "$180-220/hr • $150 min"
+};
 ---
 
 <Layout title={title} description={description}>
-  <!-- Artist Hero Section -->
+  <!-- Micro Interactions -->
+  <MicroInteractions />
+
+  {isCodyPage ? (
+    <!-- CODY'S RPG TRAINER CARD LAYOUT -->
+    
+    <!-- Scanline Overlay -->
+    <div class="rpg-scanlines"></div>
+    
+    <!-- Hero "Trainer Card" -->
+    <section class="rpg-hero">
+    <div class="container">
+        <div class="trainer-card">
+          <div class="trainer-portrait">
+            <div class="pixel-frame">
+          <img
+            src={artist.avatar}
+                alt={`${artist.name} - Tattoo Trainer`}
+                class="portrait-image"
+            loading="lazy"
+                width="320"
+            height="400"
+          />
+        </div>
+            </div>
+          
+          <div class="trainer-info">
+            <div class="trainer-badge">
+              <span class="pixel-badge">⚡ TATTOO MASTER</span>
+            </div>
+            <h1 class="trainer-name">{artist.name}</h1>
+            <p class="trainer-class">
+              {artist.slug === 'cody-crochet' ? 'Anime & Color Specialist' : artist.positioning.split(' - ')[0]}
+            </p>
+            <div class="trainer-location">📍 Houma, LA</div>
+            <div class="trainer-exp">🎖️ {artist.experience}</div>
+            
+            <!-- Stats Strip -->
+            <div class="stats-strip">
+              <div class="stat-bar">
+                <span class="stat-label">HP</span>
+                <div class="stat-fill">
+                  <div class="stat-value" style={`width: ${codyData.stats.hp}%`}></div>
+            </div>
+                <span class="stat-num">{codyData.stats.hp}</span>
+            </div>
+              <div class="stat-bar">
+                <span class="stat-label">ATK</span>
+                <div class="stat-fill">
+                  <div class="stat-value" style={`width: ${codyData.stats.atk}%`}></div>
+          </div>
+                <span class="stat-num">{codyData.stats.atk}</span>
+        </div>
+              <div class="stat-bar">
+                <span class="stat-label">DEF</span>
+                <div class="stat-fill">
+                  <div class="stat-value" style={`width: ${codyData.stats.def}%`}></div>
+                </div>
+                <span class="stat-num">{codyData.stats.def}</span>
+              </div>
+              <div class="stat-bar">
+                <span class="stat-label">INK</span>
+                <div class="stat-fill">
+                  <div class="stat-value ink-special" style={`width: ${codyData.stats.ink}%`}></div>
+                </div>
+                <span class="stat-num">{codyData.stats.ink}%</span>
+              </div>
+            </div>
+            
+            <!-- Primary CTAs -->
+            <div class="trainer-actions">
+              <a href={artist.cta.url} class="btn-primary rpg-btn" target="_blank" rel="noopener">
+                📱 DM Cody on Instagram
+              </a>
+              <a href="#cody-gallery" class="btn-secondary rpg-btn">
+                🎨 View Gallery
+              </a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- MoveSet (Services) Section -->
+    <section class="rpg-moveset">
+    <div class="container">
+        <h2 class="section-title">⚔️ Signature Moves</h2>
+        <div class="moves-grid">
+          {codyData.moves.map((move, index) => (
+            <div class="move-card" style={`animation-delay: ${index * 0.1}s`}>
+              <div class="move-header">
+                <h3 class="move-name">{move.title}</h3>
+                <div class="move-type">Special</div>
+            </div>
+              <p class="move-description">{move.desc}</p>
+              <div class="move-stats">
+                <div class="move-power">Power: ⭐⭐⭐⭐⭐</div>
+                <div class="move-accuracy">Accuracy: 100%</div>
+              </div>
+          </div>
+        ))}
+      </div>
+        <div class="rates-banner">
+          <div class="rates-content">
+            <span class="rates-label">💰 Battle Rates:</span>
+            <span class="rates-price">{codyData.rates}</span>
+          </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Badges (Expertise) Section -->
+    <section class="rpg-badges">
+      <div class="container">
+        <h2 class="section-title">🏆 Earned Badges</h2>
+        <div class="badges-container">
+          {codyData.badges.map((badge, index) => (
+            <div class="badge-pill" style={`animation-delay: ${index * 0.1}s`}>
+              <span class="badge-text">{badge}</span>
+            </div>
+          ))}
+            </div>
+        <div class="achievement-note">
+          <div class="achievement-icon">🎖️</div>
+          <p class="achievement-text">
+            Badges earned through years of dedicated practice and countless satisfied clients. 
+            Each represents mastery in a specific tattoo discipline.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery (Masonry) Section -->
+    <section class="rpg-gallery" id="cody-gallery">
+      <div class="container">
+        <h2 class="section-title">🎨 Battle Gallery</h2>
+        <p class="gallery-subtitle">Legendary works from the battlefield</p>
+        <div class="masonry-grid">
+          {artist.portfolio.map((image, index) => (
+            <div class="masonry-item" style={`animation-delay: ${index * 0.05}s`}>
+              <div class="pixel-gallery-frame" tabindex="0" role="button" aria-label={`View ${artist.name} tattoo work ${index + 1}`}>
+                <img
+                  src={image}
+                  alt={`${artist.name} tattoo work ${index + 1} - ${artist.specialties[index % artist.specialties.length]} style tattoo`}
+                  class="gallery-image"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="image-overlay">
+                  <div class="overlay-content">
+                    <div class="work-label">Epic Work #{index + 1}</div>
+                    <div class="zoom-hint">👁️ View Details</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="gallery-footer">
+          <div class="gallery-stats">
+            <div class="stat-item">
+              <span class="stat-number">{artist.portfolio.length}</span>
+              <span class="stat-label">Epic Pieces</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Client Satisfaction</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">{artist.experience}</span>
+              <span class="stat-label">Experience</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Bar -->
+    <section class="rpg-cta-bar">
+    <div class="container">
+        <div class="cta-bar-content">
+          <div class="cta-left">
+            <div class="cta-icon">💬</div>
+            <div class="cta-text">
+              <div class="cta-title">Questions?</div>
+              <div class="cta-subtitle">DM us on Instagram</div>
+            </div>
+          </div>
+        <div class="cta-actions">
+            <a href="https://instagram.com/cursedingksociety" class="btn-instagram rpg-btn" target="_blank" rel="noopener">
+              📱 @cursedingksociety
+          </a>
+            <a href={artist.cta.url} class="btn-book rpg-btn" target="_blank" rel="noopener">
+              📱 DM Cody on Instagram
+            </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  ) : (
+    <!-- ORIGINAL LAYOUT FOR OTHER ARTISTS -->
   <section class="artist-hero">
     <div class="container">
       <div class="artist-hero-content">
@@ -30,11 +248,11 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
             height="400"
           />
         </div>
-        <div class="artist-hero-info">
-          <div class="artist-badge">
-            <span class="badge">Master Artist</span>
-          </div>
-          <h1 class="artist-hero-name shine">{artist.name}</h1>
+          <div class="artist-hero-info">
+            <div class="artist-badge">
+              <span class="badge glow-text">Master Artist</span>
+            </div>
+            <h1 class="artist-hero-name shine interactive-element">{artist.name}</h1>
           <p class="artist-hero-positioning">{artist.positioning}</p>
 
           <div class="artist-quick-stats">
@@ -55,67 +273,322 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
       </div>
     </div>
   </section>
+  )}
 
-  <!-- Artist Specialties Section -->
-  <section class="artist-specialties">
-    <div class="container">
-      <h2>Specialties & Expertise</h2>
-      <div class="specialties-grid">
-        {artist.specialties.map((specialty) => (
-          <div class="specialty-card">
-            <div class="specialty-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-            </div>
-            <h3>{specialty}</h3>
-            <p>Expert-level proficiency in {specialty.toLowerCase()} techniques and styles.</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Work Gallery -->
-  {artist.featuredWork && artist.featuredWork.length > 0 && (
-    <section class="artist-gallery">
+  <!-- OSRS SKILL PANEL FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <section class="osrs-skills-panel">
       <div class="container">
-        <h2>Featured Work</h2>
-        <div class="gallery-grid">
-          {artist.featuredWork.map((image, index) => (
-            <div class="gallery-item">
-              <img
-                src={image}
-                alt={`${artist.name} tattoo artwork ${index + 1}`}
-                class="gallery-image"
-                loading="lazy"
-                width="400"
-                height="400"
-              />
+        <h2 class="osrs-section-title">⚔️ Master Skills</h2>
+        <p class="osrs-section-subtitle">Forged through 12+ years of dedication</p>
+
+        <div class="osrs-skills-grid">
+          {[
+            { name: "Geometric", level: 94, desc: "Precision geometric patterns and sacred geometry mastery" },
+            { name: "Bold Linework", level: 91, desc: "Powerful, clean lines that command attention" },
+            { name: "Abstract", level: 88, desc: "Creative compositions that transcend traditional boundaries" },
+            { name: "Precision", level: 89, desc: "Surgical accuracy in every stroke and placement" },
+            { name: "Color Theory", level: 85, desc: "Harmonious color palettes and gradient expertise" },
+            { name: "Healing", level: 86, desc: "Clean, fast-healing work with minimal downtime" }
+          ].map((skill) => (
+            <div class="osrs-skill-row">
+              <div class="osrs-skill-icon">
+                <div class="osrs-skill-circle"></div>
+              </div>
+              <div class="osrs-skill-info">
+                <div class="osrs-skill-name">{skill.name}</div>
+                <div class="osrs-skill-desc">{skill.desc}</div>
+              </div>
+              <div class="osrs-skill-bar">
+                <div class="osrs-skill-fill" style={`width: ${skill.level}%`}></div>
+                <div class="osrs-skill-fill-shine"></div>
+              </div>
+              <div class="osrs-skill-level">{skill.level}</div>
             </div>
           ))}
+        </div>
+
+        <div class="osrs-total-level">
+          <div class="osrs-total-badge">
+            <span class="osrs-total-text">Total Level: 533</span>
+            <span class="osrs-total-desc">Master Tattoo Artist</span>
+          </div>
         </div>
       </div>
     </section>
   )}
 
-  <!-- Artist CTA Section -->
-  <section class="artist-cta">
-    <div class="container">
-      <div class="cta-content">
-        <h2>Ready to Work with {artist.name.split(' ')[0]}?</h2>
-        <p>Book a free consultation to discuss your vision and start your tattoo journey.</p>
-        <div class="cta-actions">
-          <a href={artist.cta.url} class="btn btn--primary btn--large" target="_blank" rel="noopener">
-            {artist.cta.text}
-          </a>
-          <a href="/artists" class="btn btn--outline btn--large">
-            View All Artists
-          </a>
+  <!-- OSRS QUEST SCROLL BIO FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <section class="osrs-quest-scroll">
+      <div class="container">
+        <div class="osrs-quest-container">
+          <h2 class="osrs-quest-title">📜 Quest: About Luis</h2>
+
+          <div class="osrs-parchment">
+            <p class="osrs-bio-text">
+              {artist.bio}
+            </p>
+
+            <div class="osrs-quest-rewards">
+              <h3 class="osrs-rewards-title">🏆 Quest Rewards</h3>
+              <div class="osrs-rewards-grid">
+                <div class="osrs-reward-item">
+                  <span class="osrs-reward-icon">⭐</span>
+                  <span class="osrs-reward-text">Clean Heals</span>
+                </div>
+                <div class="osrs-reward-item">
+                  <span class="osrs-reward-icon">⭐</span>
+                  <span class="osrs-reward-text">High Contrast</span>
+                </div>
+                <div class="osrs-reward-item">
+                  <span class="osrs-reward-icon">⭐</span>
+                  <span class="osrs-reward-text">Consultation</span>
+                </div>
+                <div class="osrs-reward-item">
+                  <span class="osrs-reward-icon">⭐</span>
+                  <span class="osrs-reward-text">12+ Years Experience</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="osrs-quest-requirements">
+              <div class="osrs-requirements-box">
+                <span class="osrs-requirements-label">Requirements:</span>
+                <span class="osrs-requirements-text">Consultation • Deposit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- OSRS INVENTORY GALLERY FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <section class="osrs-inventory-gallery">
+      <div class="container">
+        <h2 class="osrs-gallery-title">🎒 Artist's Bank</h2>
+        <p class="osrs-gallery-subtitle">Epic pieces from the vault</p>
+
+        <div class="osrs-inventory-grid">
+          {artist.portfolio.map((image, index) => (
+            <a
+              href={image}
+              class="osrs-inventory-slot"
+              aria-label={`View Luis Reymundo tattoo work ${index + 1}`}
+            >
+              <div class="osrs-slot-frame">
+                <img
+                  src={image}
+                  alt={`Luis Reymundo tattoo work ${index + 1}`}
+                  class="osrs-slot-image"
+                  loading="lazy"
+                />
+                <div class="osrs-slot-overlay">
+                  <div class="osrs-slot-label">Epic Work #{index + 1}</div>
+                  <div class="osrs-view-hint">👁️ View Details</div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="osrs-bank-footer">
+          <div class="osrs-bank-stats">
+            <div class="osrs-stat-item">
+              <span class="osrs-stat-number">{artist.portfolio.length}</span>
+              <span class="osrs-stat-label">Epic Pieces</span>
+            </div>
+            <div class="osrs-stat-item">
+              <span class="osrs-stat-number">12+</span>
+              <span class="osrs-stat-label">Years Crafting</span>
+            </div>
+            <div class="osrs-stat-item">
+              <span class="osrs-stat-number">100%</span>
+              <span class="osrs-stat-label">Client Satisfaction</span>
+            </div>
+          </div>
+
+          <div class="osrs-bank-link">
+            <a href="/gallery?artist=luis" class="osrs-bank-link-btn">
+              📂 View Full Bank →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- OSRS MOVES LIST FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <section class="osrs-moves-section">
+      <div class="container">
+        <h2 class="osrs-moves-title">⚔️ Signature Moves</h2>
+        <p class="osrs-moves-subtitle">Master techniques honed over 12+ years</p>
+
+        <div class="osrs-moves-list">
+          {[
+            {
+              title: "Geometric Precision",
+              desc: "Surgical accuracy in geometric patterns and sacred geometry compositions.",
+              power: "⭐⭐⭐⭐⭐",
+              accuracy: "99%",
+              rate: "$180–220/hr"
+            },
+            {
+              title: "Bold Line Mastery",
+              desc: "Powerful, clean lines that demand attention and heal flawlessly.",
+              power: "⭐⭐⭐⭐⭐",
+              accuracy: "98%",
+              rate: "$180–220/hr"
+            },
+            {
+              title: "Abstract Vision",
+              desc: "Creative compositions that transcend traditional boundaries.",
+              power: "⭐⭐⭐⭐⭐",
+              accuracy: "97%",
+              rate: "$180–220/hr"
+            },
+            {
+              title: "Detail Symphony",
+              desc: "Intricate shading and highlighting that brings depth to any piece.",
+              power: "⭐⭐⭐⭐⭐",
+              accuracy: "96%",
+              rate: "$180–220/hr"
+            }
+          ].map((move, index) => (
+            <div class="osrs-move-item" style={`animation-delay: ${index * 0.1}s`}>
+              <div class="osrs-move-header">
+                <div class="osrs-move-caret">►</div>
+                <h3 class="osrs-move-name">{move.title}</h3>
+                <div class="osrs-move-type">Special</div>
+              </div>
+              <p class="osrs-move-description">{move.desc}</p>
+              <div class="osrs-move-stats">
+                <div class="osrs-move-power">Power: {move.power}</div>
+                <div class="osrs-move-accuracy">Accuracy: {move.accuracy}</div>
+              </div>
+              <div class="osrs-move-rate">{move.rate}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="osrs-booking-prompt">
+          <div class="osrs-prompt-content">
+            <div class="osrs-prompt-icon">🎯</div>
+            <div class="osrs-prompt-text">
+              <div class="osrs-prompt-title">Ready to Level Up?</div>
+              <div class="osrs-prompt-subtitle">Book a consultation to unlock your custom piece</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- OSRS CHATBOX TESTIMONIALS FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <section class="osrs-chatbox-section">
+      <div class="container">
+        <h2 class="osrs-chatbox-title">💬 Adventurer Reviews</h2>
+        <p class="osrs-chatbox-subtitle">What fellow adventurers are saying</p>
+
+        <div class="osrs-chatbox-container">
+          <div class="osrs-chatbox-window">
+            <div class="osrs-chatbox-header">
+              <span class="osrs-chatbox-label">World 666 - General Chat</span>
+              <div class="osrs-chatbox-controls">
+                <span class="osrs-chatbox-minimize">_</span>
+                <span class="osrs-chatbox-close">×</span>
+              </div>
+            </div>
+
+            <div class="osrs-chatbox-messages">
+              {[
+                { user: "EpicClient42", message: "Just got my geometric mandala from Luis. Lines are so clean, healed perfect in 2 weeks. 10/10 would recommend!", time: "2 hours ago", type: "player" },
+                { user: "InkWarrior99", message: "Luis's bold line work is insane. The detail on my abstract piece is mind-blowing. Worth every penny!", time: "1 day ago", type: "player" },
+                { user: "TattooNoob87", message: "First time getting tattooed, went with Luis for geometric sleeve. No regrets! Professional, clean, and the shop is awesome.", time: "3 days ago", type: "player" },
+                { user: "ArtLover2024", message: "Luis brought my vision to life perfectly. The precision and creativity in his work is unmatched. 5 stars!", time: "1 week ago", type: "player" },
+                { user: "RepeatCustomer", message: "Back for my 3rd piece with Luis. His geometric work just keeps getting better. Cursed Ink Society is the best in Houma!", time: "2 weeks ago", type: "player" }
+              ].map((chat, index) => (
+                <div class="osrs-chat-message" style={`animation-delay: ${index * 0.2}s`}>
+                  <span class="osrs-chat-user" class={chat.type}>{chat.user}:</span>
+                  <span class="osrs-chat-text">{chat.message}</span>
+                  <span class="osrs-chat-time">({chat.time})</span>
+                </div>
+              ))}
+            </div>
+
+            <div class="osrs-chatbox-input">
+              <input
+                type="text"
+                placeholder="Click here to join the conversation..."
+                class="osrs-chat-input"
+                readonly
+              />
+            </div>
+          </div>
+
+          <div class="osrs-chatbox-sidebar">
+            <div class="osrs-online-players">
+              <h3 class="osrs-online-title">Players Online (12+)</h3>
+              <div class="osrs-player-list">
+                <div class="osrs-player-item">🎨 Luis_Reymundo</div>
+                <div class="osrs-player-item">⚔️ Cursed_Ink_Society</div>
+                <div class="osrs-player-item">⭐ Satisfied_Client</div>
+                <div class="osrs-player-item">🎯 Future_Ink_Seeker</div>
+              </div>
+            </div>
+
+            <div class="osrs-chat-stats">
+              <div class="osrs-stat-box">
+                <div class="osrs-stat-number">500+</div>
+                <div class="osrs-stat-label">Happy Adventurers</div>
+              </div>
+              <div class="osrs-stat-box">
+                <div class="osrs-stat-number">4.9</div>
+                <div class="osrs-stat-label">Average Rating</div>
+              </div>
+              <div class="osrs-stat-box">
+                <div class="osrs-stat-number">12+</div>
+                <div class="osrs-stat-label">Years Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- OSRS STICKY ACTION BAR FOR LUIS -->
+  {artist.slug === 'luis-reymundo' && (
+    <div class="osrs-sticky-bar">
+      <div class="osrs-sticky-container">
+        <div class="osrs-sticky-content">
+          <div class="osrs-sticky-left">
+            <div class="osrs-sticky-icon">🎯</div>
+            <div class="osrs-sticky-text">
+              <div class="osrs-sticky-title">Ready to Level Up?</div>
+              <div class="osrs-sticky-subtitle">Book your custom piece</div>
+            </div>
+          </div>
+
+          <div class="osrs-sticky-actions">
+            <a href={artist.cta.url} class="osrs-sticky-btn osrs-sticky-primary" target="_blank" rel="noopener">
+              <span class="osrs-sticky-btn-icon">⚔️</span>
+              <span class="osrs-sticky-btn-text">DM Luis</span>
+            </a>
+
+            <a href="/gallery?artist=luis" class="osrs-sticky-btn osrs-sticky-secondary">
+              <span class="osrs-sticky-btn-icon">🎒</span>
+              <span class="osrs-sticky-btn-text">View Bank</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  )}
 
   <!-- Contact Information -->
   <section class="artist-contact">
@@ -141,12 +614,1110 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
 </Layout>
 
 <style>
-  /* Artist Hero */
+  /* RPG STYLES FOR CODY */
+  .rpg-scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px);
+    background-size: 100% 3px;
+    opacity: 0.3;
+    animation: scanlineFlicker 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes scanlineFlicker {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Accessibility improvements */
+  @media (prefers-reduced-motion: reduce) {
+    .rpg-scanlines,
+    .move-card,
+    .badge-pill,
+    .masonry-item,
+    .stat-value {
+      animation: none !important;
+    }
+    
+    .trainer-card,
+    .move-card,
+    .pixel-gallery-frame,
+    .badge-pill {
+      transition: none !important;
+    }
+  }
+
+  /* Focus states for accessibility */
+  .rpg-btn:focus,
+  .pixel-gallery-frame:focus {
+    outline: 2px solid #8a2be2;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.3);
+  }
+
+  .badge-pill:focus {
+    outline: 2px solid #8a2be2;
+    outline-offset: 2px;
+    transform: scale(1.05);
+  }
+
+  /* Keyboard navigation for gallery */
+  .pixel-gallery-frame:focus .image-overlay,
+  .pixel-gallery-frame:focus-within .image-overlay {
+    opacity: 1;
+  }
+
+  .pixel-gallery-frame:focus .overlay-content,
+  .pixel-gallery-frame:focus-within .overlay-content {
+    transform: translateY(0);
+  }
+
+  /* Enhanced button interactions */
+  .rpg-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .rpg-hero {
+    padding: 6rem 0 4rem;
+    background:
+      radial-gradient(800px 600px at 50% 30%, rgba(138, 43, 226, 0.06) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0a0c, #111114);
+    position: relative;
+    z-index: 2;
+  }
+
+  .trainer-card {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 4rem;
+    align-items: start;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 80px rgba(138, 43, 226, 0.08);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trainer-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      transparent 30%, 
+      rgba(220, 20, 60, 0.1) 50%, 
+      transparent 70%
+    );
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
+
+  .trainer-card:hover::before {
+    opacity: 1;
+  }
+
+  .trainer-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(138, 43, 226, 0.15) inset,
+      0 25px 50px rgba(0, 0, 0, 0.4),
+      0 0 100px rgba(138, 43, 226, 0.15);
+  }
+
+  .pixel-frame {
+    position: relative;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 0 20px rgba(138, 43, 226, 0.2);
+  }
+
+  .portrait-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .pixel-frame:hover .portrait-image {
+    transform: scale(1.02);
+  }
+
+  .trainer-info {
+    padding: 1rem 0;
+  }
+
+  .pixel-badge {
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .trainer-name {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 0.5rem;
+    text-shadow:
+      2px 2px 0 rgba(138, 43, 226, 0.4),
+      0 0 20px rgba(138, 43, 226, 0.2);
+    line-height: 1.1;
+  }
+
+  .trainer-class {
+    font-size: 1.2rem;
+    color: #8a2be2;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+  }
+
+  .trainer-location,
+  .trainer-exp {
+    font-size: 1rem;
+    color: rgba(245, 245, 245, 0.8);
+    margin: 0.5rem 0;
+    font-weight: 500;
+  }
+
+  .stats-strip {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  }
+
+  .stat-bar {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.75rem 0;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: rgba(245, 245, 245, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .stat-fill {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .stat-value {
+    height: 100%;
+    background: linear-gradient(90deg, #8a2be2, #6a0dad);
+    border-radius: 3px;
+    transition: width 0.8s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 8px rgba(138, 43, 226, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-value::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: statShine 2s ease-in-out infinite;
+  }
+
+  @keyframes statShine {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+  }
+
+  .stat-value.ink-special {
+    background: linear-gradient(90deg, #dc143c, #ff6b7a, #ffd700);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+  }
+
+  .stats-strip:hover .stat-value {
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.8);
+  }
+
+  .stats-strip:hover .stat-value.ink-special {
+    box-shadow: 0 0 18px rgba(255, 215, 0, 1);
+  }
+
+  .stat-num {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #8a2be2;
+    text-align: right;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.4);
+  }
+
+  .trainer-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .rpg-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 4px 12px rgba(138, 43, 226, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(138, 43, 226, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+
+  .btn-secondary {
+    background: rgba(0, 0, 0, 0.4);
+    color: #f5f5f5;
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(220, 20, 60, 0.1);
+    border-color: rgba(220, 20, 60, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Mobile Optimizations for RPG Layout */
+  @media (max-width: 768px) {
+    .rpg-hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .trainer-card {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin: 0 1rem;
+    }
+
+    .pixel-frame {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .trainer-name {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .trainer-class {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trainer-actions {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+
+    .rpg-btn {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    .stats-strip {
+      margin: 2rem 0;
+      padding: 1.5rem;
+    }
+
+    .stat-bar {
+      margin: 1rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trainer-card {
+      margin: 0 0.5rem;
+      padding: 1.5rem 1rem;
+    }
+
+    .pixel-frame {
+      max-width: 240px;
+    }
+
+    .trainer-name {
+      font-size: 2.2rem;
+    }
+  }
+
+  /* RPG MoveSet Section */
+  .rpg-moveset {
+    padding: 6rem 0;
+    background:
+      radial-gradient(600px 400px at 80% 20%, rgba(138, 43, 226, 0.04) 0%, transparent 70%),
+      linear-gradient(180deg, #111114, #0a0a0c);
+    position: relative;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 3rem;
+    text-shadow:
+      2px 2px 0 rgba(138, 43, 226, 0.4),
+      0 0 20px rgba(138, 43, 226, 0.2);
+  }
+
+  .moves-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .move-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease forwards;
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes slideInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .move-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(138, 43, 226, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(138, 43, 226, 0.2) inset,
+      0 12px 32px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(138, 43, 226, 0.2);
+  }
+
+  .move-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .move-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #8a2be2;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  }
+
+  .move-type {
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .move-description {
+    color: rgba(245, 245, 245, 0.9);
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+  }
+
+  .move-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(245, 245, 245, 0.7);
+  }
+
+  .move-power {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  }
+
+  .move-accuracy {
+    color: #32cd32;
+    text-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
+  }
+
+  .rates-banner {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(75, 0, 130, 0.15));
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px rgba(138, 43, 226, 0.1) inset,
+      0 8px 24px rgba(138, 43, 226, 0.1);
+  }
+
+  .rates-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .rates-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(245, 245, 245, 0.8);
+  }
+
+  .rates-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #8a2be2;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+  }
+
+  /* Mobile Optimizations for MoveSet */
+  @media (max-width: 768px) {
+    .rpg-moveset {
+      padding: 4rem 0;
+    }
+
+    .moves-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .move-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .move-stats {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .rates-content {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  /* RPG Badges Section */
+  .rpg-badges {
+    padding: 5rem 0;
+    background:
+      radial-gradient(500px 300px at 20% 80%, rgba(138, 43, 226, 0.04) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0a0c, #111114);
+    position: relative;
+  }
+
+  .badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .badge-pill {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: badgeAppear 0.5s ease forwards;
+    cursor: default;
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+      0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes badgeAppear {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .badge-pill:hover {
+    transform: scale(1.05);
+    border-color: rgba(138, 43, 226, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(138, 43, 226, 0.2) inset,
+      0 6px 20px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(138, 43, 226, 0.3);
+  }
+
+  .badge-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f5f5f5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.3);
+  }
+
+  .achievement-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  }
+
+  .achievement-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.5));
+  }
+
+  .achievement-text {
+    color: rgba(245, 245, 245, 0.8);
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* Mobile Optimizations for Badges */
+  @media (max-width: 768px) {
+    .rpg-badges {
+      padding: 4rem 0;
+    }
+
+    .badges-container {
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .badge-pill {
+      padding: 0.5rem 1rem;
+    }
+
+    .badge-text {
+      font-size: 0.8rem;
+    }
+
+    .achievement-note {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .achievement-icon {
+      font-size: 1.5rem;
+    }
+
+    .achievement-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* RPG Gallery Section */
+  .rpg-gallery {
+    padding: 6rem 0;
+    background:
+      radial-gradient(700px 500px at 70% 30%, rgba(138, 43, 226, 0.06) 0%, transparent 70%),
+      linear-gradient(180deg, #111114, #0a0a0c);
+    position: relative;
+  }
+
+  .gallery-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin: -1rem 0 3rem;
+    font-style: italic;
+  }
+
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 1200px) {
+    .masonry-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  .masonry-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: galleryItemAppear 0.6s ease forwards;
+  }
+
+  @keyframes galleryItemAppear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pixel-gallery-frame {
+    position: relative;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .pixel-gallery-frame:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(138, 43, 226, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(138, 43, 226, 0.2) inset,
+      0 12px 32px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(138, 43, 226, 0.3);
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(0, 0, 0, 0.2));
+  }
+
+  .gallery-image:not([src]) {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(0, 0, 0, 0.2));
+    position: relative;
+  }
+
+  .gallery-image:not([src])::after {
+    content: '🎨';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    opacity: 0.3;
+  }
+
+  .pixel-gallery-frame:hover .gallery-image {
+    transform: scale(1.05);
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(138, 43, 226, 0.3) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pixel-gallery-frame:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-content {
+    text-align: center;
+    color: white;
+    transform: translateY(10px);
+    transition: transform 0.3s ease;
+  }
+
+  .pixel-gallery-frame:hover .overlay-content {
+    transform: translateY(0);
+  }
+
+  .work-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .zoom-hint {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .gallery-footer {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  }
+
+  .gallery-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .gallery-stats .stat-item {
+    padding: 1rem;
+  }
+
+  .gallery-stats .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #8a2be2;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .gallery-stats .stat-label {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Mobile Optimizations for Gallery */
+  @media (max-width: 768px) {
+    .rpg-gallery {
+      padding: 4rem 0;
+    }
+
+    .masonry-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .gallery-image {
+      height: 200px;
+    }
+
+    .gallery-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .gallery-stats .stat-number {
+      font-size: 1.5rem;
+    }
+
+    .work-label {
+      font-size: 1rem;
+    }
+
+    .zoom-hint {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .masonry-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-image {
+      height: 250px;
+    }
+  }
+
+  /* RPG Final CTA Bar */
+  .rpg-cta-bar {
+    padding: 4rem 0;
+    background:
+      linear-gradient(135deg, rgba(138, 43, 226, 0.08), rgba(75, 0, 130, 0.05)),
+      linear-gradient(180deg, #0a0a0c, #000000);
+    border-top: 2px solid rgba(138, 43, 226, 0.2);
+    position: relative;
+  }
+
+  .cta-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .cta-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .cta-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.5));
+  }
+
+  .cta-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  }
+
+  .cta-subtitle {
+    font-size: 1rem;
+    color: rgba(245, 245, 245, 0.7);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn-instagram {
+    background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      0 4px 12px rgba(225, 48, 108, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .btn-instagram:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(225, 48, 108, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+
+  .btn-book {
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 4px 12px rgba(138, 43, 226, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-book:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(138, 43, 226, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  }
+
+  .btn-book::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-book:hover::before {
+    left: 100%;
+  }
+
+  /* Mobile Optimizations for CTA Bar */
+  @media (max-width: 768px) {
+    .rpg-cta-bar {
+      padding: 3rem 0;
+    }
+
+    .cta-bar-content {
+      flex-direction: column;
+      gap: 2rem;
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .cta-left {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .cta-icon {
+      font-size: 2rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .rpg-btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  /* Original Artist Hero (for non-Cody pages) */
   .artist-hero {
     padding: 6rem 0 4rem;
     background:
       radial-gradient(1200px 800px at 30% 10%, rgba(255, 60, 43, 0.03) 0%, transparent 60%),
       linear-gradient(180deg, var(--bg0), var(--bg1));
+  }
+
+  /* Artist Bio Section */
+  .artist-bio {
+    padding: 6rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
+    border-bottom: var(--border-glass);
+  }
+
+  .bio-content h2 {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin: 0 0 2rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .bio-text {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin: 0 0 3rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+
+  .artist-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-primary);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .artist-hero-content {
@@ -408,6 +1979,24 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
       gap: 1.5rem;
     }
 
+    .artist-bio {
+      padding: 4rem 0;
+    }
+
+    .bio-text {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .artist-stats {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+    }
+
     .specialties-grid {
       grid-template-columns: 1fr;
     }
@@ -429,6 +2018,1372 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
     .contact-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+  }
+
+  /* OSRS SKILLS PANEL STYLES */
+  .osrs-skills-panel {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #111114, #0a0a0c);
+    position: relative;
+  }
+
+  .osrs-section-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 1rem;
+    text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin: -0.5rem 0 3rem;
+    font-style: italic;
+  }
+
+  .osrs-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .osrs-skill-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 120px 50px;
+    gap: 1rem;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .osrs-skill-row:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.2),
+      0 0 15px rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .osrs-skill-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .osrs-skill-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(185, 147, 31, 0.3));
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  }
+
+  .osrs-skill-info {
+    flex: 1;
+  }
+
+  .osrs-skill-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 0.25rem;
+    text-shadow: 1px 1px 0 rgba(212, 175, 55, 0.3);
+  }
+
+  .osrs-skill-desc {
+    font-size: 0.85rem;
+    color: rgba(245, 245, 245, 0.7);
+    line-height: 1.4;
+  }
+
+  .osrs-skill-bar {
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .osrs-skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #b9931f);
+    border-radius: 5px;
+    transition: width 1s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .osrs-skill-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: skillShine 3s ease-in-out infinite;
+  }
+
+  @keyframes skillShine {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+  }
+
+  .osrs-skill-level {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: right;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-total-level {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .osrs-total-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(185, 147, 31, 0.15));
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 2rem 3rem;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.1),
+      0 8px 24px rgba(212, 175, 55, 0.1);
+  }
+
+  .osrs-total-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #d4af37;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  .osrs-total-desc {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  /* Mobile optimizations for skills panel */
+  @media (max-width: 768px) {
+    .osrs-skills-panel {
+      padding: 4rem 0;
+    }
+
+    .osrs-skills-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    .osrs-skill-row {
+      grid-template-columns: 30px 1fr 80px 40px;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .osrs-skill-name {
+      font-size: 1rem;
+    }
+
+    .osrs-skill-desc {
+      font-size: 0.8rem;
+    }
+
+    .osrs-skill-bar {
+      height: 10px;
+    }
+
+    .osrs-total-badge {
+      padding: 1.5rem 2rem;
+    }
+
+    .osrs-total-text {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-skill-row {
+      grid-template-columns: 25px 1fr 70px 35px;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .osrs-skill-circle {
+      width: 16px;
+      height: 16px;
+    }
+
+    .osrs-skill-name {
+      font-size: 0.95rem;
+    }
+
+    .osrs-skill-desc {
+      font-size: 0.75rem;
+    }
+
+    .osrs-total-badge {
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  /* OSRS QUEST SCROLL BIO STYLES */
+  .osrs-quest-scroll {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #0a0a0c, #111114);
+    position: relative;
+  }
+
+  .osrs-quest-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .osrs-quest-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 2rem;
+    text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-parchment {
+    background: linear-gradient(135deg, #f1e8c6 0%, #e3d7aa 100%);
+    border: 3px solid rgba(185, 147, 31, 0.3);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 0 40px rgba(212, 175, 55, 0.1);
+    position: relative;
+    color: #3a2d12;
+  }
+
+  .osrs-parchment::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(212, 175, 55, 0.2) 50%,
+      transparent 70%
+    );
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .osrs-parchment:hover::before {
+    opacity: 1;
+  }
+
+  .osrs-bio-text {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+    text-align: center;
+    font-weight: 500;
+    color: #3a2d12;
+  }
+
+  .osrs-quest-rewards {
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .osrs-rewards-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2a1f0f;
+    margin: 0 0 1.5rem;
+    text-shadow: 1px 1px 0 rgba(185, 147, 31, 0.3);
+  }
+
+  .osrs-rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .osrs-reward-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(42, 31, 15, 0.1);
+    border: 1px solid rgba(185, 147, 31, 0.3);
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .osrs-reward-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-reward-icon {
+    font-size: 1.1rem;
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.5));
+  }
+
+  .osrs-reward-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2a1f0f;
+  }
+
+  .osrs-quest-requirements {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .osrs-requirements-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(42, 31, 15, 0.15);
+    border: 2px solid rgba(185, 147, 31, 0.4);
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .osrs-requirements-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2a1f0f;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .osrs-requirements-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #d4af37;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Mobile optimizations for quest scroll */
+  @media (max-width: 768px) {
+    .osrs-quest-scroll {
+      padding: 4rem 0;
+    }
+
+    .osrs-quest-container {
+      padding: 0 1rem;
+    }
+
+    .osrs-quest-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .osrs-parchment {
+      padding: 2rem 1.5rem;
+    }
+
+    .osrs-bio-text {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .osrs-rewards-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .osrs-reward-item {
+      padding: 0.6rem;
+    }
+
+    .osrs-requirements-box {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-parchment {
+      padding: 1.5rem 1rem;
+    }
+
+    .osrs-quest-title {
+      font-size: 1.8rem;
+    }
+
+    .osrs-bio-text {
+      font-size: 1rem;
+    }
+
+    .osrs-rewards-title {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* OSRS INVENTORY GALLERY STYLES */
+  .osrs-inventory-gallery {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #111114, #0a0a0c);
+    position: relative;
+  }
+
+  .osrs-gallery-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 1rem;
+    text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-gallery-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin: -0.5rem 0 3rem;
+    font-style: italic;
+  }
+
+  .osrs-inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .osrs-inventory-slot {
+    display: block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .osrs-inventory-slot:hover {
+    transform: translateY(-4px);
+  }
+
+  .osrs-slot-frame {
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 4px 12px rgba(0, 0, 0, 0.2);
+    aspect-ratio: 1;
+    transition: all 0.3s ease;
+  }
+
+  .osrs-inventory-slot:hover .osrs-slot-frame {
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.2),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-slot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .osrs-inventory-slot:hover .osrs-slot-image {
+    transform: scale(1.05);
+  }
+
+  .osrs-slot-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(212, 175, 55, 0.2) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .osrs-inventory-slot:hover .osrs-slot-overlay {
+    opacity: 1;
+  }
+
+  .osrs-slot-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #f5f5f5;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .osrs-view-hint {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.8);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .osrs-bank-footer {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .osrs-bank-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .osrs-stat-item {
+    padding: 1rem;
+  }
+
+  .osrs-stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #d4af37;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .osrs-stat-label {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .osrs-bank-link {
+    text-align: center;
+  }
+
+  .osrs-bank-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(185, 147, 31, 0.1));
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: #d4af37;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .osrs-bank-link-btn:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(185, 147, 31, 0.2));
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 4px 12px rgba(212, 175, 55, 0.2);
+  }
+
+  /* Mobile optimizations for inventory gallery */
+  @media (max-width: 768px) {
+    .osrs-inventory-gallery {
+      padding: 4rem 0;
+    }
+
+    .osrs-inventory-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    .osrs-bank-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .osrs-stat-number {
+      font-size: 1.5rem;
+    }
+
+    .osrs-bank-footer {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-inventory-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .osrs-slot-frame {
+      border-radius: 4px;
+    }
+
+    .osrs-slot-label {
+      font-size: 0.9rem;
+    }
+
+    .osrs-view-hint {
+      font-size: 0.8rem;
+    }
+
+    .osrs-bank-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .osrs-bank-link-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+
+  /* OSRS MOVES LIST STYLES */
+  .osrs-moves-section {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #0a0a0c, #111114);
+    position: relative;
+  }
+
+  .osrs-moves-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 1rem;
+    text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-moves-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin: -0.5rem 0 3rem;
+    font-style: italic;
+  }
+
+  .osrs-moves-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .osrs-move-item {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: osrsMoveSlideIn 0.6s ease forwards;
+  }
+
+  @keyframes osrsMoveSlideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .osrs-move-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.2),
+      0 12px 32px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-move-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .osrs-move-caret {
+    font-size: 1.2rem;
+    color: #d4af37;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .osrs-move-item:hover .osrs-move-caret {
+    opacity: 1;
+  }
+
+  .osrs-move-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #8a2be2;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    margin: 0;
+    flex: 1;
+  }
+
+  .osrs-move-type {
+    background: linear-gradient(135deg, #8a2be2, #4b0082);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .osrs-move-description {
+    color: rgba(245, 245, 245, 0.9);
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+  }
+
+  .osrs-move-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin-bottom: 1rem;
+  }
+
+  .osrs-move-power {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  }
+
+  .osrs-move-accuracy {
+    color: #32cd32;
+    text-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
+  }
+
+  .osrs-move-rate {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(245, 245, 245, 0.8);
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-booking-prompt {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(75, 0, 130, 0.15));
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      inset 0 0 0 1px rgba(138, 43, 226, 0.1),
+      0 8px 24px rgba(138, 43, 226, 0.1);
+  }
+
+  .osrs-prompt-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .osrs-prompt-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.5));
+  }
+
+  .osrs-prompt-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  }
+
+  .osrs-prompt-subtitle {
+    font-size: 1rem;
+    color: rgba(245, 245, 245, 0.7);
+  }
+
+  /* Mobile optimizations for moves section */
+  @media (max-width: 768px) {
+    .osrs-moves-section {
+      padding: 4rem 0;
+    }
+
+    .osrs-moves-list {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .osrs-move-item {
+      padding: 1.5rem;
+    }
+
+    .osrs-move-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .osrs-move-stats {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .osrs-prompt-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .osrs-prompt-icon {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-move-name {
+      font-size: 1.2rem;
+    }
+
+    .osrs-move-description {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* OSRS CHATBOX TESTIMONIALS STYLES */
+  .osrs-chatbox-section {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, #111114, #0a0a0c);
+    position: relative;
+  }
+
+  .osrs-chatbox-title {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f5f5f5;
+    margin: 0 0 1rem;
+    text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .osrs-chatbox-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.7);
+    margin: -0.5rem 0 3rem;
+    font-style: italic;
+  }
+
+  .osrs-chatbox-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .osrs-chatbox-window {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .osrs-chatbox-header {
+    background: linear-gradient(90deg, #2c5282, #3182ce);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .osrs-chatbox-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .osrs-chatbox-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .osrs-chatbox-minimize,
+  .osrs-chatbox-close {
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .osrs-chatbox-minimize:hover,
+  .osrs-chatbox-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .osrs-chatbox-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .osrs-chat-message {
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: osrsChatSlideIn 0.5s ease forwards;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+
+  @keyframes osrsChatSlideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .osrs-chat-user {
+    font-weight: bold;
+    color: #ffd700;
+    margin-right: 0.5rem;
+  }
+
+  .osrs-chat-user.player {
+    color: #87ceeb;
+  }
+
+  .osrs-chat-text {
+    color: rgba(245, 245, 245, 0.9);
+  }
+
+  .osrs-chat-time {
+    color: rgba(245, 245, 245, 0.5);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+
+  .osrs-chatbox-input {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .osrs-chat-input {
+    width: 100%;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: rgba(245, 245, 245, 0.8);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    outline: none;
+  }
+
+  .osrs-chat-input::placeholder {
+    color: rgba(245, 245, 245, 0.5);
+  }
+
+  .osrs-chat-input:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-chatbox-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .osrs-online-players {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .osrs-online-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #f5f5f5;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .osrs-player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .osrs-player-item {
+    font-size: 0.8rem;
+    color: rgba(245, 245, 245, 0.8);
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+  }
+
+  .osrs-chat-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .osrs-stat-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(185, 147, 31, 0.1));
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .osrs-stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #d4af37;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    margin-bottom: 0.25rem;
+  }
+
+  .osrs-stat-label {
+    font-size: 0.8rem;
+    color: rgba(245, 245, 245, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Mobile optimizations for chatbox */
+  @media (max-width: 768px) {
+    .osrs-chatbox-section {
+      padding: 4rem 0;
+    }
+
+    .osrs-chatbox-container {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .osrs-chatbox-sidebar {
+      order: -1;
+      gap: 1rem;
+    }
+
+    .osrs-online-players {
+      padding: 1rem;
+    }
+
+    .osrs-chatbox-messages {
+      max-height: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-chat-message {
+      font-size: 0.8rem;
+    }
+
+    .osrs-chatbox-header {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .osrs-chatbox-label {
+      font-size: 0.8rem;
+    }
+
+    .osrs-chatbox-controls {
+      gap: 0.25rem;
+    }
+
+    .osrs-chatbox-minimize,
+    .osrs-chatbox-close {
+      width: 14px;
+      height: 14px;
+      font-size: 10px;
+    }
+  }
+
+  /* OSRS STICKY ACTION BAR STYLES */
+  .osrs-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .osrs-sticky-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .osrs-sticky-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    gap: 2rem;
+  }
+
+  .osrs-sticky-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .osrs-sticky-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+    flex-shrink: 0;
+  }
+
+  .osrs-sticky-text {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .osrs-sticky-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 0.25rem;
+    text-shadow: 1px 1px 0 rgba(212, 175, 55, 0.3);
+  }
+
+  .osrs-sticky-subtitle {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.7);
+  }
+
+  .osrs-sticky-actions {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .osrs-sticky-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .osrs-sticky-primary {
+    background: linear-gradient(135deg, #d4af37, #b9931f);
+    color: #0b0b0b;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 4px 12px rgba(212, 175, 55, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .osrs-sticky-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(212, 175, 55, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+
+  .osrs-sticky-secondary {
+    background: rgba(0, 0, 0, 0.4);
+    color: #f5f5f5;
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .osrs-sticky-secondary:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  }
+
+  .osrs-sticky-btn-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .osrs-sticky-btn-text {
+    font-weight: 700;
+  }
+
+  /* Mobile optimizations for sticky bar */
+  @media (max-width: 768px) {
+    .osrs-sticky-container {
+      padding: 0 1rem;
+    }
+
+    .osrs-sticky-content {
+      padding: 0.75rem 0;
+      gap: 1rem;
+    }
+
+    .osrs-sticky-left {
+      gap: 0.75rem;
+    }
+
+    .osrs-sticky-icon {
+      font-size: 1.5rem;
+    }
+
+    .osrs-sticky-title {
+      font-size: 1rem;
+    }
+
+    .osrs-sticky-subtitle {
+      font-size: 0.8rem;
+    }
+
+    .osrs-sticky-actions {
+      gap: 0.5rem;
+    }
+
+    .osrs-sticky-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .osrs-sticky-content {
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .osrs-sticky-left {
+      justify-content: center;
+    }
+
+    .osrs-sticky-actions {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .osrs-sticky-btn {
+      flex: 1;
+      justify-content: center;
+      max-width: 140px;
+    }
+  }
+
+  /* Ensure content doesn't get hidden behind sticky bar */
+  .artist-contact {
+    padding-bottom: 6rem;
+  }
+
+  @media (max-width: 768px) {
+    .artist-contact {
+      padding-bottom: 5rem;
     }
   }
 </style>

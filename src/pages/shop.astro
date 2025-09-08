@@ -6,11 +6,11 @@ import content from '../data/content.json';
 const title = "Shop — Cursed Ink Society";
 const description = "Browse our premium aftercare products, studio merchandise, flash designs, and gift cards. Quality products for tattoo enthusiasts in Houma, LA.";
 
-const products = content.products.items;
-const categories = content.products.categories;
+const products = content.products?.items || [];
+const categories = content.products?.categories || {};
 
 // Get unique tags for filtering
-const allTags = [...new Set(products.flatMap(product => product.tags))].sort();
+const allTags = [...new Set(products.flatMap(product => product.tags || []))].sort();
 ---
 
 <Layout title={title} description={description}>

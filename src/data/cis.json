@@ -34,60 +34,140 @@
       "name": "Seth Wood",
       "slug": "seth-wood",
       "positioning": "Master of Naturalistic American Traditional & Japanese - Timeless artistry with 25+ years of mastery",
+      "bio": "Seth Wood is a tattoo artist with over 25 years of experience, specializing in naturalistic interpretations of American Traditional and Japanese tattooing. His work reflects decades of dedication to the craft, bringing authenticity and depth to every piece.",
       "specialties": ["Naturalistic American Traditional", "Naturalistic Japanese", "Black & Grey"],
-      "avatar": "/assets/artists/seth-wood-avatar.jpg",
+      "experience": "25+ years",
+      "avatar": "/assets/artists/seth-wood/seth woodd.jpg",
       "instagram": "@sethta2_bp",
-      "featuredWork": ["/assets/portfolio/seth-1.jpg", "/assets/portfolio/seth-2.jpg", "/assets/portfolio/seth-3.jpg"],
+      "featuredWork": [
+        "/assets/artists/seth-wood/seth wooid.jpg",
+        "/assets/artists/seth-wood/wooody.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/seth-wood/seth woodd.jpg",
+        "/assets/artists/seth-wood/seth wooid.jpg",
+        "/assets/artists/seth-wood/wooody.jpg"
+      ],
       "cta": {"text": "DM Seth", "url": "https://instagram.com/sethta2_bp"}
     },
     {
       "name": "Ashley Wood",
       "slug": "ashley-wood",
       "positioning": "Color & Newschool Specialist - Injecting vibrant energy and pop culture magic into every piece",
+      "bio": "Ashley Wood brings vibrant energy to tattooing through her mastery of color work and newschool styles. Her passion for pop culture and kawaii aesthetics creates pieces that are both bold and playful.",
       "specialties": ["Color", "Newschool", "Kawaii", "Dotwork"],
-      "avatar": "/assets/artists/ashley-wood-avatar.jpg",
+      "experience": "10+ years",
+      "avatar": "/assets/artists/ashley-wood/ashley profile pic.jpg",
       "instagram": "@ashleyxxkarma",
-      "featuredWork": ["/assets/portfolio/ashley-1.jpg", "/assets/portfolio/ashley-2.jpg", "/assets/portfolio/ashley-3.jpg"],
+      "featuredWork": [
+        "/assets/artists/ashley-wood/ashleee.jpg",
+        "/assets/artists/ashley-wood/ashley.jpg",
+        "/assets/artists/ashley-wood/ashley1.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/ashley-wood/1212.jpg",
+        "/assets/artists/ashley-wood/ash.jpg",
+        "/assets/artists/ashley-wood/ashleee.jpg",
+        "/assets/artists/ashley-wood/ashley profile pic.jpg",
+        "/assets/artists/ashley-wood/ashley.jpg",
+        "/assets/artists/ashley-wood/ashley1.jpg"
+      ],
       "cta": {"text": "DM Ashley", "url": "https://instagram.com/ashleyxxkarma"}
     },
     {
       "name": "Anthony Boudreaux",
       "slug": "anthony-boudreaux",
       "positioning": "Versatile Walk-In Specialist - Your vision, our expertise, immediate availability",
+      "bio": "Anthony Boudreaux is known for his versatility and approachable style, making him the perfect choice for walk-in consultations. His work spans traditional and modern styles with a focus on custom design work.",
       "specialties": ["Traditional", "Color", "Custom Design"],
-      "avatar": "/assets/artists/anthony-avatar.jpg",
+      "experience": "15+ years",
+      "avatar": "/assets/artists/anthony-boudreaux/ant.jpg",
       "instagram": "@buddha_ta2",
-      "featuredWork": ["/assets/portfolio/anthony-1.jpg", "/assets/portfolio/anthony-2.jpg", "/assets/portfolio/anthony-3.jpg"],
+      "featuredWork": [
+        "/assets/artists/anthony-boudreaux/anthony.jpg",
+        "/assets/artists/anthony-boudreaux/antonio.jpg",
+        "/assets/artists/anthony-boudreaux/Buddha.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/anthony-boudreaux/ant.jpg",
+        "/assets/artists/anthony-boudreaux/anthony.jpg",
+        "/assets/artists/anthony-boudreaux/antonio.jpg",
+        "/assets/artists/anthony-boudreaux/Buddha.jpg",
+        "/assets/artists/anthony-boudreaux/ffff.jpg"
+      ],
       "cta": {"text": "DM Anthony", "url": "https://instagram.com/buddha_ta2"}
     },
     {
       "name": "Luis Reymundo",
       "slug": "luis-reymundo",
       "positioning": "Bold Linework & Geometric Master - Precision meets creativity in every design",
+      "bio": "Luis Reymundo specializes in bold linework and geometric patterns, creating striking pieces that combine precision with artistic vision. His work stands out for its clean execution and creative compositions.",
       "specialties": ["Geometric", "Bold Linework", "Abstract"],
-      "avatar": "/assets/artists/luis-avatar.jpg",
+      "experience": "12+ years",
+      "avatar": "/assets/artists/luis-reymundo/364403173_6546138555476097_5096559160903234762_n.jpg",
       "instagram": "@luisreyart",
-      "featuredWork": ["/assets/portfolio/luis-1.jpg", "/assets/portfolio/luis-2.jpg", "/assets/portfolio/luis-3.jpg"],
+      "featuredWork": [
+        "/assets/artists/luis-reymundo/456455404_18445571008001635_6969315202827007293_n.jpg",
+        "/assets/artists/luis-reymundo/467432302_18462618712001635_305217261839614881_n.jpg",
+        "/assets/artists/luis-reymundo/471592296_18470350378001635_1918605122947633000_n.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/luis-reymundo/364403173_6546138555476097_5096559160903234762_n.jpg",
+        "/assets/artists/luis-reymundo/456455404_18445571008001635_6969315202827007293_n.jpg",
+        "/assets/artists/luis-reymundo/467432302_18462618712001635_305217261839614881_n.jpg",
+        "/assets/artists/luis-reymundo/471592296_18470350378001635_1918605122947633000_n.jpg",
+        "/assets/artists/luis-reymundo/474900987_18475574725001635_752176309467884586_n.jpg",
+        "/assets/artists/luis-reymundo/490061122_18490861651001635_2883115908723174436_n.jpg"
+      ],
       "cta": {"text": "DM Luis", "url": "https://instagram.com/luisreyart"}
     },
     {
       "name": "Cody Crochet",
       "slug": "cody-crochet",
       "positioning": "Realism & Portrait Specialist - Capturing life's moments with photorealistic precision",
-      "specialties": ["Realism", "Portraits", "Fine Detail"],
-      "avatar": "/assets/artists/cody-avatar.jpg",
-      "instagram": "@codyink",
-      "featuredWork": ["/assets/portfolio/cody-1.jpg", "/assets/portfolio/cody-2.jpg", "/assets/portfolio/cody-3.jpg"],
-      "cta": {"text": "DM Cody", "url": "https://instagram.com/codyink"}
+      "bio": "Cody Crochet is a 10-year veteran tattoo artist specializing in anime, illustrated, and videogame tattoos. His color work brings characters and designs to life with incredible detail and vibrancy.",
+      "specialties": ["Realism", "Anime", "Illustrated", "Color Work", "Videogame Tattoos"],
+      "experience": "10+ years",
+      "avatar": "/assets/artists/cody-crochet/profile.jpg",
+      "instagram": "@codycrochettattoos",
+      "featuredWork": [
+        "/assets/artists/cody-crochet/madman.jpg",
+        "/assets/artists/cody-crochet/vap.jpg",
+        "/assets/artists/cody-crochet/461579945_8425251807517552_3928962516021655041_n.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/cody-crochet/codeh.jpg",
+        "/assets/artists/cody-crochet/madman.jpg",
+        "/assets/artists/cody-crochet/vap.jpg",
+        "/assets/artists/cody-crochet/461507171_8425251814184218_1491388684752563128_n.jpg",
+        "/assets/artists/cody-crochet/461509714_8425251817517551_50151589144047544_n.jpg",
+        "/assets/artists/cody-crochet/461528404_8425251827517550_2728663571583936772_n.jpg",
+        "/assets/artists/cody-crochet/461579945_8425251807517552_3928962516021655041_n.jpg",
+        "/assets/artists/cody-crochet/461609351_8425251820850884_9008576989091778140_n.jpg",
+        "/assets/artists/cody-crochet/461683376_8433512910024775_9068907170483629013_n.jpg"
+      ],
+      "cta": {"text": "DM Cody", "url": "https://instagram.com/codycrochettattoos"}
     },
     {
       "name": "Trent",
       "slug": "trent",
       "positioning": "Neo-Traditional & Illustrative - Classic techniques meet modern vision",
+      "bio": "Trent brings together classic neo-traditional techniques with modern illustrative approaches, creating timeless pieces that stand out for their craftsmanship and artistic vision.",
       "specialties": ["Neo-Traditional", "Illustrative", "Watercolor"],
-      "avatar": "/assets/artists/trent-avatar.jpg",
+      "experience": "8+ years",
+      "avatar": "/assets/artists/trent/profile.jpg",
       "instagram": "@trenttattoo",
-      "featuredWork": ["/assets/portfolio/trent-1.jpg", "/assets/portfolio/trent-2.jpg", "/assets/portfolio/trent-3.jpg"],
+      "featuredWork": [
+        "/assets/artists/trent/r.jpg",
+        "/assets/artists/trent/rr.jpg",
+        "/assets/artists/trent/tt.jpg"
+      ],
+      "portfolio": [
+        "/assets/artists/trent/profile.jpg",
+        "/assets/artists/trent/r.jpg",
+        "/assets/artists/trent/rr.jpg",
+        "/assets/artists/trent/tt.jpg"
+      ],
       "cta": {"text": "DM Trent", "url": "https://instagram.com/trenttattoo"}
     }
   ],

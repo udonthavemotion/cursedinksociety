@@ -1,0 +1,495 @@
+---
+import ArcanePanel from './ArcanePanel.astro';
+import StatBar from './StatBar.astro';
+import type { Artist } from '../data/artists';
+
+export interface Props {
+  artist: Artist;
+}
+
+const { artist } = Astro.props;
+---
+
+<div class="artist-card-wrapper">
+  <div class="artist-card">
+    <!-- Artist Avatar & Basic Info -->
+    <div class="artist-header">
+      <div class="artist-avatar">
+        <img
+          src={artist.avatar}
+          alt={`${artist.name} portrait`}
+          loading="lazy"
+          width="100"
+          height="100"
+          onerror="this.style.border='3px solid #b22222'; this.alt='IMAGE FAILED: ' + this.src;"
+        />
+      </div>
+      <div class="artist-info">
+        <h3 class="artist-name">{artist.name}</h3>
+        <p class="artist-title">{artist.title}</p>
+        <p class="artist-experience">{artist.experience}</p>
+      </div>
+    </div>
+
+    <!-- Artist Bio -->
+    <div class="artist-bio">
+      <p class="bio-text">{artist.blurb}</p>
+    </div>
+
+    <!-- Featured Work Gallery -->
+    {artist.featuredWork && artist.featuredWork.length > 0 && (
+      <div class="artist-work-gallery">
+        <h4 class="gallery-title">Recent Work</h4>
+        <div class="work-grid">
+          {artist.featuredWork.slice(0, 3).map((work, index) => (
+            <div class="work-item">
+              <img
+                src={work}
+                alt={`${artist.name} artwork ${index + 1}`}
+                loading="lazy"
+                class="work-image"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Skills & Specialties -->
+    <div class="artist-skills">
+      <h4 class="skills-title">Specialties</h4>
+      <div class="skills-list">
+        {artist.specialties.map(specialty => (
+          <span class="skill-tag">{specialty}</span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Artist Stats -->
+    <div class="artist-stats">
+      <div class="stat-grid">
+        <StatBar label="Creativity" value={artist.stats.creativity} color="gold" />
+        <StatBar label="Experience" value={artist.stats.experience} color="gold" />
+        <StatBar label="Mastery" value={artist.stats.mastery} color="gold" />
+        <StatBar label="Technique" value={artist.stats.technique} color="gold" />
+        <StatBar label="Artistry" value={artist.stats.artistry} color="gold" />
+      </div>
+    </div>
+
+    <!-- Primary CTA -->
+    <div class="artist-cta">
+      <a href={`/artists/${artist.slug}`} class="cta-btn">
+        <span class="btn-text">View Portfolio</span>
+        <span class="btn-icon">⚔️</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .artist-card-wrapper {
+    height: 100%;
+  }
+
+  .artist-card {
+    height: 100%;
+    background: linear-gradient(145deg, rgba(26, 15, 15, 0.95), rgba(42, 26, 26, 0.95));
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .artist-card:hover {
+    border-color: rgba(212, 175, 55, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  }
+
+  /* Artist Header */
+  .artist-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .artist-avatar {
+    flex-shrink: 0;
+  }
+
+  .artist-avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #d4af37;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    filter: sepia(10%) contrast(1.1) brightness(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .artist-card:hover .artist-avatar img {
+    border-color: #b22222;
+    filter: sepia(20%) contrast(1.2) brightness(1.05);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  }
+
+  .artist-info {
+    flex: 1;
+    min-width: 0; /* Prevent text overflow */
+  }
+
+  .artist-name {
+    color: #d4af37;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    line-height: 1.2;
+    word-wrap: break-word;
+  }
+
+  .artist-title {
+    color: #b22222;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 10px rgba(178, 34, 52, 0.4);
+  }
+
+  .artist-experience {
+    color: rgba(245, 245, 245, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Artist Bio */
+  .artist-bio {
+    margin-bottom: 1.5rem;
+  }
+
+  .bio-text {
+    color: rgba(245, 245, 245, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+    word-wrap: break-word;
+  }
+
+  /* Work Gallery */
+  .artist-work-gallery {
+    margin-bottom: 1.5rem;
+  }
+
+  .gallery-title {
+    color: #d4af37;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .work-item {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .work-item:hover {
+    border-color: rgba(212, 175, 55, 0.6);
+    transform: scale(1.05);
+  }
+
+  .work-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    filter: sepia(5%) contrast(1.05);
+  }
+
+  .work-item:hover .work-image {
+    filter: sepia(10%) contrast(1.1);
+    transform: scale(1.1);
+  }
+
+  /* Skills */
+  .artist-skills {
+    margin-bottom: 1.5rem;
+  }
+
+  .skills-title {
+    color: #d4af37;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    background: linear-gradient(45deg, rgba(212, 175, 55, 0.1), rgba(178, 34, 52, 0.1));
+    color: #d4af37;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .skill-tag:hover {
+    background: linear-gradient(45deg, rgba(212, 175, 55, 0.2), rgba(178, 34, 52, 0.2));
+    border-color: #d4af37;
+    transform: scale(1.05);
+  }
+
+  /* Stats */
+  .artist-stats {
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* CTA Button */
+  .artist-cta {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #d4af37, #ffd700);
+    color: #1a0f0f;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .cta-btn:hover::before {
+    left: 100%;
+  }
+
+  .cta-btn:hover {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(212, 175, 55, 0.5);
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  .btn-text {
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+
+  .btn-icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .cta-btn:hover .btn-icon {
+    transform: scale(1.1);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .artist-card {
+      padding: 1.25rem;
+    }
+
+    .artist-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .artist-avatar img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .artist-name {
+      font-size: 1.3rem;
+    }
+
+    .artist-title {
+      font-size: 0.9rem;
+    }
+
+    .bio-text {
+      font-size: 0.85rem;
+    }
+
+    .work-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .cta-btn {
+      padding: 0.875rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .artist-card {
+      padding: 1rem;
+    }
+
+    .artist-header {
+      gap: 0.75rem;
+    }
+
+    .artist-avatar img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .artist-name {
+      font-size: 1.1rem;
+    }
+
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .work-item {
+      max-width: 120px;
+      margin: 0 auto;
+    }
+
+    .skills-list {
+      justify-content: center;
+    }
+
+    .skill-tag {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .cta-btn {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Accessibility & Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .artist-card,
+    .work-item,
+    .skill-tag,
+    .cta-btn {
+      transition: none;
+    }
+
+    .cta-btn::before {
+      display: none;
+    }
+
+    .artist-card:hover {
+      transform: none;
+    }
+
+    .artist-card:hover .artist-avatar img {
+      transform: none;
+    }
+
+    .work-item:hover,
+    .skill-tag:hover {
+      transform: none;
+    }
+
+    .cta-btn:hover .btn-icon {
+      transform: none;
+    }
+  }
+
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .artist-card {
+      border-width: 3px;
+    }
+
+    .cta-btn {
+      border-width: 3px;
+    }
+
+    .work-item,
+    .skill-tag {
+      border-width: 2px;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .artist-card {
+      border: 2px solid black;
+      box-shadow: none;
+      break-inside: avoid;
+    }
+
+    .artist-name,
+    .gallery-title,
+    .skills-title {
+      color: black !important;
+      text-shadow: none !important;
+    }
+
+    .cta-btn {
+      display: none;
+    }
+  }
+</style>

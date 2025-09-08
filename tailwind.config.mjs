@@ -4,14 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Minimal B/W + Red Accent Theme
-        'black': '#000000',
-        'white': '#ffffff',
-        'gray-200': '#E5E7EB', // Foreground text
-        'gray-400': '#9CA3AF', // Muted text
-        'red-600': '#DC2626', // Accent
-        'red-700': '#B91C1C', // Accent hover
-        'gray-300': '#D1D5DB', // Inactive link color
+        // Updated Cursed Ink Society brand palette - matches global.css
+        'cursed-red': '#dc143c', // Crimson red
+        'cursed-red-dark': '#b22222', // Deeper red
+        'cursed-black': '#0a0a0c', // Deep black
+        'cursed-black-light': '#0f0a10', // Slightly lighter black
+        'cursed-gold': '#d4af37', // Metallic gold
+        'cursed-silver': '#c0c0c0', // Metallic silver
+        'cursed-white': '#f5f5f5', // Clean white
+        'cursed-muted': '#e9e2d8', // Muted ink color
       },
       fontFamily: {
         // Research-aligned typography

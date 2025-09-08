@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import EnhancedHomeHero from '../components/EnhancedHomeHero.astro';
+import BlobGallery from '../components/BlobGallery.astro';
+import GuildHall from '../components/GuildHall.astro';
+import { artists } from '../data/cis.json';
+
+const title = "Cursed Ink Society — Premier Tattoo Artists in Houma, LA";
+const description = "Experience the finest tattoo artistry in Houma, Louisiana. Our collective of master artists specializes in custom designs, traditional work, and mystical ink. Start your artistic journey today.";
+---
+
+<Layout title={title} description={description}>
+  <!-- Enhanced Homepage Hero Section with 3D Effects -->
+  <EnhancedHomeHero />
+
+  <!-- Featured Artists Section - Blob Gallery -->
+  <BlobGallery />
+
+  <!-- Guild Hall Section -->
+  <section id="guild" class="guild-section">
+    <GuildHall artists={artists} title="Meet Our Guild" />
+  </section>
+</Layout>
+
+<style>
+  .guild-section {
+    padding: 0;
+    background: var(--bg0);
+  }
+</style>

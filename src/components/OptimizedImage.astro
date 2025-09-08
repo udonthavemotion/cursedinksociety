@@ -1,0 +1,176 @@
+---
+// OptimizedImage.astro - Performance-optimized image component with lazy loading and progressive enhancement
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  priority?: boolean;
+  sizes?: string;
+  placeholder?: string;
+}
+
+const {
+  src,
+  alt,
+  width = 400,
+  height = 400,
+  class: className = '',
+  priority = false,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMxMTExMTMiLz48L3N2Zz4='
+} = Astro.props;
+
+const loading = priority ? 'eager' : 'lazy';
+const decoding = priority ? 'sync' : 'async';
+---
+
+<div class="optimized-image-wrapper">
+  <img
+    src={placeholder}
+    data-src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={`optimized-image ${className}`.trim()}
+    loading={loading}
+    decoding={decoding}
+    sizes={sizes}
+    data-priority={priority ? 'true' : 'false'}
+  />
+  <noscript>
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      class={className}
+      loading="lazy"
+    />
+  </noscript>
+</div>
+
+<style>
+  .optimized-image-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .optimized-image {
+    width: 100%;
+    height: auto;
+    transition: var(--transition-smooth);
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .optimized-image.loaded {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .optimized-image[data-priority="true"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Blur placeholder effect */
+  .optimized-image:not(.loaded):not([data-priority="true"]) {
+    filter: blur(10px);
+  }
+
+  .optimized-image.loaded {
+    filter: blur(0);
+  }
+</style>
+
+<script>
+  class OptimizedImage {
+    private observer: IntersectionObserver;
+    private images: NodeListOf<HTMLImageElement>;
+
+    constructor() {
+      this.images = document.querySelectorAll('.optimized-image');
+      this.observer = new IntersectionObserver(this.handleIntersection.bind(this), {
+        rootMargin: '50px 0px',
+        threshold: 0.01
+      });
+
+      this.init();
+    }
+
+    private init() {
+      this.images.forEach(img => {
+        if (img.dataset.priority === 'true') {
+          this.loadImage(img);
+        } else {
+          this.observer.observe(img);
+        }
+      });
+    }
+
+    private handleIntersection(entries: IntersectionObserverEntry[]) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target as HTMLImageElement;
+          this.loadImage(img);
+          this.observer.unobserve(img);
+        }
+      });
+    }
+
+    private loadImage(img: HTMLImageElement) {
+      const src = img.dataset.src;
+      if (!src) return;
+
+      // Preload image
+      const preloadImg = new Image();
+      preloadImg.onload = () => {
+        img.src = src;
+        img.classList.add('loaded');
+
+        // Add subtle animation
+        this.addLoadAnimation(img);
+      };
+
+      preloadImg.src = src;
+    }
+
+    private addLoadAnimation(img: HTMLImageElement) {
+      // Add a subtle scale and fade animation
+      img.style.animation = 'imageLoad 0.6s ease-out forwards';
+
+      // Clean up animation after it completes
+      img.addEventListener('animationend', () => {
+        img.style.animation = '';
+      }, { once: true });
+    }
+  }
+
+  // Add keyframes for load animation
+  if (!document.querySelector('#optimized-image-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'optimized-image-keyframes';
+    style.textContent = `
+      @keyframes imageLoad {
+        0% {
+          opacity: 0;
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new OptimizedImage());
+  } else {
+    new OptimizedImage();
+  }
+</script>

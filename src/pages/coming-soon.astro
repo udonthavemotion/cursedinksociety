@@ -34,6 +34,9 @@ export const prerender = true;
     <meta name="theme-color" content="#0b0b0d" />
     <meta name="color-scheme" content="dark" />
     
+    <!-- Safari Pinned Tab -->
+    <link rel="mask-icon" href="/favicon.svg" color="#dc143c" />
+    
     <!-- SEO Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -57,10 +60,33 @@ export const prerender = true;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />
     
-    <!-- Icons and Manifest -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" href="/brand/favicon-375.png" />
-    <link rel="apple-touch-icon" href="/brand/favicon-375.png" />
+    <!-- Comprehensive Favicon & Icon System -->
+    <!-- Primary favicon with cache busting -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3" />
+    
+    <!-- Modern browsers (SVG favicon) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    
+    <!-- PNG favicons for different sizes -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
+    
+    <!-- Apple Touch Icons for iOS devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
+    
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png?v=3" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png?v=3" />
+    
+    <!-- Web App Manifest for PWA support -->
+    <link rel="manifest" href="/site.webmanifest?v=3" />
+    
+    <!-- Microsoft Tiles for Windows -->
+    <meta name="msapplication-TileColor" content="#dc143c" />
+    <meta name="msapplication-TileImage" content="/android-chrome-192x192.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
@@ -82,7 +108,7 @@ export const prerender = true;
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <main id="main-content">
-      <Hero3D variant="comingSoon" ctaHref="/home" />
+      <Hero3D showPreviewButton={true} previewUrl="/preview" />
     </main>
 
     <footer class="container">

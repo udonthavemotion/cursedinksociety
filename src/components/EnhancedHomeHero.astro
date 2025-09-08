@@ -1,0 +1,1088 @@
+---
+// Enhanced Home Hero with 3D effects and modern UI
+---
+
+<section class="enhanced-hero" id="hero">
+  <!-- Three.js Canvas Background -->
+  <canvas id="hero-canvas" aria-hidden="true" role="presentation"></canvas>
+
+  <div class="hero-content">
+    <div class="container">
+      <!-- Main Hero Content -->
+      <div class="hero-main">
+        <div class="hero-text-section">
+          <div class="hero-pretitle">
+            <span class="pretitle-accent">✦</span>
+            <span class="pretitle-text">HOUMA'S PREMIER TATTOO COLLECTIVE</span>
+            <span class="pretitle-accent">✦</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">
+              <span class="letter" data-letter="C">C</span>
+              <span class="letter" data-letter="U">U</span>
+              <span class="letter" data-letter="R">R</span>
+              <span class="letter" data-letter="S">S</span>
+              <span class="letter" data-letter="E">E</span>
+              <span class="letter" data-letter="D">D</span>
+            </span>
+            <span class="title-word">
+              <span class="letter" data-letter="I">I</span>
+              <span class="letter" data-letter="N">N</span>
+              <span class="letter" data-letter="K">K</span>
+            </span>
+            <span class="title-word">
+              <span class="letter" data-letter="S">S</span>
+              <span class="letter" data-letter="O">O</span>
+              <span class="letter" data-letter="C">C</span>
+              <span class="letter" data-letter="I">I</span>
+              <span class="letter" data-letter="E">E</span>
+              <span class="letter" data-letter="T">T</span>
+              <span class="letter" data-letter="Y">Y</span>
+            </span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Where artistry meets the mystical in Houma, Louisiana
+          </p>
+
+          <p class="hero-description">
+            Our collective of master artists—Anthony, Ashley, Cody, Seth, Luis, and Trent—specializes in custom designs, traditional work, and sacred ink that tells your story. Each tattoo is a unique masterpiece, forged with passion and precision in the heart of Houma, Louisiana.
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number">150+</div>
+              <div class="stat-label">Masterpieces</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">6</div>
+              <div class="stat-label">Expert Artists</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Years Combined</div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="/contact" class="btn btn--primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Start Your Journey
+            </a>
+            <a href="/artists" class="btn btn--secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63C19.68 7.55 18.92 7 18.06 7h-.12c-.86 0-1.63.55-1.9 1.37L14.5 16H17v6h3zM5.5 7L4 6.5 2.5 7 3 8.5 4 8l.5-1.5zM8 10l-1.5-1L6 8.5 7.5 10l1 .5L8 10zM12 12.5l-1.5-.5L10.5 14l1 .5-.5 1.5 1.5-.5L12 12.5zM5.5 17L4 16.5 2.5 17 3 18.5 4 18l.5-1.5zM8 20l-1.5-1L6 18.5 7.5 20l1 .5L8 20z"/>
+              </svg>
+              Meet Our Artists
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual-section">
+          <!-- 3D Interactive Logo -->
+          <div class="logo-showcase">
+            <div class="logo-container" id="logo-container">
+              <img
+                src="/brand/cursed-ink-logo.png"
+                alt="Cursed Ink Society Logo"
+                class="hero-logo"
+                id="interactive-logo"
+                loading="eager"
+              />
+
+              <!-- Animated Glow Rings -->
+              <div class="glow-ring ring-1"></div>
+              <div class="glow-ring ring-2"></div>
+              <div class="glow-ring ring-3"></div>
+
+              <!-- Floating Particles -->
+              <div class="floating-particles">
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
+                <div class="particle particle-4"></div>
+                <div class="particle particle-5"></div>
+              </div>
+            </div>
+
+            <!-- Holographic Effect Overlay -->
+            <div class="holographic-overlay"></div>
+          </div>
+
+          <!-- Interactive Elements -->
+          <div class="interactive-elements">
+            <div class="element-badge badge-1">
+              <span class="badge-icon">👑</span>
+              <span class="badge-text">Premium Collective</span>
+            </div>
+            <div class="element-badge badge-2">
+              <span class="badge-icon">🏆</span>
+              <span class="badge-text">Houma's Best</span>
+            </div>
+            <div class="element-badge badge-3">
+              <span class="badge-icon">🎨</span>
+              <span class="badge-text">Artist Collective</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Scroll Indicator -->
+      <div class="enhanced-scroll-indicator">
+        <div class="scroll-content">
+          <span class="scroll-text">Explore Our World</span>
+          <div class="scroll-line"></div>
+          <svg class="scroll-arrow" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.enhanced-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255, 60, 43, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 122, 24, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 50%, #0b0b0d 100%);
+  perspective: 1200px;
+}
+
+#hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+}
+
+/* Enhanced Typography */
+.hero-pretitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--accent1);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 0.2s forwards;
+}
+
+.pretitle-accent {
+  color: var(--accent0);
+  font-size: 1.2rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  font-family: 'Cinzel', serif;
+  position: relative;
+}
+
+.title-word {
+  display: inline-block;
+  margin-right: 0.3em;
+  margin-bottom: 0.2em;
+}
+
+.letter {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+  background: linear-gradient(45deg, var(--accent0), var(--accent1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
+  animation: letterGlow 2s ease-out forwards;
+  animation-delay: calc(var(--index) * 0.1s);
+}
+
+.letter:nth-child(1) { --index: 1; }
+.letter:nth-child(2) { --index: 2; }
+.letter:nth-child(3) { --index: 3; }
+.letter:nth-child(4) { --index: 4; }
+.letter:nth-child(5) { --index: 5; }
+.letter:nth-child(6) { --index: 6; }
+.letter:nth-child(7) { --index: 7; }
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--accent1);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 0.6s forwards;
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+  max-width: 550px;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 0.8s forwards;
+}
+
+/* Stats Section */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 1s forwards;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 60, 43, 0.05);
+  border-color: rgba(255, 60, 43, 0.2);
+  box-shadow: 0 10px 30px rgba(255, 60, 43, 0.1);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent0);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(255, 60, 43, 0.5);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Enhanced Buttons */
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 1.2s forwards;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.2rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  font-size: 1.1rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn:hover::before {
+  transform: translateX(100%);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--accent0), var(--accent1));
+  color: #0a0a0c;
+  box-shadow:
+    0 8px 25px rgba(255, 60, 43, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 700;
+}
+
+.btn--primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 35px rgba(255, 60, 43, 0.4),
+    0 0 40px rgba(255, 90, 40, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn--secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 60, 43, 0.4);
+  color: var(--accent0);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 60, 43, 0.2);
+}
+
+/* Enhanced Logo Section */
+.hero-visual-section {
+  position: relative;
+  opacity: 0;
+  animation: fadeInRight 1.5s ease-out 0.4s forwards;
+}
+
+.logo-showcase {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-container {
+  position: relative;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.hero-logo {
+  width: 350px;
+  height: auto;
+  filter:
+    drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+    drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+    drop-shadow(0 0 150px rgba(255, 60, 43, 0.3));
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.glow-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 60, 43, 0.3);
+  transform: translate(-50%, -50%);
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+.ring-1 {
+  width: 450px;
+  height: 450px;
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 550px;
+  height: 550px;
+  animation-delay: 1s;
+}
+
+.ring-3 {
+  width: 650px;
+  height: 650px;
+  animation-delay: 2s;
+}
+
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent0);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle-1 { top: 20%; left: 30%; animation-delay: 0s; }
+.particle-2 { top: 60%; left: 70%; animation-delay: 1.5s; }
+.particle-3 { top: 40%; left: 20%; animation-delay: 3s; }
+.particle-4 { top: 80%; left: 50%; animation-delay: 4.5s; }
+.particle-5 { top: 30%; left: 80%; animation-delay: 2s; }
+
+.holographic-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(45deg, transparent 30%, rgba(255, 122, 24, 0.1) 50%, transparent 70%),
+    linear-gradient(-45deg, transparent 30%, rgba(255, 60, 43, 0.05) 50%, transparent 70%);
+  border-radius: 50%;
+  animation: hologram 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Interactive Badges */
+.interactive-elements {
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.element-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0;
+  animation: slideInRight 1s ease-out forwards;
+}
+
+.element-badge:nth-child(1) { animation-delay: 1.5s; }
+.element-badge:nth-child(2) { animation-delay: 1.7s; }
+.element-badge:nth-child(3) { animation-delay: 1.9s; }
+
+.badge-icon {
+  font-size: 1.1rem;
+}
+
+.badge-text {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Enhanced Scroll Indicator */
+.enhanced-scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 2s forwards;
+}
+
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scroll-content:hover {
+  transform: translateY(-5px);
+}
+
+.scroll-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--accent1), var(--accent0));
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
+  animation: scrollShine 2s ease-in-out infinite;
+}
+
+.scroll-arrow {
+  color: var(--accent1);
+  animation: bounce 2s infinite;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes letterGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseRing {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px) translateX(-10px);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes hologram {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02) rotate(1deg);
+  }
+}
+
+@keyframes scrollShine {
+  0%, 100% {
+    transform: translateY(-60px);
+  }
+  50% {
+    transform: translateY(60px);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .hero-main {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  .hero-logo {
+    width: 280px;
+  }
+
+  .glow-ring.ring-1 { width: 380px; height: 380px; }
+  .glow-ring.ring-2 { width: 460px; height: 460px; }
+  .glow-ring.ring-3 { width: 540px; height: 540px; }
+
+  .interactive-elements {
+    position: static;
+    margin-top: 2rem;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .element-badge {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .hero-logo {
+    width: 250px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .letter,
+  .hero-pretitle,
+  .hero-subtitle,
+  .hero-description,
+  .hero-stats,
+  .hero-actions,
+  .hero-visual-section,
+  .element-badge,
+  .enhanced-scroll-indicator {
+    animation: none;
+  }
+
+  .glow-ring,
+  .floating-particles,
+  .holographic-overlay,
+  .scroll-arrow {
+    animation: none;
+  }
+
+  .btn::before {
+    display: none;
+  }
+}
+</style>
+
+<script>
+  // Enhanced 3D Logo Interaction
+  class EnhancedLogoInteraction {
+    private logo: HTMLElement | null;
+    private container: HTMLElement | null;
+    private mouse: { x: number; y: number };
+    private animationId: number | null;
+    private particles: NodeListOf<Element> | null;
+
+    constructor() {
+      this.logo = document.getElementById('interactive-logo');
+      this.container = document.getElementById('logo-container');
+      this.mouse = { x: 0, y: 0 };
+      this.animationId = null;
+      this.particles = document.querySelectorAll('.particle');
+      this.init();
+    }
+
+    init(): void {
+      if (!this.logo || !this.container) return;
+
+      window.addEventListener('mousemove', this.handleMouseMove.bind(this), { passive: true });
+      window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Add hover effects
+      this.container.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+      this.container.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+
+      this.animate();
+    }
+
+    handleMouseMove(e: MouseEvent): void {
+      this.updateMousePosition(e.clientX, e.clientY);
+    }
+
+    handleTouchMove(e: TouchEvent): void {
+      if (e.touches.length > 0) {
+        this.updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }
+
+    updateMousePosition(clientX: number, clientY: number): void {
+      if (!this.container) return;
+
+      const rect = this.container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      this.mouse.x = (clientX - centerX) / (window.innerWidth / 2);
+      this.mouse.y = (clientY - centerY) / (window.innerHeight / 2);
+    }
+
+    handleMouseEnter(): void {
+      if (this.logo) {
+        this.logo.style.filter = `
+          drop-shadow(0 0 80px rgba(255, 60, 43, 1))
+          drop-shadow(0 0 160px rgba(255, 60, 43, 0.7))
+          drop-shadow(0 0 240px rgba(255, 60, 43, 0.4))
+        `;
+      }
+    }
+
+    handleMouseLeave(): void {
+      if (this.logo) {
+        this.logo.style.filter = `
+          drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+          drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+          drop-shadow(0 0 150px rgba(255, 60, 43, 0.3))
+        `;
+      }
+    }
+
+    animate(): void {
+      if (!this.logo) return;
+
+      const rotationX = -this.mouse.y * 20;
+      const rotationY = this.mouse.x * 20;
+      const rotationZ = Math.sin(Date.now() * 0.001) * 3;
+      const scale = 1 + Math.min(Math.sqrt(this.mouse.x * this.mouse.x + this.mouse.y * this.mouse.y) * 0.1, 0.2);
+
+      this.logo.style.transform = `
+        perspective(1200px)
+        rotateX(${rotationX}deg)
+        rotateY(${rotationY}deg)
+        rotateZ(${rotationZ}deg)
+        scale(${scale})
+      `;
+
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    destroy(): void {
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+      }
+      window.removeEventListener('mousemove', this.handleMouseMove.bind(this));
+      window.removeEventListener('touchmove', this.handleTouchMove.bind(this));
+    }
+  }
+
+  // Enhanced Scroll Indicator
+  class ScrollIndicator {
+    private element: HTMLElement | null;
+
+    constructor() {
+      this.element = document.querySelector('.enhanced-scroll-indicator');
+      this.init();
+    }
+
+    init(): void {
+      if (!this.element) return;
+
+      this.element.addEventListener('click', this.handleClick.bind(this));
+    }
+
+    handleClick(): void {
+      const artistsSection = document.querySelector('#artists');
+      if (artistsSection) {
+        artistsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else {
+        // Fallback to next section
+        const nextSection = document.querySelector('section:nth-of-type(2)');
+        if (nextSection) {
+          nextSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+    }
+  }
+
+  // Intersection Observer for scroll-triggered animations
+  class ScrollAnimations {
+    private observer: IntersectionObserver | null;
+
+    constructor() {
+      this.observer = null;
+      this.init();
+    }
+
+    init(): void {
+      const options = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+          }
+        });
+      }, options);
+
+      // Observe elements that should animate on scroll
+      const animatedElements = document.querySelectorAll('.stat-item, .element-badge');
+      animatedElements.forEach(el => {
+        this.observer?.observe(el);
+      });
+    }
+  }
+
+  // Initialize enhanced components when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEnhancedComponents);
+  } else {
+    initEnhancedComponents();
+  }
+
+  function initEnhancedComponents() {
+    new EnhancedLogoInteraction();
+    new ScrollIndicator();
+    new ScrollAnimations();
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    // Cleanup is handled in individual classes
+  });
+</script>
+
+<script>
+  // Three.js Background Effects (simplified version for performance)
+  import * as THREE from 'three';
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Performance settings based on device capabilities
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const particleCount = isMobile ? 400 : (prefersReducedMotion ? 200 : 800);
+
+  async function initHeroBackground(): Promise<void> {
+    try {
+      const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      // WebGL capability check
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? 'low-power' : 'high-performance'
+      });
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
+      camera.position.set(0, 0, 5);
+
+      // Optimized resize handler
+      function resize(): void {
+        const { clientWidth: w, clientHeight: h } = canvas;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+
+      resize();
+      new ResizeObserver(resize).observe(canvas);
+      renderer.setPixelRatio(Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1));
+
+      // Create floating particles
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 20;
+        positions[i3 + 1] = (Math.random() - 0.5) * 12;
+        positions[i3 + 2] = -(Math.random() * 8 + 2);
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffe7d0,
+        size: isMobile ? 0.01 : 0.02,
+        transparent: true,
+        opacity: prefersReducedMotion ? 0.3 : 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, particleMaterial);
+      scene.add(particles);
+
+      // Mouse interaction
+      const mouse = new THREE.Vector2();
+      let mouseUpdateId = 0;
+
+      const updateMouse = (e: PointerEvent): void => {
+        cancelAnimationFrame(mouseUpdateId);
+        mouseUpdateId = requestAnimationFrame(() => {
+          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+      };
+
+      window.addEventListener('pointermove', updateMouse, { passive: true });
+
+      // Animation loop
+      const clock = new THREE.Clock();
+      let animationId: number;
+
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+
+        const dt = clock.getDelta();
+
+        // Smooth camera movement
+        const cameraSpeed = prefersReducedMotion ? 0.01 : (isMobile ? 0.03 : 0.05);
+        camera.position.x += (mouse.x * 0.5 - camera.position.x) * cameraSpeed;
+        camera.position.y += (-mouse.y * 0.3 - camera.position.y) * cameraSpeed;
+        camera.lookAt(0, 0, 0);
+
+        // Particle rotation
+        if (!prefersReducedMotion) {
+          particles.rotation.y += dt * (isMobile ? 0.005 : 0.01);
+          particles.rotation.x += dt * 0.002;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        cancelAnimationFrame(animationId);
+        renderer.dispose();
+        geometry.dispose();
+        particleMaterial.dispose();
+      });
+
+    } catch (error) {
+      console.warn('Hero background initialization failed:', error);
+      const canvas = document.getElementById('hero-canvas');
+      if (canvas) canvas.style.display = 'none';
+    }
+  }
+
+  // Initialize background when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroBackground);
+  } else {
+    initHeroBackground();
+  }
+</script>

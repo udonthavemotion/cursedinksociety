@@ -1,0 +1,129 @@
+---
+export interface Props {
+  title?: string;
+  variant?: 'primary' | 'secondary' | 'accent';
+  className?: string;
+  children: any;
+}
+
+const { title, variant = 'primary', className = '', children } = Astro.props;
+---
+
+<div class={`arcane-panel arcane-panel-${variant} ${className}`}>
+  {title && (
+    <div class="arcane-panel-header">
+      <h3 class="arcane-panel-title">{title}</h3>
+    </div>
+  )}
+  <div class="arcane-panel-content">
+    {children}
+  </div>
+</div>
+
+<style>
+  .arcane-panel {
+    background: linear-gradient(145deg, #2a1a1a, #1a0f0f);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    position: relative;
+    box-shadow:
+      0 12px 24px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(212, 175, 55, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .arcane-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.03), transparent);
+    pointer-events: none;
+  }
+
+  .arcane-panel:hover {
+    border-color: var(--accent0);
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.6),
+      0 0 20px rgba(212, 175, 55, 0.15),
+      inset 0 1px 0 rgba(212, 175, 55, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .arcane-panel-primary {
+    border-color: var(--gold);
+  }
+
+  .arcane-panel-secondary {
+    border-color: var(--silver);
+    background: linear-gradient(145deg, #1a1414, #0f0a0a);
+  }
+
+  .arcane-panel-accent {
+    border-color: var(--accent0);
+    background: linear-gradient(145deg, #2d1a1a, #1a0f0f);
+  }
+
+  .arcane-panel-header {
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.05), transparent);
+  }
+
+  .arcane-panel-title {
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .arcane-panel-content {
+    padding: 1.5rem;
+    background: rgba(255, 0, 0, 0.1); /* Debug: Make content area visible */
+    min-height: 200px; /* Debug: Ensure content area has height */
+  }
+
+  .arcane-panel-primary .arcane-panel-title {
+    color: var(--gold);
+  }
+
+  .arcane-panel-secondary .arcane-panel-title {
+    color: var(--silver);
+  }
+
+  .arcane-panel-accent .arcane-panel-title {
+    color: var(--accent0);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .arcane-panel {
+      transition: none;
+    }
+
+    .arcane-panel:hover {
+      transform: none;
+    }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .arcane-panel {
+      border-radius: 12px;
+    }
+
+    .arcane-panel-content {
+      padding: 1rem;
+    }
+
+    .arcane-panel-title {
+      font-size: 1rem;
+    }
+  }
+</style>

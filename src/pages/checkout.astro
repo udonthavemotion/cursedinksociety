@@ -5,7 +5,7 @@ import content from '../data/content.json';
 const title = "Checkout — Cursed Ink Society";
 const description = "Complete your purchase securely with our PCI DSS compliant checkout system.";
 
-const products = content.products.items;
+const products = content.products?.items || [];
 ---
 
 <Layout title={title} description={description}>

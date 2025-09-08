@@ -1,0 +1,158 @@
+---
+export interface Props {
+  label: string;
+  value: number;
+  max?: number;
+  color?: 'gold' | 'silver' | 'accent';
+  animated?: boolean;
+  className?: string;
+}
+
+const { label, value, max = 100, color = 'gold', animated = true, className = '' } = Astro.props;
+const percentage = Math.min((value / max) * 100, 100);
+---
+
+<div class={`stat-bar ${className}`}>
+  <div class="stat-header">
+    <span class="stat-label">{label}</span>
+    <span class="stat-value">{value}</span>
+  </div>
+  <div class="stat-track">
+    <div
+      class={`stat-fill stat-fill-${color} ${animated ? 'stat-fill-animated' : ''}`}
+      style={`width: ${percentage}%`}
+    ></div>
+  </div>
+</div>
+
+<style>
+  .stat-bar {
+    margin-bottom: 1rem;
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .stat-value {
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-weight: bold;
+    min-width: 35px;
+    text-align: right;
+    margin-left: 0.5rem;
+  }
+
+  .stat-track {
+    background: linear-gradient(90deg, #1a0f0f, #2a1a1a);
+    height: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .stat-fill {
+    height: 100%;
+    border-radius: 5px;
+    position: relative;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .stat-fill-gold {
+    background: linear-gradient(90deg, var(--accent0), var(--gold));
+  }
+
+  .stat-fill-silver {
+    background: linear-gradient(90deg, var(--silver), #c0c0c0);
+  }
+
+  .stat-fill-accent {
+    background: linear-gradient(90deg, var(--gold), var(--accent0));
+  }
+
+  .stat-fill-animated::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.3),
+      transparent
+    );
+    animation: stat-shimmer 2.5s ease-in-out infinite;
+  }
+
+  @keyframes stat-shimmer {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  .stat-fill:hover {
+    filter: brightness(1.1);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .stat-fill {
+      transition: none;
+    }
+
+    .stat-fill-animated::after {
+      animation: none;
+    }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .stat-bar {
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-track {
+      height: 10px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+    }
+
+    .stat-value {
+      font-size: 0.75rem;
+      min-width: 30px;
+    }
+  }
+
+  /* Dark mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .stat-track {
+      background: linear-gradient(90deg, #0f0808, #1a1111);
+    }
+  }
+</style>

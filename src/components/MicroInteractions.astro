@@ -1,0 +1,378 @@
+---
+// MicroInteractions.astro - Sophisticated micro-interactions for psychological appeal
+---
+
+<div class="micro-interactions-container">
+  <!-- Floating particles for ambient atmosphere -->
+  <div class="floating-particles">
+    {Array.from({ length: 20 }).map((_, i) => (
+      <div
+        class={`particle particle-${i % 3 + 1}`}
+        style={`
+          left: ${Math.random() * 100}%;
+          animation-delay: ${Math.random() * 10}s;
+          animation-duration: ${8 + Math.random() * 4}s;
+        `}
+      ></div>
+    ))}
+  </div>
+
+  <!-- Interactive cursor follower -->
+  <div class="cursor-follower" id="cursor-follower"></div>
+</div>
+
+<style>
+  /* Floating Particles */
+  .floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float 10s infinite ease-in-out;
+  }
+
+  .particle-1 {
+    background: rgba(255, 60, 43, 0.4);
+    width: 1px;
+    height: 1px;
+  }
+
+  .particle-2 {
+    background: rgba(255, 60, 43, 0.2);
+    width: 3px;
+    height: 3px;
+  }
+
+  .particle-3 {
+    background: rgba(212, 175, 55, 0.3);
+    width: 2px;
+    height: 2px;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      opacity: 0;
+      transform: translateY(100vh) rotate(0deg);
+    }
+    10% {
+      opacity: 0.5;
+    }
+    90% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(50vh) rotate(180deg);
+    }
+  }
+
+  /* Cursor Follower */
+  .cursor-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 60, 43, 0.3);
+    border: 1px solid rgba(255, 60, 43, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(2px);
+  }
+
+  .cursor-follower.active {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* Enhanced hover effects for interactive elements */
+  .interactive-element {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+
+  .interactive-element::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 60, 43, 0.1), rgba(212, 175, 55, 0.1));
+    opacity: 0;
+    border-radius: inherit;
+    transition: var(--transition-smooth);
+    z-index: -1;
+  }
+
+  .interactive-element:hover::before {
+    opacity: 1;
+  }
+
+  /* Magnetic effect for buttons */
+  .magnetic-btn {
+    transition: var(--transition-smooth);
+    transform-origin: center;
+  }
+
+  /* Subtle glow animations */
+  @keyframes subtleGlow {
+    0%, 100% {
+      text-shadow: var(--glow-subtle);
+    }
+    50% {
+      text-shadow: var(--glow-primary);
+    }
+  }
+
+  .glow-text {
+    animation: subtleGlow 3s ease-in-out infinite;
+  }
+
+  /* Parallax scroll effect */
+  .parallax-element {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Smooth reveal animations */
+  .reveal-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition-smooth);
+  }
+
+  .reveal-element.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Loading shimmer effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .particle,
+    .cursor-follower,
+    .interactive-element,
+    .glow-text,
+    .shimmer::before {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .reveal-element {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  class MicroInteractions {
+    private cursorFollower: HTMLElement;
+    private interactiveElements: NodeListOf<Element>;
+    private parallaxElements: NodeListOf<Element>;
+    private revealElements: NodeListOf<Element>;
+    private lastMouseX: number = 0;
+    private lastMouseY: number = 0;
+
+    constructor() {
+      this.cursorFollower = document.getElementById('cursor-follower')!;
+      this.interactiveElements = document.querySelectorAll('.interactive-element, .btn, .gallery-item, .specialty-card');
+      this.parallaxElements = document.querySelectorAll('.parallax-element');
+      this.revealElements = document.querySelectorAll('.reveal-element');
+
+      this.init();
+    }
+
+    private init() {
+      this.setupCursorFollower();
+      this.setupMagneticEffects();
+      this.setupParallax();
+      this.setupRevealAnimations();
+      this.setupParticleEffects();
+    }
+
+    private setupCursorFollower() {
+      let mouseX = 0;
+      let mouseY = 0;
+      let followerX = 0;
+      let followerY = 0;
+
+      const updateCursorFollower = () => {
+        const easing = 0.15;
+        followerX += (mouseX - followerX) * easing;
+        followerY += (mouseY - followerY) * easing;
+
+        if (this.cursorFollower) {
+          this.cursorFollower.style.left = `${followerX}px`;
+          this.cursorFollower.style.top = `${followerY}px`;
+        }
+
+        requestAnimationFrame(updateCursorFollower);
+      };
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        if (this.cursorFollower) {
+          this.cursorFollower.classList.add('active');
+        }
+      });
+
+      document.addEventListener('mouseleave', () => {
+        if (this.cursorFollower) {
+          this.cursorFollower.classList.remove('active');
+        }
+      });
+
+      updateCursorFollower();
+    }
+
+    private setupMagneticEffects() {
+      this.interactiveElements.forEach(element => {
+        const htmlElement = element as HTMLElement;
+
+        htmlElement.addEventListener('mouseenter', () => {
+          if (this.cursorFollower) {
+            this.cursorFollower.style.width = '40px';
+            this.cursorFollower.style.height = '40px';
+            this.cursorFollower.style.background = 'rgba(255, 60, 43, 0.1)';
+            this.cursorFollower.style.borderColor = 'rgba(255, 60, 43, 0.8)';
+          }
+        });
+
+        htmlElement.addEventListener('mouseleave', () => {
+          if (this.cursorFollower) {
+            this.cursorFollower.style.width = '20px';
+            this.cursorFollower.style.height = '20px';
+            this.cursorFollower.style.background = 'rgba(255, 60, 43, 0.3)';
+            this.cursorFollower.style.borderColor = 'rgba(255, 60, 43, 0.5)';
+          }
+        });
+      });
+    }
+
+    private setupParallax() {
+      let ticking = false;
+
+      const updateParallax = () => {
+        const scrolled = window.pageYOffset;
+
+        this.parallaxElements.forEach((element, index) => {
+          const htmlElement = element as HTMLElement;
+          const rate = (index + 1) * 0.5;
+          const yPos = -(scrolled * rate);
+
+          htmlElement.style.transform = `translateY(${yPos}px)`;
+        });
+
+        ticking = false;
+      };
+
+      const requestTick = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', requestTick);
+    }
+
+    private setupRevealAnimations() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      this.revealElements.forEach(element => {
+        observer.observe(element);
+      });
+    }
+
+    private setupParticleEffects() {
+      // Add random particle movement variations
+      const particles = document.querySelectorAll('.particle');
+      particles.forEach((particle, index) => {
+        const htmlParticle = particle as HTMLElement;
+
+        // Randomize animation properties
+        const duration = 8 + Math.random() * 4;
+        const delay = Math.random() * 10;
+
+        htmlParticle.style.animationDuration = `${duration}s`;
+        htmlParticle.style.animationDelay = `${delay}s`;
+
+        // Add subtle random movement
+        setInterval(() => {
+          const randomX = (Math.random() - 0.5) * 20;
+          const randomY = (Math.random() - 0.5) * 20;
+          htmlParticle.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }, 3000 + Math.random() * 2000);
+      });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new MicroInteractions());
+  } else {
+    new MicroInteractions();
+  }
+</script>

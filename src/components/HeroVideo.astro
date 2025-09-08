@@ -1,0 +1,106 @@
+---
+// Import research-informed data
+import siteData from '../data/cis.json';
+const { hero, site } = siteData;
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background Video/Picture Hybrid (Research-aligned) -->
+  <div class="absolute inset-0 z-0">
+    <!-- Video Background (muted loop for cinematic effect) -->
+    <video
+      class="w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster={hero.poster}
+      aria-hidden="true"
+    >
+      <source src={hero.video} type="video/mp4" />
+      <!-- Fallback image for performance -->
+      <img
+        src={hero.poster}
+        alt=""
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+    </video>
+
+    <!-- Gradient overlay for text readability -->
+    <div class="absolute inset-0 bg-gradient-to-b from-cursed-dark/80 via-cursed-dark/60 to-cursed-dark/90"></div>
+
+    <!-- Subtle pattern overlay (gothic aesthetic) -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,215,0,0.15)_1px,transparent_0)] bg-[length:20px_20px]"></div>
+    </div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Kicker (Research-informed) -->
+    <div class="mb-6">
+      <span class="inline-block px-4 py-2 bg-cursed-red/20 border border-cursed-red/30 rounded-full text-cursed-gold text-sm font-medium tracking-wider uppercase">
+        {hero.kicker}
+      </span>
+    </div>
+
+    <!-- Main Headline (Gothic display font) -->
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-cursed-white mb-6 leading-tight">
+      <span class="block">{hero.headline.split(' ').slice(0, 2).join(' ')}</span>
+      <span class="block text-cursed-gold">{hero.headline.split(' ').slice(2).join(' ')}</span>
+    </h1>
+
+    <!-- Subheadline -->
+    <p class="text-lg sm:text-xl md:text-2xl text-cursed-muted max-w-4xl mx-auto mb-12 leading-relaxed">
+      {hero.subhead}
+    </p>
+
+    <!-- CTA Buttons (Lead-only, research-aligned) -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a
+        href="#artists"
+        class="group inline-flex items-center px-8 py-4 bg-cursed-red hover:bg-cursed-red/90 text-cursed-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-cursed-red/25"
+      >
+        <span>Meet Our Artists</span>
+        <svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+
+      <a
+        href="#portfolio"
+        class="inline-flex items-center px-8 py-4 border-2 border-cursed-gold text-cursed-gold hover:bg-cursed-gold hover:text-cursed-dark font-semibold rounded-lg transition-all duration-300"
+      >
+        <span>View Our Work</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+    <svg class="w-6 h-6 text-cursed-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<style>
+  /* Performance optimization: Ensure video loads efficiently */
+  video {
+    will-change: transform;
+  }
+
+  /* Accessibility: Ensure sufficient contrast */
+  .hero-text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Research-aligned: Cinematic aspect ratio */
+  @media (min-aspect-ratio: 16/9) {
+    video {
+      object-fit: cover;
+    }
+  }
+</style>

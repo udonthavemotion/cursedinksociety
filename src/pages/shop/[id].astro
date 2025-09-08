@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import content from '../../data/content.json';
 
 export async function getStaticPaths() {
-  const products = content.products.items;
+  const products = content.products?.items || [];
 
   return products.map((product) => {
     return {
@@ -14,16 +14,16 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props;
-const categories = content.products.categories;
-const category = categories[product.category];
+const categories = content.products?.categories || {};
+const category = categories[product?.category] || {};
 
-const title = `${product.name} — Cursed Ink Society`;
-const description = product.description;
+const title = `${product?.name || 'Product'} — Cursed Ink Society`;
+const description = product?.description || 'Premium tattoo aftercare products';
 
 // Get related products (same category, excluding current)
-const relatedProducts = content.products.items
-  .filter(p => p.category === product.category && p.id !== product.id)
-  .slice(0, 4);
+const relatedProducts = content.products?.items
+  ?.filter(p => p.category === product?.category && p.id !== product?.id)
+  ?.slice(0, 4) || [];
 ---
 
 <Layout title={title} description={description}>

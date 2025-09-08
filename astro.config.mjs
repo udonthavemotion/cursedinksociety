@@ -2,7 +2,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
-import vue from '@astrojs/vue';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -46,12 +45,11 @@ export default defineConfig({
     formats: ['avif', 'webp', 'png', 'jpg'],
     defaultQuality: 85
   },
-  // Experimental features removed - viewTransitions not available in Astro 5.x
+  // Experimental features removed - viewTransitions is deprecated
   // SEO and accessibility optimizations
   site: 'https://cursedingksociety.com',
   // Integrations for enhanced performance and SEO
   integrations: [
-    vue(),
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,

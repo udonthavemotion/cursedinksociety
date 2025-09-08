@@ -1,35 +1,16 @@
-/* Font imports for efficient loading */
 @import "@fontsource-variable/cinzel";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
 
 :root{
-  /* Minimal B/W + Red Accent Theme */
-  --black: #000000;
-  --white: #ffffff;
-  --gray-200: #E5E7EB; /* Foreground text */
-  --gray-300: #D1D5DB; /* Inactive link */
-  --gray-400: #9CA3AF; /* Muted text */
-  --red-600: #DC2626; /* Accent */
-  --red-700: #B91C1C; /* Accent hover */
-
-  /* Border and Shadow System */
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-
-  /* Font Family Variables */
-  --font-family-display: "Cinzel Variable", ui-serif, Georgia, serif;
-  --font-family-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-
-  /* Transitions */
-  --transition: all 0.2s ease;
-
-  /* Responsive Breakpoints */
-  --breakpoint-mobile-max: 767px;
-  --breakpoint-tablet-min: 768px;
-  --breakpoint-tablet-max: 1023px;
-  --breakpoint-desktop-min: 1024px;
-  --breakpoint-desktop-large-min: 1440px;
+  /* Cursed Ink Society Brand Colors - Gothic/Modern Fusion */
+  --bg0:#0a0a0c; --bg1:#0f0a10; /* Deeper blacks for gothic feel */
+  --accent0:#dc143c; --accent1:#b22222; --ink:#f5f5f5; /* Crimson red, deeper red, clean white */
+  --gold:#d4af37; --silver:#c0c0c0; /* Metallic accents */
+  --glow-primary: 0 0 12px rgba(220, 20, 60, 0.6), 0 0 24px rgba(220, 20, 60, 0.3), 0 0 36px rgba(220, 20, 60, 0.1);
+  --glow-subtle: 0 0 6px rgba(220, 20, 60, 0.4);
+  --glow-gold: 0 0 8px rgba(212, 175, 55, 0.5), 0 0 16px rgba(212, 175, 55, 0.2);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-glass: 1px solid rgba(255,255,255,.12);
+  --bg-glass: rgba(255,255,255,.04);
 }
 
 *{box-sizing:border-box}
@@ -39,19 +20,20 @@ html{
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-width: 320px; /* Minimum viewport width for accessibility */
 }
 
 html,body{height:100%}
 body{
-  margin:0;
-  color: var(--gray-200);
-  background: var(--black);
-  font-family: var(--font-family-body);
+  margin:0; color:var(--ink);
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255, 60, 43, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 122, 24, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 50%, #0b0b0d 100%);
+  background-attachment: fixed;
+  font-family:"Cinzel Variable", ui-serif, Georgia, serif;
+  font-display: swap;
   line-height: 1.6;
-  position: relative;
 }
-
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
@@ -64,260 +46,104 @@ body{
 }
 
 a{color:inherit;text-decoration:none}
-a:hover{text-decoration:underline}
-
 .container{max-width:1100px; margin:0 auto; padding:0 1.2rem}
 .badge{font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
   display:inline-block; padding:.35rem .6rem; border-radius:999px;
-  border:1px solid var(--border); background:rgba(255,255,255,.03)}
+  border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03)}
+.logo{height:140px; width:auto; filter:drop-shadow(0 0 20px rgba(255,70,35,.45))}
 
-/* Minimal Typography */
-h1, h2, h3 {
-  font-family: var(--font-family-display);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--white);
+h1{font-size:clamp(2.4rem,6vw,4.6rem); line-height:.96; margin:.8rem 0 1rem}
+.shine{
+  background:conic-gradient(from 220deg at 50% 50%, #ffd7b8, #ff6a3d, #ff3c2b, #ffb45a, #ffd7b8);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 18px rgba(255,90,40,.3));
 }
-
-h1{
-  font-size: clamp(2.4rem, 6vw, 4.6rem);
-  line-height: 0.96;
-  margin: 0.8rem 0 1rem;
-}
-
-h2 {
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  line-height: 1.1;
-  margin: 1.5rem 0 1rem;
-  font-weight: 500;
-}
-
-h3 {
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
-  line-height: 1.2;
-  margin: 1.2rem 0 0.8rem;
-  font-weight: 500;
-}
-
 
 .hero{position:relative; min-height:92vh; display:grid; place-items:center; text-align:center; overflow:hidden}
 .hero canvas{position:absolute; inset:0; width:100%; height:100%; z-index:0}
 .hero .content{position:relative; z-index:1}
 
 .row{display:flex; gap:1rem; justify-content:center; flex-wrap:wrap}
-/* Minimal Button System */
 .btn{
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.85rem 1.15rem;
-  border-radius: 999px;
-  background: var(--red-600);
-  color: var(--white);
-  font-weight: 500;
-  transition: var(--transition);
-  cursor: pointer;
-  font-size: 0.95rem;
-  text-align: center;
-  white-space: nowrap;
-  min-height: 44px;
-  position: relative;
-  overflow: hidden;
-  border: none;
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.85rem 1.15rem; border-radius:14px;
+  border:var(--border-glass);
+  background:linear-gradient(180deg, var(--bg-glass), rgba(255,255,255,.02));
+  backdrop-filter:blur(6px); color:var(--ink);
+  transition:var(--transition-smooth);
+  cursor:pointer; font-size:.95rem; font-weight:500;
+  text-align:center; white-space:nowrap;
+  min-height:44px; /* Touch target size */
+  position:relative; overflow:hidden;
 }
 
+.btn::before{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(45deg, transparent, rgba(255,255,255,.08), transparent);
+  transform:translateX(-100%); transition:transform .6s;
+}
+
+.btn:hover::before{ transform:translateX(100%); }
 .btn:hover, .btn:focus-visible{
-  background: var(--red-700);
-  transform: translateY(-1px);
+  transform:translateY(-2px); 
+  border-color:rgba(255,255,255,.28);
+  box-shadow:0 16px 40px rgba(0,0,0,.45), 0 0 30px rgba(255,90,40,.25);
 }
 
 .btn:focus-visible{
-  outline: 2px solid var(--white);
-  outline-offset: 2px;
+  outline:2px solid var(--accent0); outline-offset:2px;
 }
 
-/* Ghost Button */
-.btn--ghost {
-  background: transparent;
-  color: var(--gray-200);
-  border: 1px solid var(--border);
+.btn--primary{
+  background:
+    radial-gradient(120% 200% at 0% 0%, rgba(255,122,24,.35), transparent 40%),
+    linear-gradient(90deg, var(--accent0), var(--accent1));
+  color:#100; border:none; font-weight:700;
+  box-shadow:0 4px 16px rgba(255,60,43,.25);
 }
 
-.btn--ghost:hover, .btn--ghost:focus-visible {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--white);
-}
-
-/* Outline Button */
-.btn--outline {
-  background: transparent;
-  color: var(--gray-200);
-  border: 1px solid var(--border);
-}
-
-.btn--outline:hover, .btn--outline:focus-visible {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--white);
+.btn--primary:hover{
+  box-shadow:0 8px 24px rgba(255,60,43,.35), 0 0 40px rgba(255,90,40,.3);
 }
 
 .input{
-  padding: 0.9rem 1rem;
-  border-radius: 14px;
-  width: min(420px, 80vw);
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--gray-200);
-  outline: none;
-  font-size: 1rem;
-  min-height: 44px;
-  transition: var(--transition);
+  padding:.9rem 1rem; border-radius:14px; width:min(420px, 80vw);
+  border:var(--border-glass);
+  background:var(--bg-glass); color:var(--ink);
+  outline:none; font-size:1rem; min-height:44px;
+  transition:var(--transition-smooth);
+  backdrop-filter:blur(6px);
 }
 
 .input:focus{
-  border-color: var(--red-600);
-  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+  border-color:rgba(255,122,24,.5);
+  box-shadow:0 0 0 2px rgba(255,60,43,.2), 0 4px 16px rgba(0,0,0,.2);
 }
 
-.input::placeholder{
-  color: var(--gray-400);
-}
-.input:focus::placeholder{
-  opacity: 0.4;
-}
+.input::placeholder{color:rgba(233,226,216,.6)}
+.input:focus::placeholder{opacity:.4}
 
 small{opacity:.7; font-size:.85rem}
 footer{padding:3rem 0; text-align:center}
 .social a{opacity:.85; transition:var(--transition-smooth)} 
 .social a:hover, .social a:focus-visible{opacity:1; transform:scale(1.05)}
 
-
-/* Responsive Breakpoints & Global Styles */
-
-/* Mobile (320px - 767px) - Enhanced Performance */
-@media (max-width: var(--breakpoint-mobile-max)) {
-  .container{
-    padding: 0 1rem;
-    max-width: 100%;
-  }
-  .hero{
-    min-height: 100vh;
-    padding: 2rem 0;
-  }
-  .logo{
-    height: 100px;
-    /* Optimize for mobile rendering */
-    transform: translateZ(0);
-    will-change: transform;
-  }
-  h1{
-    font-size: clamp(2rem, 8vw, 3.2rem);
-    /* Reduce complex effects on mobile */
-    text-shadow: var(--crimson-glow);
-  }
-  .row{
-    flex-direction: column;
-    align-items: center;
-    gap: .8rem;
-  }
-  .btn{
-    width: 100%;
-    max-width: 280px;
-    justify-content: center;
-    /* Optimize touch targets */
-    min-height: 48px;
-    padding: 1rem 1.5rem;
-  }
-  .input{
-    width: 100%;
-    max-width: 320px;
-    /* Optimize touch targets */
-    min-height: 48px;
-  }
-  .social{
-    flex-direction: row;
-    gap: .8rem;
-    justify-content: center;
-  }
-  .social .btn{
-    width: auto;
-    max-width: none;
-    flex: 1;
-    min-width: 44px;
-  }
-  body{
-    padding: 0 0.5rem;
-  }
-  
-  /* Reduce animations on mobile for performance */
-  *, *::before, *::after {
-    animation-duration: 0.3s !important;
-  }
-  
-  /* Optimize background patterns */
-  body::before {
-    background-size: 80px 80px, 80px 80px;
-    opacity: 0.2;
-  }
+/* Red glow for all white text as per user memory */
+h1, .badge, p, small, .btn, .brand-mark, .tagline, .social-link {
+  text-shadow: var(--glow-primary);
 }
 
-/* Tablet (768px - 1023px) */
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
-  .container{
-    padding: 0 1.5rem;
-    max-width: 900px;
-  }
-  .hero{
-    min-height: 85vh;
-    padding: 3rem 0;
-  }
-  h1{font-size: clamp(2.8rem, 6vw, 4.2rem)}
-  .btn{
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
-  }
-  .input{
-    width: min(400px, 70vw);
-  }
-}
-
-/* Desktop (1024px+) */
-@media (min-width: var(--breakpoint-desktop-min)) {
-  .container{
-    padding: 0 2rem;
-    max-width: 1100px;
-  }
-  .hero{
-    min-height: 90vh;
-    padding: 4rem 0;
-  }
-  h1{font-size: clamp(3.2rem, 5vw, 4.6rem)}
-  .btn{
-    padding: 1.1rem 1.8rem;
-    font-size: 1.15rem;
-  }
-  .input{
-    width: min(420px, 60vw);
-  }
-}
-
-/* Large Desktop (1440px+) */
-@media (min-width: var(--breakpoint-desktop-large-min)) {
-  .container{
-    max-width: 1400px;
-    padding: 0 3rem;
-  }
-  .hero{
-    min-height: 95vh;
-    padding: 5rem 0;
-  }
-  h1{font-size: clamp(3.6rem, 4vw, 5.2rem)}
-  .btn{
-    padding: 1.2rem 2rem;
-    font-size: 1.2rem;
-  }
-  .input{
-    width: min(480px, 50vw);
-  }
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .container{padding:0 1rem}
+  .hero{min-height:100vh; padding:2rem 0}
+  .logo{height:100px}
+  h1{font-size:clamp(2rem,8vw,3.2rem)}
+  .row{flex-direction:column; align-items:center; gap:.8rem}
+  .btn{width:100%; max-width:280px; justify-content:center}
+  .input{width:100%; max-width:320px}
+  .social{flex-direction:row; gap:.6rem}
+  .social .btn{width:auto; max-width:none; flex:1}
 }
 
 /* High contrast mode support */
@@ -340,4 +166,28 @@ footer{padding:3rem 0; text-align:center}
 
 @keyframes spin{
   to{transform:rotate(360deg)}
+}
+
+/* Guild Hall Enhancements */
+.guild-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.guild-text-glow {
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Animation utilities */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotate-slow {
+  animation: rotate 20s linear infinite;
+}
+
+/* Enhanced transitions */
+.transition-guild {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
