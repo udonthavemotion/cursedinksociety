@@ -1,0 +1,839 @@
+---
+// Enhanced Artists Hero - Professional Lighting & 3D Effects
+export interface Props {
+  showStats?: boolean;
+}
+
+const { showStats = true } = Astro.props;
+---
+
+<style>
+/* Architectural Hero - Professional Lighting */
+.artists-hero {
+  background:
+    var(--spotlight),
+    radial-gradient(ellipse 1000px 600px at 50% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+    var(--marble-base),
+    var(--stone-texture);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Centerpiece logo design */
+.logo-centerpiece {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 4rem;
+  perspective: 1200px;
+}
+
+.logo {
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 0 120px rgba(255, 255, 255, 0.5))
+          drop-shadow(0 0 180px rgba(255, 255, 255, 0.3))
+          drop-shadow(0 0 240px rgba(255, 255, 255, 0.2));
+  height: 240px;
+  width: auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Architectural Rim Lighting - Mirror-Inspired */
+.logo-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  z-index: 1;
+  animation: rimPulse 5s ease-in-out infinite;
+  box-shadow: var(--rim-glow);
+}
+
+.logo-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  transform: translate(-50%, -50%);
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.08) 60deg,
+      transparent 120deg,
+      rgba(255, 255, 255, 0.04) 180deg,
+      transparent 240deg,
+      rgba(255, 255, 255, 0.08) 300deg,
+      transparent 360deg);
+  border-radius: 50%;
+  z-index: 0;
+  animation: architecturalRotate 15s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes rimPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: var(--rim-glow);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.03);
+    box-shadow: var(--rim-glow), 0 0 60px rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes architecturalRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Subtle brand identifier */
+.brand-mark {
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  color: var(--ink);
+}
+
+/* Minimal tagline */
+.tagline {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Artists-specific content */
+.artists-intro {
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-bottom: 4rem;
+  opacity: 0.85;
+  max-width: 500px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Stats Section - Artists Page Specific */
+.artists-stats {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  min-width: 160px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #f5f5f5;
+  text-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: rgba(245, 245, 245, 0.8);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+/* Enhanced glow effects */
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 40px rgba(255, 60, 43, 0.7))
+            drop-shadow(0 0 80px rgba(255, 60, 43, 0.4))
+            drop-shadow(0 0 120px rgba(255, 60, 43, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 60px rgba(255, 60, 43, 0.9))
+            drop-shadow(0 0 120px rgba(255, 60, 43, 0.6))
+            drop-shadow(0 0 180px rgba(255, 60, 43, 0.3));
+  }
+}
+
+@keyframes pulseRing {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.logo:hover {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Minimal social links */
+.social-minimal {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0.8rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  backdrop-filter: none;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.social-link:hover {
+  transform: translateY(-1px);
+  opacity: 0.8;
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.social-link:hover svg {
+  opacity: 1;
+}
+
+/* Content container for hero */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .logo-centerpiece {
+    padding: 1rem 0;
+    min-height: 100vh;
+  }
+
+  .logo {
+    height: 180px;
+  }
+
+  .logo-container {
+    margin-bottom: 3rem;
+  }
+
+  .logo-container::before {
+    width: 240px;
+    height: 240px;
+  }
+
+  .logo-container::after {
+    width: 320px;
+    height: 320px;
+  }
+
+  .brand-mark {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    max-width: 320px;
+  }
+
+  .artists-intro {
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 380px;
+  }
+
+  .artists-stats {
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-item {
+    min-width: 140px;
+    padding: 1.25rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  .social-minimal {
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-link {
+    width: auto;
+    justify-content: flex-start;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .logo {
+    height: 200px;
+  }
+
+  .social-minimal {
+    gap: 2.5rem;
+  }
+
+  .social-link {
+    padding: 0.5rem 0.7rem;
+  }
+}
+
+/* Enhanced accessibility for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-container::before,
+  .logo-container::after {
+    animation: none;
+  }
+
+  .logo:hover {
+    animation: none;
+    filter: drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+            drop-shadow(0 0 100px rgba(255, 60, 43, 0.5));
+  }
+
+  .social-link::before {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .social-link {
+    border-width: 2px;
+  }
+
+  .stat-item {
+    border-width: 2px;
+  }
+}
+</style>
+
+<section class="artists-hero" id="artists-hero-section">
+  <canvas id="artists-canvas" aria-hidden="true" role="presentation"></canvas>
+
+  <div class="hero-content">
+    <div class="logo-centerpiece">
+
+      <!-- Centered Logo as Main Focus -->
+      <div class="logo-container">
+        <img
+          class="logo"
+          id="artists-rotating-logo"
+          src="/brand/cursed-ink-logo.png"
+          alt="Cursed Ink Society - Professional tattoo artistry and mystical designs"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <!-- Minimal Brand Mark -->
+      <div class="brand-mark">Cursed Ink Society</div>
+
+      <!-- Subtle Tagline -->
+      <p class="tagline">Where artistry meets the mystical</p>
+
+      <!-- Artists-Specific Introduction -->
+      <p class="artists-intro">
+        Discover our collective of master tattoo artists, each bringing unique vision and unparalleled skill to every piece. From custom designs to traditional work, our guild creates lasting art that tells your story.
+      </p>
+
+      {showStats && (
+        <!-- Artists Stats -->
+        <div class="artists-stats">
+          <div class="stat-item">
+            <span class="stat-number">12+</span>
+            <span class="stat-label">Artists</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Years Combined</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">8</span>
+            <span class="stat-label">Art Styles</span>
+          </div>
+        </div>
+      )}
+
+      <!-- Redesigned Social Links -->
+      <div class="social-minimal" role="navigation" aria-label="Connect with our artists">
+        <a class="social-link" href="https://instagram.com/cursedinksociety" aria-label="Follow us on Instagram" rel="noopener" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+          </svg>
+          Instagram
+        </a>
+        <a class="social-link" href="https://facebook.com/cursedinksociety" aria-label="Follow us on Facebook" rel="noopener" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Facebook
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Enhanced Three.js background with performance optimizations and error handling
+  import * as THREE from 'three';
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Performance settings based on device capabilities
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const particleCount = isMobile ? 400 : (prefersReducedMotion ? 200 : 800);
+  const pixelRatio = Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1);
+
+  async function initArtistsThreeJS(): Promise<void> {
+    try {
+      const canvas = document.getElementById('artists-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      // WebGL capability check
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        console.warn('WebGL not supported, falling back to CSS background');
+        canvas.style.display = 'none';
+        return;
+      }
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? 'low-power' : 'high-performance'
+      });
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 2, 0.1, 100);
+      camera.position.set(0, 0, 4.2);
+
+      // Optimized resize handler with debouncing
+      let resizeTimeout: number;
+      function resize(): void {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = window.setTimeout(() => {
+          const { clientWidth: w, clientHeight: h } = canvas;
+          if (canvas.width !== w || canvas.height !== h) {
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+          }
+        }, 16);
+      }
+
+      resize();
+      new ResizeObserver(resize).observe(canvas);
+      renderer.setPixelRatio(pixelRatio);
+
+      // Optimized sprite creation
+      const createSprite = (color: number, size: number, x: number, y: number, z: number): THREE.Sprite => {
+        const material = new THREE.SpriteMaterial({
+          color,
+          transparent: true,
+          opacity: 0.6,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.setScalar(size);
+        sprite.position.set(x, y, z);
+        return sprite;
+      };
+
+      // Add glow sprites only if not reduced motion
+      if (!prefersReducedMotion) {
+        scene.add(createSprite(0xff5a28, 4, -1.5, 0.8, -1));
+        scene.add(createSprite(0xffb45a, 3, 1.5, -0.3, -1.3));
+        scene.add(createSprite(0xdc143c, 3.5, 0.8, 0.9, -0.8));
+      }
+
+      // Optimized particle system
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 14;
+        positions[i3 + 1] = (Math.random() - 0.5) * 8;
+        positions[i3 + 2] = -(Math.random() * 6 + 1);
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffe7d0,
+        size: isMobile ? 0.012 : 0.018,
+        transparent: true,
+        opacity: prefersReducedMotion ? 0.3 : 0.7,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, particleMaterial);
+      scene.add(particles);
+
+      // Enhanced shader material with error handling and enhanced rotation
+      const uniforms = {
+        uTime: { value: 0 },
+        uTex: { value: null as THREE.Texture | null },
+        uReducedMotion: { value: prefersReducedMotion ? 1.0 : 0.0 },
+        uMouse: { value: new THREE.Vector2(0.0, 0.0) }
+      };
+
+      // Load texture with error handling
+      const textureLoader = new THREE.TextureLoader();
+      textureLoader.load(
+        '/brand/cursed-ink-logo.png',
+        (texture: THREE.Texture) => {
+          uniforms.uTex.value = texture;
+          texture.generateMipmaps = false;
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+        },
+        undefined,
+        (error: unknown) => {
+          console.warn('Logo texture failed to load:', error);
+        }
+      );
+
+      const shaderMaterial = new THREE.ShaderMaterial({
+        uniforms,
+        vertexShader: `
+          varying vec2 vUv;
+          uniform float uTime;
+          uniform float uReducedMotion;
+          uniform vec2 uMouse;
+          void main() {
+            vUv = uv;
+            vec3 p = position;
+            float motionScale = mix(1.0, 0.1, uReducedMotion);
+
+            // Enhanced rotation based on mouse position
+            float rotationIntensity = length(uMouse) * 0.2;
+            float angle = atan(uMouse.y, uMouse.x) + uTime * 0.3;
+
+            // Apply rotation and gentle wave motion
+            p.x += sin(angle + uTime) * 0.015 * motionScale * (1.0 + rotationIntensity);
+            p.y += cos(angle + uTime) * 0.015 * motionScale * (1.0 + rotationIntensity);
+            p.z += sin((position.x * 3.0 + uTime * 1.2)) * 0.006 * motionScale +
+                    cos((position.y * 2.0 - uTime * 1.6)) * 0.006 * motionScale;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec2 vUv;
+          uniform sampler2D uTex;
+          uniform float uTime;
+          uniform float uReducedMotion;
+          uniform vec2 uMouse;
+          void main() {
+            vec2 uv = vUv;
+            float motionScale = mix(1.0, 0.1, uReducedMotion);
+
+            // Enhanced distortion based on mouse interaction
+            float mouseInfluence = length(uMouse) * 0.3;
+            uv.x += sin((uv.y * 6.0) + uTime * 1.5) * 0.008 * motionScale * (1.0 + mouseInfluence);
+            uv.y += sin((uv.x * 8.0) + uTime * 2.0) * 0.008 * motionScale * (1.0 + mouseInfluence);
+
+            vec4 color = texture2D(uTex, uv);
+            if (color.a < 0.15) discard;
+
+            // Add subtle glow based on mouse proximity
+            float glow = 1.0 + mouseInfluence * 0.2;
+            color.rgb *= glow;
+
+            gl_FragColor = color;
+          }
+        `,
+        transparent: true
+      });
+
+      const logoPlane = new THREE.Mesh(
+        new THREE.PlaneGeometry(4.0, 4.0, isMobile ? 32 : 64, isMobile ? 32 : 64),
+        shaderMaterial
+      );
+      scene.add(logoPlane);
+
+      // Enhanced mouse tracking for both 3D and 2D logo rotation
+      const mouse = new THREE.Vector2();
+      let mouseUpdateId = 0;
+
+      const updateMouse = (e: PointerEvent): void => {
+        cancelAnimationFrame(mouseUpdateId);
+        mouseUpdateId = requestAnimationFrame(() => {
+          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+          // Update shader uniforms
+          uniforms.uMouse.value.set(mouse.x, mouse.y);
+        });
+      };
+
+      window.addEventListener('pointermove', updateMouse, { passive: true });
+
+      // Performance monitoring
+      let lastTime = performance.now();
+      let frameCount = 0;
+      const targetFPS = isMobile ? 30 : 60;
+      const frameInterval = 1000 / targetFPS;
+
+      const clock = new THREE.Clock();
+      let animationId: number;
+
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+
+        const currentTime = performance.now();
+        const deltaTime = currentTime - lastTime;
+
+        // Frame rate limiting for better performance
+        if (deltaTime < frameInterval) return;
+
+        const dt = clock.getDelta();
+        frameCount++;
+
+        // Update uniforms
+        uniforms.uTime.value += dt;
+
+        // Smooth camera movement (reduced on mobile/reduced motion)
+        const cameraSpeed = prefersReducedMotion ? 0.015 : (isMobile ? 0.03 : 0.05);
+        const mouseInfluence = prefersReducedMotion ? 0.15 : (isMobile ? 0.3 : 0.5);
+
+        camera.position.x += (mouse.x * mouseInfluence - camera.position.x) * cameraSpeed;
+        camera.position.y += (-mouse.y * (mouseInfluence * 0.6) - camera.position.y) * cameraSpeed;
+        camera.lookAt(0, 0, 0);
+
+        // Enhanced logo plane rotation based on mouse position
+        if (!prefersReducedMotion) {
+          const rotationSpeed = 0.2;
+          const rotationX = -mouse.y * rotationSpeed * 0.08;
+          const rotationY = mouse.x * rotationSpeed * 0.08;
+          const rotationZ = Math.sin(uniforms.uTime.value * 0.3) * 0.03;
+
+          logoPlane.rotation.x = rotationX;
+          logoPlane.rotation.y = rotationY + uniforms.uTime.value * 0.08;
+          logoPlane.rotation.z = rotationZ;
+        }
+
+        // Particle rotation (reduced for performance)
+        if (!prefersReducedMotion) {
+          particles.rotation.y += dt * (isMobile ? 0.008 : 0.015);
+        }
+
+        renderer.render(scene, camera);
+        lastTime = currentTime;
+
+        // Performance monitoring - reduce quality if FPS drops
+        if (frameCount % 60 === 0) {
+          const fps = 1000 / deltaTime;
+          if (fps < 20 && !isMobile) {
+            console.warn('Low FPS detected, reducing particle count');
+            particleMaterial.opacity *= 0.8;
+          }
+        }
+      }
+
+      animate();
+
+      // Cleanup on page unload
+      window.addEventListener('beforeunload', () => {
+        cancelAnimationFrame(animationId);
+        renderer.dispose();
+        geometry.dispose();
+        particleMaterial.dispose();
+        shaderMaterial.dispose();
+      });
+
+    } catch (error) {
+      console.error('Three.js initialization failed:', error);
+      // Fallback: hide canvas and show CSS background
+      const canvas = document.getElementById('artists-canvas');
+      if (canvas && canvas.parentElement) {
+        canvas.style.display = 'none';
+        canvas.parentElement.classList.add('artists-hero-fallback');
+      }
+    }
+  }
+
+  // Enhanced 2D logo cursor following effect for artists page
+  class ArtistsLogoRotationHandler {
+    private logo: HTMLElement | null;
+    private container: HTMLElement | null;
+    private mouse: { x: number; y: number };
+    private animationId: number | null;
+
+    constructor() {
+      this.logo = document.getElementById('artists-rotating-logo');
+      this.container = this.logo?.parentElement || null;
+      this.mouse = { x: 0, y: 0 };
+      this.animationId = null;
+      this.init();
+    }
+
+    init(): void {
+      if (!this.logo || !this.container) return;
+
+      // Enhanced mouse tracking for 2D logo rotation
+      window.addEventListener('mousemove', this.handleMouseMove.bind(this), { passive: true });
+      window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Start animation loop
+      this.animate();
+    }
+
+    handleMouseMove(e: MouseEvent): void {
+      this.updateMousePosition(e.clientX, e.clientY);
+    }
+
+    handleTouchMove(e: TouchEvent): void {
+      if (e.touches.length > 0) {
+        this.updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }
+
+    updateMousePosition(clientX: number, clientY: number): void {
+      if (!this.container) return;
+
+      const rect = this.container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Normalize mouse position relative to logo center
+      this.mouse.x = (clientX - centerX) / (window.innerWidth / 2);
+      this.mouse.y = (clientY - centerY) / (window.innerHeight / 2);
+    }
+
+    animate(): void {
+      if (!this.logo) return;
+
+      // Calculate rotation based on mouse position
+      const rotationX = -this.mouse.y * 12; // Tilt up/down
+      const rotationY = this.mouse.x * 12;  // Tilt left/right
+      const rotationZ = Math.sin(Date.now() * 0.0008) * 1.5; // Subtle continuous rotation
+
+      // Calculate scale based on mouse proximity
+      const distance = Math.sqrt(this.mouse.x * this.mouse.x + this.mouse.y * this.mouse.y);
+      const scale = 1 + Math.min(distance * 0.08, 0.12); // Slight scale increase on hover
+
+      // Apply transforms
+      this.logo.style.transform = `
+        perspective(1000px)
+        rotateX(${rotationX}deg)
+        rotateY(${rotationY}deg)
+        rotateZ(${rotationZ}deg)
+        scale(${scale})
+      `;
+
+      // Continue animation
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    destroy(): void {
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+      }
+      window.removeEventListener('mousemove', this.handleMouseMove.bind(this));
+      window.removeEventListener('touchmove', this.handleTouchMove.bind(this));
+    }
+  }
+
+  // Initialize enhanced components when DOM is ready
+  function initArtistsEnhancedComponents() {
+    new ArtistsLogoRotationHandler();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initArtistsThreeJS();
+      initArtistsEnhancedComponents();
+    });
+  } else {
+    initArtistsThreeJS();
+    initArtistsEnhancedComponents();
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    // Cleanup is handled in individual classes
+  });
+</script>

@@ -7,75 +7,109 @@ const description = "Browse our extensive portfolio of tattoo artwork. See examp
 // Import portfolio data from structured data source
 import cisData from '../data/cis.json';
 
-const portfolioData = cisData.portfolio;
+// Get all artists and their portfolio images
+const artists = cisData.artists.map(artist => ({
+  ...artist,
+  portfolioImages: artist.portfolio || []
+}));
 
-// Create categories from portfolio data with "All Work" option
-const categories = [
-  { id: 'all', name: 'All Work', count: portfolioData.featured.length },
-  ...portfolioData.categories.map(cat => ({
-    id: cat.slug,
-    name: cat.name,
-    count: portfolioData.featured.filter(item => item.category === cat.slug).length
-  }))
+// Calculate total images across all artists
+const totalImages = artists.reduce((total, artist) => total + artist.portfolioImages.length, 0);
+
+// Create unified portfolio items for the big gallery
+const allPortfolioItems: Array<{
+  id: string;
+  image: string;
+  artist: string;
+  artistSlug: string;
+  title: string;
+  alt: string;
+  specialty: string;
+}> = [];
+
+// Define artistic descriptors that match Cursed Ink Society's style
+const artisticDescriptors = [
+  "Masterful Creation", "Artistic Vision", "Ink Mastery", "Cursed Artistry", 
+  "Dark Elegance", "Timeless Craft", "Bold Expression", "Sacred Ink",
+  "Mystical Design", "Shadow & Light", "Eternal Art", "Forbidden Ink"
 ];
 
-// Use featured portfolio items from data
-const allPortfolioItems = portfolioData.featured.map((item, index) => ({
-  id: index + 1,
-  image: item.image,
-  title: item.title,
-  artist: cisData.artists.find(artist => artist.slug === item.artist)?.name || 'Cursed Ink Society',
-  category: item.category,
-  alt: item.alt
-}));
+artists.forEach((artist, artistIndex) => {
+  artist.portfolioImages.forEach((image, imageIndex) => {
+    const descriptorIndex = (artistIndex * 10 + imageIndex) % artisticDescriptors.length;
+    const primarySpecialty = artist.specialties[0] || "Custom Art";
+    
+    allPortfolioItems.push({
+      id: `artist-${artist.slug}-${imageIndex}`,
+      image: image,
+      artist: artist.name,
+      artistSlug: artist.slug,
+      title: artisticDescriptors[descriptorIndex],
+      alt: `${primarySpecialty} tattoo by ${artist.name} - Cursed Ink Society artistry`,
+      specialty: primarySpecialty
+    });
+  });
+});
 ---
 
 <Layout title={title} description={description}>
   <!-- Hero Section -->
   <section class="gallery-hero">
+    <!-- Video Background -->
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="/assets/patterns/hero-pattern.jpg"
+    >
+      <source src="/assets/gallery-hero-video.mp4" type="video/mp4">
+      <!-- Fallback image for browsers that don't support video -->
+      <img src="/assets/patterns/hero-pattern.jpg" alt="Cursed Ink Society Tattoo Artistry" class="hero-fallback">
+    </video>
+
     <div class="container">
       <div class="hero-content">
         <span class="badge">Our Work</span>
         <h1 class="hero-title shine">Portfolio Gallery</h1>
         <p class="hero-description">
-          Explore our extensive collection of tattoo artistry. Each piece represents hours of 
+          Explore our extensive collection of tattoo artistry. Each piece represents hours of
           collaboration, creativity, and craftsmanship between our artists and clients.
         </p>
+        
+        <!-- Gallery Stats -->
+        <div class="gallery-stats">
+          <div class="stat-item">
+            <span class="stat-number">{artists.length}</span>
+            <span class="stat-label">Master Artists</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">55+</span>
+            <span class="stat-label">Portfolio Pieces</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Years Combined Experience</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Filter Navigation -->
-  <section class="gallery-filters">
-    <div class="container">
-      <div class="filter-nav">
-        {categories.map((category) => (
-          <button 
-            class={`filter-btn ${category.id === 'all' ? 'filter-btn--active' : ''}`}
-            data-filter={category.id}
-          >
-            {category.name}
-            <span class="filter-count">({category.count})</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  </section>
 
-  <!-- Gallery Grid -->
+
+  <!-- Unified Gallery Grid -->
   <section class="gallery-section">
     <div class="container">
       <div class="gallery-grid" id="gallery-grid">
         {allPortfolioItems.map((item) => (
-          <article 
-            class="gallery-item" 
-            data-category={item.category}
-            data-item-id={item.id}
-          >
+          <article class="gallery-item" data-category="all" data-item-id={item.id}>
             <div class="gallery-image-container">
               <img
-                data-src={item.image}
-                alt={item.alt || `${item.title} by ${item.artist}`}
+                src={item.image}
+                alt={item.alt}
                 class="gallery-image"
                 loading="lazy"
                 width="300"
@@ -88,20 +122,20 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
                 <div class="gallery-info">
                   <h3 class="gallery-title">{item.title}</h3>
                   <p class="gallery-artist">by {item.artist}</p>
-                  <span class="gallery-category">{categories.find(c => c.id === item.category)?.name}</span>
+                  <span class="gallery-specialty">{item.specialty}</span>
                 </div>
                 <button class="gallery-view-btn" data-lightbox={item.id}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                   </svg>
-                  View
+                  View Masterpiece
                 </button>
               </div>
             </div>
           </article>
         ))}
       </div>
-      
+
       <!-- Load More Button -->
       <div class="gallery-load-more">
         <button class="btn btn--outline btn--large" id="load-more-btn">
@@ -157,17 +191,28 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       <div class="lightbox-info" id="lightbox-info">
         <h3 class="lightbox-title"></h3>
         <p class="lightbox-artist"></p>
-        <span class="lightbox-category"></span>
+        <span class="lightbox-specialty"></span>
       </div>
     </div>
   </div>
 </Layout>
 
 <script>
-  // Gallery filtering and lightbox functionality
+  // Gallery Manager with enhanced lightbox and smooth animations
   class GalleryManager {
+    galleryItems: NodeListOf<Element>;
+    viewButtons: NodeListOf<Element>;
+    lightbox: HTMLElement | null;
+    lightboxImage: HTMLElement | null;
+    lightboxInfo: HTMLElement | null;
+    lightboxClose: HTMLElement | null;
+    loadMoreBtn: HTMLElement | null;
+    currentFilter: string;
+    visibleItems: number;
+    allImages: string[];
+    currentImageIndex: number;
+
     constructor() {
-      this.filterButtons = document.querySelectorAll('.filter-btn');
       this.galleryItems = document.querySelectorAll('.gallery-item');
       this.viewButtons = document.querySelectorAll('.gallery-view-btn');
       this.lightbox = document.getElementById('lightbox');
@@ -175,31 +220,29 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       this.lightboxInfo = document.getElementById('lightbox-info');
       this.lightboxClose = document.getElementById('lightbox-close');
       this.loadMoreBtn = document.getElementById('load-more-btn');
-      
+
       this.currentFilter = 'all';
       this.visibleItems = 12; // Initially show 12 items
-      
+      this.allImages = [];
+      this.currentImageIndex = 0;
+
       this.init();
     }
 
     init() {
-      // Filter functionality
-      this.filterButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => this.handleFilter(e));
-      });
-
       // Lightbox functionality
-      this.viewButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => this.openLightbox(e));
+      this.viewButtons.forEach((btn: Element) => {
+        btn.addEventListener('click', (e: Event) => this.openLightbox(e));
       });
 
+      // Lightbox close functionality
       if (this.lightboxClose) {
         this.lightboxClose.addEventListener('click', () => this.closeLightbox());
       }
 
       if (this.lightbox) {
-        this.lightbox.addEventListener('click', (e) => {
-          if (e.target === this.lightbox || e.target.classList.contains('lightbox-backdrop')) {
+        this.lightbox.addEventListener('click', (e: Event) => {
+          if (e.target === this.lightbox || (e.target as Element).classList.contains('lightbox-backdrop')) {
             this.closeLightbox();
           }
         });
@@ -211,52 +254,47 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       }
 
       // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && this.lightbox.classList.contains('lightbox--open')) {
+      document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && this.lightbox?.classList.contains('lightbox--open')) {
           this.closeLightbox();
+        }
+        if (e.key === 'ArrowLeft' && this.lightbox?.classList.contains('lightbox--open')) {
+          this.navigateLightbox(-1);
+        }
+        if (e.key === 'ArrowRight' && this.lightbox?.classList.contains('lightbox--open')) {
+          this.navigateLightbox(1);
         }
       });
 
       // Initial load
       this.updateGalleryDisplay();
+      this.collectAllImages();
     }
 
-    handleFilter(e) {
-      const filter = e.target.dataset.filter;
-      if (!filter) return;
-
-      // Update active button
-      this.filterButtons.forEach(btn => btn.classList.remove('filter-btn--active'));
-      e.target.classList.add('filter-btn--active');
-
-      // Update current filter
-      this.currentFilter = filter;
-      this.visibleItems = 12; // Reset visible items
-
-      // Update display
-      this.updateGalleryDisplay();
+    collectAllImages() {
+      this.allImages = Array.from(this.galleryItems).map(item => {
+        const img = item.querySelector('.gallery-image') as HTMLImageElement;
+        return img ? img.src || '' : '';
+      }).filter(src => src !== '');
     }
 
     updateGalleryDisplay() {
-      const filteredItems = Array.from(this.galleryItems).filter(item => {
-        return this.currentFilter === 'all' || item.dataset.category === this.currentFilter;
-      });
-
       // Hide all items first
-      this.galleryItems.forEach(item => {
-        item.style.display = 'none';
+      this.galleryItems.forEach((item: Element) => {
+        (item as HTMLElement).style.display = 'none';
         item.classList.remove('gallery-item--visible');
       });
 
-      // Show filtered items up to visible limit
-      filteredItems.slice(0, this.visibleItems).forEach(item => {
-        item.style.display = 'block';
+      // Show items up to visible limit
+      const itemsToShow = Array.from(this.galleryItems).slice(0, this.visibleItems);
+      itemsToShow.forEach((item: Element) => {
+        (item as HTMLElement).style.display = 'block';
         setTimeout(() => item.classList.add('gallery-item--visible'), 50);
       });
 
       // Update load more button
       if (this.loadMoreBtn) {
-        if (filteredItems.length > this.visibleItems) {
+        if (this.galleryItems.length > this.visibleItems) {
           this.loadMoreBtn.style.display = 'block';
         } else {
           this.loadMoreBtn.style.display = 'none';
@@ -269,92 +307,311 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       this.updateGalleryDisplay();
     }
 
-    openLightbox(e) {
+    openLightbox(e: Event) {
       e.preventDefault();
-      const button = e.currentTarget;
-      const galleryItem = button.closest('.gallery-item');
-      const image = galleryItem.querySelector('.gallery-image');
-      const title = galleryItem.querySelector('.gallery-title').textContent;
-      const artist = galleryItem.querySelector('.gallery-artist').textContent;
-      const category = galleryItem.querySelector('.gallery-category').textContent;
+      const button = e.currentTarget as HTMLElement;
+      const galleryItem = button.closest('.gallery-item') as HTMLElement;
+      const image = galleryItem.querySelector('.gallery-image') as HTMLImageElement;
+      const title = galleryItem.querySelector('.gallery-title')?.textContent || '';
+      const artist = galleryItem.querySelector('.gallery-artist')?.textContent || '';
+      const specialty = galleryItem.querySelector('.gallery-specialty')?.textContent || '';
+
+      if (!image) return;
+
+      // Find current image index in all images array
+      const imageSrc = image.src || '';
+      this.currentImageIndex = this.allImages.indexOf(imageSrc);
 
       // Update lightbox content
-      this.lightboxImage.src = image.src;
-      this.lightboxImage.alt = image.alt;
-      this.lightboxInfo.querySelector('.lightbox-title').textContent = title;
-      this.lightboxInfo.querySelector('.lightbox-artist').textContent = artist;
-      this.lightboxInfo.querySelector('.lightbox-category').textContent = category;
+      if (this.lightboxImage) {
+        (this.lightboxImage as HTMLImageElement).src = imageSrc;
+        (this.lightboxImage as HTMLImageElement).alt = image.alt;
+      }
+      if (this.lightboxInfo) {
+        this.lightboxInfo.querySelector('.lightbox-title')!.textContent = title;
+        this.lightboxInfo.querySelector('.lightbox-artist')!.textContent = artist;
+        this.lightboxInfo.querySelector('.lightbox-specialty')!.textContent = specialty;
+      }
 
-      // Show lightbox
-      this.lightbox.classList.add('lightbox--open');
+      // Show lightbox with smooth animation
+      this.lightbox?.classList.add('lightbox--open');
       document.body.style.overflow = 'hidden';
+
+      // Add navigation arrows if there are multiple images
+      if (this.allImages.length > 1) {
+        this.addNavigationArrows();
+      }
     }
 
     closeLightbox() {
-      this.lightbox.classList.remove('lightbox--open');
+      this.lightbox?.classList.remove('lightbox--open');
       document.body.style.overflow = '';
+
+      // Remove navigation arrows
+      this.removeNavigationArrows();
+    }
+
+    addNavigationArrows() {
+      if (!this.lightbox) return;
+
+      // Create navigation arrows
+      const leftArrow = document.createElement('button');
+      leftArrow.className = 'lightbox-nav lightbox-nav--left';
+      leftArrow.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>';
+      leftArrow.addEventListener('click', () => this.navigateLightbox(-1));
+
+      const rightArrow = document.createElement('button');
+      rightArrow.className = 'lightbox-nav lightbox-nav--right';
+      rightArrow.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
+      rightArrow.addEventListener('click', () => this.navigateLightbox(1));
+
+      this.lightbox.appendChild(leftArrow);
+      this.lightbox.appendChild(rightArrow);
+
+      // Update arrow visibility
+      this.updateNavigationArrows();
+    }
+
+    removeNavigationArrows() {
+      const arrows = document.querySelectorAll('.lightbox-nav');
+      arrows.forEach(arrow => arrow.remove());
+    }
+
+    updateNavigationArrows() {
+      const leftArrow = document.querySelector('.lightbox-nav--left') as HTMLElement;
+      const rightArrow = document.querySelector('.lightbox-nav--right') as HTMLElement;
+
+      if (leftArrow) {
+        leftArrow.style.opacity = this.currentImageIndex > 0 ? '1' : '0.3';
+        leftArrow.style.pointerEvents = this.currentImageIndex > 0 ? 'auto' : 'none';
+      }
+
+      if (rightArrow) {
+        rightArrow.style.opacity = this.currentImageIndex < this.allImages.length - 1 ? '1' : '0.3';
+        rightArrow.style.pointerEvents = this.currentImageIndex < this.allImages.length - 1 ? 'auto' : 'none';
+      }
+    }
+
+    navigateLightbox(direction: number) {
+      if (this.allImages.length <= 1) return;
+
+      const newIndex = this.currentImageIndex + direction;
+      if (newIndex >= 0 && newIndex < this.allImages.length) {
+        this.currentImageIndex = newIndex;
+        this.updateLightboxImage();
+        this.updateNavigationArrows();
+      }
+    }
+
+    updateLightboxImage() {
+      if (this.lightboxImage && this.allImages[this.currentImageIndex]) {
+        (this.lightboxImage as HTMLImageElement).src = this.allImages[this.currentImageIndex];
+
+        // Update info for the new image
+        const currentGalleryItem = Array.from(this.galleryItems)[this.currentImageIndex];
+        if (currentGalleryItem) {
+          const title = currentGalleryItem.querySelector('.gallery-title')?.textContent || '';
+          const artist = currentGalleryItem.querySelector('.gallery-artist')?.textContent || '';
+          const specialty = currentGalleryItem.querySelector('.gallery-specialty')?.textContent || '';
+          const image = currentGalleryItem.querySelector('.gallery-image') as HTMLImageElement;
+
+          if (this.lightboxInfo) {
+            this.lightboxInfo.querySelector('.lightbox-title')!.textContent = title;
+            this.lightboxInfo.querySelector('.lightbox-artist')!.textContent = artist;
+            this.lightboxInfo.querySelector('.lightbox-specialty')!.textContent = specialty;
+          }
+
+          if (image) {
+            (this.lightboxImage as HTMLImageElement).alt = image.alt;
+          }
+        }
+      }
     }
   }
 
-    // Enhanced Lazy Loading Manager
-  class LazyImageLoader {
+  // Enhanced lazy loading with performance optimizations
+  class OptimizedImageLoader {
+    imageObserver: IntersectionObserver | null;
+
     constructor() {
       this.imageObserver = null;
       this.init();
     }
 
     init() {
-      // Use Intersection Observer for better lazy loading
       if ('IntersectionObserver' in window) {
-        this.imageObserver = new IntersectionObserver((entries, observer) => {
+        this.imageObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              const img = entry.target;
+              const img = entry.target as HTMLImageElement;
               this.loadImage(img);
-              observer.unobserve(img);
+              this.imageObserver!.unobserve(img);
             }
           });
         }, {
-          rootMargin: '50px 0px',
-          threshold: 0.1
+          rootMargin: '100px',
+          threshold: 0.01
         });
 
         // Observe all gallery images
-        document.querySelectorAll('.gallery-image[data-src]').forEach(img => {
-          this.imageObserver.observe(img);
+        document.querySelectorAll('.gallery-image').forEach((img: Element) => {
+          this.imageObserver!.observe(img);
         });
       }
     }
 
-    loadImage(img) {
-      const src = img.getAttribute('data-src');
-      if (src) {
-        img.src = src;
+    loadImage(img: HTMLImageElement) {
+      // Add loading class for smooth transition
+      img.classList.add('loading');
+
+      // If image is already loaded, mark it as loaded
+      if (img.complete && img.naturalHeight !== 0) {
         img.classList.add('loaded');
-        img.removeAttribute('data-src');
+        img.classList.remove('loading');
+        return;
       }
+
+      img.addEventListener('load', () => {
+        img.classList.add('loaded');
+        img.classList.remove('loading');
+      });
+
+      // Handle load errors gracefully
+      img.addEventListener('error', () => {
+        img.classList.add('error');
+        img.classList.remove('loading');
+        console.warn(`Failed to load image: ${img.src}`);
+      });
     }
   }
 
-  // Initialize gallery when DOM is ready
+  // Hero Video Manager (unchanged)
+  class HeroVideoManager {
+    video: HTMLVideoElement | null;
+    fallback: HTMLElement | null;
+
+    constructor() {
+      this.video = document.querySelector('.hero-video') as HTMLVideoElement | null;
+      this.fallback = document.querySelector('.hero-fallback') as HTMLElement | null;
+      this.init();
+    }
+
+    init() {
+      if (!this.video) return;
+
+      // Performance optimization: Reduce video quality on mobile
+      if (this.isMobile()) {
+        this.video.style.filter = 'blur(1px) contrast(0.9)';
+        this.video.style.opacity = '0.2';
+      }
+
+      // Handle video loading and errors
+      this.video.addEventListener('loadeddata', () => {
+        if (this.video) {
+          this.video.style.opacity = this.isMobile() ? '0.2' : '0.4';
+        }
+      });
+
+      this.video.addEventListener('error', () => {
+        console.warn('Video failed to load, using fallback image');
+        if (this.fallback) {
+          this.fallback.style.display = 'block';
+        }
+      });
+
+      // Pause video when page becomes hidden to save resources
+      document.addEventListener('visibilitychange', () => {
+        if (this.video) {
+          if (document.hidden) {
+            this.video.pause();
+          } else {
+            this.video.play().catch(() => {
+              // Silently handle autoplay failures (common on mobile)
+            });
+          }
+        }
+      });
+
+      // Intersection Observer for performance
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && this.video) {
+              this.video.play().catch(() => {
+                // Handle autoplay restrictions
+              });
+            } else if (this.video) {
+              this.video.pause();
+            }
+          });
+        }, { threshold: 0.1 });
+
+        observer.observe(this.video);
+      }
+    }
+
+    isMobile(): boolean {
+      return window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+  }
+
+  // Initialize everything when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       new GalleryManager();
-      new LazyImageLoader();
+      new OptimizedImageLoader();
+      new HeroVideoManager();
     });
   } else {
     new GalleryManager();
-    new LazyImageLoader();
+    new OptimizedImageLoader();
+    new HeroVideoManager();
   }
 </script>
 
 <style>
   /* Gallery Hero */
   .gallery-hero {
+    position: relative;
     padding: 8rem 0 4rem;
     text-align: center;
-    background: 
+    overflow: hidden;
+    background:
       radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+  }
+
+  /* Video Background */
+  .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.4;
+    filter: blur(0.5px) contrast(1.1);
+    transform: scale(1.1);
+    transition: opacity 0.3s ease;
+  }
+
+  /* Fallback image for video */
+  .hero-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.3;
+    filter: blur(1px);
+  }
+
+  /* Ensure text appears over video */
+  .gallery-hero .container {
+    position: relative;
+    z-index: 2;
   }
 
   .hero-content {
@@ -375,52 +632,38 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     margin: 0;
   }
 
-  /* Gallery Filters */
-  .gallery-filters {
-    padding: 2rem 0;
-    background: var(--bg-glass);
-    border-top: var(--border-glass);
-    position: sticky;
-    top: 80px;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-  }
-
-  .filter-nav {
+  /* Gallery Stats in Hero */
+  .gallery-stats {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 3rem;
     flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .filter-btn {
-    background: transparent;
-    border: var(--border-glass);
+  .stat-item {
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .stat-number {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--accent0);
+    margin: 0 0 0.5rem;
+    text-shadow: var(--glow-subtle);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
     color: var(--ink);
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    backdrop-filter: blur(5px);
-  }
-
-  .filter-btn:hover,
-  .filter-btn--active {
-    background: var(--accent0);
-    border-color: var(--accent0);
-    color: var(--bg0);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 60, 43, 0.3);
-  }
-
-  .filter-count {
-    font-size: 0.8rem;
-    opacity: 0.8;
   }
 
   /* Gallery Section */
@@ -444,9 +687,15 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
   }
 
   .gallery-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(5px);
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.5s ease;
   }
 
   .gallery-item--visible {
@@ -454,13 +703,16 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     transform: translateY(0);
   }
 
+  .gallery-item:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 20px 40px rgba(255, 60, 43, 0.15);
+  }
+
   .gallery-image-container {
     position: relative;
     aspect-ratio: 3/4;
-    border-radius: 16px;
     overflow: hidden;
-    background: var(--bg-glass);
-    border: var(--border-glass);
   }
 
   .image-placeholder {
@@ -498,6 +750,7 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     object-fit: cover;
     transition: var(--transition-smooth);
     opacity: 0;
+    filter: grayscale(0.1) contrast(1.05);
   }
 
   .gallery-image.loaded {
@@ -508,14 +761,19 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     display: none;
   }
 
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.08);
+    filter: grayscale(0) contrast(1.1) brightness(1.05);
+  }
+
   .gallery-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(11, 11, 13, 0.9) 0%,
-      rgba(11, 11, 13, 0.6) 40%,
-      transparent 70%
+      rgba(11, 11, 13, 0.95) 0%,
+      rgba(11, 11, 13, 0.7) 50%,
+      transparent 80%
     );
     display: flex;
     flex-direction: column;
@@ -529,36 +787,35 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     opacity: 1;
   }
 
-  .gallery-item:hover .gallery-image {
-    transform: scale(1.05);
-  }
-
   .gallery-info {
     margin-bottom: 1rem;
   }
 
   .gallery-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     margin: 0 0 0.25rem;
     color: var(--ink);
   }
 
   .gallery-artist {
-    font-size: 0.9rem;
-    opacity: 0.8;
+    font-size: 0.85rem;
+    opacity: 0.9;
     margin: 0 0 0.5rem;
   }
 
-  .gallery-category {
-    font-size: 0.75rem;
-    color: var(--accent0);
+  .gallery-specialty {
+    display: inline-block;
     background: rgba(255, 60, 43, 0.2);
-    padding: 0.25rem 0.5rem;
+    color: var(--accent0);
+    padding: 0.25rem 0.6rem;
     border-radius: 12px;
-    text-transform: uppercase;
+    font-size: 0.7rem;
     font-weight: 600;
+    text-transform: uppercase;
     letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    text-shadow: var(--glow-subtle);
   }
 
   .gallery-view-btn {
@@ -574,20 +831,50 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     gap: 0.5rem;
     transition: var(--transition-smooth);
     align-self: flex-start;
+    box-shadow: 0 4px 12px rgba(255, 60, 43, 0.3);
   }
 
   .gallery-view-btn:hover {
     background: var(--accent1);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 60, 43, 0.4);
   }
 
   .gallery-load-more {
     text-align: center;
   }
 
-  .btn--large {
-    padding: 1rem 2rem;
-    font-size: 1rem;
+  /* Lightbox Navigation */
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.8);
+    border: none;
+    border-radius: 50%;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+  }
+
+  .lightbox-nav:hover {
+    background: var(--accent0);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .lightbox-nav--left {
+    left: 2rem;
+  }
+
+  .lightbox-nav--right {
+    right: 2rem;
   }
 
   /* Artist Showcase */
@@ -780,7 +1067,7 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     margin: 0 0 1rem;
   }
 
-  .lightbox-category {
+  .lightbox-specialty {
     font-size: 0.85rem;
     color: var(--accent0);
     background: rgba(255, 60, 43, 0.2);
@@ -788,6 +1075,8 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     border-radius: 20px;
     text-transform: uppercase;
     font-weight: 600;
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    text-shadow: var(--glow-subtle);
   }
 
   /* Mobile Optimizations */
@@ -796,28 +1085,40 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       padding: 6rem 0 3rem;
     }
 
-    .gallery-filters {
-      padding: 1.5rem 0;
-      position: static;
+    .hero-video {
+      opacity: 0.2;
+      filter: blur(1px) contrast(0.8);
+      transform: scale(1.05);
     }
 
-    .filter-nav {
-      gap: 0.5rem;
+    .hero-fallback {
+      opacity: 0.15;
+      filter: blur(2px);
     }
 
-    .filter-btn {
-      padding: 0.6rem 1rem;
-      font-size: 0.8rem;
+    /* Gallery Stats in Hero - Mobile */
+    .gallery-stats {
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
     }
 
+    .stat-number {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+    }
+
+    /* Gallery Grid */
     .gallery-grid {
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
     .gallery-item {
-      opacity: 1; /* Remove animation delay on mobile for better UX */
-      transform: none;
+      border-radius: 12px;
     }
 
     .gallery-overlay {
@@ -830,6 +1131,12 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       );
     }
 
+    .gallery-view-btn {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    /* Artist Showcase */
     .artist-preview-grid {
       grid-template-columns: 1fr;
     }
@@ -844,6 +1151,7 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
       max-width: 300px;
     }
 
+    /* Lightbox */
     .lightbox-content {
       max-width: 95vw;
       max-height: 95vh;
@@ -852,12 +1160,28 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
     .lightbox-info {
       padding: 1.5rem 1rem;
     }
+
+    .lightbox-nav {
+      width: 50px;
+      height: 50px;
+    }
+
+    .lightbox-nav--left {
+      left: 1rem;
+    }
+
+    .lightbox-nav--right {
+      right: 1rem;
+    }
   }
 
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     .gallery-item {
-      opacity: 1;
+      transform: none;
+    }
+
+    .gallery-item:hover {
       transform: none;
     }
 
@@ -867,6 +1191,14 @@ const allPortfolioItems = portfolioData.featured.map((item, index) => ({
 
     .artist-preview:hover {
       transform: none;
+    }
+
+    .gallery-view-btn:hover {
+      transform: none;
+    }
+
+    .lightbox-nav:hover {
+      transform: translateY(-50%);
     }
   }
 </style>

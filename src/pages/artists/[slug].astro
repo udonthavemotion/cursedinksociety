@@ -3,6 +3,8 @@
 import Layout from '../../layouts/Layout.astro';
 import ArtistPortfolioGallery from '../../components/ArtistPortfolioGallery.astro';
 import MicroInteractions from '../../components/MicroInteractions.astro';
+import CodyWorkCard from '../../components/CodyWorkCard.astro';
+import ImageModal from '../../components/ImageModal.astro';
 import cisData from '../../data/cis.json';
 
 export async function getStaticPaths() {
@@ -24,6 +26,12 @@ const description = `${artist.positioning} Specializing in ${artist.specialties.
 
   // Check if this is Ashley's page for special watercolor layout
   const isAshleyPage = artist.slug === 'ashley-wood';
+
+  // Check if this is Trent's page for special electric apprentice layout
+  const isTrentPage = artist.slug === 'trent';
+
+  // Check if this is Anthony's page for special black and white gothic layout
+  const isAnthonyPage = artist.slug === 'anthony-boudreaux';
 
   // Ashley's watercolor data - Chromancer & Color Specialist
   const ashleyData = {
@@ -61,13 +69,189 @@ const codyData = {
     creed: "Authenticity • Honor • Mastery",
     code: "Strength through tradition, power through precision"
   };
+
+  // Trent's Professional Apprentice data - Anime & Neo-Traditional Specialist
+  const trentData = {
+    title: "Professional Tattoo Apprentice",
+    subtitle: "Anime & Neo-Traditional Specialist",
+    creed: "Excellence through dedication and precision",
+    badges: ["Apprentice", "Anime Specialist", "Neo-Traditional", "Precision Master", "Professional Standard"],
+    rates: "$120-160/hr • $100 min",
+    code: "Apprentice today, master tomorrow"
+  };
+
+  // Anthony's Black & White Gothic data - Versatile Craftsman
+  const anthonyData = {
+    stats: { versatility: 91, craftsmanship: 90, adaptability: 92, precision: 88 },
+    title: "The Versatile Craftsman",
+    subtitle: "Traditional & Custom Design Specialist",
+    creed: "Versatility through mastery, art through adaptability",
+    badges: ["Traditional Master", "Custom Design", "15yr Veteran", "Walk-in Specialist", "Mixed Media"],
+    rates: "$160-220/hr • $140 min",
+    code: "Master of many styles, specialist in all",
+    moves: [
+      { title: "Traditional Mastery", desc: "Authentic traditional tattoos with bold lines and timeless appeal." },
+      { title: "Custom Design Excellence", desc: "Creates personalized pieces that tell unique stories through custom artistry." },
+      { title: "Versatile Craftsmanship", desc: "Seamlessly blends traditional techniques with modern innovations." },
+      { title: "Walk-in Specialist", desc: "Welcomes spontaneous consultations with professional precision." }
+    ]
+  };
 ---
 
 <Layout title={title} description={description}>
   <!-- Micro Interactions -->
   <MicroInteractions />
 
-  {isAshleyPage ? (
+  {isTrentPage ? (
+    <!-- TRENT'S PROFESSIONAL APPRENTICE LAYOUT -->
+
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="trent-hero">
+      <div class="container">
+        <div class="trent-hero-content">
+          <div class="trent-hero-image">
+            <div class="professional-frame">
+              <img
+                src={artist.avatar}
+                alt={`${artist.name} - Professional Tattoo Apprentice`}
+                class="trent-avatar"
+                loading="lazy"
+                width="350"
+                height="350"
+              />
+            </div>
+          </div>
+
+          <div class="trent-hero-info">
+            <div class="trent-badge">
+              <span class="professional-badge">🎯 PROFESSIONAL APPRENTICE</span>
+            </div>
+            <h1 class="trent-name">{artist.name}</h1>
+            <p class="trent-title">{trentData.subtitle}</p>
+            <p class="trent-creed">{trentData.creed}</p>
+            <div class="trent-location">📍 Houma, LA</div>
+
+
+            <div class="trent-badges">
+              {trentData.badges.map(badge => (
+                <span class="trent-badge-item">{badge}</span>
+              ))}
+            </div>
+
+            <div class="trent-cta-section">
+              <a href={artist.cta.url} class="trent-cta-btn">
+                <span class="cta-icon">🎯</span>
+                <span class="cta-text">{artist.cta.text}</span>
+              </a>
+              <div class="trent-rates">{trentData.rates}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Portfolio Section -->
+    <section class="trent-portfolio">
+      <div class="container">
+        <h2 class="portfolio-title">🎯 PORTFOLIO</h2>
+        <div class="portfolio-grid">
+          {artist.portfolio.map((image, index) => (
+            <div class="portfolio-item">
+              <div class="portfolio-overlay">
+                <img
+                  src={image}
+                  alt={`${artist.name} artwork ${index + 1}`}
+                  class="portfolio-image"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Section -->
+    <section class="trent-code">
+      <div class="container">
+        <div class="code-block">
+          <p class="code-text">{trentData.code}</p>
+        </div>
+      </div>
+    </section>
+
+  ) : isAnthonyPage ? (
+    <!-- ANTHONY'S BLACK & WHITE GOTHIC LAYOUT -->
+
+    <!-- Gothic Background Overlay -->
+    <div class="gothic-overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="anthony-hero">
+      <!-- Video Background -->
+      <video 
+        class="anthony-hero-video" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+      >
+        <source src="/assets/artists/anthony-boudreaux/hero-video.mp4" type="video/mp4" />
+      </video>
+      
+      <!-- Video Overlay -->
+      <div class="anthony-video-overlay"></div>
+      
+      <div class="container">
+        <div class="anthony-hero-content">
+          <div class="anthony-hero-image">
+            <div class="gothic-frame">
+              <img
+                src={artist.avatar}
+                alt={`${artist.name} - ${anthonyData.title}`}
+                class="anthony-portrait"
+              />
+              <div class="gothic-accent"></div>
+            </div>
+          </div>
+          <div class="anthony-hero-text">
+            <h1 class="anthony-name">{artist.name}</h1>
+            <p class="anthony-title">{anthonyData.title}</p>
+            <p class="anthony-subtitle">{anthonyData.subtitle}</p>
+            <p class="anthony-creed">{anthonyData.creed}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="anthony-portfolio">
+      <div class="container">
+        <h2 class="portfolio-title">Portfolio</h2>
+        <div class="portfolio-grid">
+          {artist.portfolio.map((image, index) => (
+            <div class="portfolio-item">
+              <div class="gothic-overlay-block">
+                <img
+                  src={image}
+                  alt={`${artist.name} artwork ${index + 1}`}
+                  class="portfolio-image"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+
+  ) : isAshleyPage ? (
     <!-- ASHLEY'S WATERCOLOR FEMININE LAYOUT -->
 
     <!-- Watercolor Background Overlay -->
@@ -127,10 +311,6 @@ const codyData = {
 
             <!-- CTA Buttons -->
             <div class="ashley-ctas">
-              <a href={`/contact`} class="ashley-btn primary">
-                <span class="btn-icon">🎨</span>
-                Book Consultation
-              </a>
               <a href={artist.cta.url} class="ashley-btn secondary" target="_blank" rel="noopener">
                 <span class="btn-icon">📱</span>
                 DM Ashley on Instagram
@@ -491,32 +671,30 @@ const codyData = {
       </div>
     </section>
 
-    <!-- Gallery (Masonry) Section -->
+    <!-- Enhanced Gallery Section with Card Components -->
     <section class="rpg-gallery" id="cody-gallery">
       <div class="container">
-        <h2 class="section-title">🎨 Battle Gallery</h2>
-        <p class="gallery-subtitle">Legendary works from the battlefield</p>
-        <div class="masonry-grid">
+        <div class="gallery-header">
+          <h2 class="section-title">🎨 Battle Gallery</h2>
+          <p class="gallery-subtitle">Legendary works from the battlefield</p>
+        </div>
+
+        <!-- Portfolio Grid using Card Components -->
+        <div class="portfolio-grid">
           {artist.portfolio.map((image, index) => (
-            <div class="masonry-item" style={`animation-delay: ${index * 0.05}s`}>
-              <div class="pixel-gallery-frame" tabindex="0" role="button" aria-label={`View ${artist.name} tattoo work ${index + 1}`}>
-                <img
-                  src={image}
-                  alt={`${artist.name} tattoo work ${index + 1} - ${artist.specialties[index % artist.specialties.length]} style tattoo`}
-                  class="gallery-image"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div class="image-overlay">
-                  <div class="overlay-content">
-                    <div class="work-label">Epic Work #{index + 1}</div>
-                    <div class="zoom-hint">👁️ View Details</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CodyWorkCard 
+              image={image}
+              title={`Epic Work #${index + 1}`}
+              description={`${artist.specialties[index % artist.specialties.length]} style tattoo masterpiece`}
+              tags={[artist.specialties[index % artist.specialties.length].toLowerCase().replace(' ', '-')]}
+              rarity={index < 2 ? 'legendary' : index < 4 ? 'epic' : index < 6 ? 'rare' : 'common'}
+              index={index}
+              workNumber={index + 1}
+            />
           ))}
         </div>
+
+        <!-- Gallery Footer -->
         <div class="gallery-footer">
           <div class="gallery-stats">
             <div class="stat-item">
@@ -799,15 +977,6 @@ const codyData = {
           ))}
         </div>
 
-        <div class="osrs-booking-prompt">
-          <div class="osrs-prompt-content">
-            <div class="osrs-prompt-icon">🎯</div>
-            <div class="osrs-prompt-text">
-              <div class="osrs-prompt-title">Ready to Level Up?</div>
-              <div class="osrs-prompt-subtitle">Book a consultation to unlock your custom piece</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )}
@@ -915,27 +1084,9 @@ const codyData = {
     </div>
   )}
 
-  <!-- Contact Information -->
-  <section class="artist-contact">
-    <div class="container">
-      <h2>Get In Touch</h2>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <h3>Location</h3>
-          <p>123 Main Street<br/>Houma, LA 70360</p>
-        </div>
-        <div class="contact-item">
-          <h3>Hours</h3>
-          <p>Tuesday - Friday: 12:00 PM - 8:00 PM<br/>
-             Saturday: 12:00 PM - 10:00 PM</p>
-        </div>
-        <div class="contact-item">
-          <h3>Contact</h3>
-          <p><a href="https://instagram.com/cursedingksociety" target="_blank" rel="noopener">Follow @cursedingksociety</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
+
+  <!-- Image Modal for Cody's page -->
+  {isCodyPage && <ImageModal />}
 </Layout>
 
 <style>
@@ -1804,10 +1955,43 @@ const codyData = {
     letter-spacing: 0.1em;
   }
 
-  /* Mobile Optimizations for Gallery */
+  /* Simplified Portfolio Grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Simplified Mobile Optimizations */
   @media (max-width: 768px) {
-    .rpg-gallery {
-      padding: 4rem 0;
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .gallery-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .portfolio-grid {
+      gap: 1rem;
+    }
+
+    .gallery-stats {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+
+  /* Original Mobile Optimizations for Gallery */
+  @media (max-width: 768px) {
+    .rpg-gallery .section-title {
+      font-size: 2rem;
     }
 
     .masonry-grid {
@@ -2239,48 +2423,6 @@ const codyData = {
     flex-wrap: wrap;
   }
 
-  /* Contact Section */
-  .artist-contact {
-    padding: 6rem 0;
-  }
-
-  .artist-contact h2 {
-    text-align: center;
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    margin-bottom: 3rem;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
-  }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 3rem;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .contact-item h3 {
-    font-size: 1.3rem;
-    margin: 0 0 1rem;
-    color: var(--accent0);
-  }
-
-  .contact-item p {
-    margin: 0;
-    line-height: 1.6;
-    opacity: 0.9;
-  }
-
-  .contact-item a {
-    color: var(--accent0);
-    text-decoration: none;
-    transition: var(--transition-smooth);
-  }
-
-  .contact-item a:hover {
-    text-shadow: var(--glow-subtle);
-  }
 
   /* Mobile Optimizations */
   @media (max-width: var(--breakpoint-mobile-max)) {
@@ -2340,10 +2482,6 @@ const codyData = {
       max-width: 300px;
     }
 
-    .contact-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
   }
 
   /* OSRS SKILLS PANEL STYLES */
@@ -3158,42 +3296,6 @@ const codyData = {
     border: 1px solid rgba(212, 175, 55, 0.2);
   }
 
-  .osrs-booking-prompt {
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(75, 0, 130, 0.15));
-    border: 2px solid rgba(138, 43, 226, 0.3);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow:
-      inset 0 0 0 1px rgba(138, 43, 226, 0.1),
-      0 8px 24px rgba(138, 43, 226, 0.1);
-  }
-
-  .osrs-prompt-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-
-  .osrs-prompt-icon {
-    font-size: 3rem;
-    filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.5));
-  }
-
-  .osrs-prompt-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #f5f5f5;
-    margin-bottom: 0.25rem;
-    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
-  }
-
-  .osrs-prompt-subtitle {
-    font-size: 1rem;
-    color: rgba(245, 245, 245, 0.7);
-  }
 
   /* Mobile optimizations for moves section */
   @media (max-width: 768px) {
@@ -3701,16 +3803,6 @@ const codyData = {
     }
   }
 
-  /* Ensure content doesn't get hidden behind sticky bar */
-  .artist-contact {
-    padding-bottom: 6rem;
-  }
-
-  @media (max-width: 768px) {
-    .artist-contact {
-      padding-bottom: 5rem;
-    }
-  }
 
   /* ==========================================================================
    * AFFLICTION-STYLE STYLES FOR SETH WOOD
@@ -5324,5 +5416,803 @@ const codyData = {
     .watercolor-frame {
       border: 3px solid rgba(251, 207, 232, 0.8);
     }
+  }
+
+  /* ===========================================
+     TRENT ELECTRIC APPRENTICE THEME STYLES
+     =========================================== */
+
+  /* Electric Background Overlay */
+  .background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 15, 0.95) 0%, rgba(15, 15, 20, 0.9) 100%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+
+
+  /* Trent Hero Section */
+  .trent-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg,
+      rgba(10, 10, 15, 0.95) 0%,
+      rgba(15, 15, 20, 0.9) 50%,
+      rgba(20, 20, 25, 0.8) 100%);
+  }
+
+  .trent-hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .trent-hero-image {
+    position: relative;
+    z-index: 3;
+  }
+
+  .professional-frame {
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+    box-shadow:
+      0 0 40px rgba(0, 0, 0, 0.3),
+      0 0 80px rgba(0, 0, 0, 0.1),
+      inset 0 0 40px rgba(255, 255, 255, 0.05);
+    width: 350px;
+    height: 350px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .trent-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+    object-position: center;
+    transition: all 0.6s ease;
+    position: relative;
+    z-index: 2;
+    filter: grayscale(0.1) contrast(1.1);
+  }
+
+  .trent-avatar:hover {
+    transform: scale(1.05) translate(10px, -10px);
+    border-color: rgba(255, 255, 255, 0.6);
+    filter: grayscale(0) contrast(1.2);
+    box-shadow:
+      0 0 60px rgba(0, 0, 0, 0.4),
+      0 0 120px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Trent Hero Info */
+  .trent-hero-info {
+    position: relative;
+    z-index: 3;
+  }
+
+  .trent-badge {
+    margin-bottom: 2rem;
+  }
+
+  .professional-badge {
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.8),
+      rgba(20, 20, 20, 0.6));
+    color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 0px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 0 20px rgba(0, 0, 0, 0.5),
+      inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .trent-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-shadow:
+      0 0 20px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(0, 0, 0, 0.3),
+      3px 3px 6px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .trent-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .trent-creed {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .trent-location {
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+
+  /* Trent Badges */
+  .trent-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .trent-badge-item {
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.3),
+      rgba(20, 20, 20, 0.2));
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 0px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
+    transition: all 0.3s ease;
+  }
+
+  .trent-badge-item:hover {
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(30, 30, 30, 0.4));
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translate(2px, -2px);
+  }
+
+  /* Trent CTA Section */
+  .trent-cta-section {
+    margin-top: 2rem;
+  }
+
+  .trent-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg,
+      rgba(56, 189, 248, 0.9),
+      rgba(139, 92, 246, 0.7),
+      rgba(253, 224, 71, 0.5));
+    color: #0a0a0f;
+    padding: 1.5rem 3rem;
+    border-radius: 0px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+    box-shadow:
+      0 8px 24px rgba(56, 189, 248, 0.5),
+      0 4px 12px rgba(139, 92, 246, 0.4);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trent-cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(253, 224, 71, 0.6),
+      transparent);
+    transition: left 0.8s ease;
+  }
+
+  .trent-cta-btn:hover::before {
+    left: 100%;
+  }
+
+  .trent-cta-btn:hover {
+    background: linear-gradient(135deg,
+      rgba(56, 189, 248, 1),
+      rgba(139, 92, 246, 0.9),
+      rgba(253, 224, 71, 0.7));
+    transform: translate(8px, -8px) scale(1.05);
+    box-shadow:
+      0 16px 40px rgba(56, 189, 248, 0.8),
+      0 8px 20px rgba(139, 92, 246, 0.6),
+      0 0 30px rgba(253, 224, 71, 0.5);
+  }
+
+  .cta-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .trent-cta-btn:hover .cta-icon {
+    transform: rotate(15deg) scale(1.2);
+  }
+
+  .trent-rates {
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(253, 224, 71, 0.9);
+    font-size: 0.9rem;
+    text-shadow: 0 0 10px rgba(253, 224, 71, 0.6);
+    letter-spacing: 0.05em;
+  }
+
+
+
+  /* Trent Portfolio Section */
+  .trent-portfolio {
+    padding: 6rem 0;
+    background: linear-gradient(135deg,
+      rgba(20, 20, 25, 0.8) 0%,
+      rgba(10, 10, 15, 0.9) 100%);
+    position: relative;
+    z-index: 2;
+  }
+
+  .portfolio-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3rem;
+    color: #8b5cf6;
+    text-align: center;
+    margin-bottom: 4rem;
+    text-shadow:
+      0 0 20px rgba(139, 92, 246, 0.8),
+      0 0 40px rgba(139, 92, 246, 0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .portfolio-item {
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 95% 100%, 0 100%);
+    transition: all 0.4s ease;
+  }
+
+  .portfolio-overlay {
+    position: relative;
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.2),
+      rgba(20, 20, 20, 0.1));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+  }
+
+  .portfolio-item:hover .portfolio-overlay {
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translate(4px, -4px);
+    box-shadow:
+      0 12px 30px rgba(0, 0, 0, 0.4),
+      0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: all 0.4s ease;
+  }
+
+  .portfolio-item:hover .portfolio-image {
+    transform: scale(1.1);
+    filter: brightness(1.1) contrast(1.1);
+  }
+
+  /* Trent Code Section */
+  .trent-code {
+    padding: 4rem 0;
+    background: linear-gradient(135deg,
+      rgba(10, 10, 15, 0.95) 0%,
+      rgba(15, 15, 20, 0.9) 100%);
+    position: relative;
+    z-index: 2;
+  }
+
+  .code-block {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .code-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    color: #fde047;
+    text-shadow: 0 0 20px rgba(253, 224, 71, 0.6);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Mobile Responsive for Trent */
+  @media (max-width: 768px) {
+    .trent-hero-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .trent-name {
+      font-size: 3rem;
+    }
+
+    .trent-stats-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+
+    .portfolio-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .trent-cta-btn {
+      padding: 1.25rem 2rem;
+      font-size: 1rem;
+    }
+
+    .electric-frame {
+      width: 280px;
+      height: 280px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trent-hero {
+      padding: 2rem 0;
+      min-height: auto;
+    }
+
+    .trent-name {
+      font-size: 2.5rem;
+    }
+
+    .trent-title {
+      font-size: 1.2rem;
+    }
+
+    .trent-creed {
+      font-size: 1rem;
+    }
+
+    .portfolio-title {
+      font-size: 2rem;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .electric-frame {
+      width: 240px;
+      height: 240px;
+    }
+
+    .portfolio-image {
+      height: 200px;
+    }
+
+    .code-text {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* ANTHONY'S BLACK & WHITE GOTHIC LAYOUT */
+  .gothic-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.9) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(220, 20, 60, 0.05) 0%, transparent 50%),
+      linear-gradient(135deg, #000000 0%, #0a0a0c 50%, #000000 100%);
+    z-index: -2;
+    opacity: 0.8;
+  }
+
+  /* Anthony Hero Section */
+  .anthony-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  /* Anthony Hero Video Background */
+  .anthony-hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+  }
+
+  /* Anthony Video Overlay */
+  .anthony-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+  }
+
+  .anthony-hero-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .anthony-hero-image {
+    position: relative;
+  }
+
+  .gothic-frame {
+    position: relative;
+    border: 4px solid rgba(220, 20, 60, 0.6);
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow:
+      0 0 30px rgba(220, 20, 60, 0.3),
+      0 0 60px rgba(220, 20, 60, 0.2),
+      inset 0 0 30px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(26, 10, 10, 0.8) 100%);
+  }
+
+  .gothic-frame::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(135deg,
+      rgba(220, 20, 60, 0.4) 0%,
+      rgba(178, 34, 52, 0.3) 50%,
+      rgba(220, 20, 60, 0.4) 100%);
+    z-index: -1;
+    border-radius: 0px;
+  }
+
+  .anthony-portrait {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.2) brightness(0.9);
+    transition: all 0.4s ease;
+  }
+
+  .anthony-portrait:hover {
+    filter: grayscale(0%) contrast(1.1) brightness(1.1);
+  }
+
+  .gothic-accent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+      rgba(220, 20, 60, 0.8) 0%,
+      rgba(178, 34, 52, 0.9) 50%,
+      rgba(220, 20, 60, 0.8) 100%);
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+  }
+
+  .anthony-hero-text {
+    color: #f5f5f5;
+  }
+
+  .anthony-name {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 0.5rem;
+    text-shadow:
+      0 0 20px rgba(220, 20, 60, 0.5),
+      0 0 40px rgba(220, 20, 60, 0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .anthony-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: rgba(220, 20, 60, 0.9);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .anthony-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: rgba(245, 245, 245, 0.8);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .anthony-creed {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: rgba(245, 245, 245, 0.9);
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(220, 20, 60, 0.2);
+    line-height: 1.4;
+  }
+
+
+
+  /* Anthony Portfolio Section */
+  .anthony-portfolio {
+    padding: 6rem 0;
+    background: rgba(0, 0, 0, 0.95);
+    position: relative;
+    z-index: 2;
+  }
+
+  .portfolio-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: #f5f5f5;
+    text-align: center;
+    margin-bottom: 4rem;
+    text-shadow:
+      0 0 20px rgba(220, 20, 60, 0.5),
+      0 0 40px rgba(220, 20, 60, 0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .portfolio-item {
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+  }
+
+  .gothic-overlay-block {
+    position: relative;
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(26, 15, 15, 0.7) 100%);
+    border: 3px solid rgba(220, 20, 60, 0.3);
+    transition: all 0.4s ease;
+  }
+
+  .gothic-overlay-block::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(135deg,
+      rgba(220, 20, 60, 0.4) 0%,
+      rgba(178, 34, 52, 0.3) 50%,
+      rgba(220, 20, 60, 0.4) 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .portfolio-item:hover .gothic-overlay-block::before {
+    opacity: 1;
+  }
+
+  .portfolio-item:hover {
+    transform: scale(1.05);
+  }
+
+  .portfolio-item:hover .gothic-overlay-block {
+    border-color: rgba(220, 20, 60, 0.8);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(220, 20, 60, 0.4);
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.1) brightness(0.9);
+    transition: all 0.4s ease;
+  }
+
+  .portfolio-item:hover .portfolio-image {
+    filter: grayscale(20%) contrast(1.2) brightness(1.1);
+  }
+
+
+  .code-block {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+
+
+  /* Mobile Responsive for Anthony */
+  @media (max-width: 768px) {
+    .anthony-hero-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .anthony-name {
+      font-size: 3rem;
+    }
+
+    .anthony-title {
+      font-size: 1.3rem;
+    }
+
+    .anthony-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .anthony-creed {
+      font-size: 1.2rem;
+    }
+
+    .anthony-portrait {
+      height: 300px;
+    }
+
+    .anthony-stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .portfolio-title {
+      font-size: 2.5rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+    }
+
+    .code-text {
+      font-size: 1.5rem;
+    }
+
+    .cta-content h2 {
+      font-size: 2rem;
+    }
+
+  }
+
+  @media (max-width: 480px) {
+    .anthony-hero {
+      padding: 2rem 0;
+      min-height: auto;
+    }
+
+    .anthony-name {
+      font-size: 2.5rem;
+    }
+
+    .anthony-stats-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .anthony-stat {
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+
+    .portfolio-title {
+      font-size: 2rem;
+    }
+
+    .move-title {
+      font-size: 1.3rem;
+    }
+
+    .code-text {
+      font-size: 1.2rem;
+    }
+
+    .cta-content h2 {
+      font-size: 1.8rem;
+    }
+
   }
 </style>

@@ -24,18 +24,19 @@ const structuredData = {
   "description": "Premium tattoo collective in Houma, Louisiana featuring Anthony, Ashley, Cody, Seth, Luis, and Trent. Specializing in custom designs, traditional work, and mystical ink.",
   "url": canonicalURL.toString(),
   "logo": new URL('/brand/cursed-ink-logo.png', Astro.url).toString(),
-  "telephone": "(985) 555-2873",
+  "telephone": "(985) 855-3826",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "123 Main Street",
+    "streetAddress": "Houma, LA",
     "addressLocality": "Houma",
     "addressRegion": "LA",
     "postalCode": "70360",
     "addressCountry": "US"
   },
   "openingHours": [
-    "Tu-Th 12:00-20:00",
-    "Fr-Sa 12:00-22:00"
+    "Mo-Th 13:00-20:00",
+    "Fr-Sa 13:00-22:00",
+    "Su 13:00-20:00"
   ],
   "sameAs": [
     "https://instagram.com/cursedinksociety",
@@ -157,7 +158,7 @@ const structuredData = {
         <div class="nav-menu" id="nav-menu">
           <ul class="nav-links">
             <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/artists" class="nav-link">Guild</a></li>
+            <li><a href="/artists" class="nav-link">Artists</a></li>
             <li><a href="/gallery" class="nav-link">Gallery</a></li>
             <li><a href="/services" class="nav-link">Services</a></li>
             <li><a href="/about" class="nav-link">About</a></li>
@@ -188,7 +189,7 @@ const structuredData = {
           
           <!-- Navigation Links - Horizontal -->
           <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
-            <a href="/artists" class="footer-link">Guild</a>
+            <a href="/artists" class="footer-link">Artists</a>
             <a href="/gallery" class="footer-link">Gallery</a>
             <a href="/services" class="footer-link">Services</a>
             <a href="/about" class="footer-link">About</a>
@@ -197,10 +198,17 @@ const structuredData = {
           
           <!-- Contact Info - Compact -->
           <div class="footer-contact">
-            <p class="contact-location">123 Main Street, Houma, LA 70360</p>
-            <p class="contact-hours">Tue-Thu: 12PM-8PM • Fri-Sat: 12PM-10PM</p>
+            <p class="contact-location">Houma, LA 70360</p>
+            <p class="contact-hours">Mon-Thu: 1PM-8PM • Fri-Sat: 1PM-10PM • Sun: Appt Only</p>
+            <p class="contact-phone"><a href="tel:+19858553826" class="contact-link">(985) 855-3826</a></p>
+            <p class="contact-services">Tattoo • Piercing</p>
           </div>
-          
+
+          <!-- CTA Section -->
+          <div class="footer-cta">
+            <a href="/contact" class="btn btn--primary btn--footer">Book Your Session</a>
+          </div>
+
           <!-- Social Links -->
           <div class="footer-social">
             <a href="https://instagram.com/cursedinksociety" aria-label="Instagram" rel="noopener" target="_blank" class="social-link">
@@ -213,7 +221,7 @@ const structuredData = {
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
-            <a href="tel:+19855552873" aria-label="Phone: (985) 555-CURSE" class="social-link">
+            <a href="tel:+19858553826" aria-label="Phone: (985) 855-3826" class="social-link">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
               </svg>
@@ -224,7 +232,7 @@ const structuredData = {
         <!-- Footer Bottom - Copyright & Legal -->
         <div class="footer-bottom">
           <div class="footer-copyright">
-            <small>© {new Date().getFullYear()} Cursed Ink Society — forged in fire & pigment</small>
+            <small>© {new Date().getFullYear()} Cursed Ink Society LLC — forged in fire & pigment</small>
           </div>
           <div class="footer-legal">
             <a href="/privacy" class="legal-link">Privacy</a>
@@ -511,6 +519,17 @@ const structuredData = {
         margin-bottom: 2rem;
       }
 
+      /* CTA Section */
+      .footer-cta {
+        margin: 0.5rem 0;
+      }
+
+      .btn--footer {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
+        min-width: 160px;
+      }
+
       /* Brand Section - Compact & Centered */
       .footer-brand {
         display: flex;
@@ -595,7 +614,9 @@ const structuredData = {
       }
 
       .contact-location,
-      .contact-hours {
+      .contact-hours,
+      .contact-phone,
+      .contact-services {
         font-size: 0.85rem;
         opacity: 0.7;
         margin: 0;
@@ -606,6 +627,24 @@ const structuredData = {
 
       .contact-hours {
         font-weight: 500;
+      }
+
+      .contact-link {
+        color: var(--accent0);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition-smooth);
+      }
+
+      .contact-link:hover {
+        color: var(--accent0);
+        text-shadow: 0 0 8px rgba(255, 60, 43, 0.6), var(--glow-subtle);
+      }
+
+      .contact-services {
+        font-weight: 500;
+        opacity: 0.8;
+        font-style: italic;
       }
 
       /* Social Links - Compact & Modern */

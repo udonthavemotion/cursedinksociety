@@ -1,136 +1,97 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const title = "Services & Pricing — Cursed Ink Society";
-const description = "Explore our comprehensive tattoo services and transparent pricing. From custom designs to cover-ups, we offer premium artistry with competitive rates in Houma, LA.";
+const title = "Services & Pricing — Louisiana Licensed Tattoo Studio | Cursed Ink Society LLC";
+const description = "Louisiana Department of Health licensed tattoo and piercing studio in Houma, LA. Custom designs, professional piercings, and strict health & safety compliance. 18+ with valid ID required.";
 
 // Comprehensive services data
-const services = [
+const tattooServices = [
   {
     id: 1,
     title: "Custom Tattoo Design",
-    description: "Collaborate with our artists to create a unique piece that tells your story. From initial concept to final execution, we bring your vision to life with meticulous attention to detail.",
+    description: "Work directly with our skilled artists to create a unique tattoo that tells your personal story. We specialize in bringing your vision to life with exceptional craftsmanship and attention to detail.",
     features: [
-      "Personal one-on-one consultation",
-      "Custom design process with revisions",
-      "Digital mockups and previews",
-      "Comprehensive aftercare guidance",
-      "Touch-up session included"
+      "Free consultation to discuss your vision",
+      "Custom design process with unlimited revisions",
+      "Professional tattooing with premium equipment",
+      "Comprehensive aftercare instructions",
+      "Free touch-up within 6 months"
     ],
     pricing: {
       consultation: "Free",
-      hourly: "$190-230/hour",
-      minimum: "$150",
-      deposit: "$100 or 25% of estimate"
+      hourly: "$150-280/hour",
+      minimum: "$100",
+      deposit: "$75 or 25% of estimate"
     },
-    duration: "2-6 hours per session",
+    duration: "1-8 hours per session",
     popular: true,
     image: "/assets/services/custom-design.jpg"
   },
   {
     id: 2,
-    title: "Traditional & Neo-Traditional",
-    description: "Bold lines, vibrant colors, and timeless American traditional style. Our artists honor classic techniques while adding modern flair to create pieces that stand the test of time.",
+    title: "Cover-Up Tattoos",
+    description: "Transform old or unwanted tattoos into beautiful new artwork. Our experts specialize in creative solutions that effectively cover existing ink while creating stunning new designs.",
     features: [
-      "Classic American traditional motifs",
-      "Bold, clean line work",
-      "Vibrant color saturation",
-      "Modern neo-traditional elements",
-      "Historical accuracy and respect"
+      "Free cover-up consultation and assessment",
+      "Custom design solutions for your specific needs",
+      "Advanced techniques for maximum coverage",
+      "Color correction and scar tissue work",
+      "Multiple session planning when needed"
     ],
     pricing: {
       consultation: "Free",
-      hourly: "$190-230/hour",
+      hourly: "$180-280/hour",
       minimum: "$150",
-      deposit: "$100 or 25% of estimate"
+      deposit: "$150 or 25% of estimate"
     },
-    duration: "1-4 hours per session",
+    duration: "2-6 hours per session",
     popular: false,
-    image: "/assets/services/traditional.jpg"
+    image: "/assets/services/cover-up.jpg"
   },
   {
     id: 3,
-    title: "Realism & Portrait Work",
-    description: "Photorealistic tattoos that capture every detail with stunning accuracy. Perfect for memorial pieces, beloved pets, or any subject that demands lifelike representation.",
+    title: "Small Tattoos",
+    description: "Perfect for first-time clients or meaningful small pieces. Our artists create detailed, professional work even in compact spaces with the same quality and care as larger pieces.",
     features: [
-      "Photorealistic detail and shading",
-      "Portrait specialization",
-      "Memorial and tribute pieces",
-      "Nature and wildlife scenes",
-      "Black & grey or full color options"
+      "Ideal for first-time clients",
+      "Detailed work in small spaces",
+      "Quick session times",
+      "Same professional quality",
+      "Perfect for meaningful symbols or dates"
     ],
     pricing: {
       consultation: "Free",
-      hourly: "$220-250/hour",
-      minimum: "$200",
-      deposit: "$150 or 25% of estimate"
+      flatRate: "$100-300",
+      minimum: "$100",
+      deposit: "$50 or 50% of estimate"
     },
-    duration: "3-8 hours per session",
+    duration: "30 minutes - 2 hours",
     popular: false,
-    image: "/assets/services/realism.jpg"
-  },
+    image: "/assets/services/small-tattoo.jpg"
+  }
+];
+
+const piercingServices = [
   {
     id: 4,
-    title: "Japanese Traditional (Irezumi)",
-    description: "Authentic Japanese tattooing following traditional techniques and cultural respect. Our master specializes in large-scale pieces that honor the ancient art of Irezumi.",
+    title: "Body Piercing",
+    description: "Professional piercing services performed by experienced piercers using sterile techniques and high-quality jewelry. We offer a wide range of piercing options with proper aftercare guidance.",
     features: [
-      "Authentic traditional techniques",
-      "Cultural accuracy and respect",
-      "Large-scale body suit planning",
-      "Traditional motifs and symbolism",
-      "Hand-poked (Tebori) options available"
+      "Sterile, professional environment",
+      "High-quality, hypoallergenic jewelry",
+      "Comprehensive aftercare instructions",
+      "Piercing consultations and recommendations",
+      "Follow-up care and jewelry changes"
     ],
     pricing: {
       consultation: "Free",
-      hourly: "$200-280/hour",
-      minimum: "$200",
-      deposit: "$200 or 25% of estimate"
+      basicPiercing: "$30-80",
+      specialtyPiercing: "$50-120",
+      jewelry: "Additional cost"
     },
-    duration: "4-12 hours per session",
+    duration: "15-30 minutes per piercing",
     popular: false,
-    image: "/assets/services/japanese.jpg"
-  },
-  {
-    id: 5,
-    title: "Fine Line & Minimalist",
-    description: "Delicate, precise linework for those who prefer subtle elegance. Perfect for first tattoos, small meaningful pieces, and botanical designs.",
-    features: [
-      "Ultra-fine precision linework",
-      "Minimalist aesthetic approach",
-      "Botanical and geometric designs",
-      "Small to medium scale pieces",
-      "Perfect for first-time clients"
-    ],
-    pricing: {
-      consultation: "Free",
-      hourly: "$150-200/hour",
-      minimum: "$100",
-      deposit: "$75 or 25% of estimate"
-    },
-    duration: "1-3 hours per session",
-    popular: false,
-    image: "/assets/services/fine-line.jpg"
-  },
-  {
-    id: 6,
-    title: "Cover-Up & Restoration",
-    description: "Transform old or unwanted tattoos into beautiful new artwork. Our experts specialize in creative solutions for even the most challenging cover-up projects.",
-    features: [
-      "Free cover-up consultation",
-      "Creative design solutions",
-      "Color correction techniques",
-      "Scar tissue integration",
-      "Laser preparation recommendations"
-    ],
-    pricing: {
-      consultation: "Free",
-      hourly: "Quote based on complexity",
-      minimum: "Varies by project",
-      deposit: "$150 or 25% of estimate"
-    },
-    duration: "Varies by complexity",
-    popular: false,
-    image: "/assets/services/cover-up.jpg"
+    image: "/assets/services/piercing.jpg"
   }
 ];
 
@@ -138,7 +99,12 @@ const additionalServices = [
   {
     title: "Touch-Up Services",
     description: "Free touch-ups within 6 months for optimal healing",
-    price: "Included with original work"
+    price: "Included with tattoo work"
+  },
+  {
+    title: "Piercing Aftercare",
+    description: "Professional piercing aftercare and jewelry changes",
+    price: "Free for 6 months"
   },
   {
     title: "Consultation Only",
@@ -146,24 +112,20 @@ const additionalServices = [
     price: "Free"
   },
   {
-    title: "Design Revision",
-    description: "Additional revisions beyond initial concept",
-    price: "$50 per major revision"
-  },
-  {
-    title: "Rush Service",
-    description: "Expedited scheduling (when available)",
-    price: "25% surcharge"
+    title: "Jewelry Sales",
+    description: "High-quality piercing jewelry and replacement parts",
+    price: "Starting at $10"
   }
 ];
 
 const pricingNotes = [
-  "All prices are subject to complexity and artist availability",
+  "Must be 18+ with valid government-issued photo ID (no exceptions)",
+  "All artists are Louisiana Department of Health licensed and certified",
+  "We follow strict Louisiana health and safety regulations",
+  "Comprehensive consent form required before any procedure",
+  "All equipment is sterilized per Louisiana state requirements",
   "Deposits are non-refundable but applied to final cost",
-  "Payment plans available for large projects",
-  "Group booking discounts available",
-  "Military and first responder discounts: 10%",
-  "Student discount: 5% (with valid ID)"
+  "Prices subject to complexity and artist availability"
 ];
 ---
 
@@ -175,24 +137,108 @@ const pricingNotes = [
         <span class="badge">Our Services</span>
         <h1 class="hero-title shine">Services & Pricing</h1>
         <p class="hero-description">
-          Premium tattoo artistry with transparent pricing. Every service includes consultation, 
-          custom design, and comprehensive aftercare to ensure your perfect tattoo experience.
+          Premium tattoo and piercing services with transparent pricing. Custom designs, professional piercings,
+          and comprehensive aftercare to ensure your perfect experience at Cursed Ink Society LLC.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Main Services -->
+  <!-- Tattoo Services -->
   <section class="main-services">
     <div class="container">
+      <h2 class="section-title">Tattoo Services</h2>
       <div class="services-grid">
-        {services.map((service) => (
+        {tattooServices.map((service) => (
           <article class="service-card" data-service-id={service.id}>
             {service.popular && <div class="popular-badge">Most Popular</div>}
-            
+
             <div class="service-image-container">
-              <img 
-                src={service.image} 
+              <img
+                src={service.image}
+                alt={service.title}
+                class="service-image"
+                loading="lazy"
+                width="400"
+                height="300"
+              />
+            </div>
+
+            <div class="service-content">
+              <h2 class="service-title">{service.title}</h2>
+              <p class="service-description">{service.description}</p>
+
+              <div class="service-features">
+                <h3>What's Included</h3>
+                <ul class="features-list">
+                  {service.features.map((feature) => (
+                    <li class="feature-item">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="service-pricing">
+                <h3>Pricing</h3>
+                <div class="pricing-details">
+                  <div class="pricing-item">
+                    <span class="pricing-label">Consultation:</span>
+                    <span class="pricing-value">{service.pricing.consultation}</span>
+                  </div>
+                  {service.pricing.hourly && (
+                    <div class="pricing-item">
+                      <span class="pricing-label">Hourly Rate:</span>
+                      <span class="pricing-value">{service.pricing.hourly}</span>
+                    </div>
+                  )}
+                  {service.pricing.flatRate && (
+                    <div class="pricing-item">
+                      <span class="pricing-label">Flat Rate:</span>
+                      <span class="pricing-value">{service.pricing.flatRate}</span>
+                    </div>
+                  )}
+                  <div class="pricing-item">
+                    <span class="pricing-label">Minimum:</span>
+                    <span class="pricing-value">{service.pricing.minimum}</span>
+                  </div>
+                  <div class="pricing-item">
+                    <span class="pricing-label">Deposit:</span>
+                    <span class="pricing-value">{service.pricing.deposit}</span>
+                  </div>
+                  <div class="pricing-item">
+                    <span class="pricing-label">Duration:</span>
+                    <span class="pricing-value">{service.duration}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="service-actions">
+                <a href="/contact" class="btn btn--primary">Get Quote</a>
+                <a href="/gallery" class="btn btn--outline">View Examples</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Piercing Services -->
+  <section class="piercing-services">
+    <div class="container">
+      <h2 class="section-title">Piercing Services</h2>
+      <div class="services-grid">
+        {piercingServices.map((service) => (
+          <article class="service-card" data-service-id={service.id}>
+            {service.popular && <div class="popular-badge">Most Popular</div>}
+
+            <div class="service-image-container">
+              <img
+                src={service.image}
                 alt={service.title}
                 class="service-image"
                 loading="lazy"
@@ -227,16 +273,16 @@ const pricingNotes = [
                     <span class="pricing-value">{service.pricing.consultation}</span>
                   </div>
                   <div class="pricing-item">
-                    <span class="pricing-label">Hourly Rate:</span>
-                    <span class="pricing-value">{service.pricing.hourly}</span>
+                    <span class="pricing-label">Basic Piercing:</span>
+                    <span class="pricing-value">{service.pricing.basicPiercing}</span>
                   </div>
                   <div class="pricing-item">
-                    <span class="pricing-label">Minimum:</span>
-                    <span class="pricing-value">{service.pricing.minimum}</span>
+                    <span class="pricing-label">Specialty Piercing:</span>
+                    <span class="pricing-value">{service.pricing.specialtyPiercing}</span>
                   </div>
                   <div class="pricing-item">
-                    <span class="pricing-label">Deposit:</span>
-                    <span class="pricing-value">{service.pricing.deposit}</span>
+                    <span class="pricing-label">Jewelry:</span>
+                    <span class="pricing-value">{service.pricing.jewelry}</span>
                   </div>
                   <div class="pricing-item">
                     <span class="pricing-label">Duration:</span>
@@ -246,8 +292,8 @@ const pricingNotes = [
               </div>
 
               <div class="service-actions">
-                <a href="/consultation" class="btn btn--primary">Book Consultation</a>
-                <a href="/gallery" class="btn btn--outline">View Examples</a>
+                <a href="/contact" class="btn btn--primary">Get Quote</a>
+                <a href="/contact" class="btn btn--outline">Learn More</a>
               </div>
             </div>
           </article>
@@ -272,46 +318,189 @@ const pricingNotes = [
     </div>
   </section>
 
-  <!-- Pricing Information -->
+  <!-- Pricing Information - Redesigned -->
   <section class="pricing-info">
     <div class="container">
-      <div class="pricing-info-content">
-        <h2 class="section-title">Pricing Information</h2>
-        <div class="pricing-notes">
-          <h3>Important Notes</h3>
-          <ul class="notes-list">
-            {pricingNotes.map((note) => (
-              <li class="note-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                {note}
-              </li>
-            ))}
-          </ul>
+      <div class="pricing-showcase">
+        <div class="pricing-header">
+          <h2 class="section-title">Investment & Terms</h2>
+          <p class="pricing-subtitle">Transparent pricing for exceptional artistry</p>
         </div>
 
-        <div class="payment-methods">
-          <h3>Payment Methods</h3>
-          <div class="payment-options">
-            <div class="payment-option">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+        <div class="pricing-grid">
+          <!-- Pricing Philosophy Card -->
+          <div class="pricing-philosophy-card">
+            <div class="philosophy-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
-              <span>Credit & Debit Cards</span>
             </div>
-            <div class="payment-option">
+            <h3>Quality First</h3>
+            <p>We believe in transparent, value-based pricing that reflects the skill, time, and artistry that goes into every piece.</p>
+          </div>
+
+          <!-- Payment Methods -->
+          <div class="payment-methods-card">
+            <div class="card-header">
+              <div class="payment-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2z"/>
+                </svg>
+              </div>
+              <h3>Payment Options</h3>
+            </div>
+            <div class="payment-grid">
+              <div class="payment-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                </svg>
+                <span>Cash Only</span>
+              </div>
+              <div class="payment-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2z"/>
+                </svg>
+                <span>Major Credit Cards</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Important Notes -->
+          <div class="pricing-notes-card">
+            <div class="card-header">
+              <div class="notes-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </div>
+              <h3>Important Details</h3>
+            </div>
+            <div class="notes-list">
+              {pricingNotes.map((note, index) => (
+                <div class="note-item" style={`animation-delay: ${index * 0.1}s`}>
+                  <div class="note-bullet"></div>
+                  <span>{note}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing Summary Banner -->
+        <div class="pricing-summary-banner">
+          <div class="summary-content">
+            <div class="summary-text">
+              <h3>Starting Investments</h3>
+              <div class="price-ranges">
+                <div class="price-range">
+                  <span class="service-type">Tattoos</span>
+                  <span class="price">$100 - $280/hr</span>
+                </div>
+                <div class="price-range">
+                  <span class="service-type">Piercings</span>
+                  <span class="price">$30 - $120</span>
+                </div>
+              </div>
+            </div>
+            <div class="summary-cta">
+              <p>Ready to discuss your vision?</p>
+              <a href="/contact" class="btn btn--accent">Get In Touch</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legal Compliance Section -->
+  <section class="legal-compliance">
+    <div class="container">
+      <div class="compliance-content">
+        <div class="compliance-header">
+          <div class="compliance-badge">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+            </svg>
+            <span>Louisiana State Licensed</span>
+          </div>
+          <h2 class="section-title">Health & Safety Compliance</h2>
+          <p class="compliance-subtitle">
+            Cursed Ink Society LLC operates in full compliance with Louisiana Department of Health regulations 
+            and maintains the highest standards of safety and professionalism.
+          </p>
+        </div>
+
+        <div class="compliance-grid">
+          <div class="compliance-card">
+            <div class="compliance-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
               </svg>
-              <span>Cash</span>
             </div>
-            <div class="payment-option">
+            <h3>Licensed & Certified</h3>
+            <ul class="compliance-list">
+              <li>Louisiana Department of Health establishment permit</li>
+              <li>Individual artist permits for all tattooers</li>
+              <li>Annual bloodborne pathogen certification</li>
+              <li>Regular health department inspections</li>
+            </ul>
+          </div>
+
+          <div class="compliance-card">
+            <div class="compliance-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                <path d="M12,2A3,3 0 0,1 15,5V7H19A2,2 0 0,1 21,9V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V9A2,2 0 0,1 5,7H9V5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5V7H13V5A1,1 0 0,0 12,4Z"/>
               </svg>
-              <span>Payment Plans Available</span>
             </div>
+            <h3>Strict Age Requirements</h3>
+            <ul class="compliance-list">
+              <li>Must be 18+ years old (no exceptions)</li>
+              <li>Valid government-issued photo ID required</li>
+              <li>No parental consent accepted for minors</li>
+              <li>ID verification before all procedures</li>
+            </ul>
+          </div>
+
+          <div class="compliance-card">
+            <div class="compliance-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3Z"/>
+              </svg>
+            </div>
+            <h3>Comprehensive Documentation</h3>
+            <ul class="compliance-list">
+              <li>Detailed consent forms for all clients</li>
+              <li>Medical history and risk assessment</li>
+              <li>Aftercare instructions provided</li>
+              <li>Records maintained per state requirements</li>
+            </ul>
+          </div>
+
+          <div class="compliance-card">
+            <div class="compliance-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+              </svg>
+            </div>
+            <h3>Sterilization Standards</h3>
+            <ul class="compliance-list">
+              <li>Autoclave sterilization for all reusable equipment</li>
+              <li>Monthly spore testing by independent laboratory</li>
+              <li>Single-use needles and sterile supplies only</li>
+              <li>Hospital-grade disinfectants and cleaning protocols</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="compliance-footer">
+          <div class="compliance-statement">
+            <p>
+              <strong>Legal Disclaimer:</strong> Cursed Ink Society LLC is a Louisiana Department of Health 
+              licensed body art establishment operating under Louisiana Administrative Code (LAC) Title 48, 
+              Part V, Chapter 85. All artists maintain current individual permits and bloodborne pathogen 
+              certifications. We strictly adhere to all state health and safety regulations to ensure the 
+              highest level of client protection and service quality.
+            </p>
           </div>
         </div>
       </div>
@@ -322,11 +511,11 @@ const pricingNotes = [
   <section class="services-cta">
     <div class="container">
       <div class="cta-content">
-        <h2>Ready to Get Started?</h2>
-        <p>Book your free consultation today and let's bring your tattoo vision to life.</p>
+        <h2>Let's Create Something Amazing</h2>
+        <p>Ready to transform your vision into reality? Get in touch with our team to discuss your next tattoo or piercing project.</p>
         <div class="cta-actions">
-          <a href="/consultation" class="btn btn--primary btn--large">Book Free Consultation</a>
-          <a href="/contact" class="btn btn--outline btn--large">Ask Questions</a>
+          <a href="/contact" class="btn btn--primary btn--large">Contact Our Team</a>
+          <a href="/gallery" class="btn btn--outline btn--large">View Our Work</a>
         </div>
       </div>
     </div>
@@ -363,6 +552,13 @@ const pricingNotes = [
   /* Main Services */
   .main-services {
     padding: 4rem 0;
+  }
+
+  /* Piercing Services */
+  .piercing-services {
+    padding: 4rem 0;
+    background: var(--bg-glass);
+    border-top: var(--border-glass);
   }
 
   .services-grid {
@@ -564,69 +760,467 @@ const pricingNotes = [
     font-size: 0.95rem;
   }
 
-  /* Pricing Information */
+  /* Pricing Information - Redesigned */
   .pricing-info {
-    padding: 4rem 0;
+    padding: 6rem 0;
+    background: 
+      linear-gradient(135deg, rgba(255, 60, 43, 0.02) 0%, transparent 50%),
+      radial-gradient(800px 400px at 30% 50%, rgba(255, 60, 43, 0.03) 0%, transparent 70%);
   }
 
-  .pricing-info-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    max-width: 1000px;
+  .pricing-showcase {
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  .pricing-notes h3,
-  .payment-methods h3 {
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .pricing-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin: 1rem 0 0;
+    color: var(--ink);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Pricing Philosophy Card */
+  .pricing-philosophy-card {
+    background: linear-gradient(135deg, var(--bg-glass), rgba(255, 60, 43, 0.02));
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-philosophy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent0), var(--accent1));
+    opacity: 0.7;
+  }
+
+  .pricing-philosophy-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 60, 43, 0.1);
+    border-color: rgba(255, 60, 43, 0.3);
+  }
+
+  .philosophy-icon {
+    margin: 0 auto 1.5rem;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(255, 60, 43, 0.2);
+  }
+
+  .philosophy-icon svg {
+    color: var(--bg0);
+  }
+
+  .pricing-philosophy-card h3 {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .pricing-philosophy-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  /* Payment Methods Card */
+  .payment-methods-card {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .payment-methods-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .payment-icon,
+  .notes-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(255, 60, 43, 0.1), rgba(255, 60, 43, 0.05));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 60, 43, 0.2);
+  }
+
+  .payment-icon svg,
+  .notes-icon svg {
+    color: var(--accent0);
+  }
+
+  .card-header h3 {
     font-size: 1.3rem;
+    margin: 0;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .payment-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+  }
+
+  .payment-item:hover {
+    background: rgba(255, 60, 43, 0.05);
+    border-color: rgba(255, 60, 43, 0.1);
+  }
+
+  .payment-item svg {
+    color: var(--accent0);
+    flex-shrink: 0;
+  }
+
+  /* Pricing Notes Card */
+  .pricing-notes-card {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+  }
+
+  .pricing-notes-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+  }
+
+  .pricing-notes-card .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pricing-notes-card .note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0;
+    animation: slideInUp 0.6s ease forwards;
+  }
+
+  .note-bullet {
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(255, 60, 43, 0.3);
+  }
+
+  /* Pricing Summary Banner */
+  .pricing-summary-banner {
+    background: linear-gradient(135deg, var(--bg-glass), rgba(255, 60, 43, 0.03));
+    border: var(--border-glass);
+    border-radius: 24px;
+    padding: 3rem;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-summary-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent0), var(--accent1));
+  }
+
+  .summary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .summary-text h3 {
+    font-size: 1.5rem;
     margin: 0 0 1.5rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .price-ranges {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .price-range {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .service-type {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .price {
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--accent0);
     text-shadow: var(--glow-subtle);
   }
 
-  .notes-list {
+  .summary-cta {
+    text-align: center;
+  }
+
+  .summary-cta p {
+    font-size: 1.1rem;
+    margin: 0 0 1.5rem;
+    opacity: 0.9;
+  }
+
+  .btn--accent {
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    color: var(--bg0);
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(255, 60, 43, 0.3);
+    transition: var(--transition-smooth);
+  }
+
+  .btn--accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255, 60, 43, 0.4);
+  }
+
+  /* Animations */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Legal Compliance Section */
+  .legal-compliance {
+    padding: 6rem 0;
+    background: 
+      linear-gradient(135deg, rgba(255, 60, 43, 0.02) 0%, transparent 50%),
+      radial-gradient(600px 400px at 70% 50%, rgba(255, 60, 43, 0.03) 0%, transparent 70%);
+    border-top: var(--border-glass);
+  }
+
+  .compliance-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .compliance-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .compliance-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    color: var(--bg0);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(255, 60, 43, 0.3);
+  }
+
+  .compliance-badge svg {
+    color: var(--bg0);
+  }
+
+  .compliance-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 1rem auto 0;
+    color: var(--ink);
+  }
+
+  .compliance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .compliance-card {
+    background: var(--bg-glass);
+    border: var(--border-glass);
+    border-radius: 20px;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+  }
+
+  .compliance-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+    box-shadow: 0 12px 32px rgba(255, 60, 43, 0.1);
+  }
+
+  .compliance-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent0), var(--accent1));
+    border-radius: 20px 20px 0 0;
+    opacity: 0.6;
+  }
+
+  .compliance-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(255, 60, 43, 0.1), rgba(255, 60, 43, 0.05));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 60, 43, 0.2);
+  }
+
+  .compliance-icon svg {
+    color: var(--accent0);
+  }
+
+  .compliance-card h3 {
+    font-size: 1.3rem;
+    margin: 0 0 1.5rem;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .compliance-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
-  .note-item {
+  .compliance-list li {
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
     font-size: 0.95rem;
     line-height: 1.5;
+    opacity: 0.9;
+    position: relative;
+    padding-left: 1.5rem;
   }
 
-  .note-item svg {
-    color: var(--accent0);
-    flex-shrink: 0;
-    margin-top: 0.125rem;
+  .compliance-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(255, 60, 43, 0.3);
   }
 
-  .payment-options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .payment-option {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: var(--bg-glass);
+  .compliance-footer {
+    background: rgba(255, 255, 255, 0.02);
     border: var(--border-glass);
-    border-radius: 12px;
+    border-radius: 16px;
+    padding: 2rem;
     backdrop-filter: blur(5px);
   }
 
-  .payment-option svg {
+  .compliance-statement p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.8;
+    text-align: center;
+  }
+
+  .compliance-statement strong {
     color: var(--accent0);
+    font-weight: 600;
   }
 
   /* Services CTA */
@@ -698,9 +1292,44 @@ const pricingNotes = [
       gap: 1.5rem;
     }
 
-    .pricing-info-content {
+    .pricing-grid {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2rem;
+    }
+
+    .pricing-summary-banner {
+      padding: 2rem;
+    }
+
+    .summary-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    .price-ranges {
+      justify-content: center;
+    }
+
+    .payment-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-compliance {
+      padding: 4rem 0;
+    }
+
+    .compliance-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .compliance-card {
+      padding: 2rem;
+    }
+
+    .compliance-footer {
+      padding: 1.5rem;
     }
 
     .cta-actions {

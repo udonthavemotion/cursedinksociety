@@ -1,298 +1,133 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ArtistCard from '../components/ArtistCard.astro';
-import { artists, guildStats, guildReviews } from '../data/artists';
+import ArtistsHero from '../components/ArtistsHero.astro';
+import ArtistCardUniversal from '../components/ArtistCardUniversal.astro';
+import { artists } from '../data/artists';
 
-const pageTitle = "Guild Hub - Cursed Ink Society";
-const pageDescription = "Meet the legendary artisans of Cursed Ink Society - Master tattoo artists with decades of experience";
+const pageTitle = "Artists - Cursed Ink Society";
+const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society. Professional artisans specializing in custom tattoos, traditional styles, and unique designs.";
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <main class="guild-hall">
-    <!-- Guild Header -->
-    <div class="guild-header">
-      <div class="container">
-        <h1 class="guild-title">⚔️ The Cursed Ink Guild ⚔️</h1>
-        <p class="guild-subtitle">Choose your artisan for your next legendary piece</p>
-        <div class="guild-level-badge">
-          <span class="level-text">Guild Level {guildStats.guildLevel}</span>
-          <div class="xp-bar">
-            <div class="xp-fill" style={`width: ${(guildStats.guildLevel % 10) * 10}%`}></div>
-          </div>
-        </div>
+  <!-- Beautiful Hero Section -->
+  <ArtistsHero showStats={false} />
+
+  <!-- Artists Grid -->
+  <section class="artists-section">
+    <div class="container">
+      <div class="artists-grid">
+        {artists.map((artist) => (
+          <ArtistCardUniversal artist={artist} />
+        ))}
       </div>
     </div>
+  </section>
 
-    <!-- Artist Grid -->
-    <div class="guild-layout">
-      <div class="container">
-        <div class="artists-grid">
-          {artists.map((artist) => (
-            <ArtistCard artist={artist} />
-          ))}
-        </div>
-
-        <!-- Guild Stats Summary -->
-        <div class="guild-summary">
-          <div class="summary-stats">
-            <div class="stat-item">
-              <span class="stat-number">{guildStats.activeMembers}</span>
-              <span class="stat-label">Master Artists</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">{guildStats.combinedExperience}+</span>
-              <span class="stat-label">Years Combined</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">{guildStats.totalMasterpieces}</span>
-              <span class="stat-label">Masterpieces</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">{guildStats.stylesOffered}</span>
-              <span class="stat-label">Art Styles</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Featured Reviews -->
-        <div class="reviews-section">
-          <h2 class="section-title">🎖️ Guild Testimonials</h2>
-          <div class="reviews-grid">
-            {guildReviews.slice(0, 3).map((review) => (
-              <div class="review-card">
-                <div class="review-stars">
-                  {'★'.repeat(review.rating)}
-                </div>
-                <p class="review-text">"{review.comment}"</p>
-                <div class="review-author">
-                  <span class="reviewer-name">{review.author}</span>
-                  <span class="review-artist">{review.artist}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Begin Your Journey?</h2>
+        <p>Connect with our artists on Instagram to explore their work and start your tattoo conversation</p>
+        <a href="/contact" class="cta-button">Contact the Shop</a>
       </div>
     </div>
-  </main>
+  </section>
 </Layout>
 
 <style>
-  /* Guild Hall Base Styles */
-  .guild-hall {
+  /* Artists Section */
+  .artists-section {
+    padding: 4rem 0;
+    position: relative;
+    z-index: 2;
     background:
-      radial-gradient(ellipse at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 70%, rgba(220, 20, 60, 0.06) 0%, transparent 50%),
-      linear-gradient(135deg, #0a0a0a 0%, #1a0b0b 100%);
-    min-height: 100vh;
+      radial-gradient(ellipse at 30% 20%, rgba(220, 20, 60, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(178, 34, 52, 0.03) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0a0c 0%, #1a0a0a 100%);
+  }
+
+
+  /* Artists Grid - Responsive */
+  .artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 4rem 0;
+    position: relative;
+    z-index: 2;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(220, 20, 60, 0.03) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(26, 10, 10, 0.95) 100%);
+  }
+
+  .cta-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-content h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #f5f5f5;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
+    font-weight: 700;
+  }
+
+  .cta-content p {
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.8);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    background: rgba(220, 20, 60, 0.9);
+    color: #f5f5f5;
+    border: 2px solid rgba(178, 34, 52, 0.8);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 16px rgba(220, 20, 60, 0.3);
     position: relative;
     overflow: hidden;
   }
 
-  .guild-hall::before {
+  .cta-button::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-      radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
-      radial-gradient(circle at 75% 75%, rgba(220, 20, 60, 0.03) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Guild Header */
-  .guild-header {
-    padding: 4rem 0 2rem;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 100%);
-  }
-
-  .guild-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    color: #d4af37;
-    margin-bottom: 1rem;
-    text-shadow:
-      2px 2px 4px rgba(0,0,0,0.8),
-      0 0 20px rgba(212, 175, 55, 0.3);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-
-  .guild-subtitle {
-    font-size: 1.3rem;
-    color: #b22222;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto 2rem;
-    text-shadow: 0 0 10px rgba(220, 20, 60, 0.3);
-  }
-
-  .guild-level-badge {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(145deg, rgba(0,0,0,0.4), rgba(212, 175, 55, 0.1));
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    border-radius: 20px;
-    padding: 1rem 2rem;
-    backdrop-filter: blur(10px);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.1),
-      0 8px 24px rgba(0,0,0,0.3);
-  }
-
-  .level-text {
-    color: #d4af37;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-    margin-bottom: 0.5rem;
-  }
-
-  .xp-bar {
-    width: 200px;
-    height: 8px;
-    background: rgba(0,0,0,0.5);
-    border-radius: 4px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    overflow: hidden;
-  }
-
-  .xp-fill {
+    left: -100%;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #d4af37, #ffd700);
-    border-radius: 3px;
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
-    transition: width 1s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
   }
 
-  /* Guild Layout */
-  .guild-layout {
-    padding: 2rem 0 4rem;
-    position: relative;
-    z-index: 2;
+  .cta-button:hover::before {
+    left: 100%;
   }
 
-  /* Artist Grid - Responsive */
-  .artists-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-
-  /* Guild Summary */
-  .guild-summary {
-    margin-bottom: 4rem;
-  }
-
-  .summary-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .stat-item {
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(145deg, rgba(26, 15, 15, 0.9), rgba(42, 26, 26, 0.9));
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  }
-
-  .stat-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #d4af37;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    font-size: 1rem;
-    color: rgba(245, 245, 245, 0.8);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* Reviews Section */
-  .reviews-section {
-    margin-bottom: 4rem;
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    color: #d4af37;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    font-weight: 700;
-  }
-
-  .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .review-card {
-    background: linear-gradient(145deg, rgba(26, 15, 15, 0.9), rgba(42, 26, 26, 0.9));
-    border: 2px solid rgba(212, 175, 55, 0.2);
-    border-radius: 16px;
-    padding: 1.5rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-  }
-
-  .review-card:hover {
-    border-color: rgba(212, 175, 55, 0.5);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-  }
-
-  .review-stars {
-    color: #ffd700;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  }
-
-  .review-text {
-    color: rgba(245, 245, 245, 0.9);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    font-style: italic;
-  }
-
-  .review-author {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-  }
-
-  .reviewer-name {
-    color: #d4af37;
-    font-weight: 600;
-  }
-
-  .review-artist {
-    color: rgba(245, 245, 245, 0.7);
+  .cta-button:hover {
+    background: rgba(178, 34, 52, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(220, 20, 60, 0.4);
+    border-color: rgba(220, 20, 60, 0.8);
   }
 
   /* Container */
@@ -309,9 +144,6 @@ const pageDescription = "Meet the legendary artisans of Cursed Ink Society - Mas
       gap: 2.5rem;
     }
 
-    .summary-stats {
-      grid-template-columns: repeat(4, 1fr);
-    }
   }
 
   @media (min-width: 1024px) {
@@ -321,141 +153,116 @@ const pageDescription = "Meet the legendary artisans of Cursed Ink Society - Mas
     }
   }
 
+  @media (min-width: 1280px) {
+    .artists-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+
   /* Mobile Optimizations */
   @media (max-width: 767px) {
-    .guild-hall {
+    .artists-page {
       background-attachment: scroll;
     }
 
-    .guild-header {
+    .artists-header {
       padding: 3rem 0 2rem;
     }
 
-    .guild-title {
+    .page-title {
       font-size: 2.5rem;
     }
 
-    .guild-subtitle {
+    .page-subtitle {
       font-size: 1.1rem;
+      margin-bottom: 2rem;
     }
 
-    .guild-level-badge {
-      padding: 1rem 2rem;
-    }
-
-    .level-text {
-      font-size: 1rem;
-    }
-
-    .xp-bar {
-      width: 180px;
-    }
 
     .artists-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
     }
 
-    .summary-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+    .cta-section {
+      padding: 3rem 0;
     }
 
-    .stat-item {
-      padding: 1.5rem;
-    }
-
-    .stat-number {
+    .cta-content h2 {
       font-size: 2rem;
     }
 
-    .reviews-grid {
-      grid-template-columns: 1fr;
+    .cta-content p {
+      font-size: 1rem;
     }
 
-    .section-title {
-      font-size: 1.5rem;
+    .cta-button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
     }
   }
 
   @media (max-width: 480px) {
-    .guild-header {
+    .artists-header {
       padding: 2rem 0 1.5rem;
     }
 
-    .guild-title {
+    .page-title {
       font-size: 2rem;
     }
 
-    .guild-subtitle {
+    .page-subtitle {
       font-size: 1rem;
     }
 
-    .guild-level-badge {
-      padding: 0.75rem 1.5rem;
-    }
 
-    .xp-bar {
-      width: 140px;
-    }
-
-    .stat-item {
-      padding: 1rem;
-    }
-
-    .stat-number {
+    .cta-content h2 {
       font-size: 1.5rem;
     }
 
-    .stat-label {
-      font-size: 0.9rem;
-    }
-
-    .review-card {
-      padding: 1rem;
-    }
-
-    .review-text {
+    .cta-button {
+      padding: 0.875rem 1.5rem;
       font-size: 0.9rem;
     }
   }
 
   /* Accessibility & Reduced Motion */
   @media (prefers-reduced-motion: reduce) {
-    .review-card,
-    .stat-item {
+    .cta-button {
       transition: none;
     }
 
-    .review-card:hover {
+    .cta-button::before {
+      display: none;
+    }
+
+    .cta-button:hover {
       transform: none;
     }
   }
 
   /* High Contrast Mode */
   @media (prefers-contrast: high) {
-    .review-card,
-    .stat-item {
+    .cta-button {
       border-width: 3px;
     }
   }
 
   /* Print Styles */
   @media print {
-    .guild-hall {
+    .artists-page {
       background: white !important;
     }
 
-    .guild-title,
-    .section-title {
+    .page-title,
+    .cta-content h2 {
       color: black !important;
       text-shadow: none !important;
     }
 
-    .review-card,
-    .stat-item {
-      border: 2px solid black;
-      box-shadow: none;
+    .cta-button {
+      display: none;
     }
   }
 </style>

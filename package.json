@@ -2,23 +2,35 @@
   "name": "cursed-ink-society",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4321",
     "build": "astro build",
     "preview": "astro preview",
+    "lint": "eslint . --ext .js,.ts,.jsx,.tsx,.astro",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
     "astro": "astro"
   },
   "dependencies": {
     "@fontsource-variable/cinzel": "^5.2.6",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.5",
     "tailwindcss": "^4.1.13",
     "three": "^0.180.0"
   },
   "devDependencies": {
-    "@types/three": "^0.180.0",
-    "@astrojs/sitemap": "^3.2.1",
     "@astrojs/rss": "^4.0.9",
-    "astro-compress": "^2.3.5"
+    "@astrojs/sitemap": "^3.2.1",
+    "@types/three": "^0.180.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "astro-compress": "^2.3.5",
+    "eslint": "^8.0.0",
+    "eslint-plugin-astro": "^1.0.0",
+    "prettier": "^3.0.0"
   }
 }

@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [tailwindcss('./tailwind.config.mjs')],
+    plugins: [tailwindcss()],
     // Optimize dev server for better HMR and file watching
     server: {
       hmr: {
@@ -24,26 +24,13 @@ export default defineConfig({
   output: 'static',
   compressHTML: true,
   build: {
-    inlineStylesheets: 'auto',
-    // Optimize bundle size
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          // Separate vendor chunks for better caching
-          'three-vendor': ['three'],
-          'astro-vendor': ['astro'],
-        }
-      }
-    }
+    inlineStylesheets: 'auto'
   },
   image: {
     // Research-aligned: Optimize images for performance
     service: {
       entrypoint: 'astro/assets/services/sharp'
-    },
-    // Optimize image formats and quality
-    formats: ['avif', 'webp', 'png', 'jpg'],
-    defaultQuality: 85
+    }
   },
   // Experimental features removed - viewTransitions is deprecated
   // SEO and accessibility optimizations

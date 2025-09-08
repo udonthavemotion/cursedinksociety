@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "framework": "astro",
+  "trailingSlash": "auto",
+  "regions": ["iad1"],
+  "functions": {
+    "src/pages/**/*.astro": {
+      "maxDuration": 10
+    }
+  }
+}

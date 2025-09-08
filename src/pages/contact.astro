@@ -1,26 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const title = "Contact Us — Cursed Ink Society";
-const description = "Get in touch with Cursed Ink Society. Book consultations, ask questions, or visit our Houma, LA studio. We're here to help bring your tattoo vision to life.";
+const title = "Contact Us — Cursed Ink Society LLC";
+const description = "Get in touch with Cursed Ink Society LLC. Book tattoo consultations, ask about our piercing services, or visit our Houma, LA studio. Contact Alyssa Robichaux to bring your tattoo vision to life.";
 
 // Contact information
 const contactInfo = {
-  phone: "(985) 555-CURSE",
-  phoneLink: "tel:+19855552873",
-  email: "info@cursedinksociety.com",
-  emailLink: "mailto:info@cursedinksociety.com",
+  phone: "(985) 855-3826",
+  phoneLink: "tel:+19858553826",
+  email: "arobiichaux@rigscoepoint.com",
+  emailLink: "mailto:arobiichaux@rigscoepoint.com",
+  contactName: "Alyssa Robichaux",
+  services: "Tattoo • Piercing",
   address: {
-    street: "123 Main Street",
+    street: "Houma, LA",
     city: "Houma",
     state: "LA",
     zip: "70360",
-    full: "123 Main Street, Houma, LA 70360"
+    full: "Houma, LA 70360"
   },
   hours: [
-    { days: "Tuesday - Thursday", time: "12:00 PM - 8:00 PM" },
-    { days: "Friday - Saturday", time: "12:00 PM - 10:00 PM" },
-    { days: "Sunday - Monday", time: "Closed" }
+    { days: "Monday - Thursday", time: "1:00 PM - 8:00 PM" },
+    { days: "Friday - Saturday", time: "1:00 PM - 10:00 PM" },
+    { days: "Sunday", time: "Appointment Only" }
   ],
   socialMedia: {
     instagram: "https://instagram.com/cursedinksociety",
@@ -89,7 +91,7 @@ const faqs = [
             <div class="contact-details">
               <h3>Phone</h3>
               <p><a href={contactInfo.phoneLink}>{contactInfo.phone}</a></p>
-              <small>Call for immediate assistance or booking</small>
+              <small>Contact: {contactInfo.contactName}</small>
             </div>
           </div>
 
@@ -122,6 +124,19 @@ const faqs = [
           <div class="contact-method">
             <div class="contact-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Services</h3>
+              <p>{contactInfo.services}</p>
+              <small>Custom tattoos and professional piercing</small>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
                 <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
               </svg>
@@ -136,7 +151,7 @@ const faqs = [
                   </div>
                 ))}
               </div>
-              <small>Walk-ins welcome based on availability</small>
+              <small>Walk-ins welcome during business hours</small>
             </div>
           </div>
         </div>
