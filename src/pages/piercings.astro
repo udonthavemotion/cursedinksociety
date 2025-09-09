@@ -29,12 +29,12 @@ const { piercings, categories, artists } = piercingsData;
             <span class="stat-label">Services</span>
           </div>
           <div class="stat">
-            <span class="stat-number">{categories.length}</span>
-            <span class="stat-label">Categories</span>
-          </div>
-          <div class="stat">
             <span class="stat-number">{artists.length}</span>
             <span class="stat-label">Artists</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">18+</span>
+            <span class="stat-label">Age Required</span>
           </div>
         </div>
       </div>
@@ -46,13 +46,8 @@ const { piercings, categories, artists } = piercingsData;
     <div class="container">
       <div class="categories-grid">
         <button class="category-btn active" data-category="all">
-          All Piercings
+          All Piercings ({piercings.length})
         </button>
-        {categories.map((category) => (
-          <button class="category-btn" data-category={category.name.toLowerCase()}>
-            {category.name} ({category.count})
-          </button>
-        ))}
       </div>
     </div>
   </section>
@@ -61,16 +56,23 @@ const { piercings, categories, artists } = piercingsData;
   <section class="piercings-gallery">
     <div class="container">
       <div class="gallery-grid" id="piercings-grid">
-        {piercings.map((piercing) => (
-          <article class="piercing-card" data-category={piercing.category.toLowerCase()}>
+        {piercings.map((piercing, index) => (
+          <article class="piercing-card" data-category="general" data-index={index}>
             <div class="card-image-container">
-              <OptimizedImage
-                src={piercing.thumbnail.src}
-                alt={piercing.thumbnail.alt}
-                width={piercing.thumbnail.width}
-                height={piercing.thumbnail.height}
-                class="piercing-thumbnail blurred-content"
-              />
+              <!-- Optimized lazy loading with intersection observer -->
+              <div class="image-placeholder" data-src={piercing.thumbnail.src}>
+                <div class="skeleton-loader"></div>
+                <img 
+                  class="piercing-thumbnail blurred-content lazy-image"
+                  data-src={piercing.thumbnail.src}
+                  alt={piercing.thumbnail.alt}
+                  width={piercing.thumbnail.width}
+                  height={piercing.thumbnail.height}
+                  loading="lazy"
+                  decoding="async"
+                  style="opacity: 0; transition: opacity 0.3s ease;"
+                />
+              </div>
               <div class="image-overlay">
                 <button class="view-btn" onclick={`openModal('${piercing.id}')`} disabled>
                   <span class="view-icon">👁️</span>
@@ -140,6 +142,8 @@ const { piercings, categories, artists } = piercingsData;
       this.checkAgeVerification();
       this.setupCategoryFilters();
       this.setupModalFunctionality();
+      this.setupProgressiveImageLoading();
+      this.setupBatchImagePreloading();
     }
 
     checkAgeVerification() {
@@ -181,27 +185,15 @@ const { piercings, categories, artists } = piercingsData;
     }
 
     setupCategoryFilters() {
+      // Simplified - all piercings are shown by default
+      // This can be expanded later when categories are needed
       const categoryButtons = document.querySelectorAll('.category-btn');
-      const piercingCards = document.querySelectorAll('.piercing-card');
-
+      
       categoryButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-          const target = e.target;
-          const category = target.getAttribute('data-category');
-
-          // Update active button
+          // Keep button active state for UI consistency
           categoryButtons.forEach(btn => btn.classList.remove('active'));
-          target.classList.add('active');
-
-          // Filter cards
-          piercingCards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category');
-            if (category === 'all' || cardCategory === category) {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-          });
+          e.target.classList.add('active');
         });
       });
     }
@@ -209,6 +201,102 @@ const { piercings, categories, artists } = piercingsData;
     setupModalFunctionality() {
       // Modal functionality will be handled by global functions
       // due to Astro's scoping requirements
+    }
+
+    setupProgressiveImageLoading() {
+      // Advanced intersection observer for progressive image loading
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            const placeholder = img.closest('.image-placeholder');
+            const skeleton = placeholder?.querySelector('.skeleton-loader');
+            
+            // Load the actual image
+            const actualSrc = img.getAttribute('data-src');
+            if (actualSrc && !img.src) {
+              // Create a new image to preload
+              const tempImg = new Image();
+              tempImg.onload = () => {
+                // Image loaded successfully
+                img.src = actualSrc;
+                img.style.opacity = '1';
+                
+                // Hide skeleton loader
+                if (skeleton) {
+                  skeleton.style.opacity = '0';
+                  setTimeout(() => skeleton.remove(), 300);
+                }
+                
+                // Add loaded class for additional styling
+                img.classList.add('image-loaded');
+                placeholder?.classList.add('loaded');
+              };
+              
+              tempImg.onerror = () => {
+                // Handle load error gracefully
+                img.style.opacity = '1';
+                img.classList.add('image-error');
+                if (skeleton) {
+                  skeleton.innerHTML = '<div class="error-icon">⚠️</div>';
+                }
+              };
+              
+              // Start loading
+              tempImg.src = actualSrc;
+            }
+            
+            // Stop observing this image
+            observer.unobserve(img);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '50px', // Start loading 50px before entering viewport
+        threshold: 0.1
+      });
+
+      // Observe all lazy images
+      document.querySelectorAll('.lazy-image').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+
+    setupBatchImagePreloading() {
+      // Preload next batch of images when user scrolls
+      let preloadedBatch = 0;
+      const batchSize = 3;
+      
+      const preloadBatch = () => {
+        const startIndex = preloadedBatch * batchSize;
+        const endIndex = startIndex + batchSize;
+        const images = document.querySelectorAll('.lazy-image');
+        
+        for (let i = startIndex; i < Math.min(endIndex, images.length); i++) {
+          const img = images[i];
+          const src = img.getAttribute('data-src');
+          if (src && !img.src) {
+            // Preload in background
+            const preloadImg = new Image();
+            preloadImg.src = src;
+          }
+        }
+        preloadedBatch++;
+      };
+
+      // Throttled scroll handler for batch preloading
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+          if (scrollPercent > 30 && preloadedBatch === 0) {
+            preloadBatch(); // Preload second batch
+          } else if (scrollPercent > 60 && preloadedBatch === 1) {
+            preloadBatch(); // Preload third batch
+          }
+        }, 100);
+      }, { passive: true });
     }
   }
 
@@ -228,13 +316,20 @@ const { piercings, categories, artists } = piercingsData;
 
     modalBody.innerHTML = `
       <div class="modal-image">
-        <img 
-          src="${piercing.image.src}" 
-          alt="${piercing.image.alt}"
-          width="${piercing.image.width}"
-          height="${piercing.image.height}"
-          loading="lazy"
-        />
+        <div class="modal-image-loader">
+          <div class="modal-skeleton"></div>
+          <img 
+            src="${piercing.image.src}" 
+            alt="${piercing.image.alt}"
+            width="${piercing.image.width}"
+            height="${piercing.image.height}"
+            loading="eager"
+            decoding="async"
+            onload="this.style.opacity='1'; this.previousElementSibling.style.opacity='0';"
+            onerror="this.style.opacity='1'; this.previousElementSibling.innerHTML='⚠️ Image failed to load';"
+            style="opacity: 0; transition: opacity 0.3s ease;"
+          />
+        </div>
       </div>
       <div class="modal-details">
         <h2>${piercing.title}</h2>
@@ -463,11 +558,84 @@ const { piercings, categories, artists } = piercingsData;
     overflow: hidden;
   }
 
+  .image-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .skeleton-loader {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245, 245, 245, 0.3);
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .skeleton-loader::before {
+    content: '🖼️';
+    opacity: 0.3;
+  }
+
+  .error-icon {
+    color: rgba(255, 193, 7, 0.7);
+    font-size: 1.5rem;
+  }
+
   .piercing-thumbnail {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-smooth);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform;
+  }
+
+  .piercing-thumbnail.image-loaded {
+    transform: scale(1);
+  }
+
+  .piercing-thumbnail.image-error {
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .piercing-thumbnail.image-error::after {
+    content: '⚠️ Image unavailable';
+    color: rgba(245, 245, 245, 0.5);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .image-placeholder.loaded .skeleton-loader {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .image-overlay {
@@ -630,11 +798,45 @@ const { piercings, categories, artists } = piercingsData;
     padding: 2rem;
   }
 
+  .modal-image-loader {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite ease-in-out;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245, 245, 245, 0.3);
+    font-size: 3rem;
+    min-height: 400px;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-skeleton::before {
+    content: '🖼️';
+    opacity: 0.3;
+  }
+
   .modal-image img {
     width: 100%;
     height: auto;
     border-radius: 15px;
-    margin-bottom: 1.5rem;
+    display: block;
+    max-height: 70vh;
+    object-fit: contain;
   }
 
   .modal-details h2 {
@@ -785,17 +987,57 @@ const { piercings, categories, artists } = piercingsData;
     }
   }
 
+  /* Performance optimizations */
+  .piercing-card {
+    contain: layout style paint;
+    will-change: transform;
+  }
+
+  .piercing-thumbnail {
+    content-visibility: auto;
+    contain-intrinsic-size: 300px 400px;
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .piercing-card,
     .view-btn,
     .category-btn,
-    .blurred-content {
+    .blurred-content,
+    .skeleton-loader,
+    .modal-skeleton {
       transition: none;
+      animation: none;
     }
     
     .piercing-card:hover {
       transform: none;
+    }
+
+    .skeleton-loader,
+    .modal-skeleton {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  /* Optimize for low-end devices */
+  @media (max-width: 480px) and (max-height: 800px) {
+    .skeleton-loader,
+    .modal-skeleton {
+      animation-duration: 2s; /* Slower animation for better performance */
+    }
+
+    .piercing-card {
+      will-change: auto; /* Reduce GPU usage on mobile */
+    }
+  }
+
+  /* Prefers reduced data usage */
+  @media (prefers-reduced-data: reduce) {
+    .skeleton-loader::before,
+    .modal-skeleton::before {
+      content: 'Loading...';
+      font-size: 1rem;
     }
   }
 </style>
