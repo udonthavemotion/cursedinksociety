@@ -2,236 +2,326 @@
   "piercings": [
     {
       "id": "1",
-      "title": "Professional Ear Piercing",
-      "description": "Expert ear piercing services with premium jewelry selection and sterile techniques.",
+      "title": "Nostril Piercing",
+      "description": "Classic nostril piercing with premium jewelry selection. Perfect for first-time facial piercings with quick healing.",
+      "category": "Facial",
       "artist": "Ashley Wood",
       "image": {
-        "src": "/piercing%20page%20private/E0A23028-1F77-4748-BB2E-C9F44EDB46A5.jpeg",
-        "alt": "Professional ear piercing with premium jewelry",
+        "src": "/images/piercings/2792C783-91BD-4B5D-9505-C55955CE241A.jpeg",
+        "alt": "Professional nostril piercing with decorative stud",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/E0A23028-1F77-4748-BB2E-C9F44EDB46A5.jpeg",
-        "alt": "Ear piercing thumbnail",
-        "width": 300,
-        "height": 400
-      },
-      "details": {
-        "healingTime": "6-8 weeks",
-        "painLevel": "3/10",
-        "aftercare": "Saline solution cleaning twice daily, avoid touching with dirty hands",
-        "jewelry": "Surgical steel or titanium studs, 20g/18g standard"
-      },
-      "price": "$40-80",
-      "featured": true
-    },
-    {
-      "id": "2", 
-      "title": "Nose Piercing",
-      "description": "Classic nose piercing with precision placement and high-quality jewelry options.",
-      "artist": "Cody Crochet",
-      "image": {
-        "src": "/piercing%20page%20private/2792C783-91BD-4B5D-9505-C55955CE241A.jpeg",
-        "alt": "Professional nose piercing with premium jewelry",
-        "width": 600,
-        "height": 800
-      },
-      "thumbnail": {
-        "src": "/piercing%20page%20private/2792C783-91BD-4B5D-9505-C55955CE241A.jpeg",
-        "alt": "Nose piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/2792C783-91BD-4B5D-9505-C55955CE241A.jpeg",
+        "alt": "Nostril piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
         "healingTime": "2-4 months",
         "painLevel": "4/10",
-        "aftercare": "Saline rinse, avoid makeup on area, gentle cleaning",
-        "jewelry": "Nostril screw or L-shaped stud, 18g/20g"
+        "aftercare": "Saline solution cleaning twice daily, avoid touching with dirty hands",
+        "jewelry": "Titanium stud or seamless ring, 18g/16g"
       },
       "price": "$50-80",
       "featured": true
     },
     {
-      "id": "3",
-      "title": "Body Piercing",
-      "description": "Professional body piercing services with anatomical consideration and premium jewelry.",
-      "artist": "Luis Reymundo", 
+      "id": "2", 
+      "title": "Septum Piercing",
+      "description": "Classic septum piercing with high-quality jewelry options. Professional technique ensures comfort and proper placement.",
+      "category": "Facial",
+      "artist": "Cody Crochet",
       "image": {
-        "src": "/piercing%20page%20private/D53C1E9C-EA1C-4567-86FC-A27660167BF8.jpeg",
-        "alt": "Professional body piercing with decorative jewelry",
+        "src": "/images/piercings/65E2F0CD-4590-4B18-9052-5C931AF50F55.jpeg",
+        "alt": "Professional septum piercing with circular barbell",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/D53C1E9C-EA1C-4567-86FC-A27660167BF8.jpeg",
-        "alt": "Body piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/65E2F0CD-4590-4B18-9052-5C931AF50F55.jpeg",
+        "alt": "Septum piercing thumbnail",
+        "width": 400,
+        "height": 400
+      },
+      "details": {
+        "healingTime": "2-4 months",
+        "painLevel": "5/10",
+        "aftercare": "Saline rinse, avoid touching, flip up for healing if needed",
+        "jewelry": "Circular barbell or seamless ring, 16g/14g"
+      },
+      "price": "$60-90",
+      "featured": true
+    },
+    {
+      "id": "3",
+      "title": "Navel Piercing",
+      "description": "Professional navel piercing with premium jewelry selection. Careful attention to anatomy for optimal results.",
+      "category": "Body",
+      "artist": "Luis Reymundo", 
+      "image": {
+        "src": "/images/piercings/AD6997FD-5EDE-44CE-A703-9BFD4F3590E6.jpeg",
+        "alt": "Professional navel piercing with decorative jewelry",
+        "width": 600,
+        "height": 800
+      },
+      "thumbnail": {
+        "src": "/images/piercings/AD6997FD-5EDE-44CE-A703-9BFD4F3590E6.jpeg",
+        "alt": "Navel piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
         "healingTime": "6-9 months",
-        "painLevel": "5/10",
+        "painLevel": "4/10",
         "aftercare": "Daily saline cleaning, avoid tight clothing, no swimming during healing",
-        "jewelry": "High-grade titanium or surgical steel, various gauges"
+        "jewelry": "Curved barbell with gems or decorative ends, 14g"
       },
-      "price": "$70-120",
-      "featured": false
+      "price": "$70-100",
+      "featured": true
     },
     {
       "id": "4",
-      "title": "Cartilage Piercing",
-      "description": "Specialized cartilage piercing with expert placement and healing guidance.",
-      "artist": "Ashley Wood",
+      "title": "Lip Piercing",
+      "description": "Stylish lip piercing with variety of placement options. Professional technique for comfortable healing process.",
+      "category": "Facial",
+      "artist": "Seth Wood",
       "image": {
-        "src": "/piercing%20page%20private/EF14BF83-B6A4-4E30-82FB-D81E26D50E55.jpeg",
-        "alt": "Professional cartilage piercing with premium jewelry",
+        "src": "/images/piercings/CF9CF60E-2F7B-4AC7-8AEB-C1A1172A4B24.jpeg",
+        "alt": "Professional lip piercing with labret stud",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/EF14BF83-B6A4-4E30-82FB-D81E26D50E55.jpeg",
-        "alt": "Cartilage piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/CF9CF60E-2F7B-4AC7-8AEB-C1A1172A4B24.jpeg",
+        "alt": "Lip piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
-        "healingTime": "6-12 months",
-        "painLevel": "6/10",
-        "aftercare": "Saline cleaning, avoid sleeping on side, no twisting jewelry",
-        "jewelry": "Titanium labret or ring, 16g/18g"
+        "healingTime": "2-3 months",
+        "painLevel": "5/10",
+        "aftercare": "Rinse with saline after eating/drinking, avoid spicy foods during healing",
+        "jewelry": "Titanium labret stud, 16g/14g"
       },
-      "price": "$60-100",
-      "featured": true
+      "price": "$60-85",
+      "featured": false
     },
     {
       "id": "5",
-      "title": "Multiple Ear Piercings",
-      "description": "Curated ear piercing arrangements with professional spacing and jewelry coordination.",
-      "artist": "Cody Crochet",
+      "title": "Cartilage Piercing",
+      "description": "Elegant cartilage piercing with precise placement. Perfect for building ear curations with multiple piercings.",
+      "category": "Ear",
+      "artist": "Ashley Wood",
       "image": {
-        "src": "/piercing%20page%20private/AD6997FD-5EDE-44CE-A703-9BFD4F3590E6.jpeg",
-        "alt": "Multiple ear piercings with coordinated jewelry",
+        "src": "/images/piercings/8E70BC3C-37E1-4E75-8D6C-5D1E15A51FB7.jpeg",
+        "alt": "Professional cartilage piercing with decorative stud",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/AD6997FD-5EDE-44CE-A703-9BFD4F3590E6.jpeg",
-        "alt": "Multiple ear piercings thumbnail",
-        "width": 300,
+        "src": "/images/piercings/8E70BC3C-37E1-4E75-8D6C-5D1E15A51FB7.jpeg",
+        "alt": "Cartilage piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
-        "healingTime": "6-8 weeks per piercing",
-        "painLevel": "4/10",
-        "aftercare": "Individual care for each piercing, saline cleaning",
-        "jewelry": "Coordinated jewelry sets, various gauges"
+        "healingTime": "4-6 months",
+        "painLevel": "6/10",
+        "aftercare": "Saline cleaning twice daily, avoid sleeping on pierced side",
+        "jewelry": "Titanium stud or seamless ring, 18g/16g"
       },
-      "price": "$120-200",
-      "featured": true
+      "price": "$55-75",
+      "featured": false
     },
     {
       "id": "6",
-      "title": "Facial Piercing",
-      "description": "Expert facial piercing services with precision placement and premium jewelry selection.",
-      "artist": "Luis Reymundo",
+      "title": "Eyebrow Piercing",
+      "description": "Bold eyebrow piercing with professional placement for optimal healing and striking appearance.",
+      "category": "Facial",
+      "artist": "Cody Crochet",
       "image": {
-        "src": "/piercing%20page%20private/65E2F0CD-4590-4B18-9052-5C931AF50F55.jpeg",
-        "alt": "Professional facial piercing with premium jewelry",
+        "src": "/images/piercings/2D561A0D-7628-4C90-A9E1-5D5176C727E5.jpeg",
+        "alt": "Professional eyebrow piercing with curved barbell",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/65E2F0CD-4590-4B18-9052-5C931AF50F55.jpeg",
-        "alt": "Facial piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/2D561A0D-7628-4C90-A9E1-5D5176C727E5.jpeg",
+        "alt": "Eyebrow piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
-        "healingTime": "2-6 months",
-        "painLevel": "5/10",
-        "aftercare": "Gentle cleaning, avoid makeup, saline rinse",
-        "jewelry": "High-quality titanium or gold, appropriate gauge"
+        "healingTime": "2-3 months",
+        "painLevel": "4/10",
+        "aftercare": "Gentle saline cleaning, avoid makeup on piercing area",
+        "jewelry": "Curved barbell or captive bead ring, 16g"
       },
-      "price": "$60-90",
+      "price": "$65-90",
       "featured": false
     },
     {
       "id": "7",
-      "title": "Specialty Body Piercing",
-      "description": "Advanced body piercing techniques with anatomical expertise and custom jewelry options.",
-      "artist": "Ashley Wood",
+      "title": "Tragus Piercing",
+      "description": "Delicate tragus piercing with careful attention to anatomy. Popular choice for subtle ear enhancement.",
+      "category": "Ear",
+      "artist": "Luis Reymundo",
       "image": {
-        "src": "/piercing%20page%20private/CF9CF60E-2F7B-4AC7-8AEB-C1A1172A4B24.jpeg",
-        "alt": "Specialty body piercing with custom jewelry",
+        "src": "/images/piercings/80A6E42D-D8F1-4EEB-921D-95FD86326E57_4_5005_c.jpeg",
+        "alt": "Professional tragus piercing with decorative stud",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/CF9CF60E-2F7B-4AC7-8AEB-C1A1172A4B24.jpeg",
-        "alt": "Specialty body piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/80A6E42D-D8F1-4EEB-921D-95FD86326E57_4_5005_c.jpeg",
+        "alt": "Tragus piercing thumbnail",
+        "width": 400,
+        "height": 400
+      },
+      "details": {
+        "healingTime": "3-6 months",
+        "painLevel": "6/10",
+        "aftercare": "Careful saline cleaning, avoid headphones during initial healing",
+        "jewelry": "Titanium labret stud, 18g/16g"
+      },
+      "price": "$70-95",
+      "featured": false
+    },
+    {
+      "id": "8",
+      "title": "Conch Piercing",
+      "description": "Statement conch piercing in the inner ear cartilage. Perfect for showcasing beautiful jewelry pieces.",
+      "category": "Ear",
+      "artist": "Seth Wood",
+      "image": {
+        "src": "/images/piercings/93221C33-A897-4272-9C70-9CE37DD79DD5_4_5005_c.jpeg",
+        "alt": "Professional conch piercing with decorative jewelry",
+        "width": 600,
+        "height": 800
+      },
+      "thumbnail": {
+        "src": "/images/piercings/93221C33-A897-4272-9C70-9CE37DD79DD5_4_5005_c.jpeg",
+        "alt": "Conch piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
         "healingTime": "6-12 months",
         "painLevel": "7/10",
-        "aftercare": "Specialized care instructions, regular check-ups",
-        "jewelry": "Custom titanium or gold pieces, various gauges"
+        "aftercare": "Saline cleaning, avoid sleeping on side, no headphones initially",
+        "jewelry": "Titanium stud or seamless ring, 16g/14g"
       },
-      "price": "$100-180",
-      "featured": true
-    },
-    {
-      "id": "8",
-      "title": "Ear Constellation",
-      "description": "Curated ear piercing designs with professional spacing and coordinated jewelry arrangements.",
-      "artist": "Cody Crochet",
-      "image": {
-        "src": "/piercing%20page%20private/8E70BC3C-37E1-4E75-8D6C-5D1E15A51FB7.jpeg",
-        "alt": "Ear constellation piercing with coordinated jewelry",
-        "width": 600,
-        "height": 800
-      },
-      "thumbnail": {
-        "src": "/piercing%20page%20private/8E70BC3C-37E1-4E75-8D6C-5D1E15A51FB7.jpeg",
-        "alt": "Ear constellation thumbnail",
-        "width": 300,
-        "height": 400
-      },
-      "details": {
-        "healingTime": "6-8 weeks per piercing",
-        "painLevel": "4/10",
-        "aftercare": "Individual care for each piercing point",
-        "jewelry": "Coordinated jewelry constellation, mixed gauges"
-      },
-      "price": "$150-250",
-      "featured": true
+      "price": "$75-110",
+      "featured": false
     },
     {
       "id": "9",
-      "title": "Advanced Piercing",
-      "description": "Complex piercing procedures requiring advanced techniques and extended healing protocols.",
-      "artist": "Luis Reymundo",
+      "title": "Surface Piercing",
+      "description": "Advanced surface piercing technique with specialized jewelry for unique body modification.",
+      "category": "Body",
+      "artist": "Ashley Wood",
       "image": {
-        "src": "/piercing%20page%20private/2D561A0D-7628-4C90-A9E1-5D5176C727E5.jpeg",
-        "alt": "Advanced piercing with specialized jewelry",
+        "src": "/images/piercings/E0A23028-1F77-4748-BB2E-C9F44EDB46A5.jpeg",
+        "alt": "Professional surface piercing with surface bars",
         "width": 600,
         "height": 800
       },
       "thumbnail": {
-        "src": "/piercing%20page%20private/2D561A0D-7628-4C90-A9E1-5D5176C727E5.jpeg",
-        "alt": "Advanced piercing thumbnail",
-        "width": 300,
+        "src": "/images/piercings/E0A23028-1F77-4748-BB2E-C9F44EDB46A5.jpeg",
+        "alt": "Surface piercing thumbnail",
+        "width": 400,
         "height": 400
       },
       "details": {
-        "healingTime": "9-18 months",
-        "painLevel": "8/10",
-        "aftercare": "Comprehensive aftercare protocol, regular monitoring",
-        "jewelry": "Specialized implant-grade materials, custom sizing"
+        "healingTime": "3-6 months",
+        "painLevel": "6/10",
+        "aftercare": "Gentle saline cleaning, avoid tight clothing, monitor for rejection",
+        "jewelry": "Titanium surface bars with decorative ends, 14g"
       },
-      "price": "$120-200",
+      "price": "$90-150",
+      "featured": false
+    },
+    {
+      "id": "10",
+      "title": "Helix Piercing",
+      "description": "Classic helix piercing on the upper ear cartilage. Versatile placement for building ear jewelry collections.",
+      "category": "Ear",
+      "artist": "Cody Crochet",
+      "image": {
+        "src": "/images/piercings/1B7D2F3A-F2E1-4B3D-94B1-D6B7DA85EDFE_4_5005_c.jpeg",
+        "alt": "Professional helix piercing with decorative stud",
+        "width": 600,
+        "height": 800
+      },
+      "thumbnail": {
+        "src": "/images/piercings/1B7D2F3A-F2E1-4B3D-94B1-D6B7DA85EDFE_4_5005_c.jpeg",
+        "alt": "Helix piercing thumbnail",
+        "width": 400,
+        "height": 400
+      },
+      "details": {
+        "healingTime": "3-6 months",
+        "painLevel": "5/10",
+        "aftercare": "Saline cleaning twice daily, avoid sleeping on pierced side",
+        "jewelry": "Titanium stud or seamless ring, 18g/16g"
+      },
+      "price": "$50-75",
+      "featured": false
+    },
+    {
+      "id": "11",
+      "title": "Industrial Piercing",
+      "description": "Bold industrial piercing connecting two points of the ear cartilage with a single barbell.",
+      "category": "Ear",
+      "artist": "Luis Reymundo",
+      "image": {
+        "src": "/images/piercings/EF14BF83-B6A4-4E30-82FB-D81E26D50E55.jpeg",
+        "alt": "Professional industrial piercing with titanium barbell",
+        "width": 600,
+        "height": 800
+      },
+      "thumbnail": {
+        "src": "/images/piercings/EF14BF83-B6A4-4E30-82FB-D81E26D50E55.jpeg",
+        "alt": "Industrial piercing thumbnail",
+        "width": 400,
+        "height": 400
+      },
+      "details": {
+        "healingTime": "6-12 months",
+        "painLevel": "8/10",
+        "aftercare": "Careful saline cleaning, avoid sleeping on side, no headphones",
+        "jewelry": "Titanium barbell, 14g standard length"
+      },
+      "price": "$80-120",
+      "featured": true
+    },
+    {
+      "id": "12",
+      "title": "Daith Piercing",
+      "description": "Intricate daith piercing through the inner cartilage fold. Requires precise technique and anatomy assessment.",
+      "category": "Ear",
+      "artist": "Seth Wood",
+      "image": {
+        "src": "/images/piercings/D53C1E9C-EA1C-4567-86FC-A27660167BF8.jpeg",
+        "alt": "Professional daith piercing with decorative ring",
+        "width": 600,
+        "height": 800
+      },
+      "thumbnail": {
+        "src": "/images/piercings/D53C1E9C-EA1C-4567-86FC-A27660167BF8.jpeg",
+        "alt": "Daith piercing thumbnail",
+        "width": 400,
+        "height": 400
+      },
+      "details": {
+        "healingTime": "4-8 months",
+        "painLevel": "7/10",
+        "aftercare": "Gentle saline cleaning, avoid headphones, careful sleeping position",
+        "jewelry": "Seamless ring or curved barbell, 16g/14g"
+      },
+      "price": "$75-105",
       "featured": false
     }
   ],
@@ -239,37 +329,43 @@
     {
       "name": "Ear",
       "description": "Ear piercings including lobes, cartilage, and specialty placements",
-      "count": 1
+      "count": 6
     },
     {
       "name": "Facial", 
       "description": "Nose, lip, eyebrow and other facial piercings",
-      "count": 1
+      "count": 4
     },
     {
       "name": "Body",
-      "description": "Navel, nipple, surface and other body piercings", 
-      "count": 1
+      "description": "Navel, surface and other body piercings", 
+      "count": 2
     }
   ],
   "artists": [
     {
       "name": "Ashley Wood",
-      "specialties": ["Ear piercings", "Cartilage work"],
+      "specialties": ["Ear piercings", "Cartilage work", "Surface piercings"],
       "experience": "8+ years",
-      "piercingCount": 1
+      "piercingCount": 3
     },
     {
       "name": "Cody Crochet", 
-      "specialties": ["Facial piercings", "Unique placements"],
+      "specialties": ["Facial piercings", "Unique placements", "Helix work"],
       "experience": "6+ years",
-      "piercingCount": 1
+      "piercingCount": 3
     },
     {
       "name": "Luis Reymundo",
-      "specialties": ["Body piercings", "Surface work"],
+      "specialties": ["Body piercings", "Industrial work", "Tragus piercings"],
       "experience": "10+ years", 
-      "piercingCount": 1
+      "piercingCount": 3
+    },
+    {
+      "name": "Seth Wood",
+      "specialties": ["Facial piercings", "Conch work", "Daith piercings"],
+      "experience": "7+ years", 
+      "piercingCount": 3
     }
   ],
   "policies": {
