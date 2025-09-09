@@ -1,4 +1,5 @@
 ---
+import { slugify } from '../lib/slugify';
 import type { Artist } from '../data/artists';
 
 export interface Props {
@@ -8,7 +9,7 @@ export interface Props {
 const { artist } = Astro.props;
 ---
 
-<article class="artist-card-universal">
+<article class={`artist-card-universal ${artist.slug === 'ashley-wood' ? 'ashley-chromancer-card' : ''}`} data-artist={artist.slug}>
   <!-- Artist Header -->
   <div class="artist-header">
     <div class="artist-avatar">
@@ -18,28 +19,19 @@ const { artist } = Astro.props;
         loading="lazy"
         width="120"
         height="120"
-        onerror="this.style.border='3px solid #b22222'; this.alt='IMAGE FAILED: ' + this.src;"
+        onerror="this.style.border='3px solid #ffffff'; this.alt='IMAGE FAILED: ' + this.src;"
       />
-      <!-- Mastery Badge -->
-      <div class="mastery-badge" data-experience={artist.experience}>
-        {artist.experience === "25+ years" ? "🏆" :
-         artist.experience === "15+ years" ? "👑" :
-         artist.experience === "12+ years" ? "⚔️" :
-         artist.experience === "10+ years" ? "🎨" :
-         "⚡"}
-      </div>
     </div>
     <div class="artist-info">
       <div class="name-row">
         <h2 class="artist-name">{artist.name}</h2>
-        <!-- Social Links -->
-        <div class="social-links">
-          <a href={`https://instagram.com/${artist.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" class="social-link instagram">
-            <span class="sr-only">Instagram</span>📷
-          </a>
-        </div>
       </div>
       <p class="artist-title">{artist.title}</p>
+      {artist.slug === 'ashley-wood' && (
+        <div class="chromancer-badge">
+          <span>CHROMANCER</span>
+        </div>
+      )}
       <div class="experience-badges">
         <span class="experience-badge">{artist.experience}</span>
         <span class="guild-badge">Cursed Ink Society</span>
@@ -73,7 +65,7 @@ const { artist } = Astro.props;
 
   <!-- Skills & Specialties -->
   <div class="artist-skills">
-    <h3 class="skills-title">🎯 Specialties</h3>
+    <h3 class="skills-title">Specialties</h3>
     <div class="skills-list">
       {artist.specialties.map((specialty, index) => (
         <span class="skill-tag" data-priority={index < 2 ? 'primary' : 'secondary'}>
@@ -102,13 +94,13 @@ const { artist } = Astro.props;
 
   <!-- Primary CTA -->
   <div class="artist-cta">
-    <a href={`/artists/${artist.slug}`} class="cta-btn primary-cta">
+    <a href={`/artists/${slugify(artist.slug ?? artist.name)}`} class="cta-btn primary-cta">
       <span class="btn-text">View Portfolio</span>
       <span class="btn-icon">→</span>
     </a>
     <a href={artist.cta.url} target="_blank" rel="noopener noreferrer" class="cta-btn secondary-cta">
       <span class="btn-text">{artist.cta.text}</span>
-      <span class="btn-icon">📷</span>
+      <span class="btn-icon">→</span>
     </a>
   </div>
 </article>
@@ -116,7 +108,7 @@ const { artist } = Astro.props;
 <style>
   .artist-card-universal {
     background: rgba(26, 15, 15, 0.9);
-    border: 2px solid rgba(220, 20, 60, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 16px;
     padding: 1.5rem;
     backdrop-filter: blur(10px);
@@ -137,9 +129,9 @@ const { artist } = Astro.props;
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg,
-      rgba(220, 20, 60, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 0%,
       transparent 50%,
-      rgba(178, 34, 52, 0.03) 100%);
+      rgba(255, 255, 255, 0.03) 100%);
     pointer-events: none;
     z-index: 1;
   }
@@ -150,7 +142,7 @@ const { artist } = Astro.props;
   }
 
   .artist-card-universal:hover {
-    border-color: rgba(220, 20, 60, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
   }
@@ -171,7 +163,7 @@ const { artist } = Astro.props;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 3px solid rgba(220, 20, 60, 0.6);
+    border: 3px solid rgba(255, 255, 255, 0.6);
     object-fit: cover;
     transition: all 0.3s ease;
     filter: sepia(10%) contrast(1.1) brightness(1.02);
@@ -179,35 +171,11 @@ const { artist } = Astro.props;
   }
 
   .artist-card-universal:hover .artist-avatar img {
-    border-color: #b22222;
+    border-color: #ffffff;
     filter: sepia(20%) contrast(1.2) brightness(1.05);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   }
 
-  /* Mastery Badge */
-  .mastery-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 32px;
-    height: 32px;
-    background: rgba(220, 20, 60, 0.95);
-    border: 3px solid rgba(26, 15, 15, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 700;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 3;
-    transition: all 0.3s ease;
-  }
-
-  .artist-card-universal:hover .mastery-badge {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  }
 
   .artist-info {
     flex: 1;
@@ -234,10 +202,10 @@ const { artist } = Astro.props;
     justify-content: center;
     width: 28px;
     height: 28px;
-    background: rgba(220, 20, 60, 0.1);
-    border: 1px solid rgba(220, 20, 60, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 6px;
-    color: #b22222;
+    color: #ffffff;
     text-decoration: none;
     font-size: 12px;
     transition: all 0.3s ease;
@@ -246,8 +214,8 @@ const { artist } = Astro.props;
   }
 
   .social-link:hover {
-    background: rgba(220, 20, 60, 0.2);
-    border-color: rgba(220, 20, 60, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: scale(1.1);
   }
 
@@ -268,17 +236,17 @@ const { artist } = Astro.props;
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    text-shadow: 0 0 12px rgba(220, 20, 60, 0.4);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
     line-height: 1.2;
     word-wrap: break-word;
   }
 
   .artist-title {
-    color: #b22222;
+    color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
-    text-shadow: 0 0 8px rgba(178, 34, 52, 0.4);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
   }
 
   /* Experience Badges */
@@ -301,15 +269,15 @@ const { artist } = Astro.props;
   }
 
   .experience-badge {
-    background: rgba(178, 34, 52, 0.2);
-    color: #b22222;
-    border: 1px solid rgba(178, 34, 52, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .guild-badge {
-    background: rgba(220, 20, 60, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     color: rgba(245, 245, 245, 0.9);
-    border: 1px solid rgba(220, 20, 60, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 0.7rem;
   }
 
@@ -338,7 +306,7 @@ const { artist } = Astro.props;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 8px rgba(220, 20, 60, 0.3);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
   }
 
   .work-grid {
@@ -351,12 +319,12 @@ const { artist } = Astro.props;
     aspect-ratio: 1;
     border-radius: 8px;
     overflow: hidden;
-    border: 2px solid rgba(220, 20, 60, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
   }
 
   .work-item:hover {
-    border-color: rgba(220, 20, 60, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: scale(1.05);
   }
 
@@ -394,13 +362,13 @@ const { artist } = Astro.props;
   }
 
   .skill-tag {
-    background: rgba(220, 20, 60, 0.1);
-    color: #b22222;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 600;
-    border: 1px solid rgba(220, 20, 60, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     text-transform: uppercase;
     letter-spacing: 0.3px;
     transition: all 0.3s ease;
@@ -408,31 +376,23 @@ const { artist } = Astro.props;
   }
 
   .skill-tag:hover {
-    background: rgba(220, 20, 60, 0.2);
-    border-color: rgba(220, 20, 60, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: scale(1.05);
   }
 
   .skill-tag[data-priority="primary"] {
-    background: rgba(220, 20, 60, 0.15);
-    border-color: rgba(220, 20, 60, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
     position: relative;
   }
 
-  .skill-tag[data-priority="primary"]::before {
-    content: "★";
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    font-size: 8px;
-    color: #b22222;
-  }
 
   /* Artist Stats */
   .artist-stats {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(220, 20, 60, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .stat-item {
@@ -458,21 +418,21 @@ const { artist } = Astro.props;
   .stat-bar {
     flex: 1;
     height: 6px;
-    background: rgba(220, 20, 60, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     overflow: hidden;
-    border: 1px solid rgba(220, 20, 60, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .stat-fill {
     height: 100%;
-    background: linear-gradient(90deg, rgba(220, 20, 60, 0.6), rgba(178, 34, 52, 0.8));
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
     border-radius: 2px;
     transition: width 0.8s ease;
   }
 
   .stat-value {
-    color: #b22222;
+    color: #ffffff;
     font-size: 0.75rem;
     font-weight: 700;
     min-width: 30px;
@@ -501,35 +461,35 @@ const { artist } = Astro.props;
     letter-spacing: 0.5px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
     border: 2px solid transparent;
   }
 
   .primary-cta {
-    background: rgba(220, 20, 60, 0.9);
-    color: #f5f5f5;
-    border-color: rgba(178, 34, 52, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    color: #0a0a0c;
+    border-color: rgba(255, 255, 255, 0.8);
   }
 
   .primary-cta:hover {
-    background: rgba(178, 34, 52, 0.9);
+    background: rgba(255, 255, 255, 1);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(220, 20, 60, 0.4);
-    border-color: rgba(220, 20, 60, 0.8);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 1);
   }
 
   .secondary-cta {
     background: rgba(26, 15, 15, 0.8);
     color: rgba(245, 245, 245, 0.9);
-    border-color: rgba(220, 20, 60, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
     font-size: 0.85rem;
   }
 
   .secondary-cta:hover {
     background: rgba(26, 15, 15, 0.9);
-    border-color: rgba(220, 20, 60, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   }
@@ -568,11 +528,6 @@ const { artist } = Astro.props;
       height: 80px;
     }
 
-    .mastery-badge {
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-    }
 
     .artist-name {
       font-size: 1.3rem;
@@ -624,11 +579,6 @@ const { artist } = Astro.props;
       height: 70px;
     }
 
-    .mastery-badge {
-      width: 24px;
-      height: 24px;
-      font-size: 10px;
-    }
 
     .social-link {
       width: 24px;
@@ -668,9 +618,6 @@ const { artist } = Astro.props;
       padding: 0.25rem 0.5rem;
     }
 
-    .skill-tag[data-priority="primary"]::before {
-      font-size: 6px;
-    }
 
     .stat-label {
       min-width: 50px;
@@ -697,7 +644,6 @@ const { artist } = Astro.props;
     .work-item,
     .skill-tag,
     .cta-btn,
-    .mastery-badge,
     .social-link,
     .experience-badge,
     .guild-badge,
@@ -710,7 +656,6 @@ const { artist } = Astro.props;
     }
 
     .artist-card-universal:hover .artist-avatar img,
-    .artist-card-universal:hover .mastery-badge,
     .social-link:hover,
     .skill-tag:hover,
     .experience-badge:hover,
@@ -735,7 +680,6 @@ const { artist } = Astro.props;
     }
 
     .cta-btn,
-    .mastery-badge,
     .social-link {
       border-width: 2px;
     }
@@ -746,6 +690,321 @@ const { artist } = Astro.props;
     .guild-badge,
     .stat-bar {
       border-width: 2px;
+    }
+  }
+
+  /* ===========================================
+     ASHLEY WOOD CHROMANCER SPECIAL STYLING
+     =========================================== */
+
+  /* Ashley's Chromancer Card Base Styling - Optimized */
+  .ashley-chromancer-card {
+    background:
+      linear-gradient(135deg,
+        rgba(10, 10, 12, 0.95) 0%,
+        rgba(15, 10, 16, 0.9) 25%,
+        rgba(20, 15, 18, 0.85) 50%,
+        rgba(10, 10, 12, 0.95) 100%
+      );
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(255, 255, 255, 0.15);
+    will-change: transform, box-shadow;
+    contain: layout style paint;
+  }
+
+  .ashley-chromancer-card::before {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.06) 30%,
+      rgba(255, 255, 255, 0.04) 60%,
+      rgba(255, 255, 255, 0.06) 100%);
+    animation: chromancer-float 25s ease-in-out infinite;
+  }
+
+  @keyframes chromancer-float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-8px, -4px) rotate(0.3deg); }
+    50% { transform: translate(6px, -12px) rotate(-0.5deg); }
+    75% { transform: translate(-6px, 8px) rotate(0.8deg); }
+  }
+
+  .ashley-chromancer-card:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.6),
+      0 0 90px rgba(255, 255, 255, 0.3);
+    transform: translate3d(0, -6px, 0);
+  }
+
+  /* Ashley's Avatar Styling - Optimized */
+  .ashley-chromancer-card .artist-avatar img {
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 45px rgba(255, 255, 255, 0.25);
+    will-change: transform, filter, box-shadow;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
+
+  .ashley-chromancer-card:hover .artist-avatar img {
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(255, 255, 255, 0.4);
+    filter: brightness(1.1) contrast(1.05) saturate(1.1);
+  }
+
+  /* Chromancer Badge - Optimized */
+  .chromancer-badge {
+    margin: 0.75rem 0;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .chromancer-badge span {
+    background:
+      linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(10, 10, 12, 0.8) 100%
+      );
+    color: #0a0a0c;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow:
+      0 0 45px rgba(255, 255, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Ashley's Name Styling */
+  .ashley-chromancer-card .artist-name {
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    text-shadow:
+      0 0 15px rgba(255, 255, 255, 0.7),
+      0 0 30px rgba(255, 255, 255, 0.4),
+      2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ashley's Title Styling */
+  .ashley-chromancer-card .artist-title {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Ashley's Bio Text */
+  .ashley-chromancer-card .bio-text {
+    color: rgba(255, 182, 193, 0.95);
+    text-shadow: 0 0 4px rgba(255, 182, 193, 0.5);
+  }
+
+  /* Ashley's Skills */
+  .ashley-chromancer-card .skills-title {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  }
+
+  .ashley-chromancer-card .skill-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  }
+
+  .ashley-chromancer-card .skill-tag:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ashley-chromancer-card .skill-tag[data-priority="primary"] {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Ashley's Work Gallery */
+  .ashley-chromancer-card .gallery-title {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  }
+
+  .ashley-chromancer-card .work-item {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .ashley-chromancer-card .work-item:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Ashley's Stats */
+  .ashley-chromancer-card .stat-label {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  }
+
+  .ashley-chromancer-card .stat-bar {
+    background: rgba(10, 10, 12, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .ashley-chromancer-card .stat-fill {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.5)
+    );
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.6),
+      0 0 20px rgba(255, 255, 255, 0.4);
+  }
+
+  .ashley-chromancer-card .stat-value {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Ashley's CTA Buttons - Optimized */
+  .ashley-chromancer-card .primary-cta {
+    background:
+      linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.5) 100%
+      );
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #0a0a0c;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
+    box-shadow:
+      0 4px 12px rgba(255, 255, 255, 0.25);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+  }
+
+  .ashley-chromancer-card .primary-cta:hover {
+    background:
+      linear-gradient(135deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.6) 100%
+      );
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow:
+      0 8px 20px rgba(255, 255, 255, 0.4);
+    transform: translate3d(0, -3px, 0);
+  }
+
+  .ashley-chromancer-card .secondary-cta {
+    background:
+      linear-gradient(135deg,
+        rgba(10, 10, 12, 0.9) 0%,
+        rgba(20, 15, 18, 0.8) 50%,
+        rgba(30, 20, 25, 0.7) 100%
+      );
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+  }
+
+  .ashley-chromancer-card .secondary-cta:hover {
+    background:
+      linear-gradient(135deg,
+        rgba(15, 10, 16, 0.95) 0%,
+        rgba(25, 20, 23, 0.9) 50%,
+        rgba(35, 25, 30, 0.8) 100%
+      );
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: translate3d(0, -2px, 0);
+  }
+
+  /* Performance optimizations for Ashley's card */
+  .ashley-chromancer-card {
+    /* Reduce paint on mobile devices */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Custom properties for dynamic theming */
+    --ashley-primary: rgba(255, 255, 255, 0.9);
+    --ashley-secondary: rgba(255, 255, 255, 0.7);
+    --ashley-accent: rgba(255, 255, 255, 0.6);
+    --ashley-shadow: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Mobile performance optimizations */
+  @media (max-width: 768px) {
+    .ashley-chromancer-card {
+      /* Reduce expensive effects on mobile */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .ashley-chromancer-card .chromancer-badge span {
+      font-size: 0.7rem;
+      padding: 0.4rem 0.8rem;
+      /* Reduce glow effects on mobile for better performance */
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Optimize animations for mobile */
+    .ashley-chromancer-card:hover {
+      transform: translate3d(0, -4px, 0);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 255, 255, 0.2);
+    }
+
+    .ashley-chromancer-card .artist-avatar img:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ashley-chromancer-card .chromancer-badge span {
+      font-size: 0.65rem;
+      padding: 0.35rem 0.7rem;
+      /* Further reduce effects on small screens */
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Optimize touch interactions */
+    .ashley-chromancer-card .cta-btn {
+      min-height: 48px; /* Better touch target */
+      padding: 1rem 1.25rem;
+    }
+
+    /* Reduce motion for better mobile performance */
+    .ashley-chromancer-card::before {
+      animation-duration: 60s; /* Slower animation for better performance */
+    }
+  }
+
+  /* Loading state optimization */
+  .ashley-chromancer-card-loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* Accessibility improvements */
+  @media (prefers-reduced-motion: reduce) {
+    .ashley-chromancer-card::before {
+      animation: none;
+    }
+
+    .ashley-chromancer-card,
+    .ashley-chromancer-card .cta-btn,
+    .ashley-chromancer-card .artist-avatar img {
+      transition: none;
     }
   }
 
@@ -764,7 +1023,6 @@ const { artist } = Astro.props;
       text-shadow: none !important;
     }
 
-    .mastery-badge,
     .social-links,
     .experience-badges,
     .artist-stats,

@@ -41,11 +41,19 @@ const { piercings, categories, artists } = piercingsData;
     </div>
   </section>
 
-  <!-- Gallery Header -->
-  <section class="gallery-header">
+  <!-- Categories Filter -->
+  <section class="categories-section">
     <div class="container">
-      <h2 class="gallery-title">Professional Piercing Portfolio</h2>
-      <p class="gallery-subtitle">Browse our comprehensive collection of professional piercing work</p>
+      <div class="categories-grid">
+        <button class="category-btn active" data-category="all">
+          All Piercings
+        </button>
+        {categories.map((category) => (
+          <button class="category-btn" data-category={category.name.toLowerCase()}>
+            {category.name} ({category.count})
+          </button>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -54,27 +62,44 @@ const { piercings, categories, artists } = piercingsData;
     <div class="container">
       <div class="gallery-grid" id="piercings-grid">
         {piercings.map((piercing) => (
-          <div class="gallery-item">
-            <div class="image-container">
+          <article class="piercing-card" data-category={piercing.category.toLowerCase()}>
+            <div class="card-image-container">
               <OptimizedImage
                 src={piercing.thumbnail.src}
                 alt={piercing.thumbnail.alt}
                 width={piercing.thumbnail.width}
                 height={piercing.thumbnail.height}
-                class="gallery-image blurred-content"
+                class="piercing-thumbnail blurred-content"
               />
               <div class="image-overlay">
                 <button class="view-btn" onclick={`openModal('${piercing.id}')`} disabled>
                   <span class="view-icon">👁️</span>
-                  View
+                  View Details
                 </button>
               </div>
+              <div class="price-tag">{piercing.price}</div>
             </div>
-            <div class="image-info">
-              <h3 class="image-title">{piercing.title}</h3>
-              <span class="image-artist">by {piercing.artist}</span>
+            
+            <div class="card-content">
+              <h3 class="piercing-title">{piercing.title}</h3>
+              <p class="piercing-description">{piercing.description}</p>
+              
+              <div class="piercing-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Artist:</span>
+                  <span class="meta-value">{piercing.artist}</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Healing:</span>
+                  <span class="meta-value">{piercing.details.healingTime}</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Pain Level:</span>
+                  <span class="meta-value pain-level">{piercing.details.painLevel}</span>
+                </div>
+              </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </div>
@@ -113,6 +138,7 @@ const { piercings, categories, artists } = piercingsData;
 
     init() {
       this.checkAgeVerification();
+      this.setupCategoryFilters();
       this.setupModalFunctionality();
     }
 
@@ -148,9 +174,35 @@ const { piercings, categories, artists } = piercingsData;
       });
 
       // Enable thumbnail clicks
-      const thumbnails = document.querySelectorAll('.gallery-image');
+      const thumbnails = document.querySelectorAll('.piercing-thumbnail');
       thumbnails.forEach(thumb => {
         thumb.style.cursor = 'pointer';
+      });
+    }
+
+    setupCategoryFilters() {
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      const piercingCards = document.querySelectorAll('.piercing-card');
+
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          const target = e.target;
+          const category = target.getAttribute('data-category');
+
+          // Update active button
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          target.classList.add('active');
+
+          // Filter cards
+          piercingCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (category === 'all' || cardCategory === category) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
       });
     }
 
@@ -338,28 +390,41 @@ const { piercings, categories, artists } = piercingsData;
     margin-top: 0.5rem;
   }
 
-  /* Gallery Header */
-  .gallery-header {
-    padding: 3rem 0 2rem;
-    text-align: center;
+  /* Categories Section */
+  .categories-section {
+    padding: 2rem 0;
     background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .gallery-title {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 700;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
-    margin-bottom: 0.75rem;
+  .categories-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
-  .gallery-subtitle {
-    font-size: 1.1rem;
-    color: rgba(245, 245, 245, 0.8);
-    text-shadow: var(--glow-subtle);
-    max-width: 600px;
-    margin: 0 auto;
+  .category-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    color: var(--ink);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  .category-btn:hover,
+  .category-btn.active {
+    background: var(--accent0);
+    border-color: var(--accent0);
+    color: var(--ink);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+    transform: translateY(-1px);
   }
 
   /* Gallery Section */
@@ -369,36 +434,36 @@ const { piercings, categories, artists } = piercingsData;
 
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    max-width: 1400px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  .gallery-item {
+  .piercing-card {
     background: 
       radial-gradient(ellipse at 50% 20%, rgba(255, 60, 43, 0.05) 0%, transparent 60%),
       linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 15px;
+    border-radius: 20px;
     overflow: hidden;
     transition: var(--transition-smooth);
     backdrop-filter: blur(10px);
   }
 
-  .gallery-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  .piercing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
   }
 
-  .image-container {
+  .card-image-container {
     position: relative;
     aspect-ratio: 1;
     overflow: hidden;
   }
 
-  .gallery-image {
+  .piercing-thumbnail {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -416,23 +481,25 @@ const { piercings, categories, artists } = piercingsData;
     transition: var(--transition-smooth);
   }
 
-  .image-container:hover .image-overlay {
+  .card-image-container:hover .image-overlay {
     opacity: 1;
   }
 
   .view-btn {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.6rem 1.2rem;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
     background: var(--accent0);
     color: var(--ink);
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-smooth);
-    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
   }
 
   .view-btn:disabled {
@@ -447,27 +514,67 @@ const { piercings, categories, artists } = piercingsData;
   }
 
   .view-icon {
-    font-size: 1rem;
-  }
-
-  .image-info {
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .image-title {
     font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 0.4rem;
-    text-shadow: var(--glow-subtle);
-    line-height: 1.3;
   }
 
-  .image-artist {
-    font-size: 0.85rem;
+  .price-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--accent0);
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .piercing-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .piercing-description {
+    color: rgba(245, 245, 245, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .piercing-meta {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .meta-label {
     color: rgba(245, 245, 245, 0.7);
-    font-style: italic;
+    font-weight: 500;
+  }
+
+  .meta-value {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .pain-level {
+    color: var(--accent0);
+    font-weight: 700;
   }
 
   /* Modal Styles */
@@ -636,26 +743,23 @@ const { piercings, categories, artists } = piercingsData;
       gap: 2rem;
     }
 
-    .gallery-header {
-      padding: 2rem 0 1.5rem;
+    .categories-grid {
+      gap: 0.75rem;
+    }
+
+    .category-btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
     }
 
     .gallery-grid {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
-    .gallery-item {
-      max-width: 350px;
+    .piercing-card {
+      max-width: 400px;
       margin: 0 auto;
-    }
-
-    .image-info {
-      padding: 0.8rem;
-    }
-
-    .image-title {
-      font-size: 1rem;
     }
 
     .detail-grid {
@@ -672,29 +776,10 @@ const { piercings, categories, artists } = piercingsData;
     }
   }
 
-  @media (max-width: 480px) {
-    .gallery-grid {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 0.8rem;
-    }
-
-    .view-btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.8rem;
-    }
-
-    .image-title {
-      font-size: 0.95rem;
-    }
-
-    .image-artist {
-      font-size: 0.8rem;
-    }
-  }
-
   /* High contrast mode */
   @media (prefers-contrast: high) {
-    .gallery-item,
+    .piercing-card,
+    .category-btn,
     .modal-content {
       border-width: 2px;
     }
@@ -702,13 +787,14 @@ const { piercings, categories, artists } = piercingsData;
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .gallery-item,
+    .piercing-card,
     .view-btn,
+    .category-btn,
     .blurred-content {
       transition: none;
     }
     
-    .gallery-item:hover {
+    .piercing-card:hover {
       transform: none;
     }
   }

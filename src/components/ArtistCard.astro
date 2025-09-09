@@ -1,6 +1,7 @@
 ---
 import ArcanePanel from './ArcanePanel.astro';
 import StatBar from './StatBar.astro';
+import { slugify } from '../lib/slugify';
 import type { Artist } from '../data/artists';
 
 export interface Props {
@@ -82,9 +83,9 @@ const isTrent = artist.slug === 'trent';
 
     <!-- Primary CTA -->
     <div class="artist-cta">
-      <a href={`/artists/${artist.slug}`} class="cta-btn">
+      <a href={`/artists/${slugify(artist.slug ?? artist.name)}`} class="cta-btn">
         <span class="btn-text">View Portfolio</span>
-        <span class="btn-icon">⚔️</span>
+        <span class="btn-icon">→</span>
       </a>
     </div>
   </div>

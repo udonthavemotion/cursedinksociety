@@ -1,4 +1,6 @@
 ---
+import { slugify } from '../lib/slugify';
+
 // Guild Hall Component - Works with existing cis.json data
 interface Artist {
   name: string;
@@ -95,7 +97,7 @@ function getGuildRole(specialties: string[]) {
           </div>
           
           <div class="character-actions">
-            <a href={`/artists/${artist.slug}`} class="select-character">
+            <a href={`/artists/${slugify(artist.slug ?? artist.name)}`} class="select-character">
               View Portfolio
             </a>
             <a href={artist.cta.url} class="contact-character" target="_blank" rel="noopener">

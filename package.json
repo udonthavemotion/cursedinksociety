@@ -15,12 +15,14 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.4",
     "@fontsource-variable/cinzel": "^5.2.6",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.5",
     "tailwindcss": "^4.1.13",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.9",

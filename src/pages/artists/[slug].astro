@@ -2,24 +2,42 @@
 // Dynamic artist profile page
 import Layout from '../../layouts/Layout.astro';
 import ArtistPortfolioGallery from '../../components/ArtistPortfolioGallery.astro';
+import MangaPortfolioGallery from '../../components/MangaPortfolioGallery.astro';
 import MicroInteractions from '../../components/MicroInteractions.astro';
 import CodyWorkCard from '../../components/CodyWorkCard.astro';
 import ImageModal from '../../components/ImageModal.astro';
-import cisData from '../../data/cis.json';
+import { slugify } from '../../lib/slugify';
+import normalizedCISData from '../../lib/cisData';
 
 export async function getStaticPaths() {
-  return cisData.artists.map((artist) => ({
+  return normalizedCISData.artists.map((artist) => ({
     params: { slug: artist.slug },
     props: { artist },
   }));
 }
 
-const { artist } = Astro.props;
+const { slug: rawSlug } = Astro.params;
+const safeSlug = slugify(rawSlug ?? "");
+
+// If the incoming slug differs dramatically (too long or invalid),
+// perform a 301 to the normalized version to self-heal old/bad links.
+if (rawSlug !== safeSlug) {
+  return Astro.redirect(`/artists/${safeSlug}`, 301);
+}
+
+// Load artist by safeSlug
+const artist = normalizedCISData.artists.find(a => a.slug === safeSlug);
+
+// 404 if not found
+if (!artist) {
+  return new Response("Artist not found", { status: 404 });
+}
 const title = `${artist.name} — Tattoo Artist | Cursed Ink Society`;
 const description = `${artist.positioning} Specializing in ${artist.specialties.join(', ')}. View ${artist.name}'s portfolio and book a consultation at Cursed Ink Society.`;
 
-  // Check if this is Cody's page for special RPG layout
+  // Check if this is Cody's page for special manga layout
   const isCodyPage = artist.slug === 'cody-crochet';
+  const isMangaMode = isCodyPage; // Use manga layout for Cody
 
   // Check if this is Seth's page for special Affliction layout
   const isSethPage = artist.slug === 'seth-wood';
@@ -56,18 +74,16 @@ const codyData = {
   rates: "$180-220/hr • $150 min"
 };
 
-  // Seth's Affliction-style data - Guild Master & Traditional Specialist
+  // Seth's Mortal Kombat-style data - Elder Warrior & Traditional Specialist
   const sethData = {
-    stats: { power: 98, precision: 97, mastery: 96, honor: 100 },
-    moves: [
-      { title: "Traditional Mastery", desc: "Authentic American Traditional tattoos with bold lines and vibrant shading." },
-      { title: "Naturalistic Vision", desc: "Brings natural forms to life with incredible detail and artistic depth." },
-      { title: "Japanese Fusion", desc: "Blends traditional Japanese elements with American techniques for unique compositions." }
-    ],
-    badges: ["Guild Master", "Traditional Authority", "25yr Veteran", "Master Shading", "Linework Legend"],
+    stats: { health: 95, strength: 98, defense: 97, fatality: 100 },
+    badges: ["Elder Warrior", "Traditional Champion", "25yr Kombatant", "Fatality Master", "Linework Legend"],
     rates: "$200-280/hr • $180 min",
-    creed: "Authenticity • Honor • Mastery",
-    code: "Strength through tradition, power through precision"
+    creed: "GET OVER HERE!",
+    code: "Strength through tradition, power through precision, finish through fatality",
+    fightingStyle: "Traditional American Warrior",
+    signatureFatality: "Naturalistic Dismemberment",
+    victories: "500+ Satisfied Clients"
   };
 
   // Trent's Professional Apprentice data - Anime & Neo-Traditional Specialist
@@ -98,7 +114,15 @@ const codyData = {
   };
 ---
 
-<Layout title={title} description={description}>
+  <Layout title={title} description={description}>
+    <!-- Google Fonts for girly script typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento:wght@400&family=Great+Vibes:wght@400&family=Poppins:wght@300;400;500;600&family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- DragonCapes Font for Seth's Page -->
+    {isSethPage && <link rel="stylesheet" href="/fonts/dragoncapes.css">}
+  
   <!-- Micro Interactions -->
   <MicroInteractions />
 
@@ -157,21 +181,7 @@ const codyData = {
     <!-- Portfolio Section -->
     <section class="trent-portfolio">
       <div class="container">
-        <h2 class="portfolio-title">🎯 PORTFOLIO</h2>
-        <div class="portfolio-grid">
-          {artist.portfolio.map((image, index) => (
-            <div class="portfolio-item">
-              <div class="portfolio-overlay">
-                <img
-                  src={image}
-                  alt={`${artist.name} artwork ${index + 1}`}
-                  class="portfolio-image"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <ArtistPortfolioGallery images={artist.portfolio} artistName={artist.name} artistSlug={artist.slug} />
       </div>
     </section>
 
@@ -200,7 +210,7 @@ const codyData = {
         loop 
         playsinline
       >
-        <source src="/assets/artists/anthony-boudreaux/hero-video.mp4" type="video/mp4" />
+        <source src="/assets/artists/Anthony/hero-video.mp4" type="video/mp4" />
       </video>
       
       <!-- Video Overlay -->
@@ -231,21 +241,7 @@ const codyData = {
     <!-- Portfolio Section -->
     <section class="anthony-portfolio">
       <div class="container">
-        <h2 class="portfolio-title">Portfolio</h2>
-        <div class="portfolio-grid">
-          {artist.portfolio.map((image, index) => (
-            <div class="portfolio-item">
-              <div class="gothic-overlay-block">
-                <img
-                  src={image}
-                  alt={`${artist.name} artwork ${index + 1}`}
-                  class="portfolio-image"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <ArtistPortfolioGallery images={artist.portfolio} artistName={artist.name} artistSlug={artist.slug} />
       </div>
     </section>
 
@@ -259,6 +255,31 @@ const codyData = {
 
     <!-- Hero Section -->
     <section class="ashley-hero">
+      <!-- Video Background -->
+      <video
+        class="ashley-hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="/assets/artists/ashley-wood/ashley profile pic.jpg"
+        aria-hidden="true"
+      >
+        <source src="/assets/7565817-hd_2048_1080_25fps.mp4" type="video/mp4">
+        <!-- Fallback image -->
+        <img
+          src="/assets/artists/ashley-wood/ashley profile pic.jpg"
+          alt="Ashley Wood - Chromancer Tattoo Artist"
+          class="ashley-hero-fallback"
+          loading="eager"
+        />
+      </video>
+
+      <!-- Gradient overlays for text readability -->
+      <div class="ashley-video-overlay"></div>
+      <div class="ashley-gothic-overlay"></div>
+
       <div class="container">
         <div class="ashley-hero-content">
           <div class="ashley-hero-image">
@@ -282,7 +303,7 @@ const codyData = {
             <p class="ashley-title">{ashleyData.subtitle}</p>
             <p class="ashley-creed">{ashleyData.creed}</p>
             <div class="ashley-location">📍 Houma, LA</div>
-            <div class="ashley-experience">🎨 {artist.experience}</div>
+            <div class="ashley-experience">{artist.experience}</div>
 
             <!-- Chroma Stats -->
             <div class="chroma-stats">
@@ -312,8 +333,8 @@ const codyData = {
             <!-- CTA Buttons -->
             <div class="ashley-ctas">
               <a href={artist.cta.url} class="ashley-btn secondary" target="_blank" rel="noopener">
-                <span class="btn-icon">📱</span>
-                DM Ashley on Instagram
+                <span class="btn-icon">💬</span>
+                Book Consultation
               </a>
             </div>
           </div>
@@ -324,297 +345,252 @@ const codyData = {
     <!-- Portfolio Gallery -->
     <section class="ashley-portfolio">
       <div class="container">
-        <div class="portfolio-header">
-          <h2 class="portfolio-title">Recent Work</h2>
-          <p class="portfolio-subtitle">Vibrant colors bringing pop culture to life</p>
-        </div>
-
-        <div class="portfolio-grid">
-          {artist.portfolio.slice(0, 12).map((work, index) => (
-            <div class="portfolio-item">
-              <div class="watercolor-border">
-                <img
-                  src={work}
-                  alt={`${artist.name} portfolio piece ${index + 1}`}
-                  loading="lazy"
-                  class="portfolio-image"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <ArtistPortfolioGallery images={artist.portfolio} artistName={artist.name} artistSlug={artist.slug} />
       </div>
     </section>
+
+    <!-- Video Performance Manager -->
+    <script>
+      class AshleyHeroVideoManager {
+        video: HTMLVideoElement | null;
+        fallback: HTMLElement | null;
+
+        constructor() {
+          this.video = document.querySelector('.ashley-hero-video') as HTMLVideoElement | null;
+          this.fallback = document.querySelector('.ashley-hero-fallback') as HTMLElement | null;
+          this.init();
+        }
+
+        init() {
+          if (!this.video) return;
+
+          // Performance optimization: Optimize video for mobile while maintaining quality
+          if (this.isMobile()) {
+            // Use higher quality settings for modern mobile devices
+            this.video.style.opacity = '0.5';
+            this.video.style.filter = 'contrast(1.1) brightness(0.9) saturate(1.2)';
+          }
+
+          // Handle video loading and errors
+          this.video.addEventListener('loadeddata', () => {
+            if (this.video) {
+              // Set final opacity based on device with better visibility
+              this.video.style.opacity = this.isMobile() ? '0.5' : '0.7';
+            }
+          });
+
+          this.video.addEventListener('error', () => {
+            console.warn('Ashley hero video failed to load, using fallback image');
+            if (this.fallback) {
+              this.fallback.style.display = 'block';
+              this.fallback.style.opacity = '0.4';
+            }
+          });
+
+          // Pause video when page becomes hidden to save resources
+          document.addEventListener('visibilitychange', () => {
+            if (this.video) {
+              if (document.hidden) {
+                this.video.pause();
+              } else {
+                this.video.play().catch(() => {
+                  // Silently handle autoplay failures (common on mobile)
+                });
+              }
+            }
+          });
+
+          // Intersection Observer for performance
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting && this.video) {
+                  this.video.play().catch(() => {
+                    // Handle autoplay restrictions
+                  });
+                } else if (this.video) {
+                  this.video.pause();
+                }
+              });
+            }, { threshold: 0.1 });
+
+            observer.observe(this.video);
+          }
+        }
+
+        isMobile(): boolean {
+          return window.innerWidth < 768 ||
+                 /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+      }
+
+      // Initialize video manager when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => new AshleyHeroVideoManager());
+      } else {
+        new AshleyHeroVideoManager();
+      }
+    </script>
 
   ) : isSethPage ? (
-    <!-- SETH'S AFFLICTION-STYLE GUILD MASTER LAYOUT -->
+    <!-- SETH'S ENHANCED TATTOO PORTFOLIO LAYOUT -->
+    
+    <!-- Import Modern Tattoo Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tribal Scanlines Overlay -->
-    <div class="affliction-scanlines"></div>
-
-    <!-- Hero "Guild Master" Section -->
-    <section class="affliction-hero">
-      <div class="container">
-        <div class="guild-master-card">
-          <div class="guild-portrait">
-            <div class="tribal-frame">
-              <img
-                src={artist.avatar}
-                alt={`${artist.name} - Guild Master Tattoo Artist`}
-                class="portrait-image"
-                loading="lazy"
-                width="320"
-                height="400"
-              />
-            </div>
+    <!-- Seamless Hero with Integrated Background -->
+    <section class="seth-hero-seamless">
+      <div class="hero-canvas">
+        <!-- Background Image -->
+        <div class="hero-bg-layer">
+          <img
+            src="/assets/artists/seth-wood/image0 (2).jpeg"
+            alt="Seth Wood tattoo studio background"
+            class="hero-bg-image"
+            loading="eager"
+            width="1920"
+            height="1080"
+            decoding="async"
+          />
+        </div>
+        
+        <!-- Gradient Overlay for Seamless Transition -->
+        <div class="hero-gradient-overlay"></div>
+        
+        <!-- Artist Introduction Panel -->
+        <div class="artist-intro-panel">
+          <!-- Profile Image Integrated -->
+          <div class="artist-profile-circle">
+            <img
+              src="/assets/artists/seth-wood/SETH PROFILE PICTURE.jpg"
+              alt="Seth Wood - Master Tattoo Artist"
+              class="artist-profile-img"
+              loading="eager"
+              width="320"
+              height="320"
+            />
+            <div class="profile-ring"></div>
           </div>
-
-          <div class="guild-info">
-            <div class="guild-badge">
-              <span class="tribal-badge">⚔️ GUILD MASTER</span>
-            </div>
-            <h1 class="guild-name">{artist.name}</h1>
-            <p class="guild-creed">{sethData.creed}</p>
-            <div class="guild-code">{sethData.code}</div>
-            <div class="guild-location">📍 Houma, LA</div>
-            <div class="guild-experience">🏆 {artist.experience}</div>
-
-            <!-- Honor Stats Strip -->
-            <div class="honor-stats">
-              <div class="stat-bar">
-                <span class="stat-label">POWER</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${sethData.stats.power}%`}></div>
-                </div>
-                <span class="stat-num">{sethData.stats.power}</span>
-              </div>
-              <div class="stat-bar">
-                <span class="stat-label">PRECISION</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${sethData.stats.precision}%`}></div>
-                </div>
-                <span class="stat-num">{sethData.stats.precision}</span>
-              </div>
-              <div class="stat-bar">
-                <span class="stat-label">MASTERY</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${sethData.stats.mastery}%`}></div>
-                </div>
-                <span class="stat-num">{sethData.stats.mastery}</span>
-              </div>
-              <div class="stat-bar">
-                <span class="stat-label">HONOR</span>
-                <div class="stat-fill">
-                  <div class="stat-value honor-special" style={`width: ${sethData.stats.honor}%`}></div>
-                </div>
-                <span class="stat-num">{sethData.stats.honor}%</span>
-              </div>
-            </div>
-
-            <!-- Primary CTAs -->
-            <div class="guild-actions">
-              <a href={artist.cta.url} class="btn-primary affliction-btn" target="_blank" rel="noopener">
-                💀 Book with Guild Master
-              </a>
-              <a href="#seth-gallery" class="btn-secondary affliction-btn">
-                🎨 View Masterpieces
-              </a>
-            </div>
+          
+          <!-- Artist Name & Title -->
+          <div class="artist-identity">
+            <h1 class="artist-name">{artist.name}</h1>
+            <div class="artist-title">Master Tattoo Artist</div>
+            <div class="experience-badge">25+ Years Experience</div>
+          </div>
+          
+          <!-- Specialties Grid -->
+          <div class="specialties-grid">
+            <div class="specialty-tag">Illustrative</div>
+            <div class="specialty-tag">Neo-Traditional</div>
+            <div class="specialty-tag">Black & Grey</div>
+            <div class="specialty-tag">Freehand Botanical</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Signature Techniques Section -->
-    <section class="affliction-techniques">
-      <div class="container">
-        <h2 class="section-title">⚔️ Signature Techniques</h2>
-        <div class="techniques-grid">
-          {sethData.moves.map((move, index) => (
-            <div class="technique-card" style={`animation-delay: ${index * 0.1}s`}>
-              <div class="technique-header">
-                <h3 class="technique-name">{move.title}</h3>
-                <div class="technique-type">Master</div>
-              </div>
-              <p class="technique-description">{move.desc}</p>
-              <div class="technique-stats">
-                <div class="technique-power">Power: ⭐⭐⭐⭐⭐</div>
-                <div class="technique-accuracy">Accuracy: 100%</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div class="rates-banner">
-          <div class="rates-content">
-            <span class="rates-label">💰 Guild Rates:</span>
-            <span class="rates-price">{sethData.rates}</span>
+    <!-- Seamless Transition to Portfolio -->
+    <section class="seth-portfolio-seamless">
+      <!-- Bio Section Integrated -->
+      <div class="bio-section">
+        <div class="container">
+          <div class="bio-content">
+            <div class="section-label">About the Artist</div>
+            <p class="artist-bio">{artist.bio}</p>
           </div>
+        </div>
+      </div>
+      
+      <!-- Portfolio Grid with Seamless Integration -->
+      <div class="portfolio-container">
+        <div class="container">
+          <div class="portfolio-header">
+            <h2 class="portfolio-title">Portfolio</h2>
+            <div class="portfolio-subtitle">25+ Years of Precision & Artistry</div>
+          </div>
+          <ArtistPortfolioGallery images={artist.portfolio} artistName={artist.name} artistSlug={artist.slug} />
         </div>
       </div>
     </section>
 
-    <!-- Earned Honors Section -->
-    <section class="affliction-honors">
+    <!-- Enhanced CTA Section -->
+    <section class="seth-cta-enhanced">
       <div class="container">
-        <h2 class="section-title">🏆 Earned Honors</h2>
-        <div class="honors-container">
-          {sethData.badges.map((badge, index) => (
-            <div class="honor-pill" style={`animation-delay: ${index * 0.1}s`}>
-              <span class="honor-text">{badge}</span>
-            </div>
-          ))}
-        </div>
-        <div class="master-note">
-          <div class="master-icon">⚔️</div>
-          <p class="master-text">
-            Honors earned through 25+ years of dedication to the craft.
-            Each represents mastery in traditional tattoo disciplines.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gallery "Masterpieces" Section -->
-    <section class="affliction-gallery" id="seth-gallery">
-      <div class="container">
-        <h2 class="section-title">🎨 Masterpieces</h2>
-        <p class="gallery-subtitle">Legendary works from the Guild Master</p>
-        <div class="tribal-masonry-grid">
-          {artist.portfolio.map((image, index) => (
-            <div class="tribal-masonry-item" style={`animation-delay: ${index * 0.05}s`}>
-              <div class="tribal-gallery-frame" tabindex="0" role="button" aria-label={`View ${artist.name} tattoo work ${index + 1}`}>
-                <img
-                  src={image}
-                  alt={`${artist.name} tattoo work ${index + 1} - ${artist.specialties[index % artist.specialties.length]} style tattoo`}
-                  class="gallery-image"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div class="tribal-overlay">
-                  <div class="tribal-content">
-                    <div class="masterpiece-label">Masterpiece #{index + 1}</div>
-                    <div class="view-hint">👁️ View Details</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div class="gallery-footer">
-          <div class="gallery-stats">
-            <div class="stat-item">
-              <span class="stat-number">{artist.portfolio.length}</span>
-              <span class="stat-label">Masterpieces</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Client Satisfaction</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">{artist.experience}</span>
-              <span class="stat-label">Years Experience</span>
-            </div>
+        <div class="cta-content">
+          <div class="cta-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA Bar -->
-    <section class="affliction-cta-bar">
-      <div class="container">
-        <div class="cta-bar-content">
-          <div class="cta-left">
-            <div class="cta-icon">💀</div>
-            <div class="cta-text">
-              <div class="cta-title">Ready for Mastery?</div>
-              <div class="cta-subtitle">Book with Guild Master Seth</div>
-            </div>
+          <div class="cta-text">
+            <h2>Ready to Work with Seth?</h2>
+            <p>Experience precision mastery and 25+ years of tattoo artistry</p>
           </div>
-          <div class="cta-actions">
-            <a href="https://instagram.com/sethta2_bp" class="btn-instagram affliction-btn" target="_blank" rel="noopener">
-              📱 @sethta2_bp
-            </a>
-            <a href={artist.cta.url} class="btn-book affliction-btn" target="_blank" rel="noopener">
-              💀 Book Consultation
+          <div class="cta-action">
+            <a href={artist.cta.url} class="seth-cta-btn" target="_blank" rel="noopener">
+              Book Consultation
             </a>
           </div>
         </div>
       </div>
     </section>
 
-  ) : isCodyPage ? (
-    <!-- CODY'S RPG TRAINER CARD LAYOUT -->
+  ) : isMangaMode ? (
+    <!-- CODY'S MANGA COMIC LAYOUT -->
     
-    <!-- Scanline Overlay -->
-    <div class="rpg-scanlines"></div>
+    <!-- Import Manga Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reggae+One&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Bangers&display=swap" rel="stylesheet">
     
-    <!-- Hero "Trainer Card" -->
-    <section class="rpg-hero">
+    
+    <!-- Hero Manga Panel -->
+    <section class="manga-hero">
     <div class="container">
-        <div class="trainer-card">
-          <div class="trainer-portrait">
-            <div class="pixel-frame">
+        <div class="manga-hero-panel">
+          <!-- Character Portrait Panel -->
+          <div class="character-panel">
+            <div class="panel-frame hero-frame">
+              <div class="panel-number">#01</div>
           <img
             src={artist.avatar}
-                alt={`${artist.name} - Tattoo Trainer`}
-                class="portrait-image"
+                alt={`${artist.name} - Manga Tattoo Artist`}
+                class="character-portrait"
             loading="lazy"
                 width="320"
             height="400"
           />
+              <div class="character-name-tag">
+                <span class="name-text">{artist.name}</span>
         </div>
+            </div>
             </div>
           
-          <div class="trainer-info">
-            <div class="trainer-badge">
-              <span class="pixel-badge">⚡ TATTOO MASTER</span>
+          <!-- Info Speech Bubble Panel -->
+          <div class="info-panel">
+            <div class="speech-bubble main-bubble">
+              <h1 class="manga-character-name">{artist.name}</h1>
+              <p class="character-title">Anime & Color Specialist</p>
+              <div class="character-stats">
+                <div class="stat-line">📍 Houma, Louisiana</div>
+                <div class="stat-line">🎖️ {artist.experience}</div>
+                <div class="stat-line">🎨 {artist.specialties.join(' • ')}</div>
             </div>
-            <h1 class="trainer-name">{artist.name}</h1>
-            <p class="trainer-class">
-              {artist.slug === 'cody-crochet' ? 'Anime & Color Specialist' : artist.positioning.split(' - ')[0]}
-            </p>
-            <div class="trainer-location">📍 Houma, LA</div>
-            <div class="trainer-exp">🎖️ {artist.experience}</div>
-            
-            <!-- Stats Strip -->
-            <div class="stats-strip">
-              <div class="stat-bar">
-                <span class="stat-label">HP</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${codyData.stats.hp}%`}></div>
-            </div>
-                <span class="stat-num">{codyData.stats.hp}</span>
-            </div>
-              <div class="stat-bar">
-                <span class="stat-label">ATK</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${codyData.stats.atk}%`}></div>
-          </div>
-                <span class="stat-num">{codyData.stats.atk}</span>
-        </div>
-              <div class="stat-bar">
-                <span class="stat-label">DEF</span>
-                <div class="stat-fill">
-                  <div class="stat-value" style={`width: ${codyData.stats.def}%`}></div>
-                </div>
-                <span class="stat-num">{codyData.stats.def}</span>
-              </div>
-              <div class="stat-bar">
-                <span class="stat-label">INK</span>
-                <div class="stat-fill">
-                  <div class="stat-value ink-special" style={`width: ${codyData.stats.ink}%`}></div>
-                </div>
-                <span class="stat-num">{codyData.stats.ink}%</span>
-              </div>
+              <div class="bubble-tail bubble-tail-left"></div>
             </div>
             
-            <!-- Primary CTAs -->
-            <div class="trainer-actions">
-              <a href={artist.cta.url} class="btn-primary rpg-btn" target="_blank" rel="noopener">
-                📱 DM Cody on Instagram
+            <!-- Action Buttons Panel -->
+            <div class="action-panel">
+              <a href={artist.cta.url} class="manga-btn primary-btn" target="_blank" rel="noopener">
+                <span class="btn-text">Book Session!</span>
+                <div class="btn-sfx">POW!</div>
               </a>
-              <a href="#cody-gallery" class="btn-secondary rpg-btn">
-                🎨 View Gallery
+              <a href="#manga-gallery" class="manga-btn secondary-btn">
+                <span class="btn-text">View Art</span>
+                <div class="btn-sfx">ZOOM!</div>
               </a>
             </div>
           </div>
@@ -622,120 +598,114 @@ const codyData = {
     </div>
   </section>
 
-    <!-- MoveSet (Services) Section -->
-    <section class="rpg-moveset">
-    <div class="container">
-        <h2 class="section-title">⚔️ Signature Moves</h2>
-        <div class="moves-grid">
-          {codyData.moves.map((move, index) => (
-            <div class="move-card" style={`animation-delay: ${index * 0.1}s`}>
-              <div class="move-header">
-                <h3 class="move-name">{move.title}</h3>
-                <div class="move-type">Special</div>
+    <!-- Signature Styles Showcase -->
+    <section class="signature-styles">
+      <div class="container">
+        <div class="styles-header">
+          <div class="panel-frame header-panel">
+            <h2 class="manga-section-title">SIGNATURE STYLES</h2>
+            <div class="title-accent"></div>
+          </div>
+        </div>
+        
+        <div class="styles-showcase">
+          <!-- Anime Style -->
+          <div class="style-card" data-style="anime">
+            <div class="style-image">
+              <img src="/assets/artists/Cody/unnamed (16).jpg" alt="Anime Style Tattoo" loading="lazy" />
+              <div class="style-overlay"></div>
             </div>
-              <p class="move-description">{move.desc}</p>
-              <div class="move-stats">
-                <div class="move-power">Power: ⭐⭐⭐⭐⭐</div>
-                <div class="move-accuracy">Accuracy: 100%</div>
+            <div class="style-info">
+              <div class="style-badge">#02</div>
+              <h3 class="style-name">ANIME</h3>
+              <p class="style-desc">Bold lines, expressive characters</p>
+            </div>
+          </div>
+
+          <!-- Color Style -->
+          <div class="style-card" data-style="color">
+            <div class="style-image">
+              <img src="/assets/artists/Cody/unnamed (21).jpg" alt="Color Style Tattoo" loading="lazy" />
+              <div class="style-overlay"></div>
+            </div>
+            <div class="style-info">
+              <div class="style-badge">#03</div>
+              <h3 class="style-name">COLOR</h3>
+              <p class="style-desc">Vibrant palettes, smooth blends</p>
+            </div>
+          </div>
+
+          <!-- Illustrative Style -->
+          <div class="style-card" data-style="illustrative">
+            <div class="style-image">
+              <img src="/assets/artists/Cody/unnamed (15).jpg" alt="Illustrative Style Tattoo" loading="lazy" />
+              <div class="style-overlay"></div>
+            </div>
+            <div class="style-info">
+              <div class="style-badge">#04</div>
+              <h3 class="style-name">DARK ART</h3>
+              <p class="style-desc">Detailed illustrative work</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shop Information Panel -->
+        <div class="shop-info-panel">
+          <div class="panel-frame shop-info-frame">
+            <div class="panel-number">#INFO</div>
+            <div class="shop-info-content">
+              <h3 class="shop-info-title">SHOP INFORMATION</h3>
+              <div class="shop-policies">
+                <div class="policy-item">
+                  <span class="policy-label">Walk-in Minimum:</span>
+                  <span class="policy-value">$80</span>
+                </div>
+                <div class="policy-item">
+                  <span class="policy-label">Deposit Required:</span>
+                  <span class="policy-value">$50 (Non-Refundable)</span>
+                </div>
+                <div class="policy-item important-policy">
+                  <span class="policy-text">Does Not Tattoo Minors</span>
+                </div>
               </div>
-          </div>
-        ))}
-      </div>
-        <div class="rates-banner">
-          <div class="rates-content">
-            <span class="rates-label">💰 Battle Rates:</span>
-            <span class="rates-price">{codyData.rates}</span>
-          </div>
-      </div>
-    </div>
-  </section>
-
-    <!-- Badges (Expertise) Section -->
-    <section class="rpg-badges">
-      <div class="container">
-        <h2 class="section-title">🏆 Earned Badges</h2>
-        <div class="badges-container">
-          {codyData.badges.map((badge, index) => (
-            <div class="badge-pill" style={`animation-delay: ${index * 0.1}s`}>
-              <span class="badge-text">{badge}</span>
-            </div>
-          ))}
-            </div>
-        <div class="achievement-note">
-          <div class="achievement-icon">🎖️</div>
-          <p class="achievement-text">
-            Badges earned through years of dedicated practice and countless satisfied clients. 
-            Each represents mastery in a specific tattoo discipline.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Enhanced Gallery Section with Card Components -->
-    <section class="rpg-gallery" id="cody-gallery">
-      <div class="container">
-        <div class="gallery-header">
-          <h2 class="section-title">🎨 Battle Gallery</h2>
-          <p class="gallery-subtitle">Legendary works from the battlefield</p>
-        </div>
-
-        <!-- Portfolio Grid using Card Components -->
-        <div class="portfolio-grid">
-          {artist.portfolio.map((image, index) => (
-            <CodyWorkCard 
-              image={image}
-              title={`Epic Work #${index + 1}`}
-              description={`${artist.specialties[index % artist.specialties.length]} style tattoo masterpiece`}
-              tags={[artist.specialties[index % artist.specialties.length].toLowerCase().replace(' ', '-')]}
-              rarity={index < 2 ? 'legendary' : index < 4 ? 'epic' : index < 6 ? 'rare' : 'common'}
-              index={index}
-              workNumber={index + 1}
-            />
-          ))}
-        </div>
-
-        <!-- Gallery Footer -->
-        <div class="gallery-footer">
-          <div class="gallery-stats">
-            <div class="stat-item">
-              <span class="stat-number">{artist.portfolio.length}</span>
-              <span class="stat-label">Epic Pieces</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Client Satisfaction</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">{artist.experience}</span>
-              <span class="stat-label">Experience</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Final CTA Bar -->
-    <section class="rpg-cta-bar">
+    <!-- Manga Portfolio Gallery -->
+    <section class="manga-gallery-section" id="manga-gallery">
+      <div class="container">
+        <MangaPortfolioGallery portfolio={artist.portfolio} artist={artist} />
+      </div>
+    </section>
+
+    <!-- Final CTA Panel -->
+    <section class="manga-cta">
     <div class="container">
-        <div class="cta-bar-content">
-          <div class="cta-left">
-            <div class="cta-icon">💬</div>
-            <div class="cta-text">
-              <div class="cta-title">Questions?</div>
-              <div class="cta-subtitle">DM us on Instagram</div>
+        <div class="cta-panel">
+          <div class="panel-frame cta-frame">
+            <div class="cta-content">
+              <div class="cta-character">
+                <img src={artist.avatar} alt={artist.name} class="cta-avatar" />
+                <div class="speech-bubble cta-bubble">
+                  <p>"Ready to bring your anime dreams to life? Let's create something amazing together!"</p>
+                  <div class="bubble-tail bubble-tail-bottom"></div>
             </div>
           </div>
         <div class="cta-actions">
-            <a href="https://instagram.com/cursedingksociety" class="btn-instagram rpg-btn" target="_blank" rel="noopener">
-              📱 @cursedingksociety
-          </a>
-            <a href={artist.cta.url} class="btn-book rpg-btn" target="_blank" rel="noopener">
-              📱 DM Cody on Instagram
+                <a href="/contact" class="manga-btn contact-btn">
+                  <span class="btn-text">Contact Shop</span>
+                  <div class="btn-sfx">GO!</div>
             </a>
+              </div>
+            </div>
         </div>
       </div>
     </div>
   </section>
+
   ) : (
     <!-- ORIGINAL LAYOUT FOR OTHER ARTISTS -->
   <section class="artist-hero">
@@ -778,48 +748,6 @@ const codyData = {
   </section>
   )}
 
-  <!-- OSRS SKILL PANEL FOR LUIS -->
-  {artist.slug === 'luis-reymundo' && (
-    <section class="osrs-skills-panel">
-      <div class="container">
-        <h2 class="osrs-section-title">⚔️ Master Skills</h2>
-        <p class="osrs-section-subtitle">Forged through 12+ years of dedication</p>
-
-        <div class="osrs-skills-grid">
-          {[
-            { name: "Geometric", level: 94, desc: "Precision geometric patterns and sacred geometry mastery" },
-            { name: "Bold Linework", level: 91, desc: "Powerful, clean lines that command attention" },
-            { name: "Abstract", level: 88, desc: "Creative compositions that transcend traditional boundaries" },
-            { name: "Precision", level: 89, desc: "Surgical accuracy in every stroke and placement" },
-            { name: "Color Theory", level: 85, desc: "Harmonious color palettes and gradient expertise" },
-            { name: "Healing", level: 86, desc: "Clean, fast-healing work with minimal downtime" }
-          ].map((skill) => (
-            <div class="osrs-skill-row">
-              <div class="osrs-skill-icon">
-                <div class="osrs-skill-circle"></div>
-              </div>
-              <div class="osrs-skill-info">
-                <div class="osrs-skill-name">{skill.name}</div>
-                <div class="osrs-skill-desc">{skill.desc}</div>
-              </div>
-              <div class="osrs-skill-bar">
-                <div class="osrs-skill-fill" style={`width: ${skill.level}%`}></div>
-                <div class="osrs-skill-fill-shine"></div>
-              </div>
-              <div class="osrs-skill-level">{skill.level}</div>
-            </div>
-          ))}
-        </div>
-
-        <div class="osrs-total-level">
-          <div class="osrs-total-badge">
-            <span class="osrs-total-text">Total Level: 533</span>
-            <span class="osrs-total-desc">Master Tattoo Artist</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
 
   <!-- OSRS QUEST SCROLL BIO FOR LUIS -->
   {artist.slug === 'luis-reymundo' && (
@@ -837,16 +765,16 @@ const codyData = {
               <h3 class="osrs-rewards-title">🏆 Quest Rewards</h3>
               <div class="osrs-rewards-grid">
                 <div class="osrs-reward-item">
-                  <span class="osrs-reward-icon">⭐</span>
-                  <span class="osrs-reward-text">Clean Heals</span>
+                  <span class="osrs-reward-icon">🐉</span>
+                  <span class="osrs-reward-text">Traditional Japanese</span>
                 </div>
                 <div class="osrs-reward-item">
-                  <span class="osrs-reward-icon">⭐</span>
-                  <span class="osrs-reward-text">High Contrast</span>
+                  <span class="osrs-reward-icon">🌸</span>
+                  <span class="osrs-reward-text">Irezumi Mastery</span>
                 </div>
                 <div class="osrs-reward-item">
-                  <span class="osrs-reward-icon">⭐</span>
-                  <span class="osrs-reward-text">Consultation</span>
+                  <span class="osrs-reward-icon">🎋</span>
+                  <span class="osrs-reward-text">Cultural Authenticity</span>
                 </div>
                 <div class="osrs-reward-item">
                   <span class="osrs-reward-icon">⭐</span>
@@ -871,115 +799,11 @@ const codyData = {
   {artist.slug === 'luis-reymundo' && (
     <section class="osrs-inventory-gallery">
       <div class="container">
-        <h2 class="osrs-gallery-title">🎒 Artist's Bank</h2>
-        <p class="osrs-gallery-subtitle">Epic pieces from the vault</p>
-
-        <div class="osrs-inventory-grid">
-          {artist.portfolio.map((image, index) => (
-            <a
-              href={image}
-              class="osrs-inventory-slot"
-              aria-label={`View Luis Reymundo tattoo work ${index + 1}`}
-            >
-              <div class="osrs-slot-frame">
-                <img
-                  src={image}
-                  alt={`Luis Reymundo tattoo work ${index + 1}`}
-                  class="osrs-slot-image"
-                  loading="lazy"
-                />
-                <div class="osrs-slot-overlay">
-                  <div class="osrs-slot-label">Epic Work #{index + 1}</div>
-                  <div class="osrs-view-hint">👁️ View Details</div>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        <div class="osrs-bank-footer">
-          <div class="osrs-bank-stats">
-            <div class="osrs-stat-item">
-              <span class="osrs-stat-number">{artist.portfolio.length}</span>
-              <span class="osrs-stat-label">Epic Pieces</span>
-            </div>
-            <div class="osrs-stat-item">
-              <span class="osrs-stat-number">12+</span>
-              <span class="osrs-stat-label">Years Crafting</span>
-            </div>
-            <div class="osrs-stat-item">
-              <span class="osrs-stat-number">100%</span>
-              <span class="osrs-stat-label">Client Satisfaction</span>
-            </div>
-          </div>
-
-          <div class="osrs-bank-link">
-            <a href="/gallery?artist=luis" class="osrs-bank-link-btn">
-              📂 View Full Bank →
-            </a>
-          </div>
-        </div>
+        <ArtistPortfolioGallery images={artist.portfolio} artistName={artist.name} artistSlug={artist.slug} />
       </div>
     </section>
   )}
 
-  <!-- OSRS MOVES LIST FOR LUIS -->
-  {artist.slug === 'luis-reymundo' && (
-    <section class="osrs-moves-section">
-      <div class="container">
-        <h2 class="osrs-moves-title">⚔️ Signature Moves</h2>
-        <p class="osrs-moves-subtitle">Master techniques honed over 12+ years</p>
-
-        <div class="osrs-moves-list">
-          {[
-            {
-              title: "Geometric Precision",
-              desc: "Surgical accuracy in geometric patterns and sacred geometry compositions.",
-              power: "⭐⭐⭐⭐⭐",
-              accuracy: "99%",
-              rate: "$180–220/hr"
-            },
-            {
-              title: "Bold Line Mastery",
-              desc: "Powerful, clean lines that demand attention and heal flawlessly.",
-              power: "⭐⭐⭐⭐⭐",
-              accuracy: "98%",
-              rate: "$180–220/hr"
-            },
-            {
-              title: "Abstract Vision",
-              desc: "Creative compositions that transcend traditional boundaries.",
-              power: "⭐⭐⭐⭐⭐",
-              accuracy: "97%",
-              rate: "$180–220/hr"
-            },
-            {
-              title: "Detail Symphony",
-              desc: "Intricate shading and highlighting that brings depth to any piece.",
-              power: "⭐⭐⭐⭐⭐",
-              accuracy: "96%",
-              rate: "$180–220/hr"
-            }
-          ].map((move, index) => (
-            <div class="osrs-move-item" style={`animation-delay: ${index * 0.1}s`}>
-              <div class="osrs-move-header">
-                <div class="osrs-move-caret">►</div>
-                <h3 class="osrs-move-name">{move.title}</h3>
-                <div class="osrs-move-type">Special</div>
-              </div>
-              <p class="osrs-move-description">{move.desc}</p>
-              <div class="osrs-move-stats">
-                <div class="osrs-move-power">Power: {move.power}</div>
-                <div class="osrs-move-accuracy">Accuracy: {move.accuracy}</div>
-              </div>
-              <div class="osrs-move-rate">{move.rate}</div>
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-  )}
 
   <!-- OSRS CHATBOX TESTIMONIALS FOR LUIS -->
   {artist.slug === 'luis-reymundo' && (
@@ -1000,11 +824,11 @@ const codyData = {
 
             <div class="osrs-chatbox-messages">
               {[
-                { user: "EpicClient42", message: "Just got my geometric mandala from Luis. Lines are so clean, healed perfect in 2 weeks. 10/10 would recommend!", time: "2 hours ago", type: "player" },
-                { user: "InkWarrior99", message: "Luis's bold line work is insane. The detail on my abstract piece is mind-blowing. Worth every penny!", time: "1 day ago", type: "player" },
-                { user: "TattooNoob87", message: "First time getting tattooed, went with Luis for geometric sleeve. No regrets! Professional, clean, and the shop is awesome.", time: "3 days ago", type: "player" },
-                { user: "ArtLover2024", message: "Luis brought my vision to life perfectly. The precision and creativity in his work is unmatched. 5 stars!", time: "1 week ago", type: "player" },
-                { user: "RepeatCustomer", message: "Back for my 3rd piece with Luis. His geometric work just keeps getting better. Cursed Ink Society is the best in Houma!", time: "2 weeks ago", type: "player" }
+                { user: "DragonSlayer88", message: "Luis just finished my traditional Japanese dragon sleeve. The cultural authenticity and detail work is incredible! Best irezumi in Louisiana!", time: "2 hours ago", type: "player" },
+                { user: "SakuraWarrior", message: "Got my koi fish piece from Luis last month. His understanding of traditional Japanese symbolism is amazing. Healed beautifully!", time: "1 day ago", type: "player" },
+                { user: "TattooSamurai", message: "Luis's traditional Japanese work is next level. The cherry blossom piece he did captures the essence perfectly. True artistry!", time: "3 days ago", type: "player" },
+                { user: "IrezumiLover", message: "Finally found an artist who respects traditional Japanese tattooing. Luis's technique and cultural knowledge are unmatched!", time: "1 week ago", type: "player" },
+                { user: "RepeatCustomer", message: "Third traditional Japanese piece with Luis. His mastery of the art form just keeps growing. Cursed Ink Society is legendary!", time: "2 weeks ago", type: "player" }
               ].map((chat, index) => (
                 <div class="osrs-chat-message" style={`animation-delay: ${index * 0.2}s`}>
                   <span class="osrs-chat-user" class={chat.type}>{chat.user}:</span>
@@ -1028,7 +852,7 @@ const codyData = {
             <div class="osrs-online-players">
               <h3 class="osrs-online-title">Players Online (12+)</h3>
               <div class="osrs-player-list">
-                <div class="osrs-player-item">🎨 Luis_Reymundo</div>
+                <div class="osrs-player-item">Luis_Reymundo</div>
                 <div class="osrs-player-item">⚔️ Cursed_Ink_Society</div>
                 <div class="osrs-player-item">⭐ Satisfied_Client</div>
                 <div class="osrs-player-item">🎯 Future_Ink_Seeker</div>
@@ -1090,30 +914,622 @@ const codyData = {
 </Layout>
 
 <style>
-  /* RPG STYLES FOR CODY */
-  .rpg-scanlines {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
+  /* MANGA STYLES FOR CODY */
+
+  .manga-hero {
+    padding: 4rem 0;
+    background: #ffffff;
+    position: relative;
     z-index: 1;
-    background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px);
-    background-size: 100% 3px;
-    opacity: 0.3;
-    animation: scanlineFlicker 3s ease-in-out infinite alternate;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
   }
 
-  @keyframes scanlineFlicker {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.4; }
+  .manga-hero-panel {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .character-panel {
+    position: relative;
+  }
+
+  .panel-frame {
+    background: white;
+    border: 4px solid #1a1a1a;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+  }
+
+  .hero-frame {
+    aspect-ratio: 3/4;
+  }
+
+  .panel-number {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #1a1a1a;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 3;
+  }
+
+  .character-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2) contrast(1.1);
+    transition: all 0.3s ease;
+  }
+
+  .character-name-tag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 26, 0.9);
+    color: white;
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  .name-text {
+    font-family: 'Reggae One', cursive;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  .info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .speech-bubble {
+    background: white;
+    border: 3px solid #1a1a1a;
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+  }
+
+  .main-bubble {
+    margin-bottom: 1rem;
+  }
+
+  .manga-character-name {
+    font-family: 'Reggae One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+    text-shadow: 2px 2px 0 #fff, -1px -1px 0 #1a1a1a, 1px -1px 0 #1a1a1a, -1px 1px 0 #1a1a1a, 1px 1px 0 #1a1a1a;
+    font-weight: 700;
+  }
+
+  .character-title {
+    font-size: 1.25rem;
+    color: #333;
+    margin: 0 0 1.5rem 0;
+    font-weight: 600;
+  }
+
+  .character-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-line {
+    font-size: 1rem;
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .bubble-tail-left {
+    position: absolute;
+    bottom: -15px;
+    left: 50px;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #1a1a1a;
+  }
+
+  .bubble-tail-left::before {
+    content: '';
+    position: absolute;
+    top: -18px;
+    left: -12px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid white;
+  }
+
+  .action-panel {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .manga-btn {
+    position: relative;
+    background: white;
+    border: 3px solid #1a1a1a;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1a1a1a;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+  }
+
+  .manga-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.3);
+  }
+
+  .manga-btn:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  }
+
+  .primary-btn {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .secondary-btn {
+    background: white;
+    color: #1a1a1a;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn-sfx {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-family: 'Bangers', cursive;
+    font-size: 0.75rem;
+    color: #ff6b6b;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .manga-btn:hover .btn-sfx {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Signature Styles Section */
+  .signature-styles {
+    padding: 4rem 0;
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .styles-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .header-panel {
+    display: inline-block;
+    padding: 1.5rem 2.5rem;
+    position: relative;
+  }
+
+  .manga-section-title {
+    font-family: 'Reggae One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #1a1a1a;
+    margin: 0;
+    text-shadow: 2px 2px 0 #fff, -1px -1px 0 #1a1a1a, 1px -1px 0 #1a1a1a, -1px 1px 0 #1a1a1a, 1px 1px 0 #1a1a1a;
+  }
+
+  .title-accent {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #ff6b6b;
+  }
+
+  .styles-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .style-card {
+    position: relative;
+    border: 3px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .style-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+  }
+
+  .style-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .style-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .style-card:hover .style-image img {
+    transform: scale(1.05);
+  }
+
+  .style-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+  }
+
+  .style-info {
+    padding: 1.25rem;
+    position: relative;
+    background: #fff;
+  }
+
+  .style-badge {
+    position: absolute;
+    top: -12px;
+    right: 1rem;
+    background: #333;
+    color: #fff;
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+  .style-name {
+    font-family: 'Bangers', cursive;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .style-desc {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .styles-showcase {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .signature-styles {
+      padding: 3rem 0;
+    }
+  }
+
+  /* Shop Information Panel */
+  .shop-info-panel {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .shop-info-frame {
+    display: inline-block;
+    padding: 2rem 3rem;
+    position: relative;
+    background: white;
+  }
+
+  .shop-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .shop-info-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  .shop-policies {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .policy-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(26, 26, 26, 0.05);
+    border: 2px solid rgba(26, 26, 26, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .policy-item:hover {
+    background: rgba(26, 26, 26, 0.08);
+    border-color: rgba(26, 26, 26, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+  }
+
+  .policy-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .policy-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .important-policy {
+    background: rgba(255, 107, 107, 0.1);
+    border-color: rgba(255, 107, 107, 0.3);
+    justify-content: center;
+  }
+
+  .important-policy:hover {
+    background: rgba(255, 107, 107, 0.15);
+    border-color: rgba(255, 107, 107, 0.5);
+  }
+
+  .policy-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+
+  /* Manga Gallery Section */
+  .manga-gallery-section {
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  /* Manga CTA Section */
+  .manga-cta {
+    padding: 4rem 0 0;
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-panel {
+    text-align: center;
+  }
+
+  .cta-frame {
+    display: inline-block;
+    max-width: 600px;
+    padding: 3rem 3rem 2rem;
+    margin-bottom: 0;
+  }
+
+  .cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .cta-character {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .cta-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #1a1a1a;
+    object-fit: cover;
+    filter: grayscale(0.3) contrast(1.1);
+  }
+
+  .cta-bubble {
+    max-width: 300px;
+    font-size: 0.95rem;
+  }
+
+  .cta-bubble p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .bubble-tail-bottom {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #1a1a1a;
+  }
+
+  .bubble-tail-bottom::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: -12px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid white;
+  }
+
+  .contact-btn {
+    background: #1a1a1a;
+    color: white;
+    font-size: 1.25rem;
+    padding: 1.25rem 2.5rem;
+  }
+
+
+  /* Animations */
+  @keyframes panelReveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .manga-hero-panel {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-frame {
+      aspect-ratio: 3/2;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .action-panel {
+      flex-direction: column;
+    }
+
+
+    .manga-btn {
+      text-align: center;
+    }
+
+    /* Shop Info Panel Mobile */
+    .shop-info-frame {
+      padding: 1.5rem;
+    }
+
+    .shop-info-title {
+      font-size: 1.3rem;
+    }
+
+    .policy-item {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .policy-label,
+    .policy-value {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .techniques-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-character {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cta-bubble {
+      max-width: 250px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .manga-hero,
+    .manga-specialties {
+      padding: 2rem 0;
+    }
+    
+    .manga-cta {
+      padding: 2rem 0 0;
+    }
+
+    .panel-frame {
+      border-width: 3px;
+    }
+
+    .speech-bubble {
+      padding: 1.5rem;
+    }
+
+    .manga-character-name {
+      font-size: 2rem;
+    }
   }
 
   /* Accessibility improvements */
   @media (prefers-reduced-motion: reduce) {
     .rpg-scanlines,
-    .move-card,
     .badge-pill,
     .masonry-item,
     .stat-value {
@@ -1121,7 +1537,6 @@ const codyData = {
     }
     
     .trainer-card,
-    .move-card,
     .pixel-gallery-frame,
     .badge-pill {
       transition: none !important;
@@ -1504,155 +1919,6 @@ const codyData = {
       0 0 20px rgba(138, 43, 226, 0.2);
   }
 
-  .moves-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-
-  .move-card {
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideInUp 0.6s ease forwards;
-    box-shadow: 
-      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-      0 8px 24px rgba(0, 0, 0, 0.2);
-  }
-
-  @keyframes slideInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .move-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(138, 43, 226, 0.4);
-    box-shadow:
-      0 0 0 1px rgba(138, 43, 226, 0.2) inset,
-      0 12px 32px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(138, 43, 226, 0.2);
-  }
-
-  .move-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .move-name {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #8a2be2;
-    margin: 0;
-    text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
-  }
-
-  .move-type {
-    background: linear-gradient(135deg, #8a2be2, #4b0082);
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .move-description {
-    color: rgba(245, 245, 245, 0.9);
-    line-height: 1.6;
-    margin: 0 0 1.5rem;
-    font-size: 1rem;
-  }
-
-  .move-stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: rgba(245, 245, 245, 0.7);
-  }
-
-  .move-power {
-    color: #ffd700;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
-  }
-
-  .move-accuracy {
-    color: #32cd32;
-    text-shadow: 0 0 8px rgba(50, 205, 50, 0.5);
-  }
-
-  .rates-banner {
-    background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(75, 0, 130, 0.15));
-    border: 2px solid rgba(138, 43, 226, 0.3);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow:
-      0 0 0 1px rgba(138, 43, 226, 0.1) inset,
-      0 8px 24px rgba(138, 43, 226, 0.1);
-  }
-
-  .rates-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .rates-label {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: rgba(245, 245, 245, 0.8);
-  }
-
-  .rates-price {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #8a2be2;
-    text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
-  }
-
-  /* Mobile Optimizations for MoveSet */
-  @media (max-width: 768px) {
-    .rpg-moveset {
-      padding: 4rem 0;
-    }
-
-    .moves-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .move-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .move-stats {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .rates-content {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  }
 
   /* RPG Badges Section */
   .rpg-badges {
@@ -3805,400 +4071,1026 @@ const codyData = {
 
 
   /* ==========================================================================
-   * AFFLICTION-STYLE STYLES FOR SETH WOOD
+   * SETH WOOD - OLD SCHOOL PROFESSIONAL DESIGN
    * ========================================================================== */
 
-  /* Tribal Scanlines Overlay */
-  .affliction-scanlines {
-    position: fixed;
+  /* DragonCapes Font loaded via HTML head for better performance */
+
+  /* Seth Wood - Enhanced Seamless Styles */
+  .seth-hero-seamless {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  .hero-canvas {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-bg-layer {
+    position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
     z-index: 1;
-    background-image:
-      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-    background-size: 100% 4px, 4px 100%;
-    opacity: 0.4;
-    animation: tribalFlicker 4s ease-in-out infinite alternate;
   }
 
-  @keyframes tribalFlicker {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.5; }
+  .hero-bg-layer .hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
-  /* Guild Master Hero Section */
-  .affliction-hero {
-    padding: 6rem 0 4rem;
-    background:
-      radial-gradient(600px 400px at 30% 20%, rgba(220, 20, 60, 0.08) 0%, transparent 70%),
-      linear-gradient(135deg, #0a0a0c 0%, #1a1a1c 50%, #0a0a0c 100%);
+  .hero-gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.8) 0%,
+      rgba(10, 10, 10, 0.4) 40%,
+      rgba(10, 10, 10, 0.6) 70%,
+      rgba(10, 10, 10, 0.95) 100%
+    );
+    z-index: 2;
+  }
+
+  .artist-intro-panel {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px;
+    padding: 2rem;
+  }
+
+  .artist-profile-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .artist-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #c9a96e;
+    box-shadow: 
+      0 0 0 8px rgba(201, 169, 110, 0.1),
+      0 20px 40px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s ease;
+  }
+
+  .artist-profile-img:hover {
+    transform: scale(1.05);
+    border-color: #e6c488;
+    box-shadow: 
+      0 0 0 8px rgba(201, 169, 110, 0.2),
+      0 25px 50px rgba(0, 0, 0, 0.9);
+  }
+
+  .profile-ring {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #c9a96e, transparent, #c9a96e);
+    background-clip: padding-box;
+    opacity: 0.6;
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .artist-identity {
+    margin-bottom: 2rem;
+  }
+
+  .artist-name {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 
+      2px 2px 0px #000000,
+      4px 4px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .artist-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 300;
+    color: #c9a96e;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+  }
+
+  .experience-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #c9a96e 0%, #8b7355 100%);
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 12px rgba(201, 169, 110, 0.3);
+  }
+
+  .specialties-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .specialty-tag {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+  }
+
+  .specialty-tag:hover {
+    background: rgba(201, 169, 110, 0.2);
+    border-color: #c9a96e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Legacy Hero Section (to be removed) */
+  .seth-minimal-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-name-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    text-align: center;
+    max-width: 90vw;
+  }
+
+  .hero-specialties {
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: #c9a96e;
+    font-weight: 400;
+    margin-top: 1.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  }
+
+  .specialty-divider {
+    color: #8b0000;
+    margin: 0 0.5rem;
+    font-weight: 300;
+  }
+
+  .specialty-item {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .specialty-item:hover {
+    color: #ffffff;
+  }
+
+  .hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(1.1) contrast(1.2) saturate(0.9);
+  }
+
+  /* Remove the dark overlay - let the image shine through */
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.05) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    z-index: 2;
+  }
+
+  .minimal-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-emblem {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    opacity: 0.8;
+    filter: brightness(0.9) contrast(1.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .logo-emblem:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  /* Professional About Section */
+  .seth-about {
+    padding: 8rem 0;
+    background: linear-gradient(
+      180deg, 
+      #1a1a1a 0%, 
+      #2d2d2d 50%, 
+      #1a1a1a 100%
+    );
+    position: relative;
+    z-index: 2;
+    border-top: 3px solid #c9a96e;
+    border-bottom: 1px solid #333;
+  }
+
+  .about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .about-content::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+  }
+
+  .seth-name {
+    /* Font stack with fallbacks */
+    font-family: 'DragonCapes', 'EGDragonCaps', 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: normal;
+    
+    /* Strong color declaration for readability */
+    color: #f4e4bc !important;
+    
+    /* Better spacing and layout */
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.15em;
+    word-spacing: 0.3em;
+    text-transform: uppercase;
+    position: relative;
+    display: block;
+    text-align: center;
+    
+    /* Custom Layer Style for Easy Readability */
+    text-shadow:
+      /* Dark outline for contrast */
+      -2px -2px 0 #000000,
+      2px -2px 0 #000000,
+      -2px 2px 0 #000000,
+      2px 2px 0 #000000,
+      /* Inner shadow for depth */
+      0 0 8px rgba(0, 0, 0, 0.8),
+      /* Warm glow */
+      0 0 16px rgba(244, 228, 188, 0.4),
+      /* Subtle red accent */
+      0 0 24px rgba(139, 0, 0, 0.2);
+    
+    /* Force color visibility */
+    -webkit-text-fill-color: #f4e4bc !important;
+    text-fill-color: #f4e4bc !important;
+    
+    /* Ensure crisp rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Subtle background for better contrast */
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(244, 228, 188, 0.2);
+  }
+
+  /* Enhanced hover effect */
+  .seth-name:hover {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-fill-color: #ffffff !important;
+    
+    /* Enhanced layer style on hover */
+    text-shadow:
+      /* Stronger dark outline */
+      -2px -2px 0 #000000,
+      2px -2px 0 #000000,
+      -2px 2px 0 #000000,
+      2px 2px 0 #000000,
+      /* Enhanced glow */
+      0 0 12px rgba(0, 0, 0, 0.9),
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(244, 228, 188, 0.4),
+      0 0 40px rgba(139, 0, 0, 0.3);
+    
+    /* Enhanced background */
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(244, 228, 188, 0.4);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+  }
+
+  .seth-title {
+    font-size: 1.4rem;
+    color: #c9a96e;
+    font-weight: 600;
+    margin: 0 0 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .seth-bio {
+    font-size: 1.2rem;
+    color: #e5e5e5;
+    line-height: 1.8;
+    margin: 0;
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Georgia', serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    position: relative;
+  }
+
+  .seth-bio::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 4rem;
+    color: #c9a96e;
+    opacity: 0.3;
+    font-family: 'DragonCapes', serif;
+  }
+
+  .seth-bio::after {
+    content: '"';
+    position: absolute;
+    bottom: -30px;
+    right: 20px;
+    font-size: 4rem;
+    color: #c9a96e;
+    opacity: 0.3;
+    font-family: 'DragonCapes', serif;
+  }
+
+  /* Professional Profile Picture Section */
+  .seth-profile-section {
+    padding: 6rem 0;
+    background: linear-gradient(
+      180deg, 
+      #2d2d2d 0%, 
+      #1a1a1a 50%, 
+      #0a0a0a 100%
+    );
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .profile-container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    border: 2px solid #c9a96e;
+    border-radius: 12px;
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  .seth-profile-image {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.8),
+      0 0 0 4px rgba(201, 169, 110, 0.2),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+    object-fit: cover;
+    transition: all 0.4s ease;
+    filter: brightness(1.1) contrast(1.1);
+  }
+
+  .seth-profile-image:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.9),
+      0 0 0 4px rgba(201, 169, 110, 0.4),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.2) contrast(1.2);
+  }
+
+  /* Seamless Portfolio Section */
+  .seth-portfolio-seamless {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.95) 0%,
+      #0a0a0a 20%,
+      #0f0f0f 50%,
+      #0a0a0a 100%
+    );
     position: relative;
     z-index: 2;
   }
 
-  .guild-master-card {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 4rem;
-    align-items: start;
-    max-width: 1000px;
+  .bio-section {
+    padding: 4rem 0 2rem;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+  }
+
+  .bio-content {
+    max-width: 800px;
     margin: 0 auto;
-    background: rgba(0, 0, 0, 0.5);
-    border: 3px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    padding: 2.5rem;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-      0 20px 40px rgba(0, 0, 0, 0.4),
-      0 0 60px rgba(220, 20, 60, 0.1);
-    backdrop-filter: blur(12px);
-    position: relative;
-    overflow: hidden;
+    text-align: center;
   }
 
-  .guild-master-card::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    background: linear-gradient(45deg,
-      transparent 25%,
-      rgba(220, 20, 60, 0.15) 45%,
-      rgba(255, 255, 255, 0.1) 55%,
-      transparent 75%
-    );
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
-  }
-
-  .guild-master-card:hover::before {
-    opacity: 1;
-  }
-
-  .tribal-frame {
-    position: relative;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-      0 0 25px rgba(220, 20, 60, 0.3),
-      0 0 0 2px rgba(220, 20, 60, 0.1) inset;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
-  }
-
-  .tribal-frame::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    background: linear-gradient(45deg,
-      rgba(220, 20, 60, 0.2),
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      transparent,
-      rgba(220, 20, 60, 0.2)
-    );
-    border-radius: 6px;
-    z-index: -1;
-  }
-
-  .guild-info {
-    padding: 1rem 0;
-  }
-
-  .guild-badge {
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #c9a96e;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
     margin-bottom: 1.5rem;
   }
 
-  .tribal-badge {
-    background: linear-gradient(135deg, rgba(220, 20, 60, 0.8), rgba(139, 0, 0, 0.9));
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow:
-      0 2px 8px rgba(220, 20, 60, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .tribal-badge::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    animation: tribalShine 3s ease-in-out infinite;
-  }
-
-  @keyframes tribalShine {
-    0%, 100% { left: -100%; }
-    50% { left: 100%; }
-  }
-
-  .guild-name {
-    font-size: clamp(2.8rem, 4vw, 3.8rem);
-    font-weight: 900;
-    color: #ffffff;
-    margin: 0 0 0.5rem;
-    text-shadow:
-      3px 3px 0 rgba(220, 20, 60, 0.4),
-      0 0 20px rgba(220, 20, 60, 0.3),
-      0 0 40px rgba(220, 20, 60, 0.1);
-    line-height: 1.1;
-    letter-spacing: 0.02em;
-  }
-
-  .guild-creed {
-    font-size: 1.4rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 700;
-    margin: 0 0 0.75rem;
-    text-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
-    letter-spacing: 0.05em;
-  }
-
-  .guild-code {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    margin: 0 0 1.5rem;
-    font-style: italic;
-    border-left: 3px solid rgba(220, 20, 60, 0.6);
-    padding-left: 1rem;
-  }
-
-  .guild-location,
-  .guild-experience {
+  .artist-bio {
+    font-family: 'Inter', sans-serif;
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0.75rem 0;
-    font-weight: 600;
-    text-shadow: 0 0 8px rgba(220, 20, 60, 0.2);
+    line-height: 1.7;
+    color: #e0e0e0;
+    font-weight: 300;
+    margin: 0;
   }
 
-  /* Honor Stats */
-  .honor-stats {
-    margin: 2.5rem 0;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  .portfolio-container {
+    padding: 4rem 0 6rem;
   }
 
-  .honor-stats .stat-bar {
-    display: grid;
-    grid-template-columns: 100px 1fr 50px;
-    gap: 1rem;
-    align-items: center;
-    margin: 0.8rem 0;
-  }
-
-  .honor-stats .stat-label {
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-align: left;
-  }
-
-  .honor-stats .stat-fill {
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-  }
-
-  .honor-stats .stat-value {
-    height: 100%;
-    background: linear-gradient(90deg, #8b0000, #dc143c, #ff4500);
-    border-radius: 4px;
-    transition: width 1s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px rgba(220, 20, 60, 0.6);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .honor-stats .stat-value::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    animation: honorShine 2.5s ease-in-out infinite;
-  }
-
-  @keyframes honorShine {
-    0%, 100% { left: -100%; }
-    50% { left: 100%; }
-  }
-
-  .honor-stats .stat-value.honor-special {
-    background: linear-gradient(90deg, #daa520, #ffd700, #ffed4e);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-  }
-
-  .honor-stats:hover .stat-value {
-    box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
-  }
-
-  .honor-stats:hover .stat-value.honor-special {
-    box-shadow: 0 0 25px rgba(255, 215, 0, 1);
-  }
-
-  .honor-stats .stat-num {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #dc143c;
-    text-align: right;
-    text-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
-  }
-
-  /* Guild Actions */
-  .guild-actions {
-    display: flex;
-    gap: 1.25rem;
-    margin-top: 2.5rem;
-  }
-
-  .affliction-btn {
-    padding: 0.875rem 1.75rem;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: 3px solid;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  }
-
-  .affliction-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-  }
-
-  .affliction-btn:hover::before {
-    left: 100%;
-  }
-
-  .affliction-btn.primary,
-  .btn-primary {
-    background: linear-gradient(135deg, #8b0000, #dc143c);
-    color: white;
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow:
-      0 6px 16px rgba(220, 20, 60, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  }
-
-  .affliction-btn.primary:hover,
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow:
-      0 8px 24px rgba(220, 20, 60, 0.6),
-      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-
-  .affliction-btn.secondary,
-  .btn-secondary {
-    background: rgba(0, 0, 0, 0.6);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  }
-
-  .affliction-btn.secondary:hover,
-  .btn-secondary:hover {
-    background: rgba(220, 20, 60, 0.2);
-    border-color: rgba(220, 20, 60, 0.6);
-    transform: translateY(-3px);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(220, 20, 60, 0.2) inset;
-  }
-
-  /* Signature Techniques Section */
-  .affliction-techniques {
-    padding: 6rem 0;
-    background:
-      radial-gradient(500px 300px at 70% 30%, rgba(220, 20, 60, 0.06) 0%, transparent 70%),
-      linear-gradient(135deg, #1a1a1c 0%, #0a0a0c 50%, #1a1a1c 100%);
-    position: relative;
-  }
-
-  .section-title {
+  .portfolio-header {
     text-align: center;
-    font-size: clamp(2.2rem, 4vw, 3rem);
-    font-weight: 900;
-    color: #ffffff;
-    margin: 0 0 3rem;
-    text-shadow:
-      3px 3px 0 rgba(220, 20, 60, 0.4),
-      0 0 20px rgba(220, 20, 60, 0.2);
-    letter-spacing: 0.02em;
-  }
-
-  .techniques-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
     margin-bottom: 3rem;
   }
 
-  .technique-card {
-    background: rgba(0, 0, 0, 0.5);
-    border: 3px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    padding: 2.5rem;
-    backdrop-filter: blur(12px);
-    transition: all 0.4s ease;
-    opacity: 0;
-    transform: translateY(25px);
-    animation: tribalSlideIn 0.8s ease forwards;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-      0 12px 32px rgba(0, 0, 0, 0.3);
+  .portfolio-title {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   }
+
+  .portfolio-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #c9a96e;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* Enhanced CTA Section */
+  .seth-cta-enhanced {
+    padding: 6rem 0;
+    background: linear-gradient(
+      135deg,
+      #0a0a0a 0%,
+      #1a1a1a 50%,
+      #0a0a0a 100%
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seth-cta-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+  }
+
+  .seth-cta-enhanced .cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    gap: 2rem;
+  }
+
+  .seth-cta-enhanced .cta-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #c9a96e 0%, #8b7355 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.3);
+  }
+
+  .seth-cta-enhanced .cta-text h2 {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .seth-cta-enhanced .cta-text p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #c0c0c0;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .seth-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #c9a96e 0%, #8b7355 100%);
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .seth-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(201, 169, 110, 0.4);
+    background: linear-gradient(135deg, #e6c488 0%, #a08660 100%);
+  }
+
+  /* Legacy Gallery Section (to be removed) */
+  .seth-gallery {
+    padding: 8rem 0;
+    background: linear-gradient(
+      180deg, 
+      #0a0a0a 0%, 
+      #1a1a1a 50%, 
+      #0a0a0a 100%
+    );
+    position: relative;
+    z-index: 2;
+    border-top: 3px solid #c9a96e;
+  }
+
+  .seth-gallery::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+  }
+
+  /* Professional CTA Section */
+  .seth-cta {
+    padding: 8rem 0;
+    background: linear-gradient(
+      135deg, 
+      #0a0a0a 0%, 
+      #1a1a1a 50%, 
+      #2d2d2d 100%
+    );
+    position: relative;
+    z-index: 2;
+    border-top: 3px solid #c9a96e;
+    overflow: hidden;
+  }
+
+  .seth-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+    animation: slideGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes slideGlow {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+
+  .cta-content {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .cta-content h2 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    font-family: 'DragonCapes', 'Cinzel', serif;
+    color: #c9a96e;
+    margin-bottom: 1.5rem;
+    text-shadow: 
+      0 0 20px rgba(201, 169, 110, 0.6),
+      0 4px 8px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    margin: 0 0 1rem;
+    line-height: 1.2;
+  }
+
+  .cta-content p {
+    font-size: 1.3rem;
+    color: #b8b8b8;
+    margin: 0 0 3rem;
+    line-height: 1.6;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .cta-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seth-btn {
+    display: inline-block;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(
+      135deg, 
+      #c9a96e 0%, 
+      #8b0000 50%, 
+      #c9a96e 100%
+    );
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: 'Cinzel', serif;
+    transition: all 0.4s ease;
+    border: 3px solid #c9a96e;
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .seth-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.2), 
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  .seth-btn:hover::before {
+    left: 100%;
+  }
+
+  .seth-btn:hover {
+    background: linear-gradient(
+      135deg, 
+      #8b0000 0%, 
+      #c9a96e 50%, 
+      #8b0000 100%
+    );
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(201, 169, 110, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: #8b0000;
+  }
+
+  /* Mobile Responsiveness - Enhanced Seth Design */
+  @media (max-width: 768px) {
+    .seth-hero-seamless {
+      min-height: 80vh;
+    }
+
+    .hero-canvas {
+      height: 80vh;
+      padding: 1rem;
+    }
+
+    .artist-intro-panel {
+      max-width: 100%;
+      padding: 1rem;
+    }
+
+    .artist-profile-circle {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 1.5rem;
+    }
+
+    .artist-name {
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
+      letter-spacing: 0.05em;
+    }
+
+    .artist-title {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      letter-spacing: 0.15em;
+    }
+
+    .experience-badge {
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+    }
+
+    .specialties-grid {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .specialty-tag {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.8rem;
+    }
+
+    .bio-section {
+      padding: 3rem 0 1.5rem;
+    }
+
+    .artist-bio {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .portfolio-container {
+      padding: 3rem 0 4rem;
+    }
+
+    .portfolio-title {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+    }
+
+    .portfolio-subtitle {
+      font-size: 1rem;
+    }
+
+    .seth-cta-enhanced {
+      padding: 4rem 0;
+    }
+
+    .seth-cta-enhanced .cta-content {
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .seth-cta-enhanced .cta-icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    .seth-cta-enhanced .cta-text h2 {
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .seth-cta-enhanced .cta-text p {
+      font-size: 1rem;
+    }
+
+    .seth-cta-btn {
+      padding: 0.8rem 2rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Legacy Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .seth-minimal-hero {
+      min-height: 80vh;
+    }
+
+    .minimal-logo {
+      top: 45%;
+    }
+
+    .logo-emblem {
+      width: 60px;
+      height: 60px;
+    }
+
+    .seth-about {
+      padding: 4rem 0;
+    }
+
+    .seth-name {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: 0.1em;
+      word-spacing: 0.2em;
+      padding: 0.8rem 1.5rem;
+      
+      /* Simplified mobile text shadow for performance */
+      text-shadow:
+        -1px -1px 0 #000000,
+        1px -1px 0 #000000,
+        -1px 1px 0 #000000,
+        1px 1px 0 #000000,
+        0 0 6px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(244, 228, 188, 0.3);
+    }
+
+    .hero-name-display {
+      max-width: 90vw;
+    }
+
+    .hero-specialties {
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      margin-top: 1rem;
+    }
+
+    .specialty-divider {
+      margin: 0 0.3rem;
+    }
+
+    .seth-profile-image {
+      max-width: 280px;
+    }
+
+    .seth-gallery {
+      padding: 4rem 0;
+    }
+
+    .seth-cta {
+      padding: 4rem 0;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(1.8rem, 4vw, 2.2rem);
+    }
+
+    .seth-btn {
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* Small Mobile Devices */
+  @media (max-width: 480px) {
+    .seth-name {
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      letter-spacing: 0.08em;
+      word-spacing: 0.15em;
+      padding: 0.6rem 1rem;
+      line-height: 1.3;
+      
+      /* Simplified mobile text shadow for performance */
+      text-shadow:
+        -1px -1px 0 #000000,
+        1px -1px 0 #000000,
+        -1px 1px 0 #000000,
+        1px 1px 0 #000000,
+        0 0 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-name-display {
+      max-width: 95vw;
+    }
+
+    .hero-specialties {
+      font-size: 0.8rem;
+      margin-top: 0.8rem;
+    }
+  }
+
+
+  /* ===========================================
+     ASHLEY WOOD WATERCOLOR PORTFOLIO STYLES
+     =========================================== */
 
   @keyframes tribalSlideIn {
     to {
@@ -4948,7 +5840,7 @@ const codyData = {
      ASHLEY WOOD WATERCOLOR PORTFOLIO STYLES
      =========================================== */
 
-  /* Watercolor Background Overlay */
+  /* Subtle Black & Pink Gothic Background Overlay */
   .watercolor-overlay {
     position: fixed;
     top: 0;
@@ -4956,10 +5848,14 @@ const codyData = {
     right: 0;
     bottom: 0;
     background:
-      radial-gradient(circle at 15% 20%, rgba(251, 207, 232, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 85% 80%, rgba(233, 213, 255, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 70% 40%, rgba(255, 247, 245, 0.06) 0%, transparent 40%),
-      linear-gradient(135deg, rgba(251, 207, 232, 0.03), rgba(233, 213, 255, 0.03));
+      radial-gradient(circle at 15% 20%, rgba(255, 20, 147, 0.03) 0%, transparent 70%),
+      radial-gradient(circle at 85% 80%, rgba(220, 20, 60, 0.02) 0%, transparent 60%),
+      radial-gradient(circle at 70% 40%, rgba(138, 43, 226, 0.015) 0%, transparent 50%),
+      linear-gradient(135deg,
+        rgba(10, 10, 12, 0.1),
+        rgba(15, 10, 16, 0.08),
+        rgba(10, 10, 12, 0.1)
+      );
     pointer-events: none;
     z-index: -1;
   }
@@ -4967,11 +5863,15 @@ const codyData = {
   /* Hero Section */
   .ashley-hero {
     position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
     background: linear-gradient(135deg,
-      rgba(251, 207, 232, 0.1),
-      rgba(233, 213, 255, 0.08),
-      rgba(255, 247, 245, 0.12),
-      rgba(251, 207, 232, 0.06)
+      rgba(251, 207, 232, 0.9) 0%,    /* Soft lavender */
+      rgba(255, 182, 193, 0.85) 25%,   /* Light pink */
+      rgba(255, 240, 245, 0.9) 50%,    /* Misty rose */
+      rgba(230, 230, 250, 0.85) 75%,   /* Lavender */
+      rgba(255, 218, 185, 0.9) 100%    /* Peach */
     );
     padding: 6rem 0;
     overflow: hidden;
@@ -4985,18 +5885,20 @@ const codyData = {
     width: 200%;
     height: 200%;
     background:
-      radial-gradient(circle at 30% 20%, rgba(251, 207, 232, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 70% 80%, rgba(233, 213, 255, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 50% 50%, rgba(255, 247, 245, 0.1) 0%, transparent 50%);
-    animation: watercolor-float 20s ease-in-out infinite;
+      radial-gradient(circle at 30% 20%, rgba(255, 182, 193, 0.3) 0%, transparent 70%),
+      radial-gradient(circle at 70% 80%, rgba(221, 160, 221, 0.25) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(173, 216, 230, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 20% 60%, rgba(255, 218, 185, 0.3) 0%, transparent 65%);
+    animation: sparkle-float 30s ease-in-out infinite;
     pointer-events: none;
   }
 
-  @keyframes watercolor-float {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(-10px, -10px) rotate(1deg); }
-    50% { transform: translate(10px, -20px) rotate(-1deg); }
-    75% { transform: translate(-5px, 10px) rotate(0.5deg); }
+  @keyframes sparkle-float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    20% { transform: translate(-10px, -5px) rotate(1deg) scale(1.02); }
+    40% { transform: translate(8px, -12px) rotate(-1.5deg) scale(0.98); }
+    60% { transform: translate(-8px, 8px) rotate(2deg) scale(1.01); }
+    80% { transform: translate(5px, -4px) rotate(-0.5deg) scale(0.99); }
   }
 
   .ashley-hero-content {
@@ -5005,23 +5907,84 @@ const codyData = {
     gap: 4rem;
     align-items: center;
     position: relative;
+    z-index: 3;
+  }
+
+  /* Video Background Styles */
+  .ashley-hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.7;
+    filter: contrast(1.05) brightness(0.95) saturate(1.1);
+    transform: scale(1.02);
+    transition: opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  /* Fallback image for video */
+  .ashley-hero-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.3;
+    filter: blur(1px) contrast(0.9);
+  }
+
+  /* Gradient overlays for text readability */
+  .ashley-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+      rgba(10, 10, 12, 0.2) 0%,
+      rgba(15, 10, 16, 0.15) 30%,
+      rgba(20, 15, 18, 0.1) 60%,
+      rgba(10, 10, 12, 0.25) 100%
+    );
     z-index: 2;
+  }
+
+  .ashley-gothic-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.15) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(220, 20, 60, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 45%);
+    z-index: 2;
+    animation: gothic-float 40s ease-in-out infinite;
   }
 
   /* Avatar Frame */
   .watercolor-frame {
     position: relative;
     border-radius: 50%;
-    padding: 8px;
+    padding: 6px;
     background: linear-gradient(135deg,
-      rgba(251, 207, 232, 0.6),
-      rgba(233, 213, 255, 0.4),
-      rgba(255, 247, 245, 0.5)
+      rgba(255, 20, 147, 0.8),
+      rgba(220, 20, 60, 0.6),
+      rgba(138, 43, 226, 0.4),
+      rgba(10, 10, 12, 0.9)
     );
     box-shadow:
-      0 8px 24px rgba(251, 207, 232, 0.3),
-      0 4px 12px rgba(233, 213, 255, 0.2),
-      inset 0 2px 0 rgba(255, 255, 255, 0.4);
+      0 0 30px rgba(255, 20, 147, 0.4),
+      0 0 60px rgba(220, 20, 60, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 20, 147, 0.3);
   }
 
   .ashley-avatar {
@@ -5029,70 +5992,86 @@ const codyData = {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid rgba(255, 255, 255, 0.8);
+    border: 3px solid rgba(255, 20, 147, 0.6);
     transition: all 0.4s ease;
   }
 
   .ashley-avatar:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 32px rgba(251, 207, 232, 0.4);
+    box-shadow: 0 0 40px rgba(255, 20, 147, 0.6), 0 0 80px rgba(220, 20, 60, 0.3);
+    border-color: rgba(255, 20, 147, 0.9);
   }
 
   /* Badge */
   .watercolor-badge {
     background: linear-gradient(135deg,
-      rgba(251, 207, 232, 0.8),
-      rgba(233, 213, 255, 0.6),
-      rgba(250, 204, 21, 0.4)
+      rgba(255, 20, 147, 0.9),
+      rgba(220, 20, 60, 0.7),
+      rgba(138, 43, 226, 0.5),
+      rgba(10, 10, 12, 0.8)
     );
-    color: #7c2d12;
+    color: #fff;
     padding: 0.75rem 1.5rem;
     border-radius: 25px;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.9rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(251, 207, 232, 0.3);
-    border: 2px solid rgba(251, 207, 232, 0.4);
+    box-shadow:
+      0 0 20px rgba(255, 20, 147, 0.5),
+      0 0 40px rgba(220, 20, 60, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 20, 147, 0.6);
     margin-bottom: 1.5rem;
     display: inline-block;
+    text-shadow: 0 0 8px rgba(255, 20, 147, 0.8);
   }
 
-  /* Typography */
+  /* Girly Typography */
   .ashley-name {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #7c2d12;
+    font-family: 'Great Vibes', 'Sacramento', cursive;
+    font-size: 4.5rem;
+    font-weight: 400;
+    color: #d63384;  /* Hot pink */
     margin-bottom: 1rem;
-    text-shadow: 0 2px 8px rgba(251, 207, 232, 0.3);
-    line-height: 1;
+    text-shadow:
+      0 0 20px rgba(255, 182, 193, 0.8),
+      0 0 30px rgba(221, 160, 221, 0.6),
+      2px 2px 8px rgba(255, 255, 255, 0.4);
+    line-height: 1.2;
+    text-align: center;
   }
 
   .ashley-title {
-    font-size: 1.4rem;
-    color: #be185d;
-    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    color: rgba(221, 160, 221, 0.95);  /* Soft plum */
+    font-weight: 300;
     margin-bottom: 1rem;
-    font-style: italic;
+    font-style: normal;
+    text-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+    text-align: center;
+    letter-spacing: 0.5px;
   }
 
   .ashley-creed {
     font-size: 1.1rem;
-    color: rgba(124, 45, 18, 0.8);
+    color: rgba(255, 182, 193, 0.9);
     font-weight: 400;
     margin-bottom: 1.5rem;
     font-style: italic;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 0 6px rgba(255, 182, 193, 0.5);
   }
 
   .ashley-location,
   .ashley-experience {
-    color: rgba(124, 45, 18, 0.7);
+    color: rgba(255, 20, 147, 0.8);
     font-size: 1rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    text-shadow: 0 0 4px rgba(255, 20, 147, 0.4);
   }
 
   /* Chroma Stats */
@@ -5110,42 +6089,65 @@ const codyData = {
   }
 
   .chroma-label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #7c2d12;
+    color: rgba(255, 182, 193, 0.9);
     min-width: 120px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 4px rgba(255, 182, 193, 0.5);
   }
 
   .chroma-fill {
     flex: 1;
-    height: 8px;
-    background: rgba(251, 207, 232, 0.2);
-    border-radius: 4px;
+    height: 10px;
+    background: rgba(10, 10, 12, 0.6);
+    border-radius: 5px;
     overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.5),
+      0 0 8px rgba(255, 20, 147, 0.2);
+    border: 1px solid rgba(255, 20, 147, 0.3);
   }
 
   .chroma-value {
     height: 100%;
     background: linear-gradient(90deg,
-      rgba(251, 207, 232, 0.8),
-      rgba(233, 213, 255, 0.6),
-      rgba(250, 204, 21, 0.4)
+      rgba(255, 20, 147, 0.9),
+      rgba(220, 20, 60, 0.7),
+      rgba(138, 43, 226, 0.5)
     );
     border-radius: 4px;
     transition: width 1.5s ease-out;
-    box-shadow: 0 0 8px rgba(251, 207, 232, 0.5);
+    box-shadow:
+      0 0 12px rgba(255, 20, 147, 0.8),
+      0 0 24px rgba(220, 20, 60, 0.5);
+    position: relative;
+  }
+
+  .chroma-value::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    border-radius: 4px;
   }
 
   .chroma-number {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #7c2d12;
+    color: rgba(255, 20, 147, 0.9);
     min-width: 45px;
+    text-shadow: 0 0 4px rgba(255, 20, 147, 0.6);
     text-align: right;
   }
 
@@ -5160,40 +6162,52 @@ const codyData = {
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 2rem;
-    border-radius: 25px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;  /* Full pill shape */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(251, 207, 232, 0.2);
+    box-shadow:
+      0 8px 24px rgba(255, 182, 193, 0.3),
+      0 4px 12px rgba(221, 160, 221, 0.2);
     position: relative;
     overflow: hidden;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
   }
 
   .ashley-btn.primary {
     background: linear-gradient(135deg,
-      rgba(251, 207, 232, 0.8),
-      rgba(233, 213, 255, 0.6),
-      rgba(250, 204, 21, 0.4)
+      rgba(255, 182, 193, 0.95) 0%,    /* Light pink */
+      rgba(255, 20, 147, 0.9) 25%,     /* Hot pink */
+      rgba(138, 43, 226, 0.85) 50%,    /* Purple */
+      rgba(221, 160, 221, 0.9) 75%,    /* Plum */
+      rgba(255, 182, 193, 0.95) 100%   /* Back to light pink */
     );
-    color: #7c2d12;
-    border: 2px solid rgba(251, 207, 232, 0.4);
+    color: #fff;
+    border: 2px solid rgba(255, 182, 193, 0.6);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   }
 
   .ashley-btn.secondary {
     background: linear-gradient(135deg,
-      rgba(233, 213, 255, 0.8),
-      rgba(251, 207, 232, 0.6),
-      rgba(255, 247, 245, 0.7)
+      rgba(255, 240, 245, 0.95) 0%,    /* Misty rose */
+      rgba(230, 230, 250, 0.9) 50%,    /* Lavender */
+      rgba(255, 218, 185, 0.95) 100%   /* Peach */
     );
-    color: #7c2d12;
-    border: 2px solid rgba(233, 213, 255, 0.4);
+    color: rgba(138, 43, 226, 0.9);  /* Purple text */
+    border: 2px solid rgba(221, 160, 221, 0.5);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
   }
 
   .ashley-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(251, 207, 232, 0.4);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 12px 32px rgba(255, 182, 193, 0.4),
+      0 6px 16px rgba(221, 160, 221, 0.3),
+      0 4px 12px rgba(173, 216, 230, 0.2);
   }
 
   .ashley-btn::before {
@@ -5205,70 +6219,193 @@ const codyData = {
     height: 100%;
     background: linear-gradient(90deg,
       transparent,
-      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 20, 147, 0.6),
+      rgba(255, 255, 255, 0.4),
       transparent
     );
-    transition: left 0.6s ease;
+    transition: left 0.8s ease;
   }
 
   .ashley-btn:hover::before {
     left: 100%;
   }
 
-  /* Portfolio Section */
+  /* Floating Particles & Sparkle Effects */
+  .ashley-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.8) 2px, transparent 3px),
+      radial-gradient(circle at 60% 20%, rgba(255, 182, 193, 0.6) 1px, transparent 2px),
+      radial-gradient(circle at 80% 60%, rgba(221, 160, 221, 0.5) 1.5px, transparent 2.5px),
+      radial-gradient(circle at 30% 80%, rgba(173, 216, 230, 0.4) 1px, transparent 2px),
+      radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.7) 1px, transparent 2px),
+      radial-gradient(circle at 10% 70%, rgba(255, 218, 185, 0.5) 1px, transparent 2px);
+    background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px, 250px 250px;
+    animation: twinkle 8s ease-in-out infinite;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    25% { opacity: 0.8; transform: scale(1.05); }
+    50% { opacity: 0.4; transform: scale(0.95); }
+    75% { opacity: 0.9; transform: scale(1.02); }
+  }
+
+  /* Emojis removed for cleaner design */
+
+  /* Hero section emojis removed - keeping only portfolio section emojis */
+
+  /* Glitter overlay for portfolio items */
+  .portfolio-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8) 1px, transparent 2px),
+      radial-gradient(circle at 75% 25%, rgba(255, 182, 193, 0.6) 1px, transparent 2px),
+      radial-gradient(circle at 25% 75%, rgba(221, 160, 221, 0.5) 1px, transparent 2px),
+      radial-gradient(circle at 75% 75%, rgba(173, 216, 230, 0.4) 1px, transparent 2px);
+    background-size: 80px 80px, 120px 120px, 100px 100px, 90px 90px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .portfolio-item:hover::before {
+    opacity: 0.7;
+    animation: sparkle-dance 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkle-dance {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.02) rotate(1deg); }
+    50% { transform: scale(0.98) rotate(-1deg); }
+    75% { transform: scale(1.01) rotate(0.5deg); }
+  }
+
+  /* Girly Portfolio Section */
   .ashley-portfolio {
     padding: 6rem 0;
     background: linear-gradient(180deg,
-      rgba(255, 247, 245, 0.1),
-      rgba(251, 207, 232, 0.05),
-      rgba(233, 213, 255, 0.08)
+      rgba(255, 240, 245, 0.95) 0%,    /* Misty rose */
+      rgba(230, 230, 250, 0.9) 25%,    /* Lavender */
+      rgba(255, 218, 185, 0.85) 50%,   /* Peach */
+      rgba(251, 207, 232, 0.9) 75%,    /* Light pink */
+      rgba(255, 240, 245, 0.95) 100%   /* Back to misty rose */
     );
+    position: relative;
+  }
+
+  .ashley-portfolio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.15) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(221, 160, 221, 0.12) 0%, transparent 55%),
+      radial-gradient(circle at 50% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 30% 80%, rgba(255, 218, 185, 0.08) 0%, transparent 45%);
+    pointer-events: none;
   }
 
   .portfolio-header {
     text-align: center;
     margin-bottom: 4rem;
+    position: relative;
+    z-index: 1;
   }
 
   .portfolio-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #7c2d12;
+    font-family: 'Sacramento', 'Great Vibes', cursive;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: #d63384;  /* Hot pink */
     margin-bottom: 1rem;
-    text-shadow: 0 2px 8px rgba(251, 207, 232, 0.2);
+    text-shadow:
+      0 0 20px rgba(255, 182, 193, 0.8),
+      0 0 30px rgba(221, 160, 221, 0.6),
+      2px 2px 8px rgba(255, 255, 255, 0.4);
+    text-align: center;
   }
 
   .portfolio-subtitle {
     font-size: 1.2rem;
-    color: rgba(124, 45, 18, 0.8);
+    color: rgba(255, 182, 193, 0.9);
     font-style: italic;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 0 6px rgba(255, 182, 193, 0.5);
   }
 
-  /* Portfolio Grid */
+  /* Girly Portfolio Grid */
   .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 2.5rem;
     margin-top: 3rem;
   }
 
   .portfolio-item {
     position: relative;
-    border-radius: 20px;
+    border-radius: 32px;  /* Extra soft rounded corners */
     overflow: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease-out;
     box-shadow:
-      0 8px 24px rgba(251, 207, 232, 0.15),
-      0 4px 12px rgba(233, 213, 255, 0.1);
+      0 8px 32px rgba(255, 182, 193, 0.3),
+      0 4px 16px rgba(221, 160, 221, 0.2),
+      0 2px 8px rgba(173, 216, 230, 0.15);
+    border: 4px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, 
+                  rgba(255, 182, 193, 0.6) 0%,
+                  rgba(221, 160, 221, 0.5) 25%,
+                  rgba(173, 216, 230, 0.4) 50%,
+                  rgba(255, 218, 185, 0.5) 75%,
+                  rgba(255, 182, 193, 0.6) 100%) border-box;
   }
 
   .portfolio-item:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-6px) scale(1.02);
     box-shadow:
-      0 16px 48px rgba(251, 207, 232, 0.25),
-      0 8px 24px rgba(233, 213, 255, 0.15);
+      0 12px 48px rgba(255, 182, 193, 0.4),
+      0 8px 24px rgba(221, 160, 221, 0.3),
+      0 4px 12px rgba(173, 216, 230, 0.2);
+    /* Add sparkle overlay on hover */
+  }
+
+  .portfolio-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.6) 1px, transparent 2px),
+      radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.4) 1px, transparent 2px),
+      radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.5) 1px, transparent 2px),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.3) 1px, transparent 2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .portfolio-item:hover::after {
+    opacity: 1;
   }
 
   .watercolor-border {
@@ -5276,10 +6413,14 @@ const codyData = {
     border-radius: 20px;
     padding: 4px;
     background: linear-gradient(135deg,
-      rgba(251, 207, 232, 0.6),
-      rgba(233, 213, 255, 0.4),
-      rgba(255, 247, 245, 0.5)
+      rgba(255, 20, 147, 0.8),
+      rgba(220, 20, 60, 0.6),
+      rgba(138, 43, 226, 0.4),
+      rgba(10, 10, 12, 0.9)
     );
+    box-shadow:
+      0 0 20px rgba(255, 20, 147, 0.4),
+      0 0 40px rgba(220, 20, 60, 0.2);
     overflow: hidden;
   }
 
@@ -5287,12 +6428,14 @@ const codyData = {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    border-radius: 16px;
-    transition: all 0.4s ease;
+    border-radius: 28px;  /* Softer corners to match container */
+    transition: all 0.3s ease-out;
+    filter: brightness(1.05) saturate(1.1);
   }
 
   .portfolio-item:hover .portfolio-image {
-    transform: scale(1.05);
+    transform: scale(1.03);  /* Gentler scale */
+    filter: brightness(1.1) saturate(1.15) contrast(1.05);
   }
 
   /* Mobile Responsive */
@@ -5350,9 +6493,39 @@ const codyData = {
     }
   }
 
+  @media (max-width: 768px) {
+    .ashley-hero {
+      min-height: 90vh;
+      padding: 4rem 0;
+    }
+
+    .ashley-hero-video {
+      opacity: 0.5;
+      filter: contrast(1.1) brightness(0.9) saturate(1.2);
+      transform: scale(1.01);
+    }
+
+    .ashley-video-overlay {
+      background: linear-gradient(135deg,
+        rgba(10, 10, 12, 0.35) 0%,
+        rgba(15, 10, 16, 0.25) 40%,
+        rgba(20, 15, 18, 0.15) 70%,
+        rgba(10, 10, 12, 0.4) 100%
+      );
+    }
+
+    .ashley-gothic-overlay {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.2) 0%, transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(220, 20, 60, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.12) 0%, transparent 40%);
+    }
+  }
+
   @media (max-width: 480px) {
     .ashley-hero {
       padding: 3rem 0;
+      min-height: 80vh;
     }
 
     .ashley-name {
@@ -5380,15 +6553,38 @@ const codyData = {
     .chroma-label {
       min-width: auto;
     }
+
+    .ashley-hero-video {
+      opacity: 0.4;
+      filter: contrast(1.2) brightness(0.85) saturate(1.3);
+    }
+
+    .ashley-video-overlay {
+      background: linear-gradient(135deg,
+        rgba(10, 10, 12, 0.45) 0%,
+        rgba(15, 10, 16, 0.35) 40%,
+        rgba(20, 15, 18, 0.25) 70%,
+        rgba(10, 10, 12, 0.5) 100%
+      );
+    }
+
+    .ashley-gothic-overlay {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(220, 20, 60, 0.22) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.15) 0%, transparent 35%);
+    }
   }
 
   /* Accessibility */
   @media (prefers-reduced-motion: reduce) {
     .ashley-hero::before,
+    .ashley-gothic-overlay,
     .chroma-value,
     .ashley-btn::before,
     .portfolio-item,
-    .portfolio-image {
+    .portfolio-image,
+    .ashley-hero-video {
       animation: none;
       transition: none;
     }
@@ -5924,31 +7120,37 @@ const codyData = {
 
   .gothic-frame {
     position: relative;
-    border: 4px solid rgba(220, 20, 60, 0.6);
+    border: 4px solid rgba(220, 20, 60, 0.8);
     border-radius: 0px;
     overflow: hidden;
     box-shadow:
-      0 0 30px rgba(220, 20, 60, 0.3),
-      0 0 60px rgba(220, 20, 60, 0.2),
+      0 0 40px rgba(220, 20, 60, 0.5),
+      0 0 80px rgba(220, 20, 60, 0.3),
+      0 0 120px rgba(220, 20, 60, 0.2),
       inset 0 0 30px rgba(0, 0, 0, 0.8);
     background: linear-gradient(135deg,
       rgba(0, 0, 0, 0.9) 0%,
       rgba(26, 10, 10, 0.8) 100%);
+    transition: all 0.4s ease;
   }
 
   .gothic-frame::before {
     content: '';
     position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
     background: linear-gradient(135deg,
-      rgba(220, 20, 60, 0.4) 0%,
-      rgba(178, 34, 52, 0.3) 50%,
-      rgba(220, 20, 60, 0.4) 100%);
+      rgba(220, 20, 60, 0.6) 0%,
+      rgba(178, 34, 52, 0.5) 25%,
+      rgba(220, 20, 60, 0.7) 50%,
+      rgba(178, 34, 52, 0.5) 75%,
+      rgba(220, 20, 60, 0.6) 100%);
     z-index: -1;
     border-radius: 0px;
+    filter: blur(2px);
+    transition: all 0.4s ease;
   }
 
   .anthony-portrait {
@@ -5961,6 +7163,25 @@ const codyData = {
 
   .anthony-portrait:hover {
     filter: grayscale(0%) contrast(1.1) brightness(1.1);
+  }
+
+  .gothic-frame:hover {
+    border-color: rgba(220, 20, 60, 1.0);
+    box-shadow:
+      0 0 50px rgba(220, 20, 60, 0.7),
+      0 0 100px rgba(220, 20, 60, 0.5),
+      0 0 150px rgba(220, 20, 60, 0.3),
+      inset 0 0 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .gothic-frame:hover::before {
+    background: linear-gradient(135deg,
+      rgba(220, 20, 60, 0.8) 0%,
+      rgba(178, 34, 52, 0.7) 25%,
+      rgba(220, 20, 60, 0.9) 50%,
+      rgba(178, 34, 52, 0.7) 75%,
+      rgba(220, 20, 60, 0.8) 100%);
+    filter: blur(3px);
   }
 
   .gothic-accent {

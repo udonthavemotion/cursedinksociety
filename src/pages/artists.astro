@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ArtistsHero from '../components/ArtistsHero.astro';
-import ArtistCardUniversal from '../components/ArtistCardUniversal.astro';
+import ArtistShowcaseCard from '../components/ArtistShowcaseCard.astro';
 import { artists } from '../data/artists';
 
 const pageTitle = "Artists - Cursed Ink Society";
@@ -17,7 +17,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     <div class="container">
       <div class="artists-grid">
         {artists.map((artist) => (
-          <ArtistCardUniversal artist={artist} />
+          <ArtistShowcaseCard artist={artist} />
         ))}
       </div>
     </div>
@@ -28,7 +28,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     <div class="container">
       <div class="cta-content">
         <h2>Ready to Begin Your Journey?</h2>
-        <p>Connect with our artists on Instagram to explore their work and start your tattoo conversation</p>
+        <p>Contact our artists to explore their work and start your tattoo conversation</p>
         <a href="/contact" class="cta-button">Contact the Shop</a>
       </div>
     </div>
@@ -42,8 +42,8 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     position: relative;
     z-index: 2;
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(220, 20, 60, 0.04) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 80%, rgba(178, 34, 52, 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
       linear-gradient(180deg, #0a0a0c 0%, #1a0a0a 100%);
   }
 
@@ -51,9 +51,9 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
   /* Artists Grid - Responsive */
   .artists-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -63,7 +63,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     position: relative;
     z-index: 2;
     background:
-      radial-gradient(ellipse at 50% 50%, rgba(220, 20, 60, 0.03) 0%, transparent 70%),
+      radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%),
       linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(26, 10, 10, 0.95) 100%);
   }
 
@@ -77,7 +77,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     font-size: clamp(2rem, 4vw, 3rem);
     color: #f5f5f5;
     margin-bottom: 1rem;
-    text-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
     font-weight: 700;
   }
 
@@ -93,9 +93,9 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     align-items: center;
     gap: 0.75rem;
     padding: 1.25rem 2.5rem;
-    background: rgba(220, 20, 60, 0.9);
-    color: #f5f5f5;
-    border: 2px solid rgba(178, 34, 52, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    color: #0a0a0c;
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 12px;
     font-weight: 700;
     font-size: 1.1rem;
@@ -103,7 +103,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     letter-spacing: 0.5px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 16px rgba(220, 20, 60, 0.3);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
     position: relative;
     overflow: hidden;
   }
@@ -124,10 +124,10 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
   }
 
   .cta-button:hover {
-    background: rgba(178, 34, 52, 0.9);
+    background: rgba(255, 255, 255, 1);
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(220, 20, 60, 0.4);
-    border-color: rgba(220, 20, 60, 0.8);
+    box-shadow: 0 10px 24px rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 1);
   }
 
   /* Container */
@@ -140,22 +140,29 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
   /* Responsive Design */
   @media (min-width: 768px) {
     .artists-grid {
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 3rem;
     }
-
   }
 
   @media (min-width: 1024px) {
     .artists-grid {
-      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-      gap: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 3.5rem;
     }
   }
 
   @media (min-width: 1280px) {
     .artists-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .artists-grid {
       grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
     }
   }
 
@@ -183,6 +190,7 @@ const pageDescription = "Meet our talented tattoo artists at Cursed Ink Society.
     .artists-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
+      max-width: 100%;
     }
 
     .cta-section {

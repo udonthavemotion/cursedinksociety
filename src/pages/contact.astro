@@ -8,16 +8,16 @@ const description = "Get in touch with Cursed Ink Society LLC. Book tattoo consu
 const contactInfo = {
   phone: "(985) 855-3826",
   phoneLink: "tel:+19858553826",
-  email: "arobiichaux@rigscoepoint.com",
-  emailLink: "mailto:arobiichaux@rigscoepoint.com",
+  email: "cursedinksocietytattoo@gmail.com",
+  emailLink: "mailto:cursedinksocietytattoo@gmail.com",
   contactName: "Alyssa Robichaux",
   services: "Tattoo • Piercing",
   address: {
-    street: "Houma, LA",
+    street: "488 Corporate Dr, STE 11",
     city: "Houma",
     state: "LA",
     zip: "70360",
-    full: "Houma, LA 70360"
+    full: "488 Corporate Dr, STE 11, Houma, LA 70360"
   },
   hours: [
     { days: "Monday - Thursday", time: "1:00 PM - 8:00 PM" },
@@ -156,69 +156,31 @@ const faqs = [
           </div>
         </div>
 
-        <!-- Contact Form -->
+        <!-- Contact Form Temporarily Removed -->
         <div class="contact-form-section">
-          <h2 class="section-title">Send us a Message</h2>
-          <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="firstName">First Name *</label>
-                <input type="text" id="firstName" name="firstName" required />
+          <h2 class="section-title">Get in Touch</h2>
+          <div class="contact-alternative">
+            <p class="alternative-message">
+              We're currently updating our contact form. In the meantime, please reach out to us directly:
+            </p>
+            <div class="alternative-methods">
+              <div class="alternative-method">
+                <h3>Call Us</h3>
+                <p><a href={contactInfo.phoneLink}>{contactInfo.phone}</a></p>
+                <small>Speak directly with {contactInfo.contactName}</small>
               </div>
-              <div class="form-group">
-                <label for="lastName">Last Name *</label>
-                <input type="text" id="lastName" name="lastName" required />
+              <div class="alternative-method">
+                <h3>Email Us</h3>
+                <p><a href={contactInfo.emailLink}>{contactInfo.email}</a></p>
+                <small>Send us your detailed inquiries and reference images</small>
+              </div>
+              <div class="alternative-method">
+                <h3>Visit Our Studio</h3>
+                <p>{contactInfo.address.full}</p>
+                <small>Walk-ins welcome during business hours</small>
               </div>
             </div>
-
-            <div class="form-group">
-              <label for="email">Email Address *</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" />
-            </div>
-
-            <div class="form-group">
-              <label for="subject">Subject *</label>
-              <select id="subject" name="subject" required>
-                <option value="">Select a topic...</option>
-                <option value="consultation">Book Consultation</option>
-                <option value="pricing">Pricing Inquiry</option>
-                <option value="cover-up">Cover-up Consultation</option>
-                <option value="appointment">Appointment Question</option>
-                <option value="general">General Question</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="preferredArtist">Preferred Artist (Optional)</label>
-              <select id="preferredArtist" name="preferredArtist">
-                <option value="">No preference</option>
-                <option value="raven">Raven Blackthorne</option>
-                <option value="phoenix">Phoenix Ashwood</option>
-                <option value="sage">Sage Moonwright</option>
-                <option value="dante">Dante Crimson</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="message">Message *</label>
-              <textarea id="message" name="message" rows="6" required placeholder="Tell us about your tattoo idea, questions, or anything else we can help with..."></textarea>
-            </div>
-
-            <div class="form-group checkbox-group">
-              <input type="checkbox" id="newsletter" name="newsletter" />
-              <label for="newsletter">I'd like to receive updates about events and new work</label>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--large form-submit">
-              Send Message
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -347,99 +309,15 @@ const faqs = [
     }
   }
 
-  // Contact form handling
-  class ContactFormManager {
-    constructor() {
-      this.form = document.querySelector('.contact-form');
-      this.submitButton = document.querySelector('.form-submit');
-      this.init();
-    }
-
-    init() {
-      if (this.form) {
-        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-      }
-    }
-
-    async handleSubmit(e) {
-      e.preventDefault();
-      
-      // Show loading state
-      this.submitButton.textContent = 'Sending...';
-      this.submitButton.disabled = true;
-
-      try {
-        const formData = new FormData(this.form);
-        const response = await fetch(this.form.action, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          this.showSuccess();
-          this.form.reset();
-        } else {
-          this.showError();
-        }
-      } catch (error) {
-        this.showError();
-      } finally {
-        this.submitButton.textContent = 'Send Message';
-        this.submitButton.disabled = false;
-      }
-    }
-
-    showSuccess() {
-      // Create success message
-      const message = document.createElement('div');
-      message.className = 'form-message form-message--success';
-      message.innerHTML = `
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-        </svg>
-        <span>Thank you! Your message has been sent. We'll get back to you soon.</span>
-      `;
-      
-      this.form.insertBefore(message, this.form.firstChild);
-      
-      // Remove message after 5 seconds
-      setTimeout(() => {
-        message.remove();
-      }, 5000);
-    }
-
-    showError() {
-      // Create error message
-      const message = document.createElement('div');
-      message.className = 'form-message form-message--error';
-      message.innerHTML = `
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-        </svg>
-        <span>Sorry, there was an error sending your message. Please try again or call us directly.</span>
-      `;
-      
-      this.form.insertBefore(message, this.form.firstChild);
-      
-      // Remove message after 5 seconds
-      setTimeout(() => {
-        message.remove();
-      }, 5000);
-    }
-  }
+  // Contact form temporarily removed - no form handling needed
 
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       new FAQManager();
-      new ContactFormManager();
     });
   } else {
     new FAQManager();
-    new ContactFormManager();
   }
 </script>
 
@@ -573,13 +451,76 @@ const faqs = [
     opacity: 0.8;
   }
 
-  /* Contact Form */
+  /* Contact Form Section (Alternative) */
   .contact-form-section {
     background: var(--bg-glass);
     border: var(--border-glass);
     border-radius: 24px;
     padding: 3rem;
     backdrop-filter: blur(10px);
+  }
+
+  .contact-alternative {
+    text-align: center;
+  }
+
+  .alternative-message {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin: 0 0 2.5rem;
+    color: var(--ink);
+  }
+
+  .alternative-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .alternative-method {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: var(--transition-smooth);
+  }
+
+  .alternative-method:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 60, 43, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .alternative-method h3 {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .alternative-method p {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .alternative-method a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+  }
+
+  .alternative-method a:hover {
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .alternative-method small {
+    font-size: 0.85rem;
+    opacity: 0.7;
   }
 
   .contact-form {

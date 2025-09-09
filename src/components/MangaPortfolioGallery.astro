@@ -1,0 +1,579 @@
+---
+// Manga-style portfolio gallery component for Cody
+interface Props {
+  portfolio: string[];
+  artist: {
+    name: string;
+    specialties: string[];
+    bio: string;
+    avatar: string;
+  };
+}
+
+const { portfolio, artist } = Astro.props;
+
+// Organize images into manga panel layouts
+const panelLayouts = [
+  { type: 'hero-splash', images: portfolio.slice(0, 1) },
+  { type: 'triple-panel', images: portfolio.slice(1, 4) },
+  { type: 'double-wide', images: portfolio.slice(4, 6) },
+  { type: 'quad-grid', images: portfolio.slice(6, 10) },
+  { type: 'diagonal-split', images: portfolio.slice(10, 12) },
+  { type: 'showcase-large', images: portfolio.slice(12, 13) },
+  { type: 'final-spread', images: portfolio.slice(13) }
+].filter(layout => layout.images.length > 0);
+---
+
+<!-- Google Fonts for Manga Typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reggae+One&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Bangers&display=swap" rel="stylesheet">
+
+<section class="manga-portfolio" aria-label="Cody's Manga Portfolio Gallery">
+  <!-- Manga Header with Speech Bubble -->
+  <div class="manga-header">
+    <div class="manga-title-panel">
+      <h2 class="manga-title">PORTFOLIO</h2>
+      <div class="manga-subtitle">アートワーク集</div>
+      <div class="speech-bubble">
+        <p>"Every piece tells a story through ink and imagination!"</p>
+        <div class="bubble-tail"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manga Panels Grid -->
+  <div class="manga-panels">
+    {panelLayouts.map((layout, layoutIndex) => (
+      <div class={`panel-layout panel-${layout.type}`} data-layout={layout.type}>
+        {layout.images.map((image, imageIndex) => {
+          const globalIndex = layoutIndex * 4 + imageIndex;
+          const panelNumber = String(globalIndex + 1).padStart(2, '0');
+          
+          return (
+            <article 
+              class="manga-panel"
+              data-panel={panelNumber}
+              data-modal-trigger
+              data-modal-src={image}
+              data-modal-title={`Panel ${panelNumber}`}
+              data-modal-description="Click to view full artwork"
+              tabindex="0"
+              role="button"
+              aria-label={`View artwork panel ${panelNumber}`}
+              style={`animation-delay: ${globalIndex * 0.1}s`}
+            >
+              <div class="panel-frame">
+                <div class="panel-number">#{panelNumber}</div>
+                <div class="panel-image-container">
+                  <img 
+                    src={image}
+                    alt={`Cody's artwork panel ${panelNumber}`}
+                    class="panel-image"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="panel-overlay">
+                    <div class="overlay-sfx">
+                      <span class="sfx-text">ZOOM!</span>
+                      <div class="action-lines"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-border"></div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+
+  <!-- Manga Footer with Character -->
+  <div class="manga-footer">
+    <div class="character-panel">
+      <img 
+        src={artist.avatar} 
+        alt={`${artist.name} avatar`}
+        class="character-avatar"
+      />
+      <div class="character-bubble">
+        <p>"Thanks for viewing my work! Ready for your next tattoo adventure?"</p>
+        <div class="bubble-tail bubble-tail-left"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Manga Typography */
+  .manga-portfolio {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    background: #fefefe;
+    color: #1a1a1a;
+    position: relative;
+    padding: 2rem 0;
+    filter: contrast(1.1);
+  }
+
+  .manga-portfolio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Manga Header */
+  .manga-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .manga-title-panel {
+    position: relative;
+    display: inline-block;
+    padding: 2rem;
+    background: white;
+    border: 4px solid #1a1a1a;
+    border-radius: 0;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  .manga-title {
+    font-family: 'Reggae One', 'Bangers', cursive;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 400;
+    margin: 0;
+    color: #1a1a1a;
+    text-shadow: 3px 3px 0 #fff, -1px -1px 0 #1a1a1a, 1px -1px 0 #1a1a1a, -1px 1px 0 #1a1a1a, 1px 1px 0 #1a1a1a;
+    letter-spacing: 0.1em;
+  }
+
+  .manga-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0.5rem;
+    font-weight: 300;
+  }
+
+  .speech-bubble {
+    position: absolute;
+    top: -60px;
+    right: -120px;
+    background: white;
+    border: 3px solid #1a1a1a;
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    max-width: 200px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .speech-bubble p {
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .bubble-tail {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #1a1a1a;
+  }
+
+  .bubble-tail::before {
+    content: '';
+    position: absolute;
+    top: -18px;
+    left: -12px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid white;
+  }
+
+  .bubble-tail-left {
+    left: 20px;
+    transform: none;
+  }
+
+  /* Manga Panels */
+  .manga-panels {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .panel-layout {
+    margin-bottom: 2rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* Panel Layout Types */
+  .panel-hero-splash {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-triple-panel {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .panel-double-wide {
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  .panel-quad-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .panel-diagonal-split {
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  .panel-diagonal-split::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: #1a1a1a;
+    transform: translateX(-50%) rotate(15deg);
+    z-index: 3;
+  }
+
+  .panel-showcase-large {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-final-spread {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  /* Individual Manga Panel */
+  .manga-panel {
+    position: relative;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: panelReveal 0.8s ease-out forwards;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .panel-frame {
+    position: relative;
+    background: white;
+    border: 3px solid #1a1a1a;
+    border-radius: 0;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+  }
+
+  .panel-hero-splash .panel-frame {
+    aspect-ratio: 16/9;
+  }
+
+  .panel-showcase-large .panel-frame {
+    aspect-ratio: 3/2;
+  }
+
+  .panel-number {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #1a1a1a;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 4;
+    border-radius: 0;
+  }
+
+  .panel-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .panel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2) contrast(1.1);
+    transition: all 0.3s ease;
+  }
+
+  .manga-panel:hover .panel-image {
+    transform: scale(1.05);
+    filter: grayscale(0) contrast(1.2);
+  }
+
+  .panel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .manga-panel:hover .panel-overlay {
+    opacity: 1;
+  }
+
+  .overlay-sfx {
+    text-align: center;
+    position: relative;
+  }
+
+  .sfx-text {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    color: #1a1a1a;
+    text-shadow: 2px 2px 0 #fff, -1px -1px 0 #1a1a1a, 1px -1px 0 #1a1a1a, -1px 1px 0 #1a1a1a, 1px 1px 0 #1a1a1a;
+    transform: rotate(-5deg);
+    display: block;
+  }
+
+  .action-lines {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: 
+      linear-gradient(45deg, transparent 45%, #1a1a1a 50%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, #1a1a1a 50%, transparent 55%),
+      linear-gradient(90deg, transparent 45%, #1a1a1a 50%, transparent 55%),
+      linear-gradient(0deg, transparent 45%, #1a1a1a 50%, transparent 55%);
+    opacity: 0.3;
+    animation: spin 2s linear infinite;
+  }
+
+  .panel-border {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid rgba(26, 26, 26, 0.3);
+    pointer-events: none;
+  }
+
+  /* Manga Footer */
+  .manga-footer {
+    margin-top: 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .character-panel {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    background: white;
+    border: 4px solid #1a1a1a;
+    padding: 2rem;
+    border-radius: 0;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .character-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #1a1a1a;
+    object-fit: cover;
+    filter: grayscale(0.3) contrast(1.1);
+  }
+
+  .character-bubble {
+    position: relative;
+    background: #f8f8f8;
+    border: 2px solid #1a1a1a;
+    border-radius: 15px;
+    padding: 1rem 1.5rem;
+    max-width: 250px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .character-bubble p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Screentone Utilities */
+  .manga-tone-light {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.1) 1px, transparent 0);
+    background-size: 8px 8px;
+  }
+
+  .manga-tone-medium {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.2) 1px, transparent 0);
+    background-size: 6px 6px;
+  }
+
+  .manga-tone-heavy {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.3) 1px, transparent 0);
+    background-size: 4px 4px;
+  }
+
+  .manga-crosshatch {
+    background-image: 
+      linear-gradient(45deg, transparent 40%, rgba(0,0,0,0.1) 50%, transparent 60%),
+      linear-gradient(-45deg, transparent 40%, rgba(0,0,0,0.1) 50%, transparent 60%);
+    background-size: 8px 8px;
+  }
+
+  /* Animations */
+  @keyframes panelReveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .manga-portfolio {
+      padding: 1rem 0;
+    }
+
+    .speech-bubble {
+      position: static;
+      margin-top: 1rem;
+      max-width: 280px;
+    }
+
+    .panel-triple-panel,
+    .panel-double-wide,
+    .panel-quad-grid,
+    .panel-diagonal-split {
+      grid-template-columns: 1fr;
+    }
+
+    .panel-diagonal-split::after {
+      display: none;
+    }
+
+    .character-panel {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .character-bubble {
+      max-width: 200px;
+    }
+
+    .manga-title {
+      font-size: 2.5rem;
+    }
+
+    .sfx-text {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .manga-panels {
+      padding: 0 0.5rem;
+    }
+
+    .manga-title-panel,
+    .character-panel {
+      padding: 1.5rem;
+    }
+
+    .panel-layout {
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  /* Focus States for Accessibility */
+  .manga-panel:focus-visible {
+    outline: 3px solid #1a1a1a;
+    outline-offset: 4px;
+  }
+
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .manga-portfolio {
+      filter: contrast(1.3);
+    }
+    
+    .panel-frame,
+    .manga-title-panel,
+    .character-panel {
+      border-width: 4px;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .manga-panel,
+    .speech-bubble,
+    .action-lines {
+      animation: none;
+    }
+    
+    .manga-panel {
+      opacity: 1;
+      transform: none;
+    }
+    
+    .panel-image,
+    .panel-overlay {
+      transition: none;
+    }
+  }
+</style>

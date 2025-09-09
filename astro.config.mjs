@@ -17,7 +17,16 @@ export default defineConfig({
       watch: {
         usePolling: false, // Use native file watching for better performance
         interval: 300 // Check for changes every 300ms
+      },
+      // Prevent caching issues during development
+      fs: {
+        // Allow serving files from packages
+        allow: ['../../']
       }
+    },
+    // Disable caching for development
+    define: {
+      __DEV__: true
     }
   },
   // Enhanced performance optimizations from technical specs

@@ -1,3 +1,5 @@
+import { slugify } from "../lib/slugify";
+
 export interface ArtistStats {
   creativity: number;
   experience: number;
@@ -26,13 +28,20 @@ export interface Artist {
   };
 }
 
-export const artists: Artist[] = [
+export function normalizeArtist(a: Artist): Artist & { slug: string } {
+  return {
+    ...a,
+    slug: slugify(a.slug ?? a.name ?? "untitled"),
+  };
+}
+
+const rawArtists: Artist[] = [
   {
     name: "Seth Wood",
     slug: "seth-wood",
-    avatar: "/assets/artists/seth-wood/seth woodd.jpg",
-    title: "Guild Master & Elder",
-    styles: ["Naturalistic Traditional", "Japanese", "Black & Grey", "Fine Line"],
+    avatar: "/assets/artists/seth-wood/SETH PROFILE PICTURE.jpg",
+    title: "Pixel Artist & Precision Master",
+    styles: ["Illustrative", "Neo", "Black & Grey", "Freehand Botanicals"],
     stats: {
       creativity: 95,
       experience: 98,
@@ -40,26 +49,34 @@ export const artists: Artist[] = [
       technique: 96,
       artistry: 94
     },
-    blurb: "With 25+ years of tattoo mastery, Seth brings authentic craftsmanship to every piece. His naturalistic interpretations of American Traditional and Japanese styles have earned him legendary status in the tattoo community.",
-    bio: "Seth Wood is a tattoo artist with over 25 years of experience, specializing in naturalistic interpretations of American Traditional and Japanese tattooing. His work reflects decades of dedication to the craft, bringing authenticity and depth to every piece. A true elder in the tattoo world, Seth's expertise spans multiple styles while maintaining the highest standards of traditional tattoo artistry.",
-    specialties: ["Naturalistic American Traditional", "Naturalistic Japanese", "Black & Grey Mastery", "Fine Line Work", "Large Scale Pieces"],
+    blurb: "High-contrast tattoos with pixel-perfect precision. Seth's 25+ years of experience brings illustrative mastery and neo-traditional excellence to every piece with technical precision that sets the standard.",
+    bio: "Seth Wood is a tattoo artist with over 25 years of experience, specializing in illustrative work, neo-traditional designs, black & grey mastery, and freehand botanical pieces. His work reflects decades of dedication to the craft, bringing high-contrast precision and artistic depth to every piece.",
+    specialties: ["Illustrative", "Neo", "Black & Grey", "Freehand Botanicals", "High-Contrast Work"],
     experience: "25+ years",
     instagram: "@sethta2_bp",
     featuredWork: [
-      "/assets/artists/seth-wood/seth wooid.jpg",
-      "/assets/artists/seth-wood/wooody.jpg"
+      "/assets/artists/seth-wood/image1 (2).jpeg",
+      "/assets/artists/seth-wood/image3 (1).jpeg",
+      "/assets/artists/seth-wood/image5 (1).jpeg"
     ],
     portfolio: [
-      "/assets/artists/seth-wood/seth woodd.jpg",
-      "/assets/artists/seth-wood/seth wooid.jpg",
-      "/assets/artists/seth-wood/wooody.jpg"
+      "/assets/artists/seth-wood/image1 (2).jpeg",
+      "/assets/artists/seth-wood/image2 (1).jpeg",
+      "/assets/artists/seth-wood/image3 (1).jpeg",
+      "/assets/artists/seth-wood/image4 (1).jpeg",
+      "/assets/artists/seth-wood/image5 (1).jpeg",
+      "/assets/artists/seth-wood/image6 (1).jpeg",
+      "/assets/artists/seth-wood/image7 (1).jpeg",
+      "/assets/artists/seth-wood/image8 (1).jpeg",
+      "/assets/artists/seth-wood/image9 (1).jpeg",
+      "/assets/artists/seth-wood/image10 (1).jpeg"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/sethta2_bp" }
   },
   {
     name: "Ashley Wood",
     slug: "ashley-wood",
-    avatar: "/assets/artists/ashley-wood/ashley profile pic.jpg",
+    avatar: "/assets/artists/ashley-wood/ashley-profile-pic.jpg",
     title: "Chromancer & Pop Culture Specialist",
     styles: ["Color Mastery", "Newschool", "Kawaii", "Pop Culture", "Illustrative"],
     stats: {
@@ -75,24 +92,34 @@ export const artists: Artist[] = [
     experience: "10+ years",
     instagram: "@ashleyxxkarma",
     featuredWork: [
-      "/assets/artists/ashley-wood/ashleee.jpg",
-      "/assets/artists/ashley-wood/ashley.jpg",
-      "/assets/artists/ashley-wood/ashley1.jpg"
+      "/assets/artists/ashley-wood/tattoo-01.jpg",
+      "/assets/artists/ashley-wood/tattoo-02.jpg",
+      "/assets/artists/ashley-wood/tattoo-03.jpg"
     ],
     portfolio: [
-      "/assets/artists/ashley-wood/1212.jpg",
-      "/assets/artists/ashley-wood/ash.jpg",
-      "/assets/artists/ashley-wood/ashleee.jpg",
-      "/assets/artists/ashley-wood/ashley profile pic.jpg",
-      "/assets/artists/ashley-wood/ashley.jpg",
-      "/assets/artists/ashley-wood/ashley1.jpg"
+      "/assets/artists/ashley-wood/tattoo-01.jpg",
+      "/assets/artists/ashley-wood/tattoo-02.jpg",
+      "/assets/artists/ashley-wood/tattoo-03.jpg",
+      "/assets/artists/ashley-wood/tattoo-04.jpg",
+      "/assets/artists/ashley-wood/tattoo-05.jpg",
+      "/assets/artists/ashley-wood/tattoo-06.jpg",
+      "/assets/artists/ashley-wood/tattoo-07.jpg",
+      "/assets/artists/ashley-wood/tattoo-08.jpg",
+      "/assets/artists/ashley-wood/tattoo-09.jpg",
+      "/assets/artists/ashley-wood/tattoo-10.jpg",
+      "/assets/artists/ashley-wood/tattoo-11.jpg",
+      "/assets/artists/ashley-wood/tattoo-12.jpg",
+      "/assets/artists/ashley-wood/tattoo-14.jpg",
+      "/assets/artists/ashley-wood/tattoo-15.jpg",
+      "/assets/artists/ashley-wood/tattoo-16.jpg",
+      "/assets/artists/ashley-wood/tattoo-17.jpg"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/ashleyxxkarma" }
   },
   {
     name: "Anthony Boudreaux",
     slug: "anthony-boudreaux",
-    avatar: "/assets/artists/anthony-boudreaux/ant.jpg",
+    avatar: "/assets/artists/Anthony/anthon.jpg",
     title: "The Versatile Craftsman",
     styles: ["Traditional", "Color", "Custom Design", "Walk-in Specialist", "Mixed Media"],
     stats: {
@@ -108,16 +135,39 @@ export const artists: Artist[] = [
     experience: "15+ years",
     instagram: "@buddha_ta2",
     featuredWork: [
-      "/assets/artists/anthony-boudreaux/anthony.jpg",
-      "/assets/artists/anthony-boudreaux/antonio.jpg",
-      "/assets/artists/anthony-boudreaux/Buddha.jpg"
+      "/assets/artists/Anthony/buddha_ta2_1750266594_3657823770568595277_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266649_3657824226313421403_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266714_3657824772252347663_522395724.jpg"
     ],
     portfolio: [
-      "/assets/artists/anthony-boudreaux/ant.jpg",
-      "/assets/artists/anthony-boudreaux/anthony.jpg",
-      "/assets/artists/anthony-boudreaux/antonio.jpg",
-      "/assets/artists/anthony-boudreaux/Buddha.jpg",
-      "/assets/artists/anthony-boudreaux/ffff.jpg"
+      "/assets/artists/Anthony/buddha_ta2_1687763131_3133506718218808072_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1687763273_3133507908318885155_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1687763370_3133508453935399608_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1687763693_3133511280619600118_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1696105202_3203485083802265810_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1699559005_3232457682120796051_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1704584449_3274614044673070561_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1719781935_3402099796843496868_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1722653033_3426184080010990405_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1725325270_3448600777101722467_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1728619400_3476233731405443269_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1730947386_3495762239106116395_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1732606265_3509678193076629234_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1733630254_3518267892972165618_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1743703406_3602767686250725243_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1743703565_3602769004402930368_522395724.mp4",
+      "/assets/artists/Anthony/buddha_ta2_1750266594_3657823770568595277_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266649_3657824226313421403_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266714_3657824772252347663_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266747_3657825047960732324_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266809_3657825568448800354_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266871_3657826088576021428_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750266941_3657826676290345611_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750267280_3657829525053210793_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750267383_3657830388727394041_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750267429_3657830776365098938_522395724.jpg",
+      "/assets/artists/Anthony/buddha_ta2_1750267472_3657831130154460964_522395724.jpg",
+      "/assets/artists/Anthony/Buddha.jpg"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/buddha_ta2" }
   },
@@ -125,8 +175,8 @@ export const artists: Artist[] = [
     name: "Luis Reymundo",
     slug: "luis-reymundo",
     avatar: "/assets/artists/luis-reymundo/364403173_6546138555476097_5096559160903234762_n.jpg",
-    title: "The Geometric Visionary",
-    styles: ["Geometric Mastery", "Bold Linework", "Abstract", "Sacred Geometry", "Precision Art"],
+    title: "The Traditional Japanese Master",
+    styles: ["Traditional Japanese", "Irezumi", "Japanese Dragons", "Koi Fish", "Cherry Blossoms"],
     stats: {
       creativity: 93,
       experience: 91,
@@ -134,23 +184,36 @@ export const artists: Artist[] = [
       technique: 97,
       artistry: 92
     },
-    blurb: "Luis Reymundo is the master of sacred geometry and precision. With 12+ years of perfecting bold linework and geometric patterns, he creates striking pieces that blend mathematical precision with artistic vision and spiritual depth.",
-    bio: "Luis Reymundo specializes in bold linework and geometric patterns, creating striking pieces that combine precision with artistic vision. His work stands out for its clean execution and creative compositions. Having worked at esteemed studios like Another Realm Tattoo and Black Pearl Tattoo, Luis brings a unique perspective that merges technical precision with artistic innovation.",
-    specialties: ["Sacred Geometry", "Bold Linework Mastery", "Abstract Composition", "Precision Drafting", "Geometric Mandalas"],
+    blurb: "Luis Reymundo is a master of traditional Japanese tattooing. With 12+ years of dedication to authentic Japanese techniques, he creates stunning pieces that honor the rich history and cultural significance of this ancient art form.",
+    bio: "Luis Reymundo specializes in traditional Japanese artwork, bringing authentic techniques and cultural depth to every piece. With 12+ years of experience, he creates stunning traditional Japanese tattoos that honor the rich history and symbolism of this timeless art form. Having worked at esteemed studios like Another Realm Tattoo and Black Pearl Tattoo, Luis brings deep respect for traditional Japanese tattooing methods.",
+    specialties: ["Traditional Japanese", "Irezumi", "Japanese Dragons", "Koi Fish", "Cherry Blossoms"],
     experience: "12+ years",
     instagram: "@luisreyart",
     featuredWork: [
-      "/assets/artists/luis-reymundo/456455404_18445571008001635_6969315202827007293_n.jpg",
-      "/assets/artists/luis-reymundo/467432302_18462618712001635_305217261839614881_n.jpg",
-      "/assets/artists/luis-reymundo/471592296_18470350378001635_1918605122947633000_n.jpg"
+      "/assets/artists/Luis/456455404_18445571008001635_6969315202827007293_n.jpg",
+      "/assets/artists/Luis/467432302_18462618712001635_305217261839614881_n.jpg",
+      "/assets/artists/Luis/471592296_18470350378001635_1918605122947633000_n.jpg"
     ],
     portfolio: [
-      "/assets/artists/luis-reymundo/364403173_6546138555476097_5096559160903234762_n.jpg",
-      "/assets/artists/luis-reymundo/456455404_18445571008001635_6969315202827007293_n.jpg",
-      "/assets/artists/luis-reymundo/467432302_18462618712001635_305217261839614881_n.jpg",
-      "/assets/artists/luis-reymundo/471592296_18470350378001635_1918605122947633000_n.jpg",
-      "/assets/artists/luis-reymundo/474900987_18475574725001635_752176309467884586_n.jpg",
-      "/assets/artists/luis-reymundo/490061122_18490861651001635_2883115908723174436_n.jpg"
+      "/assets/artists/Luis/364403173_6546138555476097_5096559160903234762_n.jpg",
+      "/assets/artists/Luis/456455404_18445571008001635_6969315202827007293_n.jpg",
+      "/assets/artists/Luis/467432302_18462618712001635_305217261839614881_n.jpg",
+      "/assets/artists/Luis/471592296_18470350378001635_1918605122947633000_n.jpg",
+      "/assets/artists/Luis/474900987_18475574725001635_752176309467884586_n.jpg",
+      "/assets/artists/Luis/490061122_18490861651001635_2883115908723174436_n.jpg",
+      "/assets/artists/Luis/ta2luis_1744218745_3607090737312970581_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744218745_3607090737313120321_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744218745_3607090737346524272_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744219002_3607092892306783522_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744315051_3607898606956838806_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744405705_3608659070955461998_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1744836591_3612273604341456121_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1745195398_3615283489328969548_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1748107187_3639709348276732522_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1748107406_3639711189098198213_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1748295443_3641288559082245254_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1749493238_3651336384352426320_217025634.jpg",
+      "/assets/artists/Luis/ta2luis_1751597960_3668992073718424974_217025634.jpg"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/luisreyart" }
   },
@@ -222,6 +285,9 @@ export const artists: Artist[] = [
     cta: { text: "View Instagram", url: "https://instagram.com/tattooz_by_trent" }
   }
 ];
+
+// Export normalized artists with safe slugs
+export const artists = rawArtists.map(normalizeArtist);
 
 // Guild stats for the right rail
 export const guildStats = {

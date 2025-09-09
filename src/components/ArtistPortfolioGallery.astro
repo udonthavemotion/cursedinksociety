@@ -18,38 +18,64 @@ const { images, artistName, artistSlug } = Astro.props;
 
   <!-- Masonry Gallery Grid -->
   <div class="gallery-masonry">
-    {images.map((image, index) => (
-      <div class="gallery-item" data-index={index}>
-        <div class="gallery-image-wrapper">
-          <img
-            src={image}
-            alt={`${artistName} portfolio piece ${index + 1}`}
-            class="gallery-image"
-            loading={index < 6 ? "eager" : "lazy"}
-            width="400"
-            height="400"
-          />
-          <div class="gallery-overlay">
-            <div class="gallery-actions">
-              <button
-                class="gallery-zoom-btn"
-                aria-label={`View ${artistName} portfolio piece ${index + 1} in full size`}
-                data-image={image}
-                data-artist={artistName}
+    {images.map((image, index) => {
+      const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+      return (
+        <div class="gallery-item" data-index={index}>
+          <div class="gallery-image-wrapper">
+            {isVideo ? (
+              <video
+                src={image}
+                class="gallery-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                width="400"
+                height="400"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                  <line x1="13" y1="9" x2="9" y2="13"/>
-                  <line x1="9" y1="9" x2="13" y2="13"/>
-                </svg>
-                <span class="sr-only">Zoom</span>
-              </button>
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <img
+                src={image}
+                alt={`${artistName} portfolio piece ${index + 1}`}
+                class="gallery-image"
+                loading={index < 6 ? "eager" : "lazy"}
+                width="400"
+                height="400"
+              />
+            )}
+            <div class="gallery-overlay">
+              <div class="gallery-actions">
+                <button
+                  class="gallery-zoom-btn"
+                  aria-label={`View ${artistName} portfolio piece ${index + 1} in full size`}
+                  data-image={image}
+                  data-artist={artistName}
+                  data-is-video={isVideo}
+                >
+                  {isVideo ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="5,3 19,12 5,21"/>
+                    </svg>
+                  ) : (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="m21 21-4.35-4.35"/>
+                      <line x1="13" y1="9" x2="9" y2="13"/>
+                      <line x1="9" y1="9" x2="13" y2="13"/>
+                    </svg>
+                  )}
+                  <span class="sr-only">{isVideo ? 'Play' : 'Zoom'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 
   <!-- Lightbox Modal -->
@@ -64,7 +90,10 @@ const { images, artistName, artistSlug } = Astro.props;
       </button>
 
       <div class="lightbox-image-container">
-        <img id="lightbox-image" src="" alt="" class="lightbox-image" />
+        <img id="lightbox-image" src="" alt="" class="lightbox-image" style="display: none;" />
+        <video id="lightbox-video" src="" class="lightbox-video" controls muted loop playsinline preload="metadata" style="display: none;">
+          Your browser does not support the video tag.
+        </video>
         <div class="lightbox-info">
           <p id="lightbox-artist" class="lightbox-artist-name"></p>
           <p id="lightbox-caption" class="lightbox-caption"></p>
@@ -97,8 +126,9 @@ const { images, artistName, artistSlug } = Astro.props;
     font-size: clamp(2rem, 4vw, 2.5rem);
     font-weight: 700;
     margin: 0 0 0.5rem;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
+    color: #2d1b69;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.02em;
   }
 
   .gallery-subtitle {
@@ -142,15 +172,29 @@ const { images, artistName, artistSlug } = Astro.props;
     overflow: hidden;
   }
 
-  .gallery-image {
+  .gallery-image, .gallery-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: var(--transition-smooth);
   }
 
-  .gallery-item:hover .gallery-image {
+  .gallery-item:hover .gallery-image,
+  .gallery-item:hover .gallery-video {
     transform: scale(1.05);
+  }
+
+  .gallery-video {
+    cursor: pointer;
+    background: #000;
+  }
+
+  .gallery-video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  .gallery-video::-webkit-media-controls-enclosure {
+    display: none !important;
   }
 
   /* Gallery Overlay */
@@ -273,11 +317,18 @@ const { images, artistName, artistSlug } = Astro.props;
     backdrop-filter: blur(10px);
   }
 
-  .lightbox-image {
+  .lightbox-image, .lightbox-video {
     display: block;
     max-width: 100%;
     max-height: 80vh;
     object-fit: contain;
+  }
+
+  .lightbox-video {
+    border-radius: 8px;
+    background: #000;
+    width: 100%;
+    height: auto;
   }
 
   .lightbox-info {
@@ -413,6 +464,7 @@ const { images, artistName, artistSlug } = Astro.props;
   class ArtistPortfolioGallery {
     private lightbox: HTMLElement;
     private lightboxImage: HTMLImageElement;
+    private lightboxVideo: HTMLVideoElement;
     private lightboxArtist: HTMLElement;
     private lightboxCaption: HTMLElement;
     private currentImages: string[] = [];
@@ -422,6 +474,7 @@ const { images, artistName, artistSlug } = Astro.props;
     constructor() {
       this.lightbox = document.getElementById('portfolio-lightbox')!;
       this.lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+      this.lightboxVideo = document.getElementById('lightbox-video') as HTMLVideoElement;
       this.lightboxArtist = document.getElementById('lightbox-artist')!;
       this.lightboxCaption = document.getElementById('lightbox-caption')!;
 
@@ -493,8 +546,8 @@ const { images, artistName, artistSlug } = Astro.props;
       const galleryContainer = galleryItem.closest('.artist-portfolio-gallery');
       if (!galleryContainer) return;
 
-      this.currentImages = Array.from(galleryContainer.querySelectorAll('.gallery-image'))
-        .map(img => img.getAttribute('src')!)
+      this.currentImages = Array.from(galleryContainer.querySelectorAll('.gallery-image, .gallery-video'))
+        .map(media => media.getAttribute('src')!)
         .filter(src => src);
 
       this.currentArtist = artistName;
@@ -506,6 +559,10 @@ const { images, artistName, artistSlug } = Astro.props;
     }
 
     private closeLightbox() {
+      // Pause any playing video
+      if (!this.lightboxVideo.paused) {
+        this.lightboxVideo.pause();
+      }
       this.lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
@@ -520,9 +577,27 @@ const { images, artistName, artistSlug } = Astro.props;
     private updateLightbox() {
       if (this.currentImages.length === 0) return;
 
-      const imageSrc = this.currentImages[this.currentIndex];
-      this.lightboxImage.src = imageSrc;
-      this.lightboxImage.alt = `${this.currentArtist} portfolio piece ${this.currentIndex + 1}`;
+      const mediaSrc = this.currentImages[this.currentIndex];
+      const isVideo = mediaSrc.endsWith('.mp4') || mediaSrc.endsWith('.mov') || mediaSrc.endsWith('.webm');
+      
+      if (isVideo) {
+        this.lightboxImage.style.display = 'none';
+        this.lightboxVideo.style.display = 'block';
+        this.lightboxVideo.src = mediaSrc;
+        this.lightboxVideo.load(); // Reload the video
+        // Auto-play the video when it's ready
+        this.lightboxVideo.addEventListener('loadeddata', () => {
+          this.lightboxVideo.play().catch(e => {
+            console.log('Video autoplay prevented:', e);
+          });
+        }, { once: true });
+      } else {
+        this.lightboxVideo.style.display = 'none';
+        this.lightboxImage.style.display = 'block';
+        this.lightboxImage.src = mediaSrc;
+        this.lightboxImage.alt = `${this.currentArtist} portfolio piece ${this.currentIndex + 1}`;
+      }
+      
       this.lightboxArtist.textContent = this.currentArtist;
       this.lightboxCaption.textContent = `Portfolio Piece ${this.currentIndex + 1} of ${this.currentImages.length}`;
     }

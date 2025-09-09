@@ -1,0 +1,19 @@
+/* DragonCapes Font - Medieval Gothic Style for Seth Wood's Page */
+@font-face {
+  font-family: 'DragonCapes';
+  src: url('./EG_Dragon_Caps.otf') format('opentype'),
+       url('./EG_Dragon_Caps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Alternative font face with different name for better compatibility */
+@font-face {
+  font-family: 'EGDragonCaps';
+  src: url('./EG_Dragon_Caps.otf') format('opentype'),
+       url('./EG_Dragon_Caps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

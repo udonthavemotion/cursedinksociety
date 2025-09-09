@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { slugify } from '../lib/slugify';
 
 const title = "Gallery — Cursed Ink Society Portfolio";
 const description = "Browse our extensive portfolio of tattoo artwork. See examples of traditional, realism, fine line, Japanese, and custom tattoo designs by our master artists.";
@@ -156,7 +157,7 @@ artists.forEach((artist, artistIndex) => {
             <div class="artist-preview-info">
               <h3>{artist.name}</h3>
               <p>{artist.positioning}</p>
-              <a href={`/artists/${artist.slug}`} class="artist-link">View Profile →</a>
+              <a href={`/artists/${slugify(artist.slug ?? artist.name)}`} class="artist-link">View Profile →</a>
             </div>
           </div>
         ))}
