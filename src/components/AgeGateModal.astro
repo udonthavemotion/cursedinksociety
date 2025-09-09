@@ -1,0 +1,453 @@
+---
+// Age verification modal component for 18+ content
+// Self-verification mode only - no external vendor integration yet
+---
+
+<div id="age-gate-modal" class="age-gate-overlay" aria-hidden="true" role="dialog" aria-labelledby="age-gate-title" aria-describedby="age-gate-description">
+  <div class="age-gate-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="age-gate-title" class="modal-title">Age Verification Required</h2>
+        <div class="warning-icon">⚠️</div>
+      </div>
+      
+      <div class="modal-body">
+        <p id="age-gate-description" class="verification-text">
+          You must be 18 years or older to view piercing content. This section contains images of body modifications that may not be suitable for minors.
+        </p>
+        
+        <div class="checkbox-container">
+          <label class="checkbox-label">
+            <input type="checkbox" id="age-confirm-checkbox" class="age-checkbox" required>
+            <span class="checkmark"></span>
+            <span class="checkbox-text">I confirm that I am 18 years of age or older</span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="age-continue-btn" class="btn btn--primary" disabled>
+          Continue to Piercings
+        </button>
+        <button id="age-exit-btn" class="btn btn--secondary">
+          Exit
+        </button>
+      </div>
+      
+      <div class="compliance-note">
+        <small>
+          By continuing, you acknowledge you meet the age requirement. 
+          <a href="/policies/age-verification" class="policy-link">Age Verification Policy</a>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  class AgeGateModal {
+    private modal: HTMLElement | null;
+    private overlay: HTMLElement | null;
+    private checkbox: HTMLInputElement | null;
+    private continueBtn: HTMLButtonElement | null;
+    private exitBtn: HTMLButtonElement | null;
+    private cookieName: string = 'cis_age_ok';
+    private cookieValue: string = '1';
+    private cookieExpireDays: number = 1; // 24 hours
+
+    constructor() {
+      this.modal = document.getElementById('age-gate-modal');
+      this.overlay = this.modal;
+      this.checkbox = document.getElementById('age-confirm-checkbox') as HTMLInputElement;
+      this.continueBtn = document.getElementById('age-continue-btn') as HTMLButtonElement;
+      this.exitBtn = document.getElementById('age-exit-btn') as HTMLButtonElement;
+      
+      this.init();
+    }
+
+    private init(): void {
+      if (!this.modal || !this.checkbox || !this.continueBtn || !this.exitBtn) return;
+
+      // Check if user is already verified
+      if (this.isAgeVerified()) {
+        this.handleVerified();
+        return;
+      }
+
+      // Show modal and disable scroll
+      this.showModal();
+      
+      // Setup event listeners
+      this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
+      this.continueBtn.addEventListener('click', this.handleContinue.bind(this));
+      this.exitBtn.addEventListener('click', this.handleExit.bind(this));
+      
+      // Handle escape key
+      document.addEventListener('keydown', this.handleKeydown.bind(this));
+      
+      // Prevent modal close on backdrop click for age verification
+      this.modal.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    private isAgeVerified(): boolean {
+      // Check cookie
+      const cookies = document.cookie.split(';');
+      const ageCookie = cookies.find(cookie => 
+        cookie.trim().startsWith(`${this.cookieName}=`)
+      );
+      
+      if (ageCookie && ageCookie.includes(this.cookieValue)) {
+        return true;
+      }
+
+      // Check localStorage as backup
+      const stored = localStorage.getItem(this.cookieName);
+      if (stored === this.cookieValue) {
+        return true;
+      }
+
+      return false;
+    }
+
+    private setAgeVerified(): void {
+      // Set cookie for 24 hours
+      const expires = new Date();
+      expires.setTime(expires.getTime() + (this.cookieExpireDays * 24 * 60 * 60 * 1000));
+      document.cookie = `${this.cookieName}=${this.cookieValue}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+      
+      // Set localStorage as backup
+      localStorage.setItem(this.cookieName, this.cookieValue);
+    }
+
+    private showModal(): void {
+      if (!this.modal) return;
+      
+      this.modal.style.display = 'flex';
+      this.modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus the checkbox for accessibility
+      setTimeout(() => {
+        this.checkbox?.focus();
+      }, 100);
+    }
+
+    private hideModal(): void {
+      if (!this.modal) return;
+      
+      this.modal.style.display = 'none';
+      this.modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    private handleVerified(): void {
+      // Set data attribute on html element to remove blur
+      document.documentElement.setAttribute('data-age-ok', 'true');
+      this.hideModal();
+    }
+
+    private handleCheckboxChange(): void {
+      if (!this.checkbox || !this.continueBtn) return;
+      
+      this.continueBtn.disabled = !this.checkbox.checked;
+      
+      if (this.checkbox.checked) {
+        this.continueBtn.classList.add('enabled');
+      } else {
+        this.continueBtn.classList.remove('enabled');
+      }
+    }
+
+    private handleContinue(): void {
+      if (!this.checkbox?.checked) return;
+      
+      this.setAgeVerified();
+      this.handleVerified();
+    }
+
+    private handleExit(): void {
+      // Redirect to home page
+      window.location.href = '/';
+    }
+
+    private handleKeydown(e: KeyboardEvent): void {
+      if (e.key === 'Escape') {
+        this.handleExit();
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AgeGateModal());
+  } else {
+    new AgeGateModal();
+  }
+</script>
+
+<style>
+  .age-gate-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 12, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .age-gate-modal {
+    background: 
+      radial-gradient(ellipse at 50% 20%, rgba(255, 60, 43, 0.08) 0%, transparent 60%),
+      linear-gradient(135deg, #0f0f11 0%, #1a1a1f 100%);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(220, 20, 60, 0.15);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  .modal-content {
+    padding: 2rem;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+    margin: 0;
+  }
+
+  .warning-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+  }
+
+  .modal-body {
+    margin-bottom: 2rem;
+  }
+
+  .verification-text {
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .checkbox-container {
+    margin: 1.5rem 0;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    padding-left: 0;
+  }
+
+  .age-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+  }
+
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    position: relative;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--accent0);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .age-checkbox:checked ~ .checkmark {
+    background: rgba(220, 20, 60, 0.2);
+    border-color: var(--accent0);
+    box-shadow: 0 0 8px rgba(220, 20, 60, 0.3);
+  }
+
+  .age-checkbox:checked ~ .checkmark::after {
+    display: block;
+  }
+
+  .checkbox-text {
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.4;
+    text-shadow: var(--glow-subtle);
+  }
+
+  .modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    border: none;
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .btn--primary {
+    background: linear-gradient(135deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.2));
+    color: rgba(245, 245, 245, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+  }
+
+  .btn--primary.enabled {
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(220, 20, 60, 0.25);
+  }
+
+  .btn--primary.enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220, 20, 60, 0.35);
+  }
+
+  .btn--secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .compliance-note {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+
+  .compliance-note small {
+    color: rgba(245, 245, 245, 0.7);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .policy-link {
+    color: var(--accent0);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+  }
+
+  .policy-link:hover {
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+    text-decoration: underline;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .age-gate-modal {
+      margin: 1rem;
+      max-width: calc(100vw - 2rem);
+    }
+
+    .modal-content {
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+    }
+
+    .modal-footer {
+      flex-direction: column;
+    }
+
+    .btn {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .age-gate-modal {
+      border-width: 3px;
+    }
+    
+    .checkmark {
+      border-width: 3px;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .age-gate-modal {
+      animation: none;
+    }
+    
+    .btn, .checkmark {
+      transition: none;
+    }
+  }
+</style>

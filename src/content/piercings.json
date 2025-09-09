@@ -1,0 +1,129 @@
+{
+  "piercings": [
+    {
+      "id": "1",
+      "title": "Industrial Ear Piercing",
+      "description": "Custom industrial barbell piercing with precision placement for optimal healing and aesthetic appeal.",
+      "category": "Ear",
+      "artist": "Ashley Wood",
+      "image": {
+        "src": "/images/seth/gallery-1.jpg",
+        "alt": "Professional industrial ear piercing with custom jewelry",
+        "width": 400,
+        "height": 600
+      },
+      "thumbnail": {
+        "src": "/images/seth/gallery-1.jpg",
+        "alt": "Industrial ear piercing thumbnail",
+        "width": 300,
+        "height": 300
+      },
+      "details": {
+        "healingTime": "6-12 months",
+        "painLevel": "7/10",
+        "aftercare": "Saline solution cleaning twice daily, avoid sleeping on pierced side",
+        "jewelry": "Titanium barbell, 14g standard"
+      },
+      "price": "$80-120",
+      "featured": true
+    },
+    {
+      "id": "2", 
+      "title": "Septum Piercing",
+      "description": "Classic septum piercing with high-quality jewelry options. Professional technique ensures comfort and proper placement.",
+      "category": "Facial",
+      "artist": "Cody Crochet",
+      "image": {
+        "src": "/images/seth/gallery-2.jpg",
+        "alt": "Professional septum piercing with circular barbell",
+        "width": 400,
+        "height": 600
+      },
+      "thumbnail": {
+        "src": "/images/seth/gallery-2.jpg",
+        "alt": "Septum piercing thumbnail",
+        "width": 300,
+        "height": 300
+      },
+      "details": {
+        "healingTime": "2-4 months",
+        "painLevel": "5/10",
+        "aftercare": "Saline rinse, avoid touching, flip up for healing if needed",
+        "jewelry": "Circular barbell or seamless ring, 16g/14g"
+      },
+      "price": "$60-90",
+      "featured": true
+    },
+    {
+      "id": "3",
+      "title": "Navel Piercing",
+      "description": "Professional navel piercing with premium jewelry selection. Careful attention to anatomy for optimal results.",
+      "category": "Body",
+      "artist": "Luis Reymundo", 
+      "image": {
+        "src": "/images/seth/gallery-3.jpg",
+        "alt": "Professional navel piercing with decorative jewelry",
+        "width": 400,
+        "height": 600
+      },
+      "thumbnail": {
+        "src": "/images/seth/gallery-3.jpg",
+        "alt": "Navel piercing thumbnail",
+        "width": 300,
+        "height": 300
+      },
+      "details": {
+        "healingTime": "6-9 months",
+        "painLevel": "4/10",
+        "aftercare": "Daily saline cleaning, avoid tight clothing, no swimming during healing",
+        "jewelry": "Curved barbell with gems or decorative ends, 14g"
+      },
+      "price": "$70-100",
+      "featured": false
+    }
+  ],
+  "categories": [
+    {
+      "name": "Ear",
+      "description": "Ear piercings including lobes, cartilage, and specialty placements",
+      "count": 1
+    },
+    {
+      "name": "Facial", 
+      "description": "Nose, lip, eyebrow and other facial piercings",
+      "count": 1
+    },
+    {
+      "name": "Body",
+      "description": "Navel, nipple, surface and other body piercings", 
+      "count": 1
+    }
+  ],
+  "artists": [
+    {
+      "name": "Ashley Wood",
+      "specialties": ["Ear piercings", "Cartilage work"],
+      "experience": "8+ years",
+      "piercingCount": 1
+    },
+    {
+      "name": "Cody Crochet", 
+      "specialties": ["Facial piercings", "Unique placements"],
+      "experience": "6+ years",
+      "piercingCount": 1
+    },
+    {
+      "name": "Luis Reymundo",
+      "specialties": ["Body piercings", "Surface work"],
+      "experience": "10+ years", 
+      "piercingCount": 1
+    }
+  ],
+  "policies": {
+    "ageRequirement": "18+ years old (ID required)",
+    "aftercareIncluded": true,
+    "jewelryWarranty": "90 days against defects",
+    "consultationRequired": false,
+    "deposit": "$20 (applied to service cost)"
+  }
+}

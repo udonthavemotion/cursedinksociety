@@ -1,0 +1,349 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const pageTitle = "Age Verification Policy - Cursed Ink Society";
+const pageDescription = "Age verification policy for accessing 18+ content at Cursed Ink Society. Learn about our age requirements and verification process.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <section class="policy-page">
+    <div class="container">
+      <div class="policy-content">
+        <header class="policy-header">
+          <h1>Age Verification Policy</h1>
+          <p class="policy-subtitle">
+            Ensuring responsible access to adult content and services
+          </p>
+        </header>
+
+        <div class="policy-body">
+          <section class="policy-section">
+            <h2>Age Requirement</h2>
+            <p>
+              Cursed Ink Society requires all clients to be 18 years of age or older to access piercing services and related content. This policy is in place to ensure compliance with local regulations and to maintain a safe, professional environment.
+            </p>
+          </section>
+
+          <section class="policy-section">
+            <h2>Verification Process</h2>
+            <p>
+              When accessing age-restricted content on our website, you will be asked to confirm that you are 18 years or older. This self-verification process helps us maintain appropriate access to adult-oriented services and content.
+            </p>
+            <ul>
+              <li>Self-declaration of age through checkbox confirmation</li>
+              <li>Verification status stored locally for 24 hours</li>
+              <li>Valid photo ID required for all in-person services</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>In-Person Services</h2>
+            <p>
+              All piercing and tattoo services require presentation of valid government-issued photo identification at the time of service. We accept:
+            </p>
+            <ul>
+              <li>Driver's license</li>
+              <li>State-issued ID card</li>
+              <li>Passport</li>
+              <li>Military ID</li>
+            </ul>
+            <p>
+              No exceptions will be made to this policy. Services will not be provided without proper age verification.
+            </p>
+          </section>
+
+          <section class="policy-section">
+            <h2>Privacy & Data</h2>
+            <p>
+              Your age verification status is stored locally on your device and is not transmitted to our servers. This information is automatically removed after 24 hours and is used solely for the purpose of age verification on our website.
+            </p>
+          </section>
+
+          <section class="policy-section">
+            <h2>Compliance</h2>
+            <p>
+              This policy ensures compliance with Louisiana state laws and regulations regarding body modification services. We reserve the right to refuse service to anyone who cannot provide adequate age verification.
+            </p>
+          </section>
+
+          <section class="policy-section">
+            <h2>Contact</h2>
+            <p>
+              If you have questions about our age verification policy, please contact us at <a href="tel:+19858553826">(985) 855-3826</a> or visit our shop in Houma, Louisiana.
+            </p>
+          </section>
+        </div>
+
+        <footer class="policy-footer">
+          <p>
+            <strong>Last updated:</strong> {new Date().toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </p>
+          <div class="policy-actions">
+            <a href="/piercings" class="btn btn--primary">Return to Piercings</a>
+            <a href="/contact" class="btn btn--secondary">Contact Us</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .policy-page {
+    padding: 6rem 0 4rem;
+    min-height: 100vh;
+    background: 
+      radial-gradient(ellipse at 30% 20%, rgba(220, 20, 60, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(255, 60, 43, 0.05) 0%, transparent 50%),
+      linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 100%);
+  }
+
+  .policy-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background: 
+      radial-gradient(ellipse at 50% 20%, rgba(255, 60, 43, 0.05) 0%, transparent 60%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .policy-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .policy-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--ink);
+    text-shadow: var(--glow-primary);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .policy-subtitle {
+    font-size: 1.2rem;
+    color: rgba(245, 245, 245, 0.8);
+    text-shadow: var(--glow-subtle);
+    font-style: italic;
+  }
+
+  .policy-body {
+    line-height: 1.7;
+  }
+
+  .policy-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .policy-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .policy-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+  }
+
+  .policy-section p {
+    color: rgba(245, 245, 245, 0.9);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .policy-section ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .policy-section li {
+    color: rgba(245, 245, 245, 0.8);
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .policy-section li::marker {
+    color: var(--accent0);
+  }
+
+  .policy-section a {
+    color: var(--accent0);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    border-bottom: 1px solid transparent;
+  }
+
+  .policy-section a:hover {
+    color: var(--accent0);
+    text-shadow: var(--glow-subtle);
+    border-bottom-color: var(--accent0);
+  }
+
+  .policy-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+
+  .policy-footer p {
+    color: rgba(245, 245, 245, 0.7);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .policy-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    min-width: 140px;
+    justify-content: center;
+  }
+
+  .btn--primary {
+    background: linear-gradient(135deg, var(--accent0), var(--accent1));
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(220, 20, 60, 0.25);
+  }
+
+  .btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220, 20, 60, 0.35);
+  }
+
+  .btn--secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .policy-page {
+      padding: 4rem 0 2rem;
+    }
+
+    .policy-content {
+      padding: 2rem 1.5rem;
+      margin: 0 1rem;
+    }
+
+    .policy-header {
+      margin-bottom: 2rem;
+    }
+
+    .policy-section {
+      margin-bottom: 2rem;
+    }
+
+    .policy-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 250px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .policy-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .policy-section h2 {
+      font-size: 1.3rem;
+    }
+
+    .policy-section p,
+    .policy-section li {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .policy-content {
+      border-width: 2px;
+    }
+    
+    .btn {
+      border-width: 2px;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .btn {
+      transition: none;
+    }
+    
+    .btn:hover {
+      transform: none;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .policy-page {
+      background: white !important;
+    }
+    
+    .policy-content {
+      background: white !important;
+      border: 1px solid #ccc !important;
+      box-shadow: none !important;
+    }
+    
+    .policy-header h1,
+    .policy-section h2 {
+      color: #000 !important;
+      text-shadow: none !important;
+    }
+    
+    .policy-section p,
+    .policy-section li {
+      color: #333 !important;
+    }
+    
+    .policy-actions {
+      display: none;
+    }
+  }
+</style>
