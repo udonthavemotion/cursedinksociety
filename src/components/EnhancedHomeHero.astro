@@ -112,21 +112,6 @@
             <div class="holographic-overlay"></div>
           </div>
 
-          <!-- Interactive Elements -->
-          <div class="interactive-elements">
-            <div class="element-badge badge-1">
-              <span class="badge-icon">👑</span>
-              <span class="badge-text">Premium Collective</span>
-            </div>
-            <div class="element-badge badge-2">
-              <span class="badge-icon">🏆</span>
-              <span class="badge-text">Houma's Best</span>
-            </div>
-            <div class="element-badge badge-3">
-              <span class="badge-icon">🎨</span>
-              <span class="badge-text">Artist Collective</span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -472,42 +457,6 @@
   pointer-events: none;
 }
 
-/* Interactive Badges */
-.interactive-elements {
-  position: absolute;
-  top: 10%;
-  right: -10%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.element-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 25px;
-  backdrop-filter: blur(10px);
-  font-size: 0.9rem;
-  font-weight: 500;
-  opacity: 0;
-  animation: slideInRight 1s ease-out forwards;
-}
-
-.element-badge:nth-child(1) { animation-delay: 1.5s; }
-.element-badge:nth-child(2) { animation-delay: 1.7s; }
-.element-badge:nth-child(3) { animation-delay: 1.9s; }
-
-.badge-icon {
-  font-size: 1.1rem;
-}
-
-.badge-text {
-  color: rgba(255, 255, 255, 0.8);
-}
 
 /* Enhanced Scroll Indicator */
 .enhanced-scroll-indicator {
@@ -664,16 +613,6 @@
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
@@ -705,17 +644,6 @@
   .glow-ring.ring-2 { width: 460px; height: 460px; }
   .glow-ring.ring-3 { width: 540px; height: 540px; }
 
-  .interactive-elements {
-    position: static;
-    margin-top: 2rem;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .element-badge {
-    flex: 0 0 auto;
-  }
 }
 
 @media (max-width: 480px) {
@@ -748,7 +676,6 @@
   .hero-stats,
   .hero-actions,
   .hero-visual-section,
-  .element-badge,
   .enhanced-scroll-indicator {
     animation: none;
   }
@@ -925,7 +852,7 @@
       }, options);
 
       // Observe elements that should animate on scroll
-      const animatedElements = document.querySelectorAll('.stat-item, .element-badge');
+      const animatedElements = document.querySelectorAll('.stat-item');
       animatedElements.forEach(el => {
         this.observer?.observe(el);
       });
