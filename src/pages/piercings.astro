@@ -29,26 +29,23 @@ const { piercings, categories, artists } = piercingsData;
             <span class="stat-label">Services</span>
           </div>
           <div class="stat">
-            <span class="stat-number">{artists.length}</span>
-            <span class="stat-label">Artists</span>
+            <span class="stat-number">{categories.length}</span>
+            <span class="stat-label">Categories</span>
           </div>
           <div class="stat">
-            <span class="stat-number">18+</span>
-            <span class="stat-label">Age Required</span>
+            <span class="stat-number">{artists.length}</span>
+            <span class="stat-label">Artists</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Categories Filter -->
-  <section class="categories-section">
+  <!-- Gallery Header -->
+  <section class="gallery-header">
     <div class="container">
-      <div class="categories-grid">
-        <button class="category-btn active" data-category="all">
-          All Piercings ({piercings.length})
-        </button>
-      </div>
+      <h2 class="gallery-title">Professional Piercing Portfolio</h2>
+      <p class="gallery-subtitle">Browse our comprehensive collection of professional piercing work</p>
     </div>
   </section>
 
@@ -56,52 +53,28 @@ const { piercings, categories, artists } = piercingsData;
   <section class="piercings-gallery">
     <div class="container">
       <div class="gallery-grid" id="piercings-grid">
-        {piercings.map((piercing, index) => (
-          <article class="piercing-card" data-category="general" data-index={index}>
-            <div class="card-image-container">
-              <!-- Optimized lazy loading with intersection observer -->
-              <div class="image-placeholder" data-src={piercing.thumbnail.src}>
-                <div class="skeleton-loader"></div>
-                <img 
-                  class="piercing-thumbnail blurred-content lazy-image"
-                  data-src={piercing.thumbnail.src}
-                  alt={piercing.thumbnail.alt}
-                  width={piercing.thumbnail.width}
-                  height={piercing.thumbnail.height}
-                  loading="lazy"
-                  decoding="async"
-                  style="opacity: 0; transition: opacity 0.3s ease;"
-                />
-              </div>
+        {piercings.map((piercing) => (
+          <div class="gallery-item">
+            <div class="image-container">
+              <OptimizedImage
+                src={piercing.thumbnail.src}
+                alt={piercing.thumbnail.alt}
+                width={piercing.thumbnail.width}
+                height={piercing.thumbnail.height}
+                class="gallery-image blurred-content"
+              />
               <div class="image-overlay">
                 <button class="view-btn" onclick={`openModal('${piercing.id}')`} disabled>
                   <span class="view-icon">👁️</span>
-                  View Details
+                  View
                 </button>
               </div>
-              <div class="price-tag">{piercing.price}</div>
             </div>
-            
-            <div class="card-content">
-              <h3 class="piercing-title">{piercing.title}</h3>
-              <p class="piercing-description">{piercing.description}</p>
-              
-              <div class="piercing-meta">
-                <div class="meta-item">
-                  <span class="meta-label">Artist:</span>
-                  <span class="meta-value">{piercing.artist}</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Healing:</span>
-                  <span class="meta-value">{piercing.details.healingTime}</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Pain Level:</span>
-                  <span class="meta-value pain-level">{piercing.details.painLevel}</span>
-                </div>
-              </div>
+            <div class="image-info">
+              <h3 class="image-title">{piercing.title}</h3>
+              <span class="image-artist">by {piercing.artist}</span>
             </div>
-          </article>
+          </div>
         ))}
       </div>
     </div>
@@ -140,10 +113,7 @@ const { piercings, categories, artists } = piercingsData;
 
     init() {
       this.checkAgeVerification();
-      this.setupCategoryFilters();
       this.setupModalFunctionality();
-      this.setupProgressiveImageLoading();
-      this.setupBatchImagePreloading();
     }
 
     checkAgeVerification() {
@@ -178,125 +148,15 @@ const { piercings, categories, artists } = piercingsData;
       });
 
       // Enable thumbnail clicks
-      const thumbnails = document.querySelectorAll('.piercing-thumbnail');
+      const thumbnails = document.querySelectorAll('.gallery-image');
       thumbnails.forEach(thumb => {
         thumb.style.cursor = 'pointer';
-      });
-    }
-
-    setupCategoryFilters() {
-      // Simplified - all piercings are shown by default
-      // This can be expanded later when categories are needed
-      const categoryButtons = document.querySelectorAll('.category-btn');
-      
-      categoryButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          // Keep button active state for UI consistency
-          categoryButtons.forEach(btn => btn.classList.remove('active'));
-          e.target.classList.add('active');
-        });
       });
     }
 
     setupModalFunctionality() {
       // Modal functionality will be handled by global functions
       // due to Astro's scoping requirements
-    }
-
-    setupProgressiveImageLoading() {
-      // Advanced intersection observer for progressive image loading
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            const placeholder = img.closest('.image-placeholder');
-            const skeleton = placeholder?.querySelector('.skeleton-loader');
-            
-            // Load the actual image
-            const actualSrc = img.getAttribute('data-src');
-            if (actualSrc && !img.src) {
-              // Create a new image to preload
-              const tempImg = new Image();
-              tempImg.onload = () => {
-                // Image loaded successfully
-                img.src = actualSrc;
-                img.style.opacity = '1';
-                
-                // Hide skeleton loader
-                if (skeleton) {
-                  skeleton.style.opacity = '0';
-                  setTimeout(() => skeleton.remove(), 300);
-                }
-                
-                // Add loaded class for additional styling
-                img.classList.add('image-loaded');
-                placeholder?.classList.add('loaded');
-              };
-              
-              tempImg.onerror = () => {
-                // Handle load error gracefully
-                img.style.opacity = '1';
-                img.classList.add('image-error');
-                if (skeleton) {
-                  skeleton.innerHTML = '<div class="error-icon">⚠️</div>';
-                }
-              };
-              
-              // Start loading
-              tempImg.src = actualSrc;
-            }
-            
-            // Stop observing this image
-            observer.unobserve(img);
-          }
-        });
-      }, {
-        root: null,
-        rootMargin: '50px', // Start loading 50px before entering viewport
-        threshold: 0.1
-      });
-
-      // Observe all lazy images
-      document.querySelectorAll('.lazy-image').forEach(img => {
-        imageObserver.observe(img);
-      });
-    }
-
-    setupBatchImagePreloading() {
-      // Preload next batch of images when user scrolls
-      let preloadedBatch = 0;
-      const batchSize = 3;
-      
-      const preloadBatch = () => {
-        const startIndex = preloadedBatch * batchSize;
-        const endIndex = startIndex + batchSize;
-        const images = document.querySelectorAll('.lazy-image');
-        
-        for (let i = startIndex; i < Math.min(endIndex, images.length); i++) {
-          const img = images[i];
-          const src = img.getAttribute('data-src');
-          if (src && !img.src) {
-            // Preload in background
-            const preloadImg = new Image();
-            preloadImg.src = src;
-          }
-        }
-        preloadedBatch++;
-      };
-
-      // Throttled scroll handler for batch preloading
-      let scrollTimeout;
-      window.addEventListener('scroll', () => {
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-          if (scrollPercent > 30 && preloadedBatch === 0) {
-            preloadBatch(); // Preload second batch
-          } else if (scrollPercent > 60 && preloadedBatch === 1) {
-            preloadBatch(); // Preload third batch
-          }
-        }, 100);
-      }, { passive: true });
     }
   }
 
@@ -316,20 +176,13 @@ const { piercings, categories, artists } = piercingsData;
 
     modalBody.innerHTML = `
       <div class="modal-image">
-        <div class="modal-image-loader">
-          <div class="modal-skeleton"></div>
-          <img 
-            src="${piercing.image.src}" 
-            alt="${piercing.image.alt}"
-            width="${piercing.image.width}"
-            height="${piercing.image.height}"
-            loading="eager"
-            decoding="async"
-            onload="this.style.opacity='1'; this.previousElementSibling.style.opacity='0';"
-            onerror="this.style.opacity='1'; this.previousElementSibling.innerHTML='⚠️ Image failed to load';"
-            style="opacity: 0; transition: opacity 0.3s ease;"
-          />
-        </div>
+        <img 
+          src="${piercing.image.src}" 
+          alt="${piercing.image.alt}"
+          width="${piercing.image.width}"
+          height="${piercing.image.height}"
+          loading="lazy"
+        />
       </div>
       <div class="modal-details">
         <h2>${piercing.title}</h2>
@@ -485,41 +338,28 @@ const { piercings, categories, artists } = piercingsData;
     margin-top: 0.5rem;
   }
 
-  /* Categories Section */
-  .categories-section {
-    padding: 2rem 0;
+  /* Gallery Header */
+  .gallery-header {
+    padding: 3rem 0 2rem;
+    text-align: center;
     background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .categories-grid {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+  .gallery-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+    margin-bottom: 0.75rem;
   }
 
-  .category-btn {
-    padding: 0.75rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    color: var(--ink);
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-  }
-
-  .category-btn:hover,
-  .category-btn.active {
-    background: var(--accent0);
-    border-color: var(--accent0);
-    color: var(--ink);
-    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
-    transform: translateY(-1px);
+  .gallery-subtitle {
+    font-size: 1.1rem;
+    color: rgba(245, 245, 245, 0.8);
+    text-shadow: var(--glow-subtle);
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   /* Gallery Section */
@@ -529,113 +369,40 @@ const { piercings, categories, artists } = piercingsData;
 
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
-  .piercing-card {
+  .gallery-item {
     background: 
       radial-gradient(ellipse at 50% 20%, rgba(255, 60, 43, 0.05) 0%, transparent 60%),
       linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
     transition: var(--transition-smooth);
     backdrop-filter: blur(10px);
   }
 
-  .piercing-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  .gallery-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
   }
 
-  .card-image-container {
+  .image-container {
     position: relative;
     aspect-ratio: 1;
     overflow: hidden;
   }
 
-  .image-placeholder {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 15px;
-    overflow: hidden;
-  }
-
-  .skeleton-loader {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.05) 25%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0.05) 75%
-    );
-    background-size: 200% 100%;
-    animation: skeleton-shimmer 1.5s infinite ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(245, 245, 245, 0.3);
-    font-size: 2rem;
-    transition: opacity 0.3s ease;
-  }
-
-  @keyframes skeleton-shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  .skeleton-loader::before {
-    content: '🖼️';
-    opacity: 0.3;
-  }
-
-  .error-icon {
-    color: rgba(255, 193, 7, 0.7);
-    font-size: 1.5rem;
-  }
-
-  .piercing-thumbnail {
-    position: absolute;
-    inset: 0;
+  .gallery-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    will-change: opacity, transform;
-  }
-
-  .piercing-thumbnail.image-loaded {
-    transform: scale(1);
-  }
-
-  .piercing-thumbnail.image-error {
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .piercing-thumbnail.image-error::after {
-    content: '⚠️ Image unavailable';
-    color: rgba(245, 245, 245, 0.5);
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .image-placeholder.loaded .skeleton-loader {
-    opacity: 0;
-    pointer-events: none;
+    transition: var(--transition-smooth);
   }
 
   .image-overlay {
@@ -649,25 +416,23 @@ const { piercings, categories, artists } = piercingsData;
     transition: var(--transition-smooth);
   }
 
-  .card-image-container:hover .image-overlay {
+  .image-container:hover .image-overlay {
     opacity: 1;
   }
 
   .view-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
     background: var(--accent0);
     color: var(--ink);
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-smooth);
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
+    font-size: 0.9rem;
   }
 
   .view-btn:disabled {
@@ -682,67 +447,27 @@ const { piercings, categories, artists } = piercingsData;
   }
 
   .view-icon {
+    font-size: 1rem;
+  }
+
+  .image-info {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .image-title {
     font-size: 1.1rem;
-  }
-
-  .price-tag {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.8);
-    color: var(--accent0);
-    padding: 0.5rem 1rem;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .card-content {
-    padding: 1.5rem;
-  }
-
-  .piercing-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 0.75rem;
-    text-shadow: var(--glow-subtle);
-  }
-
-  .piercing-description {
-    color: rgba(245, 245, 245, 0.8);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .piercing-meta {
-    display: grid;
-    gap: 0.5rem;
-  }
-
-  .meta-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-  }
-
-  .meta-label {
-    color: rgba(245, 245, 245, 0.7);
-    font-weight: 500;
-  }
-
-  .meta-value {
-    color: var(--ink);
     font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    text-shadow: var(--glow-subtle);
+    line-height: 1.3;
   }
 
-  .pain-level {
-    color: var(--accent0);
-    font-weight: 700;
+  .image-artist {
+    font-size: 0.85rem;
+    color: rgba(245, 245, 245, 0.7);
+    font-style: italic;
   }
 
   /* Modal Styles */
@@ -798,45 +523,11 @@ const { piercings, categories, artists } = piercingsData;
     padding: 2rem;
   }
 
-  .modal-image-loader {
-    position: relative;
-    width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
-  .modal-skeleton {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.05) 25%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0.05) 75%
-    );
-    background-size: 200% 100%;
-    animation: skeleton-shimmer 1.5s infinite ease-in-out;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(245, 245, 245, 0.3);
-    font-size: 3rem;
-    min-height: 400px;
-    transition: opacity 0.3s ease;
-  }
-
-  .modal-skeleton::before {
-    content: '🖼️';
-    opacity: 0.3;
-  }
-
   .modal-image img {
     width: 100%;
     height: auto;
     border-radius: 15px;
-    display: block;
-    max-height: 70vh;
-    object-fit: contain;
+    margin-bottom: 1.5rem;
   }
 
   .modal-details h2 {
@@ -945,23 +636,26 @@ const { piercings, categories, artists } = piercingsData;
       gap: 2rem;
     }
 
-    .categories-grid {
-      gap: 0.75rem;
-    }
-
-    .category-btn {
-      padding: 0.6rem 1.2rem;
-      font-size: 0.8rem;
+    .gallery-header {
+      padding: 2rem 0 1.5rem;
     }
 
     .gallery-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
     }
 
-    .piercing-card {
-      max-width: 400px;
+    .gallery-item {
+      max-width: 350px;
       margin: 0 auto;
+    }
+
+    .image-info {
+      padding: 0.8rem;
+    }
+
+    .image-title {
+      font-size: 1rem;
     }
 
     .detail-grid {
@@ -978,66 +672,44 @@ const { piercings, categories, artists } = piercingsData;
     }
   }
 
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .view-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .image-title {
+      font-size: 0.95rem;
+    }
+
+    .image-artist {
+      font-size: 0.8rem;
+    }
+  }
+
   /* High contrast mode */
   @media (prefers-contrast: high) {
-    .piercing-card,
-    .category-btn,
+    .gallery-item,
     .modal-content {
       border-width: 2px;
     }
   }
 
-  /* Performance optimizations */
-  .piercing-card {
-    contain: layout style paint;
-    will-change: transform;
-  }
-
-  .piercing-thumbnail {
-    content-visibility: auto;
-    contain-intrinsic-size: 300px 400px;
-  }
-
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .piercing-card,
+    .gallery-item,
     .view-btn,
-    .category-btn,
-    .blurred-content,
-    .skeleton-loader,
-    .modal-skeleton {
+    .blurred-content {
       transition: none;
-      animation: none;
     }
     
-    .piercing-card:hover {
+    .gallery-item:hover {
       transform: none;
-    }
-
-    .skeleton-loader,
-    .modal-skeleton {
-      background: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  /* Optimize for low-end devices */
-  @media (max-width: 480px) and (max-height: 800px) {
-    .skeleton-loader,
-    .modal-skeleton {
-      animation-duration: 2s; /* Slower animation for better performance */
-    }
-
-    .piercing-card {
-      will-change: auto; /* Reduce GPU usage on mobile */
-    }
-  }
-
-  /* Prefers reduced data usage */
-  @media (prefers-reduced-data: reduce) {
-    .skeleton-loader::before,
-    .modal-skeleton::before {
-      content: 'Loading...';
-      font-size: 1rem;
     }
   }
 </style>
