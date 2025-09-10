@@ -281,7 +281,7 @@ const {
         <img 
           class="logo" 
           id="rotating-logo"
-          src="/brand/cursed-ink-logo.png" 
+          src="/brand/cursed-ink-logo.png?v=4" 
           alt="Cursed Ink Society - Professional tattoo artistry and mystical designs" 
           loading="eager"
           decoding="async"
@@ -292,7 +292,7 @@ const {
       <div class="brand-mark">Cursed Ink Society</div>
       
       <!-- Subtle Tagline -->
-      <p class="tagline">Where artistry meets the mystical</p>
+      <p class="tagline">Opening soon - Where artistry meets the mystical</p>
 
       <!-- Minimal Countdown -->
       <div 
@@ -339,15 +339,26 @@ const {
 
 <script>
   // Enhanced Three.js background with performance optimizations and error handling
-  import * as THREE from 'three';
+  // Dynamic import for better performance and code splitting
 
   // Check for reduced motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
-  // Performance settings based on device capabilities
+  // Enhanced performance settings with DPR clamping
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const particleCount = isMobile ? 600 : (prefersReducedMotion ? 300 : 1200);
-  const pixelRatio = Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1);
+  const isLowEnd = navigator.hardwareConcurrency <= 4 || (navigator as any).deviceMemory <= 4;
+  
+  // Aggressive DPR clamping to prevent fragment shader overload
+  const baseDPR = window.devicePixelRatio || 1;
+  let pixelRatio: number;
+  if (isMobile || isLowEnd) {
+    pixelRatio = Math.min(1.5, baseDPR); // Cap mobile/low-end at 1.5x
+  } else {
+    pixelRatio = Math.min(2, baseDPR); // Cap desktop at 2x max
+  }
+  
+  // Adaptive particle counts based on device capability
+  const particleCount = isLowEnd ? 200 : (isMobile ? 400 : (prefersReducedMotion ? 150 : 800));
 
   async function initThreeJS(): Promise<void> {
     try {
@@ -362,11 +373,24 @@ const {
         return;
       }
 
+      // Use CDN for more reliable loading with fallback
+      let THREE;
+      try {
+        THREE = await import('https://unpkg.com/three@0.180.0/build/three.module.js');
+      } catch (error) {
+        console.warn('CDN import failed, trying local fallback:', error);
+        THREE = await import('three');
+      }
+
       const renderer = new THREE.WebGLRenderer({ 
         canvas, 
-        antialias: !isMobile, 
+        antialias: false, // Disable AA for better performance - use FXAA in post if needed
         alpha: true,
-        powerPreference: isMobile ? 'low-power' : 'high-performance'
+        powerPreference: isMobile || isLowEnd ? 'low-power' : 'high-performance',
+        stencil: false, // Disable stencil buffer
+        depth: true,
+        logarithmicDepthBuffer: false, // Disable for better performance
+        preserveDrawingBuffer: false // Don't preserve for screenshots
       });
       
       const scene = new THREE.Scene();
@@ -440,26 +464,10 @@ const {
       // Enhanced shader material with error handling and enhanced rotation
       const uniforms = { 
         uTime: { value: 0 }, 
-        uTex: { value: null },
+        uTex: { value: null as THREE.Texture | null },
         uReducedMotion: { value: prefersReducedMotion ? 1.0 : 0.0 },
         uMouse: { value: new THREE.Vector2(0.0, 0.0) }
       };
-
-      // Load texture with error handling
-      const textureLoader = new THREE.TextureLoader();
-      textureLoader.load(
-        '/brand/cursed-ink-logo.png',
-        (texture: THREE.Texture) => {
-          uniforms.uTex.value = texture;
-          texture.generateMipmaps = false;
-          texture.minFilter = THREE.LinearFilter;
-          texture.magFilter = THREE.LinearFilter;
-        },
-        undefined,
-        (error: ErrorEvent) => {
-          console.warn('Logo texture failed to load:', error);
-        }
-      );
 
       const shaderMaterial = new THREE.ShaderMaterial({
         uniforms,
@@ -514,8 +522,62 @@ const {
         transparent: true
       });
 
+      // Optimized texture loading with format detection and precompilation trigger
+      const textureLoader = new THREE.TextureLoader();
+      
+      // Pre-compile shaders while texture loads to prevent first-frame hitch
+      const dummyTexture = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1, THREE.RGBAFormat);
+      uniforms.uTex.value = dummyTexture;
+      
+      // Trigger shader compilation with dummy data
+      const tempMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(1, 1), 
+        shaderMaterial
+      );
+      renderer.compile(tempMesh, camera); // Pre-compile shaders
+      
+      textureLoader.load(
+        '/brand/cursed-ink-logo.webp?v=5', // Use WebP for better compression
+        (texture: THREE.Texture) => {
+          // Optimize texture settings for performance
+          texture.generateMipmaps = false;
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.wrapS = THREE.ClampToEdgeWrapping;
+          texture.wrapT = THREE.ClampToEdgeWrapping;
+          texture.flipY = false; // Avoid GPU state change
+          
+          uniforms.uTex.value = texture;
+          dummyTexture.dispose(); // Clean up dummy texture
+        },
+        undefined,
+        (error: unknown) => {
+          console.warn('WebP logo failed, falling back to PNG:', error);
+          // Fallback to PNG
+          textureLoader.load(
+            '/brand/cursed-ink-logo.png?v=4',
+            (texture: THREE.Texture) => {
+              texture.generateMipmaps = false;
+              texture.minFilter = THREE.LinearFilter;
+              texture.magFilter = THREE.LinearFilter;
+              texture.wrapS = THREE.ClampToEdgeWrapping;
+              texture.wrapT = THREE.ClampToEdgeWrapping;
+              texture.flipY = false;
+              uniforms.uTex.value = texture;
+              dummyTexture.dispose();
+            },
+            undefined,
+            (fallbackError: unknown) => {
+              console.warn('All logo formats failed to load:', fallbackError);
+            }
+          );
+        }
+      );
+
+      // Adaptive geometry complexity based on device capability
+      const geometrySegments = isLowEnd ? 16 : (isMobile ? 24 : 32);
       const logoPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(4.0, 4.0, isMobile ? 32 : 64, isMobile ? 32 : 64), 
+        new THREE.PlaneGeometry(4.0, 4.0, geometrySegments, geometrySegments), 
         shaderMaterial
       );
       scene.add(logoPlane);
@@ -537,17 +599,35 @@ const {
 
       window.addEventListener('pointermove', updateMouse, { passive: true });
 
-      // Performance monitoring
+      // Enhanced performance monitoring with adaptive quality
       let lastTime = performance.now();
       let frameCount = 0;
-      const targetFPS = isMobile ? 30 : 60;
+      let fpsHistory: number[] = [];
+      const targetFPS = isLowEnd ? 24 : (isMobile ? 30 : 60);
       const frameInterval = 1000 / targetFPS;
+      let qualityScale = 1.0;
 
       const clock = new THREE.Clock();
       let animationId: number;
+      let isPageVisible = !document.hidden;
+
+      // Handle tab visibility changes to prevent timer spikes
+      const handleVisibilityChange = () => {
+        isPageVisible = !document.hidden;
+        if (isPageVisible) {
+          // Reset clock to prevent large delta spikes when returning to tab
+          clock.start();
+          lastTime = performance.now();
+        }
+      };
+      
+      document.addEventListener('visibilitychange', handleVisibilityChange);
 
       function animate() {
         animationId = requestAnimationFrame(animate);
+        
+        // Skip animation if page is not visible
+        if (!isPageVisible) return;
         
         const currentTime = performance.now();
         const deltaTime = currentTime - lastTime;
@@ -555,7 +635,8 @@ const {
         // Frame rate limiting for better performance
         if (deltaTime < frameInterval) return;
 
-        const dt = clock.getDelta();
+        // Clamp delta time to prevent large jumps after tab switches
+        const dt = Math.min(clock.getDelta(), 0.033); // Cap at ~30fps worth of time
         frameCount++;
 
         // Update uniforms
@@ -589,12 +670,29 @@ const {
         renderer.render(scene, camera);
         lastTime = currentTime;
 
-        // Performance monitoring - reduce quality if FPS drops
+        // Enhanced performance monitoring with adaptive quality scaling
         if (frameCount % 60 === 0) {
-          const fps = 1000 / deltaTime;
-          if (fps < 20 && !isMobile) {
-            console.warn('Low FPS detected, reducing particle count');
-            particleMaterial.opacity *= 0.8;
+          const currentFPS = 1000 / deltaTime;
+          fpsHistory.push(currentFPS);
+          
+          // Keep only last 5 measurements
+          if (fpsHistory.length > 5) fpsHistory.shift();
+          
+          const avgFPS = fpsHistory.reduce((a, b) => a + b) / fpsHistory.length;
+          
+          // Adaptive quality scaling based on performance
+          if (avgFPS < targetFPS * 0.7) {
+            qualityScale = Math.max(0.3, qualityScale * 0.9);
+            particleMaterial.opacity *= 0.9;
+            console.warn(`Low FPS detected (${avgFPS.toFixed(1)}), reducing quality to ${qualityScale.toFixed(2)}`);
+            
+            // Further reduce pixel ratio if needed
+            if (qualityScale < 0.5) {
+              renderer.setPixelRatio(Math.max(1, pixelRatio * 0.8));
+            }
+          } else if (avgFPS > targetFPS * 1.2 && qualityScale < 1.0) {
+            // Gradually restore quality if performance improves
+            qualityScale = Math.min(1.0, qualityScale * 1.05);
           }
         }
       }
@@ -604,10 +702,15 @@ const {
       // Cleanup on page unload
       window.addEventListener('beforeunload', () => {
         cancelAnimationFrame(animationId);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
         renderer.dispose();
         geometry.dispose();
         particleMaterial.dispose();
         shaderMaterial.dispose();
+        dummyTexture.dispose();
+        if (uniforms.uTex.value && uniforms.uTex.value !== dummyTexture) {
+          uniforms.uTex.value.dispose();
+        }
       });
 
     } catch (error) {
@@ -621,11 +724,108 @@ const {
     }
   }
 
-  // Initialize when DOM is ready
+  // Initialize with better error handling and critical resource waiting
+  function setupLazyThreeJS() {
+    const heroSection = document.getElementById('hero-section');
+    if (!heroSection) return;
+
+    // Check if user prefers reduced data usage (save-data header)
+    const connection = (navigator as any).connection;
+    const saveData = connection?.saveData || false;
+    
+    // Skip Three.js on slow connections or save-data preference
+    if (saveData || (connection && connection.effectiveType === 'slow-2g')) {
+      console.log('Skipping Three.js due to data saving preference or slow connection');
+      heroSection.classList.add('hero-fallback');
+      return;
+    }
+
+    // Wait for critical page resources before initializing
+    const waitForCriticalResources = (): Promise<void> => {
+      return new Promise((resolve) => {
+        // Check if fonts are loaded
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => {
+            // Additional delay to ensure layout is stable
+            requestAnimationFrame(() => {
+              setTimeout(resolve, 100); // Small delay for layout settling
+            });
+          });
+        } else {
+          // Fallback for browsers without font loading API
+          setTimeout(resolve, 500);
+        }
+      });
+    };
+
+    let initAttempts = 0;
+    const maxAttempts = 3;
+
+    // Retry logic for Three.js initialization with critical resource waiting
+    const initWithRetry = async () => {
+      try {
+        // Wait for critical resources first
+        await waitForCriticalResources();
+        await initThreeJS();
+        console.log('Three.js initialized successfully after critical resources loaded');
+      } catch (error) {
+        initAttempts++;
+        console.warn(`Three.js initialization attempt ${initAttempts} failed:`, error);
+        
+        if (initAttempts < maxAttempts) {
+          // Retry after increasing delay
+          setTimeout(initWithRetry, initAttempts * 1000);
+        } else {
+          // Give up and use fallback
+          console.error('Three.js initialization failed after maximum attempts, using fallback');
+          heroSection.classList.add('hero-fallback');
+          const canvas = document.getElementById('ink-canvas');
+          if (canvas) canvas.style.display = 'none';
+        }
+      }
+    };
+
+    // Delay Three.js initialization to improve FID
+    const initWithDelay = () => {
+      // Use requestIdleCallback for better FID performance
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initWithRetry, { timeout: 3000 });
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(initWithRetry, 100);
+      }
+    };
+
+    // Use Intersection Observer to load Three.js only when hero is visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          observer.disconnect(); // Only load once
+          initWithDelay();
+        }
+      });
+    }, {
+      rootMargin: '50px' // Start loading slightly before it comes into view
+    });
+
+    observer.observe(heroSection);
+  }
+
+  // Initialize with optimized loading
+  function initializeHero3D() {
+    // Queue Three.js initialization with optimized loader
+    if ((window as any).threeLoader) {
+      (window as any).threeLoader.queueThreeJSInit('ink-canvas', initThreeJS);
+    } else {
+      // Fallback to original lazy loading
+      setupLazyThreeJS();
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThreeJS);
+    document.addEventListener('DOMContentLoaded', initializeHero3D);
   } else {
-    initThreeJS();
+    initializeHero3D();
   }
 </script>
 
@@ -739,7 +939,7 @@ const {
       if (difference <= 0) {
         this.element.innerHTML = `
           <div style="font-size: 1.2rem; color: var(--accent1); font-weight: 700;">
-            🔥 The gates are open! 🔥
+            🔥 We're now open! Welcome to Cursed Ink Society 🔥
           </div>
         `;
         return;
@@ -758,8 +958,13 @@ const {
       ].filter(Boolean).join(' : ');
 
       this.element.innerHTML = `
-        <div style="font-size: 1.1rem; font-weight: 600;">
-          Opens in ${timeString}
+        <div style="font-size: 1.1rem; font-weight: 600; text-align: center;">
+          <div style="margin-bottom: 0.5rem; color: var(--accent1); font-size: 0.9rem;">
+            Grand Opening
+          </div>
+          <div>
+            ${timeString}
+          </div>
         </div>
       `;
 
@@ -777,7 +982,12 @@ const {
   // Initialize enhanced components when DOM is ready
   function initEnhancedComponents() {
     new LogoRotationHandler();
-    new CountdownTimer('2025-10-31T17:00:00Z'); // Set your target date here
+    
+    // Calculate 48 hours from now
+    const now = new Date();
+    const openingTime = new Date(now.getTime() + (48 * 60 * 60 * 1000)); // 48 hours in milliseconds
+    
+    new CountdownTimer(openingTime.toISOString());
   }
 
   if (document.readyState === 'loading') {

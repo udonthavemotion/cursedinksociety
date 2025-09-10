@@ -1,0 +1,197 @@
+---
+// Fixed Scroll Manager - Prevents pages from loading at wrong scroll positions
+---
+
+<script>
+  // Enhanced Scroll Manager with proper position handling
+  class ScrollManager {
+    private static instance: ScrollManager;
+    private isInitialized = false;
+
+    static getInstance(): ScrollManager {
+      if (!ScrollManager.instance) {
+        ScrollManager.instance = new ScrollManager();
+      }
+      return ScrollManager.instance;
+    }
+
+    private constructor() {
+      this.init();
+    }
+
+    private init(): void {
+      if (this.isInitialized) return;
+      this.isInitialized = true;
+
+      // CRITICAL FIX: Always start fresh pages at top
+      this.ensureTopPosition();
+      
+      // Prevent any scroll blocking
+      this.preventScrollBlocking();
+      
+      // Handle navigation properly
+      this.handleNavigation();
+
+      console.log('ScrollManager initialized - pages will load at top');
+    }
+
+    private ensureTopPosition(): void {
+      // ALWAYS start at top for fresh page loads
+      const isRefresh = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+      const isNewLoad = performance.getEntriesByType('navigation')[0]?.type === 'navigate';
+      
+      if (isRefresh || isNewLoad || !window.location.hash) {
+        // Force immediate scroll to top
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        
+        // Clear any stored scroll positions
+        sessionStorage.removeItem('scrollPosition');
+        
+        // Force scroll to top again after a brief delay
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }, 0);
+        
+        // And once more after DOM is ready
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+      }
+    }
+
+    private preventScrollBlocking(): void {
+      // Ensure scrolling is never blocked
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.position = 'static';
+      document.body.style.height = 'auto';
+      
+      // Force browser to recognize scroll capability
+      document.body.offsetHeight;
+    }
+
+    private handleNavigation(): void {
+      // Only save scroll position for legitimate back navigation
+      let isLeavingPage = false;
+      
+      window.addEventListener('beforeunload', () => {
+        isLeavingPage = true;
+        // Only save if user actually scrolled significantly
+        if (window.scrollY > 200) {
+          sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+          sessionStorage.setItem('scrollUrl', window.location.pathname);
+        }
+      });
+
+      // Handle browser back/forward ONLY
+      window.addEventListener('popstate', (e) => {
+        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const isBackForward = navigation?.type === 'back_forward';
+        
+        if (isBackForward) {
+          setTimeout(() => {
+            const savedPosition = sessionStorage.getItem('scrollPosition');
+            const savedUrl = sessionStorage.getItem('scrollUrl');
+            
+            if (savedPosition && savedUrl === window.location.pathname) {
+              const position = parseInt(savedPosition, 10);
+              if (position > 200) {
+                window.scrollTo(0, position);
+              }
+            }
+          }, 150);
+        }
+      });
+
+      // Handle hash navigation
+      if (window.location.hash) {
+        setTimeout(() => {
+          const element = document.querySelector(window.location.hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 200);
+      }
+    }
+
+    public forceScrollFix(): void {
+      // Force scroll to top and ensure smooth operation
+      window.scrollTo(0, 0);
+      this.preventScrollBlocking();
+      
+      // Force repaint
+      document.body.style.transform = 'translateZ(0)';
+      requestAnimationFrame(() => {
+        document.body.style.transform = '';
+      });
+    }
+  }
+
+  // Initialize immediately but safely
+  const scrollManager = ScrollManager.getInstance();
+  (window as any).scrollManager = scrollManager;
+
+  // Multiple safety nets to ensure pages load at top
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      scrollManager.forceScrollFix();
+    });
+  } else {
+    scrollManager.forceScrollFix();
+  }
+
+  window.addEventListener('load', () => {
+    scrollManager.forceScrollFix();
+  });
+
+  // Final safety net
+  setTimeout(() => scrollManager.forceScrollFix(), 500);
+</script>
+
+<style>
+  /* Critical scroll fixes */
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    position: static !important;
+    height: auto !important;
+  }
+
+  /* Ensure hero sections don't interfere with scroll */
+  .hero,
+  .enhanced-hero,
+  .gallery-hero,
+  .contact-hero,
+  .about-hero {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  /* Canvas should never block scroll */
+  canvas {
+    pointer-events: none !important;
+    position: absolute !important;
+    z-index: 0 !important;
+  }
+
+  /* Content always on top */
+  .hero-content,
+  .content {
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  /* Force hardware acceleration for smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+</style>

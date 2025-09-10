@@ -1,0 +1,40 @@
+{
+  "essentials": {
+    "deposit": {
+      "amount": "$50",
+      "refundable": false,
+      "description": "Required for all appointments"
+    },
+    "minimum": {
+      "amount": "$80",
+      "description": "Minimum tattoo price"
+    },
+    "styles": "All tattoo styles available",
+    "walkIns": "Walk-ins welcome",
+    "contact": "Contact via artists' social media",
+    "consultation": {
+      "price": "Free",
+      "description": "Match you with the best artist"
+    }
+  },
+  "cta": {
+    "primary": {
+      "text": "Get In Touch",
+      "href": "/contact",
+      "phone": "(985) 855-3826"
+    },
+    "secondary": {
+      "text": "View Our Work",
+      "href": "/gallery"
+    }
+  },
+  "hours": {
+    "walkIn": "Anthony available for walk-ins during business hours",
+    "appointment": "Contact in advance for best availability"
+  },
+  "contact": {
+    "instagram": "@cursedinksociety",
+    "phone": "(985) 855-3826",
+    "address": "488 Corporate Dr, STE 11, Houma, LA 70360"
+  }
+}

@@ -1,0 +1,1252 @@
+---
+// Optimized Enhanced Home Hero with progressive loading
+---
+
+<section class="enhanced-hero" id="hero">
+  <!-- Lightweight background initially, Three.js loads later -->
+  <div class="static-bg" id="static-background"></div>
+  <canvas id="hero-canvas" aria-hidden="true" role="presentation" style="opacity: 0; transition: opacity 1s ease;"></canvas>
+
+  <div class="hero-content">
+    <div class="container">
+      <!-- Main Hero Content -->
+      <div class="hero-main">
+        <div class="hero-text-section">
+          <div class="hero-pretitle">
+            <span class="pretitle-accent">✦</span>
+            <span class="pretitle-text">HOUMA'S PREMIER TATTOO COLLECTIVE</span>
+            <span class="pretitle-accent">✦</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-word">CURSED</span>
+            <span class="title-word">INK</span>
+            <span class="title-word">SOCIETY</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Where artistry meets the mystical in Houma, Louisiana
+          </p>
+
+          <p class="hero-description">
+            Our collective of master artists—Anthony, Ashley, Cody, Seth, Luis, and Trent—specializes in custom designs, traditional work, and sacred ink that tells your story. Each tattoo is a unique masterpiece, forged with passion and precision in the heart of Houma, Louisiana.
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number">150+</div>
+              <div class="stat-label">Masterpieces</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">6</div>
+              <div class="stat-label">Expert Artists</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">38+</div>
+              <div class="stat-label">Years Combined</div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <!-- Social Media Links -->
+            <div class="social-links-container">
+              <h3 class="social-heading">Follow Us on Socials</h3>
+              <div class="social-links">
+                <a href="https://instagram.com/cursedinksociety" class="social-link instagram" target="_blank" rel="noopener noreferrer">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                  </svg>
+                  Instagram
+                </a>
+                <a href="https://facebook.com/cursedinksociety" class="social-link facebook" target="_blank" rel="noopener noreferrer">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  Facebook
+                </a>
+              </div>
+            </div>
+            
+            <!-- Artists Link -->
+            <div class="artists-link-container">
+              <a href="/artists" class="artists-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63C19.68 7.55 18.92 7 18.06 7h-.12c-.86 0-1.63.55-1.9 1.37L14.5 16H17v6h3zM5.5 7L4 6.5 2.5 7 3 8.5 4 8l.5-1.5zM8 10l-1.5-1L6 8.5 7.5 10l1 .5L8 10zM12 12.5l-1.5-.5L10.5 14l1 .5-.5 1.5 1.5-.5L12 12.5zM5.5 17L4 16.5 2.5 17 3 18.5 4 18l.5-1.5zM8 20l-1.5-1L6 18.5 7.5 20l1 .5L8 20z"/>
+                </svg>
+                Meet Our Artists
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual-section">
+          <!-- Simplified Logo initially -->
+          <div class="logo-showcase">
+            <div class="logo-container" id="logo-container">
+              <img
+                src="/brand/cursed-ink-logo.png"
+                alt="Cursed Ink Society Logo"
+                class="hero-logo"
+                id="interactive-logo"
+                loading="eager"
+              />
+
+              <!-- Lightweight glow rings initially hidden -->
+              <div class="glow-ring ring-1" style="opacity: 0;"></div>
+              <div class="glow-ring ring-2" style="opacity: 0;"></div>
+              <div class="glow-ring ring-3" style="opacity: 0;"></div>
+
+              <!-- Particles initially hidden -->
+              <div class="floating-particles" style="opacity: 0;">
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
+                <div class="particle particle-4"></div>
+                <div class="particle particle-5"></div>
+              </div>
+            </div>
+
+            <!-- Holographic overlay initially hidden -->
+            <div class="holographic-overlay" style="opacity: 0;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Scroll Indicator - Hidden on Mobile -->
+      <div class="enhanced-scroll-indicator desktop-only">
+        <div class="scroll-content">
+          <span class="scroll-text">Explore Our World</span>
+          <div class="scroll-line"></div>
+          <svg class="scroll-arrow" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.enhanced-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255, 60, 43, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 122, 24, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 50%, #0b0b0d 100%);
+  perspective: 1200px;
+}
+
+/* Static background for initial load */
+.static-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(600px circle at 50% 50%, rgba(255, 60, 43, 0.1) 0%, transparent 50%),
+    radial-gradient(400px circle at 80% 20%, rgba(255, 122, 24, 0.05) 0%, transparent 50%),
+    radial-gradient(300px circle at 20% 80%, rgba(255, 60, 43, 0.08) 0%, transparent 50%);
+  z-index: 1;
+  transition: opacity 1s ease;
+}
+
+.static-bg.hidden {
+  opacity: 0;
+}
+
+#hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+}
+
+.hero-text-section {
+  max-width: 100%;
+  padding: 0 1rem;
+}
+
+/* Simplified Typography for faster rendering */
+.hero-pretitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--accent1);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+}
+
+.pretitle-accent {
+  color: var(--accent0);
+  font-size: 1.2rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  font-family: 'Cinzel', serif;
+  position: relative;
+  text-align: center;
+  max-width: 100%;
+  word-wrap: break-word;
+  hyphens: auto;
+  background: linear-gradient(45deg, var(--accent0), var(--accent1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+}
+
+.title-word {
+  display: inline-block;
+  margin-right: 0.2em;
+  margin-bottom: 0.3em;
+  max-width: 100%;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--accent1);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+  max-width: 550px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.8s forwards;
+}
+
+/* Simplified Stats Section */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: clamp(3rem, 8vw, 6rem);
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1s forwards;
+  position: relative;
+}
+
+.hero-stats::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 60, 43, 0.2) 20%, 
+    rgba(255, 122, 24, 0.3) 50%, 
+    rgba(255, 60, 43, 0.2) 80%, 
+    transparent 100%
+  );
+  z-index: -1;
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+  padding: 0;
+  background: none;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  cursor: default;
+}
+
+.stat-item:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.stat-number {
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 900;
+  color: var(--accent0);
+  margin-bottom: 0.8rem;
+  text-shadow: 
+    0 0 25px rgba(255, 60, 43, 0.6),
+    0 2px 10px rgba(0, 0, 0, 0.3);
+  line-height: 0.9;
+  font-family: 'Cinzel', serif;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  background: linear-gradient(135deg, var(--accent0) 0%, var(--accent1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.4));
+}
+
+.stat-label {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  position: relative;
+}
+
+/* Enhanced Actions Section */
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1.2s forwards;
+}
+
+/* Social Links Container */
+.social-links-container {
+  text-align: center;
+}
+
+.social-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--accent1);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 20px rgba(255, 60, 43, 0.5);
+  letter-spacing: 0.02em;
+}
+
+.social-links {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 60, 43, 0.3);
+  color: var(--accent0);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 60, 43, 0.2);
+}
+
+.social-link svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.social-link:hover svg {
+  opacity: 1;
+}
+
+/* Artists Link */
+.artists-link-container {
+  text-align: center;
+}
+
+.artists-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  position: relative;
+}
+
+.artists-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent0), var(--accent1));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.artists-link:hover {
+  color: var(--accent0);
+  text-shadow: 0 0 15px rgba(255, 60, 43, 0.4);
+  transform: translateY(-2px);
+}
+
+.artists-link:hover::after {
+  width: 100%;
+}
+
+.artists-link svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.artists-link:hover svg {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(255, 60, 43, 0.5));
+}
+
+/* Desktop Only Utility */
+.desktop-only {
+  display: block;
+}
+
+/* Enhanced Logo Section - Initially Simple */
+.hero-visual-section {
+  position: relative;
+  opacity: 0;
+  animation: fadeInRight 0.8s ease-out 0.4s forwards;
+}
+
+.logo-showcase {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-container {
+  position: relative;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.hero-logo {
+  width: 350px;
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(255, 60, 43, 0.6));
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+/* Glow rings - initially hidden for performance */
+.glow-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 60, 43, 0.3);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
+
+.ring-1 {
+  width: 450px;
+  height: 450px;
+}
+
+.ring-2 {
+  width: 550px;
+  height: 550px;
+}
+
+.ring-3 {
+  width: 650px;
+  height: 650px;
+}
+
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent0);
+  border-radius: 50%;
+}
+
+.particle-1 { top: 20%; left: 30%; }
+.particle-2 { top: 60%; left: 70%; }
+.particle-3 { top: 40%; left: 20%; }
+.particle-4 { top: 80%; left: 50%; }
+.particle-5 { top: 30%; left: 80%; }
+
+.holographic-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(45deg, transparent 30%, rgba(255, 122, 24, 0.1) 50%, transparent 70%),
+    linear-gradient(-45deg, transparent 30%, rgba(255, 60, 43, 0.05) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Enhanced Scroll Indicator */
+.enhanced-scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 1.8s forwards;
+}
+
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scroll-content:hover {
+  transform: translateY(-5px);
+}
+
+.scroll-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--accent1), var(--accent0));
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
+  animation: scrollShine 2s ease-in-out infinite;
+}
+
+.scroll-arrow {
+  color: var(--accent1);
+  animation: bounce 2s infinite;
+}
+
+/* Keyframe Animations - Simplified */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scrollShine {
+  0%, 100% {
+    transform: translateY(-60px);
+  }
+  50% {
+    transform: translateY(60px);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .enhanced-hero {
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .hero-content {
+    padding: 4rem 0 2rem;
+    min-height: 100vh;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .hero-main {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-text-section {
+    order: 2;
+  }
+
+  .hero-visual-section {
+    order: 1;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .hero-stats {
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-actions {
+    gap: 2rem;
+  }
+
+  .social-links {
+    gap: 1.5rem;
+  }
+
+  .social-link {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .social-heading {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .artists-link {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .hero-logo {
+    width: 220px;
+    max-width: 80vw;
+  }
+
+  .enhanced-scroll-indicator {
+    bottom: 2rem;
+  }
+
+  .scroll-text {
+    font-size: 0.8rem;
+  }
+
+  .scroll-line {
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 3rem 0 1rem;
+  }
+
+  .hero-main {
+    padding: 1rem 0.5rem;
+    gap: 1.5rem;
+  }
+
+  .container {
+    padding: 0 0.8rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    margin-bottom: 0.8rem;
+    padding: 0 1rem;
+    line-height: 1.3;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: clamp(2.2rem, 8vw, 3rem);
+  }
+
+  .stat-label {
+    font-size: clamp(0.75rem, 3vw, 0.9rem);
+  }
+
+  .hero-actions {
+    gap: 1.5rem;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .social-link {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .social-heading {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .artists-link {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .hero-logo {
+    width: 200px;
+    max-width: 70vw;
+  }
+
+  .enhanced-scroll-indicator {
+    bottom: 1rem;
+    transform: translateX(-50%) scale(0.9);
+  }
+
+  .hero-pretitle {
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .pretitle-accent {
+    font-size: 1rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .hero-pretitle,
+  .hero-title,
+  .hero-subtitle,
+  .hero-description,
+  .hero-stats,
+  .hero-actions,
+  .hero-visual-section,
+  .enhanced-scroll-indicator {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .scroll-arrow,
+  .pretitle-accent {
+    animation: none !important;
+  }
+
+  .stat-item:hover {
+    transform: none;
+  }
+}
+
+/* Progressive enhancement classes */
+.enhanced-loaded .glow-ring,
+.enhanced-loaded .floating-particles,
+.enhanced-loaded .holographic-overlay {
+  opacity: 1;
+}
+
+.enhanced-loaded .glow-ring {
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+.enhanced-loaded .floating-particles .particle {
+  animation: float 6s ease-in-out infinite;
+}
+
+.enhanced-loaded .floating-particles .particle-1 { animation-delay: 0s; }
+.enhanced-loaded .floating-particles .particle-2 { animation-delay: 1.5s; }
+.enhanced-loaded .floating-particles .particle-3 { animation-delay: 3s; }
+.enhanced-loaded .floating-particles .particle-4 { animation-delay: 4.5s; }
+.enhanced-loaded .floating-particles .particle-5 { animation-delay: 2s; }
+
+.enhanced-loaded .holographic-overlay {
+  animation: hologram 4s ease-in-out infinite;
+}
+
+@keyframes pulseRing {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px) translateX(-10px);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes hologram {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02) rotate(1deg);
+  }
+}
+</style>
+
+<script>
+  // Import performance monitor
+  import { PerformanceMonitor } from '../lib/performance-monitor';
+  
+  // Progressive Enhancement for Performance
+  class OptimizedHeroLoader {
+    private isLoaded: boolean = false;
+    private enhancementsEnabled: boolean = false;
+    private loadTimer: number | null = null;
+    
+    constructor() {
+      const monitor = PerformanceMonitor.getInstance();
+      const heroTimer = monitor.measureComponentLoad('OptimizedHero');
+      heroTimer.start();
+      
+      this.init();
+      
+      // End timing when basic initialization is complete
+      requestAnimationFrame(() => {
+        heroTimer.end();
+      });
+    }
+
+    private init(): void {
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // Skip heavy enhancements on mobile or reduced motion
+      if (prefersReducedMotion || isMobile) {
+        this.initBasicInteractions();
+        return;
+      }
+
+      // Progressive loading strategy
+      this.scheduleEnhancements();
+      this.initBasicInteractions();
+    }
+
+    private scheduleEnhancements(): void {
+      // Load enhancements after initial render
+      this.loadTimer = window.setTimeout(() => {
+        this.loadEnhancements();
+      }, 1000); // 1 second delay
+
+      // Also load on user interaction
+      const interactionEvents = ['click', 'touchstart', 'mousemove', 'scroll'];
+      const handleFirstInteraction = () => {
+        if (!this.enhancementsEnabled) {
+          if (this.loadTimer) {
+            clearTimeout(this.loadTimer);
+          }
+          this.loadEnhancements();
+        }
+        interactionEvents.forEach(event => {
+          document.removeEventListener(event, handleFirstInteraction, { passive: true } as any);
+        });
+      };
+
+      interactionEvents.forEach(event => {
+        document.addEventListener(event, handleFirstInteraction, { passive: true });
+      });
+    }
+
+    private initBasicInteractions(): void {
+      // Basic logo hover effect
+      const logo = document.getElementById('interactive-logo');
+      const container = document.getElementById('logo-container');
+      
+      if (logo && container) {
+        container.addEventListener('mouseenter', () => {
+          logo.style.filter = 'drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))';
+          logo.style.transform = 'scale(1.05)';
+        });
+
+        container.addEventListener('mouseleave', () => {
+          logo.style.filter = 'drop-shadow(0 0 30px rgba(255, 60, 43, 0.6))';
+          logo.style.transform = 'scale(1)';
+        });
+      }
+
+      // Scroll indicator
+      const scrollIndicator = document.querySelector('.enhanced-scroll-indicator');
+      if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', this.handleScrollClick.bind(this));
+      }
+    }
+
+    private loadEnhancements(): void {
+      if (this.enhancementsEnabled) return;
+      
+      this.enhancementsEnabled = true;
+      
+      // Add enhanced class to enable animations
+      document.body.classList.add('enhanced-loaded');
+      
+      // Hide static background and show canvas
+      const staticBg = document.getElementById('static-background');
+      const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
+      
+      if (staticBg && canvas) {
+        // Load Three.js background
+        this.loadThreeJSBackground(canvas).then(() => {
+          staticBg.classList.add('hidden');
+          canvas.style.opacity = '1';
+        }).catch(() => {
+          console.warn('Three.js background failed to load, using static background');
+        });
+      }
+
+      // Enable advanced logo interactions
+      this.initAdvancedLogoInteraction();
+    }
+
+    private async loadThreeJSBackground(canvas: HTMLCanvasElement): Promise<void> {
+      try {
+        // Dynamic import of Three.js
+        const THREE = await import('three');
+        
+        // WebGL capability check
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) {
+          throw new Error('WebGL not supported');
+        }
+
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: false, // Disabled for performance
+          alpha: true,
+          powerPreference: 'low-power'
+        });
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
+        camera.position.set(0, 0, 5);
+
+        // Optimized resize handler
+        const resize = (): void => {
+          const { clientWidth: w, clientHeight: h } = canvas;
+          if (canvas.width !== w || canvas.height !== h) {
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+          }
+        };
+
+        resize();
+        new ResizeObserver(resize).observe(canvas);
+        renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio || 1));
+
+        // Reduced particle count for performance
+        const particleCount = 300;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+          positions[i3] = (Math.random() - 0.5) * 20;
+          positions[i3 + 1] = (Math.random() - 0.5) * 12;
+          positions[i3 + 2] = -(Math.random() * 8 + 2);
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const particleMaterial = new THREE.PointsMaterial({
+          color: 0xffe7d0,
+          size: 0.015,
+          transparent: true,
+          opacity: 0.4,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+
+        const particles = new THREE.Points(geometry, particleMaterial);
+        scene.add(particles);
+
+        // Mouse interaction
+        const mouse = new THREE.Vector2();
+        let mouseUpdateId = 0;
+
+        const updateMouse = (e: PointerEvent): void => {
+          cancelAnimationFrame(mouseUpdateId);
+          mouseUpdateId = requestAnimationFrame(() => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+          });
+        };
+
+        window.addEventListener('pointermove', updateMouse, { passive: true });
+
+        // Animation loop
+        const clock = new THREE.Clock();
+        let animationId: number;
+
+        const animate = () => {
+          animationId = requestAnimationFrame(animate);
+
+          const dt = clock.getDelta();
+
+          // Smooth camera movement
+          camera.position.x += (mouse.x * 0.3 - camera.position.x) * 0.02;
+          camera.position.y += (-mouse.y * 0.2 - camera.position.y) * 0.02;
+          camera.lookAt(0, 0, 0);
+
+          // Particle rotation
+          particles.rotation.y += dt * 0.005;
+          particles.rotation.x += dt * 0.001;
+
+          renderer.render(scene, camera);
+        };
+
+        animate();
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+          cancelAnimationFrame(animationId);
+          renderer.dispose();
+          geometry.dispose();
+          particleMaterial.dispose();
+        });
+
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    private initAdvancedLogoInteraction(): void {
+      const logo = document.getElementById('interactive-logo');
+      const container = document.getElementById('logo-container');
+      
+      if (!logo || !container) return;
+
+      let mouse = { x: 0, y: 0 };
+      let animationId: number | null = null;
+
+      const handleMouseMove = (e: MouseEvent): void => {
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        mouse.x = (e.clientX - centerX) / (window.innerWidth / 2);
+        mouse.y = (e.clientY - centerY) / (window.innerHeight / 2);
+      };
+
+      const animate = (): void => {
+        if (!logo) return;
+
+        const rotationX = -mouse.y * 10;
+        const rotationY = mouse.x * 10;
+        const rotationZ = Math.sin(Date.now() * 0.0005) * 2;
+        const scale = 1 + Math.min(Math.sqrt(mouse.x * mouse.x + mouse.y * mouse.y) * 0.05, 0.1);
+
+        logo.style.transform = `
+          perspective(1200px)
+          rotateX(${rotationX}deg)
+          rotateY(${rotationY}deg)
+          rotateZ(${rotationZ}deg)
+          scale(${scale})
+        `;
+
+        animationId = requestAnimationFrame(animate);
+      };
+
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      animate();
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        window.removeEventListener('mousemove', handleMouseMove);
+      });
+    }
+
+    private handleScrollClick(): void {
+      const artistsSection = document.querySelector('#artists');
+      if (artistsSection) {
+        artistsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else {
+        const nextSection = document.querySelector('section:nth-of-type(2)');
+        if (nextSection) {
+          nextSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new OptimizedHeroLoader());
+  } else {
+    new OptimizedHeroLoader();
+  }
+</script>

@@ -113,38 +113,120 @@ const { showStats = true } = Astro.props;
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Subtle brand identifier */
+@keyframes shimmer {
+  0%, 100% {
+    background-position: -200% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+/* Social Media Icon Animations */
+@keyframes socialFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes socialGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(220, 20, 60, 0.6))
+            drop-shadow(0 0 40px rgba(220, 20, 60, 0.3));
+  }
+}
+
+@keyframes socialPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes socialRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes socialRipple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(220, 20, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 20, 60, 0);
+  }
+}
+
+/* Enhanced brand identifier */
 .brand-mark {
-  font-size: 0.9rem;
-  letter-spacing: 0.3em;
+  font-size: 1rem;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  font-weight: 300;
-  margin-bottom: 1.5rem;
-  opacity: 0.8;
-  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  opacity: 1;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+  border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+  padding-bottom: 0.5rem;
+  display: inline-block;
 }
 
-/* Minimal tagline */
+/* Professional tagline - Enhanced Visual Impact */
 .tagline {
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: 0.05em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   margin-bottom: 3rem;
-  opacity: 0.9;
-  max-width: 400px;
-  line-height: 1.5;
+  opacity: 1;
+  max-width: 650px;
+  line-height: 1.3;
+  color: #ffffff;
+  text-shadow: 
+    0 0 30px rgba(255, 255, 255, 0.8),
+    0 0 60px rgba(220, 20, 60, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Artists-specific content */
+/* Professional artists-specific content - Clean Text */
 .artists-intro {
-  font-size: 1.2rem;
-  font-weight: 300;
-  letter-spacing: 0.02em;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   margin-bottom: 4rem;
-  opacity: 0.85;
-  max-width: 500px;
+  opacity: 1;
+  max-width: 700px;
   line-height: 1.6;
   text-align: center;
+  color: #f8f8f8;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Stats Section - Artists Page Specific */
@@ -158,12 +240,24 @@ const { showStats = true } = Astro.props;
 
 .stat-item {
   text-align: center;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  min-width: 160px;
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(220, 20, 60, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  min-width: 180px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(220, 20, 60, 0.5);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(220, 20, 60, 0.3);
 }
 
 .stat-number {
@@ -214,48 +308,103 @@ const { showStats = true } = Astro.props;
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Minimal social links */
+/* Enhanced social links with animations */
 .social-minimal {
   display: flex;
-  gap: 3rem;
+  gap: 4rem;
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
+  perspective: 1000px;
 }
 
 .social-link {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.5rem 0.8rem;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  backdrop-filter: none;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid transparent;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(5px);
   position: relative;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  animation: socialFloat 4s ease-in-out infinite;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.social-link:hover::before {
+  left: 100%;
 }
 
 .social-link:hover {
-  transform: translateY(-1px);
-  opacity: 0.8;
+  transform: translateY(-8px) scale(1.05);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(220, 20, 60, 0.5);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(220, 20, 60, 0.3);
+  animation: socialFloat 4s ease-in-out infinite, socialGlow 2s ease-in-out infinite;
+}
+
+.social-link:active {
+  transform: translateY(-5px) scale(0.98);
+  animation: socialRipple 0.6s ease-out;
 }
 
 .social-link svg {
-  width: 18px;
-  height: 18px;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
+  width: 20px;
+  height: 20px;
+  opacity: 0.85;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
 }
 
 .social-link:hover svg {
   opacity: 1;
+  transform: scale(1.2);
+  animation: socialRotate 0.8s ease-in-out;
+  filter: drop-shadow(0 0 15px rgba(220, 20, 60, 0.6));
+}
+
+/* Individual platform-specific colors on hover */
+.social-link[href*="instagram"]:hover {
+  border-color: rgba(225, 48, 108, 0.6);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(225, 48, 108, 0.4);
+}
+
+.social-link[href*="instagram"]:hover svg {
+  filter: drop-shadow(0 0 15px rgba(225, 48, 108, 0.8));
+}
+
+.social-link[href*="facebook"]:hover {
+  border-color: rgba(24, 119, 242, 0.6);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(24, 119, 242, 0.4);
+}
+
+.social-link[href*="facebook"]:hover svg {
+  filter: drop-shadow(0 0 15px rgba(24, 119, 242, 0.8));
 }
 
 /* Content container for hero */
@@ -263,6 +412,15 @@ const { showStats = true } = Astro.props;
   position: relative;
   z-index: 2;
   padding: 0 1rem;
+}
+
+/* Staggered animation delays */
+.social-link:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.social-link:nth-child(2) {
+  animation-delay: 0.5s;
 }
 
 /* Mobile responsive adjustments */
@@ -404,28 +562,28 @@ const { showStats = true } = Astro.props;
       <!-- Minimal Brand Mark -->
       <div class="brand-mark">Cursed Ink Society</div>
 
-      <!-- Subtle Tagline -->
-      <p class="tagline">Where artistry meets the mystical</p>
+      <!-- Professional Tagline -->
+      <p class="tagline">Louisiana's Premier Tattoo Collective</p>
 
-      <!-- Artists-Specific Introduction -->
+      <!-- Professional Artists Introduction -->
       <p class="artists-intro">
-        Discover our collective of master tattoo artists, each bringing unique vision and unparalleled skill to every piece. From custom designs to traditional work, our guild creates lasting art that tells your story.
+        Six master artists. One extraordinary vision. Our award-winning collective brings decades of combined expertise to every custom piece, specializing in traditional artistry, contemporary designs, and sacred ink that honors your unique story.
       </p>
 
       {showStats && (
         <!-- Artists Stats -->
         <div class="artists-stats">
           <div class="stat-item">
-            <span class="stat-number">12+</span>
-            <span class="stat-label">Artists</span>
+            <span class="stat-number">6</span>
+            <span class="stat-label">Master Artists</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">50+</span>
+            <span class="stat-number">38+</span>
             <span class="stat-label">Years Combined</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number">8</span>
-            <span class="stat-label">Art Styles</span>
+            <span class="stat-number">12</span>
+            <span class="stat-label">Specialties</span>
           </div>
         </div>
       )}

@@ -2,20 +2,24 @@
 import Layout from '../layouts/Layout.astro';
 
 const title = "About Cursed Ink Society — Premier Tattoo Studio in Houma, LA";
-const description = "Learn about Cursed Ink Society's mission, values, and commitment to excellence in tattoo artistry. Discover why we're Houma's premier destination for custom tattoos.";
+const description = "Learn about Cursed Ink Society's seven-year journey, our family of artists, and commitment to excellence in tattoo artistry. Discover why we're Houma's premier destination for custom tattoos.";
 
 // Studio information
 const studioInfo = {
-  founded: "2024",
+  founded: "2018",
+  yearsActive: "7",
   location: "Houma, Louisiana",
-  philosophy: "Where artistry meets the mystical",
-  mission: "To create meaningful, beautiful tattoos that tell your unique story while honoring the ancient traditions of the craft.",
+  philosophy: "Seven Years of Artistry and Community",
+  mission: "At Cursed Ink Society, our story is one forged in passion, perseverance, and a shared commitment to the art of tattooing. For nearly seven years, our collective of artists has honed their craft, grown together, and built a foundation rooted in mutual respect and a deep love for what we do.",
+  story: "We are more than just a tattoo studio; we are a family of artists who have navigated the evolving landscape of this incredible industry side-by-side. From humble beginnings to becoming recognized as some of Houma's finest and most dedicated artists, every stroke of the needle, every shared laugh, and every challenge overcome has woven us closer together.",
+  commitment: "Our commitment extends beyond the ink. We believe in fostering a welcoming and professional environment where creativity flourishes and every client feels valued and understood. Our studio is a sanctuary where your vision is brought to life with precision, care, and an artistic touch that is uniquely ours.",
+  vision: "As we continue this exciting journey with Cursed Ink Society, we are filled with immense gratitude and enthusiasm. It is with great pleasure and a humble spirit that we serve the public, inviting you to experience the culmination of our seven-year journey. We eagerly anticipate welcoming new faces and continuing to serve our cherished community with the top-notch work and heartfelt dedication that has defined us from the very beginning.",
   values: [
     "Artistic Excellence",
-    "Cultural Respect", 
+    "Professional Integrity", 
     "Client Safety",
     "Community Connection",
-    "Continuous Learning"
+    "Continuous Growth"
   ]
 };
 
@@ -26,14 +30,9 @@ const certifications = [
     icon: "health"
   },
   {
-    title: "Bloodborne Pathogen Certified",
-    description: "All artists maintain current bloodborne pathogen certification",
+    title: "Safety & Sterilization Standards",
+    description: "Hospital-grade sterilization and safety protocols",
     icon: "safety"
-  },
-  {
-    title: "Professional Tattoo Association",
-    description: "Active members of professional tattoo organizations",
-    icon: "professional"
   },
   {
     title: "First Aid & CPR Certified",
@@ -44,101 +43,423 @@ const certifications = [
 
 const studioFeatures = [
   {
-    title: "Private Consultation Rooms",
-    description: "Comfortable, private spaces to discuss your vision",
+    title: "Private Consultation Spaces",
+    description: "Comfortable, welcoming spaces to discuss your artistic vision",
     icon: "consultation"
   },
   {
-    title: "State-of-the-Art Equipment",
-    description: "Latest technology for precision and safety",
+    title: "Professional-Grade Equipment",
+    description: "Premium tools and technology for precision artistry",
     icon: "equipment"
   },
   {
-    title: "Sterile Environment",
-    description: "Hospital-grade sterilization and cleanliness standards",
+    title: "Clean & Safe Environment",
+    description: "Pristine workspace with industry-leading safety standards",
     icon: "sterile"
   },
   {
-    title: "Comfortable Atmosphere",
-    description: "Relaxing environment designed for your comfort",
+    title: "Welcoming Atmosphere",
+    description: "A sanctuary where creativity and comfort come together",
     icon: "comfort"
   }
 ];
 
-const communityInvolvement = [
+const communityShowcase = [
   {
     title: "Local Art Community",
-    description: "Supporting local artists and art education programs",
-    icon: "art"
+    description: "Supporting local artists and art education programs throughout Houma",
+    icon: "art",
+    background: "/assets/artists/seth-wood/image3 (1).jpeg",
+    artist: "Seth Wood",
+    style: "Neo-Traditional"
   },
   {
-    title: "Charity Events",
-    description: "Regular participation in community fundraising events",
-    icon: "charity"
+    title: "Charity & Fundraising",
+    description: "Using our artistry to support meaningful causes in our community",
+    icon: "charity",
+    background: "/assets/artists/ashley-wood/tattoo-02.jpg",
+    artist: "Ashley Wood",
+    style: "Watercolor"
   },
   {
-    title: "Educational Workshops",
-    description: "Hosting workshops on tattoo history and cultural significance",
-    icon: "education"
+    title: "Cultural Education",
+    description: "Teaching tattoo history, cultural significance, and artistic traditions",
+    icon: "education",
+    background: "/assets/artists/luis-reymundo/456455404_18445571008001635_6969315202827007293_n.jpg",
+    artist: "Luis Reymundo",
+    style: "Traditional Japanese"
   },
   {
     title: "Youth Mentorship",
-    description: "Mentoring aspiring artists in proper techniques and ethics",
-    icon: "mentorship"
+    description: "Guiding the next generation of artists with proper techniques and ethics",
+    icon: "mentorship",
+    background: "/assets/artists/Anthony/buddha_ta2_1750266714_3657824772252347663_522395724.jpg",
+    artist: "Anthony Boudreaux",
+    style: "Black & Grey Realism"
+  },
+  {
+    title: "Community Events",
+    description: "Hosting art shows, open studios, and creative community gatherings",
+    icon: "events",
+    background: "/assets/artists/cody-crochet/madman.jpg",
+    artist: "Cody Crochet",
+    style: "Anime & Manga"
+  },
+  {
+    title: "Artistic Legacy",
+    description: "Building a lasting cultural impact through art, mentorship, and community connection",
+    icon: "legacy",
+    background: "/assets/artists/trent/r.jpg",
+    artist: "Trent",
+    style: "Neo-Traditional"
   }
 ];
 ---
 
 <Layout title={title} description={description}>
-  <!-- Hero Section -->
-  <section class="about-hero">
-    <div class="container">
-      <div class="hero-content">
-        <span class="badge">Our Story</span>
-        <h1 class="hero-title shine">About Cursed Ink Society</h1>
-        <p class="hero-description">
-          {studioInfo.philosophy}
-        </p>
-      </div>
-    </div>
-  </section>
+  <!-- Hero Section with Enhanced Logo Display -->
+  <section class="about-hero enhanced-hero">
+    <!-- Three.js Canvas Background -->
+    <canvas id="about-hero-canvas" aria-hidden="true" role="presentation"></canvas>
 
-  <!-- Mission & Values -->
-  <section class="mission-values">
-    <div class="container">
-      <div class="mission-values-grid">
-        <div class="mission-section">
-          <h2 class="section-title">Our Mission</h2>
-          <p class="mission-text">{studioInfo.mission}</p>
-          
-          <div class="studio-stats">
-            <div class="stat">
-              <span class="stat-number">Est. {studioInfo.founded}</span>
-              <span class="stat-label">Founded</span>
+      <div class="hero-content">
+      <div class="container">
+        <!-- Main Hero Content -->
+        <div class="hero-main">
+          <div class="hero-text-section">
+            <div class="hero-pretitle">
+              <span class="pretitle-accent">✦</span>
+              <span class="pretitle-text">OUR JOURNEY</span>
+              <span class="pretitle-accent">✦</span>
             </div>
-            <div class="stat">
-              <span class="stat-number">500+</span>
-              <span class="stat-label">Happy Clients</span>
+
+            <h1 class="hero-title">
+              <span class="title-word">
+                <span class="letter" data-letter="S">S</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="V">V</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="N">N</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="Y">Y</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="S">S</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="O">O</span>
+                <span class="letter" data-letter="F">F</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="T">T</span>
+                <span class="letter" data-letter="I">I</span>
+                <span class="letter" data-letter="S">S</span>
+                <span class="letter" data-letter="T">T</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="Y">Y</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="N">N</span>
+                <span class="letter" data-letter="D">D</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="C">C</span>
+                <span class="letter" data-letter="O">O</span>
+                <span class="letter" data-letter="M">M</span>
+                <span class="letter" data-letter="M">M</span>
+                <span class="letter" data-letter="U">U</span>
+                <span class="letter" data-letter="N">N</span>
+                <span class="letter" data-letter="I">I</span>
+                <span class="letter" data-letter="T">T</span>
+                <span class="letter" data-letter="Y">Y</span>
+              </span>
+            </h1>
+
+            <p class="hero-subtitle">
+              SIX MASTER ARTISTS. ONE EXTRAORDINARY VISION. OUR AWARD-WINNING COLLECTIVE BRINGS DECADES OF COMBINED EXPERTISE TO EVERY CUSTOM PIECE, SPECIALIZING IN TRADITIONAL ARTISTRY, CONTEMPORARY DESIGNS, AND SACRED INK THAT HONORS YOUR UNIQUE STORY.
+            </p>
+
+            <div class="hero-actions">
+              <!-- Social Media Links -->
+              <div class="social-links-container">
+                <h3 class="social-heading">Follow Us on Socials</h3>
+                <div class="social-links">
+                  <a href="https://instagram.com/cursedinksociety" class="social-link instagram" target="_blank" rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
+                    Instagram
+                  </a>
+                  <a href="https://facebook.com/cursedinksociety" class="social-link facebook" target="_blank" rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="stat">
-              <span class="stat-number">4.9★</span>
-              <span class="stat-label">Google Rating</span>
+          </div>
+
+          <div class="hero-visual-section">
+            <!-- 3D Interactive Logo -->
+            <div class="logo-showcase">
+              <div class="logo-container" id="about-logo-container">
+                <img
+                  src="/brand/cursed-ink-logo.png"
+                  alt="Cursed Ink Society Logo"
+                  class="hero-logo"
+                  id="about-interactive-logo"
+                  loading="eager"
+                />
+
+                <!-- Animated Glow Rings -->
+                <div class="glow-ring ring-1"></div>
+                <div class="glow-ring ring-2"></div>
+                <div class="glow-ring ring-3"></div>
+
+                <!-- Floating Particles -->
+                <div class="floating-particles">
+                  <div class="particle particle-1"></div>
+                  <div class="particle particle-2"></div>
+                  <div class="particle particle-3"></div>
+                  <div class="particle particle-4"></div>
+                  <div class="particle particle-5"></div>
+            </div>
+            </div>
+
+              <!-- Holographic Effect Overlay -->
+              <div class="holographic-overlay"></div>
             </div>
           </div>
         </div>
 
-        <div class="values-section">
-          <h2 class="section-title">Our Values</h2>
-          <ul class="values-list">
-            {studioInfo.values.map((value) => (
-              <li class="value-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-                {value}
-              </li>
-            ))}
-          </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story Section - Mystical Chronicle -->
+  <section class="our-story mystical-chronicle">
+    <div class="chronicle-atmosphere">
+      <div class="floating-runes">
+        <div class="rune rune-1">✦</div>
+        <div class="rune rune-2">◆</div>
+        <div class="rune rune-3">✧</div>
+        <div class="rune rune-4">⬟</div>
+        <div class="rune rune-5">✦</div>
+      </div>
+      
+    <div class="container">
+        <div class="story-content">
+          <div class="mystical-story-header animate-on-scroll">
+            <div class="chronicle-emblem">
+              <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+              <div class="emblem-aura"></div>
+            </div>
+            <h2 class="chronicle-title">The Chronicles of Creation</h2>
+            <div class="mystical-separator"></div>
+          </div>
+
+          <div class="story-scrolls">
+            <div class="scroll-container animate-on-scroll">
+              <div class="ancient-scroll">
+                <div class="scroll-header">
+                  <span class="scroll-chapter">Chapter I: The Calling</span>
+            </div>
+                <p class="scroll-text">{studioInfo.mission}</p>
+            </div>
+            </div>
+
+            <div class="scroll-container animate-on-scroll">
+              <div class="ancient-scroll">
+                <div class="scroll-header">
+                  <span class="scroll-chapter">Chapter II: The Brotherhood</span>
+                </div>
+                <p class="scroll-text">{studioInfo.story}</p>
+          </div>
+        </div>
+
+            <div class="scroll-container animate-on-scroll">
+              <div class="ancient-scroll">
+                <div class="scroll-header">
+                  <span class="scroll-chapter">Chapter III: The Sanctuary</span>
+                </div>
+                <p class="scroll-text">{studioInfo.commitment}</p>
+              </div>
+            </div>
+
+            <div class="scroll-container animate-on-scroll">
+              <div class="ancient-scroll">
+                <div class="scroll-header">
+                  <span class="scroll-chapter">Chapter IV: The Legacy</span>
+                </div>
+                <p class="scroll-text">{studioInfo.vision}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mystical-stats animate-on-scroll">
+          <div class="cosmic-stat">
+            <div class="stat-constellation">
+              <div class="constellation-center">
+                <span class="cosmic-number">{studioInfo.yearsActive}</span>
+              </div>
+              <div class="constellation-points">
+                <div class="point point-1"></div>
+                <div class="point point-2"></div>
+                <div class="point point-3"></div>
+                <div class="point point-4"></div>
+              </div>
+            </div>
+            <span class="cosmic-label">Years of Mystical Artistry</span>
+          </div>
+          
+          <div class="cosmic-stat">
+            <div class="stat-constellation">
+              <div class="constellation-center">
+                <span class="cosmic-number">∞</span>
+              </div>
+              <div class="constellation-points">
+                <div class="point point-1"></div>
+                <div class="point point-2"></div>
+                <div class="point point-3"></div>
+                <div class="point point-4"></div>
+              </div>
+            </div>
+            <span class="cosmic-label">Souls Transformed</span>
+          </div>
+          
+          <div class="cosmic-stat">
+            <div class="stat-constellation">
+              <div class="constellation-center">
+                <span class="cosmic-number">6</span>
+              </div>
+              <div class="constellation-points">
+                <div class="point point-1"></div>
+                <div class="point point-2"></div>
+                <div class="point point-3"></div>
+                <div class="point point-4"></div>
+              </div>
+            </div>
+            <span class="cosmic-label">Guardians of the Craft</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Building Our Dream: The Studio Journey -->
+  <section class="immersive-gallery">
+    <div class="gallery-header">
+      <h2 class="section-title text-center animate-on-scroll">Building Our Dream</h2>
+      <p class="section-description text-center animate-on-scroll">
+        From vision to reality - witness the monumental journey of seven years of dedication culminating in the creation of our studio sanctuary
+      </p>
+    </div>
+
+    <div class="gallery-container">
+      <!-- Chapter 1: The Foundation - Video Left -->
+      <div class="gallery-item video-left" data-scroll-speed="0.8">
+        <div class="video-side">
+          <div class="video-container">
+            <video autoplay muted loop playsinline class="gallery-video">
+              <source src="/assets/about page/cursedinksociety_1754239289_3691147361746194847_75577231902.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+              <span class="video-label">Chapter 1: The Foundation</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-side">
+          <div class="value-content">
+            <div class="value-icon">
+              <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+            </div>
+            <h3 class="value-title">Breaking Ground</h3>
+            <p class="value-description">Seven years of dreaming led to this moment - our artists rolling up their sleeves to transform an empty space into something extraordinary. Every nail, every wall, every detail crafted with the same precision we bring to our art.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter 2: The Build - Video Right -->
+      <div class="gallery-item video-right" data-scroll-speed="1.2">
+        <div class="content-side">
+          <div class="value-content">
+            <div class="value-icon">
+              <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+            </div>
+            <h3 class="value-title">Hands-On Creation</h3>
+            <p class="value-description">With tools in hand and vision in heart, our artists became builders. Every beam placed, every surface prepared with the same meticulous attention to detail that defines our tattoo artistry. This is craftsmanship beyond the needle.</p>
+          </div>
+        </div>
+        <div class="video-side">
+          <div class="video-container">
+            <video autoplay muted loop playsinline class="gallery-video">
+              <source src="/assets/videos/rosie_thorn25_1756162991_3707285503387765533_4133549009.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+              <span class="video-label">Chapter 2: The Build</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter 3: The Dream Realized - Video Left -->
+      <div class="gallery-item video-left" data-scroll-speed="0.9">
+        <div class="video-side">
+          <div class="video-container">
+            <video autoplay muted loop playsinline class="gallery-video">
+              <source src="/assets/about page/cursedinksociety_1753127772_3681823038048749143_75577231902.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+              <span class="video-label">Chapter 3: The Dream Realized</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-side">
+          <div class="value-content">
+            <div class="value-icon">
+              <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+            </div>
+            <h3 class="value-title">Cursed Ink Society Lives</h3>
+            <p class="value-description">From empty walls to a thriving sanctuary of art - our studio stands as a monument to perseverance, creativity, and the power of shared dreams. Seven years of dedication, countless hours of labor, and infinite passion culminated in this moment. Welcome to Cursed Ink Society.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Epic Conclusion -->
+    <div class="journey-conclusion">
+      <div class="container">
+        <div class="conclusion-content animate-on-scroll">
+          <div class="conclusion-icon">
+            <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+          </div>
+          <h3 class="conclusion-title">A Monument to Dreams</h3>
+          <p class="conclusion-text">
+            What you've witnessed is more than construction - it's the physical manifestation of seven years of artistic passion, brotherhood, and unwavering determination. Every beam raised, every wall painted, every detail perfected by the same hands that create masterpieces on skin. This is our legacy. This is Cursed Ink Society.
+          </p>
+          <div class="momentum-stats">
+            <div class="momentum-stat">
+              <span class="stat-number">7</span>
+              <span class="stat-label">Years of Vision</span>
+            </div>
+            <div class="momentum-stat">
+              <span class="stat-number">∞</span>
+              <span class="stat-label">Hours of Labor</span>
+            </div>
+            <div class="momentum-stat">
+              <span class="stat-number">1</span>
+              <span class="stat-label">Dream Realized</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -147,76 +468,88 @@ const communityInvolvement = [
   <!-- Studio Features -->
   <section class="studio-features">
     <div class="container">
-      <h2 class="section-title">Our Studio</h2>
-      <p class="section-description">
-        Step into a space designed for comfort, creativity, and safety. Our studio combines 
-        modern amenities with a welcoming atmosphere where art comes to life.
-      </p>
-      
-      <div class="features-grid">
-        {studioFeatures.map((feature) => (
-          <div class="feature-card">
-            <div class="feature-icon" data-icon={feature.icon}>
-              {feature.icon === 'consultation' && (
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              )}
-              {feature.icon === 'equipment' && (
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
-                </svg>
-              )}
-              {feature.icon === 'sterile' && (
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
-                </svg>
-              )}
-              {feature.icon === 'comfort' && (
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              )}
-            </div>
-            <h3 class="feature-title">{feature.title}</h3>
-            <p class="feature-description">{feature.description}</p>
+        <h2 class="section-title text-center animate-on-scroll">Step Into Our Sanctuary</h2>
+        <p class="section-description text-center animate-on-scroll">
+          Where seven years of dreams became reality - a space meticulously crafted for comfort, creativity, and artistic excellence
+        </p>
+        
+        <div class="features-showcase">
+          {studioFeatures.map((feature, index) => (
+            <div class="feature-experience animate-on-scroll floating" style={`animation-delay: ${index * 0.2}s`}>
+              <div class="feature-visual">
+                <div class="feature-icon-large" data-icon={feature.icon}>
+                  <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
+                </div>
+                <div class="feature-glow"></div>
+              </div>
+              
+              <div class="feature-content">
+                <h3 class="feature-title-enhanced">{feature.title}</h3>
+                <p class="feature-description-enhanced">{feature.description}</p>
+                <div class="feature-accent"></div>
+              </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Safety & Certifications -->
+  <!-- Safety & Professionalism -->
   <section class="safety-certifications">
+    <div class="safety-showcase">
     <div class="container">
-      <div class="safety-content">
-        <div class="safety-text">
-          <h2 class="section-title">Safety & Certifications</h2>
-          <p class="safety-description">
-            Your safety is our highest priority. We maintain the strictest health and safety 
-            standards, exceeding industry requirements to ensure every client's well-being.
-          </p>
-          
-          <div class="safety-highlights">
-            <div class="safety-highlight">
-              <h4>Sterilization Process</h4>
-              <p>All equipment is sterilized using hospital-grade autoclaves between each client.</p>
+        <h2 class="section-title text-center animate-on-scroll">Trust & Excellence</h2>
+        <p class="section-description text-center animate-on-scroll">
+          Built on a foundation of unwavering safety standards and professional integrity - your peace of mind is our sacred commitment
+        </p>
+        
+        <div class="safety-experience">
+          <div class="safety-visual animate-on-scroll">
+            <div class="safety-icon-hero">
+              <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" class="cursed-logo">
             </div>
-            <div class="safety-highlight">
-              <h4>Single-Use Needles</h4>
-              <p>Every needle is brand new, single-use, and disposed of safely after each session.</p>
+            <div class="safety-text-hero">
+              <h3 class="safety-promise">Your Safety, Our Sacred Promise</h3>
+              <p class="safety-commitment">Seven years of building trust through unwavering standards, professional excellence, and genuine care for every client who enters our sanctuary.</p>
             </div>
-            <div class="safety-highlight">
-              <h4>Clean Environment</h4>
-              <p>Our studio is cleaned and sanitized throughout the day using medical-grade products.</p>
             </div>
+
+          <div class="safety-grid">
+            <div class="safety-highlight-card animate-on-scroll">
+              <div class="highlight-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                </svg>
           </div>
+              <h4>Premium Sterilization</h4>
+              <p>Professional-grade autoclaves ensure every tool meets hospital-level cleanliness standards.</p>
         </div>
 
-        <div class="certifications-grid">
-          {certifications.map((cert) => (
-            <div class="certification-card">
-              <div class="certification-icon" data-icon={cert.icon}>
+            <div class="safety-highlight-card animate-on-scroll">
+              <div class="highlight-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h4>Single-Use Excellence</h4>
+              <p>Every needle, every tube - brand new for each client, properly disposed with environmental responsibility.</p>
+            </div>
+
+            <div class="safety-highlight-card animate-on-scroll">
+              <div class="highlight-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h4>Pristine Sanctuary</h4>
+              <p>Continuous sanitization throughout the day maintains our studio as a clean, comfortable haven for art.</p>
+            </div>
+          </div>
+
+          <div class="certifications-showcase">
+            {certifications.map((cert, index) => (
+              <div class="certification-badge animate-on-scroll floating" style={`animation-delay: ${index * 0.15}s`}>
+                <div class="badge-icon">
                 {cert.icon === 'health' && (
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -227,76 +560,33 @@ const communityInvolvement = [
                     <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.1 16,12.7V16.2C16,16.8 15.4,17.3 14.8,17.3H9.2C8.6,17.3 8,16.8 8,16.2V12.8C8,12.2 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
                   </svg>
                 )}
-                {cert.icon === 'professional' && (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                )}
                 {cert.icon === 'medical' && (
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3V8zM4 8h2v8H4V8zm4-2h2v12H8V6zm4 4h2v8h-2v-8z"/>
                   </svg>
                 )}
               </div>
-              <h4 class="certification-title">{cert.title}</h4>
-              <p class="certification-description">{cert.description}</p>
+                <div class="badge-content">
+                  <h5 class="badge-title">{cert.title}</h5>
+                  <p class="badge-description">{cert.description}</p>
+                </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Community Involvement -->
-  <section class="community-involvement">
-    <div class="container">
-      <h2 class="section-title">Community Involvement</h2>
-      <p class="section-description">
-        We believe in giving back to the community that supports us. Through various initiatives, 
-        we strive to make a positive impact in Houma and beyond.
-      </p>
-      
-      <div class="community-grid">
-        {communityInvolvement.map((involvement) => (
-          <div class="community-card">
-            <div class="community-icon" data-icon={involvement.icon}>
-              {involvement.icon === 'art' && (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-              )}
-              {involvement.icon === 'charity' && (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-              )}
-              {involvement.icon === 'education' && (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
-                </svg>
-              )}
-              {involvement.icon === 'mentorship' && (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.997 2.997 0 0 0 17.5 6.5c-.8 0-1.54.37-2.01.95L14 9l-1.5-2.5A2.997 2.997 0 0 0 10 5.5c-.8 0-1.54.37-2.01.95L6.5 8.5 4 22h2.5v-6H8v6h2v-6h2v6h2v-6h2.5V22H20z"/>
-                </svg>
-              )}
-            </div>
-            <h3 class="community-title">{involvement.title}</h3>
-            <p class="community-description">{involvement.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <!-- Location & Contact -->
   <section class="location-contact">
     <div class="container">
       <div class="location-contact-grid">
         <div class="location-info">
-          <h2 class="section-title">Visit Our Studio</h2>
+          <h2 class="section-title animate-on-scroll">Visit Our Studio</h2>
           <div class="location-details">
-            <div class="location-item">
+            <div class="location-item animate-on-scroll">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
               </svg>
@@ -306,7 +596,7 @@ const communityInvolvement = [
                 </div>
             </div>
             
-            <div class="location-item">
+            <div class="location-item animate-on-scroll">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
               </svg>
@@ -316,7 +606,17 @@ const communityInvolvement = [
               </div>
             </div>
             
-            <div class="location-item">
+            <div class="location-item animate-on-scroll">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <div>
+                <h4>Email</h4>
+                <p><a href="mailto:cursedinksociety@gmail.com">cursedinksociety@gmail.com</a></p>
+              </div>
+            </div>
+
+            <div class="location-item animate-on-scroll">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2l.09.06c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L16.26 6c.33-.69.78-1.33 1.36-1.91l.84-.84c.58-.58 1.22-1.03 1.91-1.36L20.43 2c.69.33 1.33.78 1.91 1.36l.84.84c.58.58 1.03 1.22 1.36 1.91L24 6.17c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L20.43 10c-.69-.33-1.33-.78-1.91-1.36l-.84-.84c-.58-.58-1.03-1.22-1.36-1.91L16.26 6c-.33.69-.78 1.33-1.36 1.91l-.84.84c-.58.58-1.22 1.03-1.91 1.36L12 10.06z"/>
               </svg>
@@ -327,492 +627,3117 @@ const communityInvolvement = [
                    Sunday: Appointment Only</p>
               </div>
             </div>
-
-            <div class="location-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <div>
-                <h4>Services</h4>
-                <p>Tattoo • Piercing</p>
-              </div>
-            </div>
           </div>
         </div>
 
-        <div class="contact-cta">
-          <h3>Ready to Start Your Journey?</h3>
-          <p>Visit us for a consultation or reach out with any questions about our services, artists, or the tattoo process.</p>
-          <div class="contact-actions">
-            <a href="/consultation" class="btn btn--primary">Book Consultation</a>
-            <a href="/contact" class="btn btn--outline">Get Directions</a>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  /* About Hero */
-  .about-hero {
-    padding: 8rem 0 4rem;
-    text-align: center;
+  /* Enhanced Hero Section - Matching Preview Page */
+  .enhanced-hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
     background: 
-      radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+      radial-gradient(ellipse at 20% 30%, rgba(255, 60, 43, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(255, 122, 24, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 50%, #0b0b0d 100%);
+    perspective: 1200px;
+  }
+
+  #about-hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .hero-content {
-    max-width: 700px;
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+  }
+
+  .container {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
   }
 
-  .hero-title {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    margin: 1rem 0 1.5rem;
-    line-height: 1.1;
-  }
-
-  .hero-description {
-    font-size: 1.4rem;
-    line-height: 1.6;
-    opacity: 0.9;
-    margin: 0;
-    font-style: italic;
-  }
-
-  /* Mission & Values */
-  .mission-values {
-    padding: 6rem 0;
-  }
-
-  .mission-values-grid {
+  .hero-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: start;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
   }
 
-  .section-title {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    margin: 0 0 2rem;
+  .hero-text-section {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  /* Enhanced Typography */
+  .hero-pretitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--accent1);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+  }
+
+  .pretitle-accent {
+    color: var(--accent0);
+    font-size: 1.2rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-family: 'Cinzel', serif;
+    position: relative;
+    text-align: center;
+    max-width: 100%;
+    word-wrap: break-word;
+    hyphens: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3em;
+  }
+
+  .title-word {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .letter {
+    display: inline-block;
+    position: relative;
+    color: transparent;
+    background: linear-gradient(45deg, var(--accent0), var(--accent1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
+    animation: letterGlow 2s ease-out forwards;
+    animation-delay: calc(var(--index) * 0.1s);
+  }
+
+  .letter:nth-child(1) { --index: 1; }
+  .letter:nth-child(2) { --index: 2; }
+  .letter:nth-child(3) { --index: 3; }
+  .letter:nth-child(4) { --index: 4; }
+  .letter:nth-child(5) { --index: 5; }
+  .letter:nth-child(6) { --index: 6; }
+  .letter:nth-child(7) { --index: 7; }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--accent1);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.6s forwards;
+  }
+
+  /* Enhanced Actions Section */
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 1.2s forwards;
+    margin-top: 2rem;
+  }
+
+  /* Social Links Container */
+  .social-links-container {
+    text-align: center;
+  }
+
+  .social-heading {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent1);
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 20px rgba(255, 60, 43, 0.5);
+    letter-spacing: 0.02em;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
     color: var(--ink);
-    text-shadow: var(--glow-subtle);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .mission-text {
+  .social-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .social-link:hover::before {
+    transform: translateX(100%);
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 60, 43, 0.3);
+    color: var(--accent0);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(255, 60, 43, 0.2);
+  }
+
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .social-link:hover svg {
+    opacity: 1;
+  }
+
+
+
+  /* Enhanced Logo Section */
+  .hero-visual-section {
+    position: relative;
+    opacity: 0;
+    animation: fadeInRight 1.5s ease-out 0.4s forwards;
+  }
+
+  .logo-showcase {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-container {
+    position: relative;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+
+  .hero-logo {
+    width: 350px;
+    height: auto;
+    filter:
+      drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+      drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+      drop-shadow(0 0 150px rgba(255, 60, 43, 0.3));
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+  }
+
+  .glow-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    transform: translate(-50%, -50%);
+    animation: pulseRing 3s ease-in-out infinite;
+  }
+
+  .ring-1 {
+    width: 450px;
+    height: 450px;
+    animation-delay: 0s;
+  }
+
+  .ring-2 {
+    width: 550px;
+    height: 550px;
+    animation-delay: 1s;
+  }
+
+  .ring-3 {
+    width: 650px;
+    height: 650px;
+    animation-delay: 2s;
+  }
+
+  .floating-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--accent0);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle-1 { top: 20%; left: 30%; animation-delay: 0s; }
+  .particle-2 { top: 60%; left: 70%; animation-delay: 1.5s; }
+  .particle-3 { top: 40%; left: 20%; animation-delay: 3s; }
+  .particle-4 { top: 80%; left: 50%; animation-delay: 4.5s; }
+  .particle-5 { top: 30%; left: 80%; animation-delay: 2s; }
+
+  .holographic-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(45deg, transparent 30%, rgba(255, 122, 24, 0.1) 50%, transparent 70%),
+      linear-gradient(-45deg, transparent 30%, rgba(255, 60, 43, 0.05) 50%, transparent 70%);
+    border-radius: 50%;
+    animation: hologram 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+
+  /* Keyframe Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes letterGlow {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseRing {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+  }
+
+  @keyframes hologram {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.02) rotate(1deg);
+    }
+  }
+
+  @keyframes scrollShine {
+    0%, 100% {
+      transform: translateY(-60px);
+    }
+    50% {
+      transform: translateY(60px);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+
+  /* Animations */
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Our Story Section - Mystical Chronicle */
+  .mystical-chronicle {
+    padding: 8rem 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(255, 60, 43, 0.02) 30%, rgba(212, 175, 55, 0.02) 70%, rgba(0, 0, 0, 0.2) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chronicle-atmosphere {
+    position: relative;
+  }
+
+  .floating-runes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .rune {
+    position: absolute;
+    color: rgba(212, 175, 55, 0.3);
+    font-size: 2rem;
+    animation: float-mystical 8s ease-in-out infinite;
+  }
+
+  .rune-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .rune-2 {
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+
+  .rune-3 {
+    bottom: 30%;
+    left: 5%;
+    animation-delay: 4s;
+  }
+
+  .rune-4 {
+    bottom: 15%;
+    right: 10%;
+    animation-delay: 6s;
+  }
+
+  .rune-5 {
+    top: 50%;
+    left: 50%;
+    animation-delay: 1s;
+    transform: translateX(-50%);
+  }
+
+  @keyframes float-mystical {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translateY(-20px) rotate(90deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-10px) rotate(180deg);
+      opacity: 0.4;
+    }
+    75% {
+      transform: translateY(-30px) rotate(270deg);
+      opacity: 0.7;
+    }
+  }
+
+  .story-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mystical-story-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .chronicle-emblem {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid #d4af37;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    position: relative;
+    animation: mystical-rotation 10s linear infinite;
+    padding: 15px;
+  }
+
+  .cursed-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.2) contrast(1.1);
+    transition: all 0.3s ease;
+  }
+
+  .chronicle-emblem:hover .cursed-logo {
+    filter: brightness(1.4) contrast(1.3);
+    transform: scale(1.05);
+  }
+
+  @keyframes mystical-rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .emblem-aura {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+    animation: aura-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes aura-pulse {
+    0%, 100% { 
+      opacity: 0.4; 
+      transform: scale(1); 
+    }
+    50% { 
+      opacity: 0.8; 
+      transform: scale(1.2); 
+    }
+  }
+
+  .chronicle-title {
+    font-size: 3.5rem;
+    margin: 0 0 2rem;
+    color: #f5f5f5;
+    font-weight: 700;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg, #ff3c2b, #d4af37, #ff3c2b);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 5s ease-in-out infinite;
+    position: relative;
+  }
+
+  .mystical-separator {
+    width: 300px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .mystical-separator::before {
+    content: '⟡ ✦ ⟡';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #d4af37;
+    font-size: 1.2rem;
+    letter-spacing: 1rem;
+  }
+
+  .story-scrolls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  .scroll-container {
+    position: relative;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+
+  .scroll-container.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .ancient-scroll {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(160, 82, 45, 0.05));
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    padding: 2.5rem;
+    position: relative;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .ancient-scroll::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #d4af37, #ff3c2b, #d4af37);
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .ancient-scroll:hover::before {
+    opacity: 0.3;
+  }
+
+  .ancient-scroll:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+
+  .scroll-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 1rem;
+  }
+
+  .scroll-chapter {
+    font-size: 1.1rem;
+    color: #d4af37;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .scroll-chapter::before {
+    content: '◆';
+    position: absolute;
+    left: -20px;
+    color: #ff3c2b;
+  }
+
+  .scroll-chapter::after {
+    content: '◆';
+    position: absolute;
+    right: -20px;
+    color: #ff3c2b;
+  }
+
+  .scroll-text {
     font-size: 1.1rem;
     line-height: 1.7;
-    opacity: 0.9;
-    margin: 0 0 3rem;
+    color: rgba(245, 245, 245, 0.9);
+    margin: 0;
+    text-align: justify;
+    font-style: italic;
   }
 
-  .studio-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  .mystical-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 6rem;
+    flex-wrap: wrap;
   }
 
-  .stat {
+  .cosmic-stat {
     text-align: center;
-    padding: 1.5rem 1rem;
-    background: var(--bg-glass);
-    border: var(--border-glass);
-    border-radius: 16px;
+    position: relative;
+  }
+
+  .stat-constellation {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 2rem;
+  }
+
+  .constellation-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid #d4af37;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     backdrop-filter: blur(10px);
+    animation: constellation-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes constellation-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      border-color: #d4af37;
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.8);
+      border-color: #ff3c2b;
+    }
+  }
+
+  .cosmic-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .constellation-points {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #d4af37;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+    animation: twinkle 2s ease-in-out infinite;
+  }
+
+  .point-1 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 0s;
+  }
+
+  .point-2 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    animation-delay: 0.5s;
+  }
+
+  .point-3 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 1s;
+  }
+
+  .point-4 {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    animation-delay: 1.5s;
+  }
+
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+  }
+
+  .cosmic-label {
+    font-size: 1rem;
+    color: rgba(245, 245, 245, 0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
   .stat-number {
     display: block;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    color: var(--accent0);
-    text-shadow: var(--glow-subtle);
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 0.5rem;
   }
 
   .stat-label {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     opacity: 0.8;
+    color: #f5f5f5;
   }
 
-  .values-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  /* Immersive Gallery Section */
+  .immersive-gallery {
+    padding: 8rem 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.05) 100%);
+    overflow: hidden;
   }
 
-  .value-item {
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 6rem;
+  }
+
+  .gallery-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .gallery-item {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Give content side slightly more space */
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 8rem;
+    min-height: 70vh; /* Increase min height for vertical videos */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+  }
+
+  .gallery-item.video-right {
+    grid-template-columns: 1.2fr 1fr; /* Reverse for right-aligned videos */
+  }
+
+  .gallery-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .gallery-item:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Parallax Animation System */
+  .gallery-item.video-left .video-side {
+    order: 1;
+    transform: translateX(-100px);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item.video-left .content-side {
+    order: 2;
+    transform: translateX(100px);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item.video-right .video-side {
+    order: 2;
+    transform: translateX(100px);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item.video-right .content-side {
+    order: 1;
+    transform: translateX(-100px);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item.visible .video-side,
+  .gallery-item.visible .content-side {
+    transform: translateX(0);
+  }
+
+  /* Parallax scroll effects */
+  .gallery-item[data-scroll-speed] {
+    transform-style: preserve-3d;
+  }
+
+  /* Video Side */
+  .video-side {
+    position: relative;
+    perspective: 1000px;
+  }
+
+  .video-container {
+    position: relative;
+    aspect-ratio: 9/16; /* Instagram Reels aspect ratio */
+    max-height: 600px; /* Limit height for desktop viewing */
+    width: 100%;
+    max-width: 350px; /* Consistent max width for all videos */
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 60, 43, 0.2);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(255, 60, 43, 0.1);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
+    margin: 0 auto; /* Center the vertical video */
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+
+  .video-container.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .video-container:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(255, 60, 43, 0.3);
+    border-color: rgba(255, 60, 43, 0.4);
+  }
+
+  .gallery-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Consistent cover for all videos */
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.6s ease;
+    filter: brightness(0.9) contrast(1.1) saturate(1.1);
+  }
+
+  .video-container:hover .gallery-video {
+    transform: scale(1.03);
+    filter: brightness(1) contrast(1.2) saturate(1.2);
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .video-container:hover .gallery-image {
+    transform: scale(1.05);
+  }
+
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
+    padding: 1.2rem;
+    color: white;
+    transform: translateY(15px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(5px);
+  }
+
+  .video-container:hover .video-overlay,
+  .video-container.in-view .video-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .video-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent1);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 10px rgba(255, 60, 43, 0.3);
+    line-height: 1.2;
+  }
+
+  /* Content Side */
+  .content-side {
+    padding: 2rem;
+    z-index: 2;
+  }
+
+  .value-content {
+    max-width: 500px;
+  }
+
+  .gallery-item.video-right .value-content {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .value-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 2px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    color: #d4af37;
+    margin-bottom: 2rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gallery-item.video-right .value-icon {
+    margin-left: auto;
+  }
+
+  .value-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .value-icon:hover::before {
+    left: 100%;
+  }
+
+  .value-icon:hover {
+    background: rgba(255, 60, 43, 0.15);
+    border-color: rgba(255, 60, 43, 0.5);
+    transform: scale(1.1) rotateY(10deg);
+  }
+
+  .value-icon .cursed-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.2) contrast(1.1);
+    transition: all 0.3s ease;
+  }
+
+  .value-icon:hover .cursed-logo {
+    filter: brightness(1.4) contrast(1.3);
+    transform: scale(1.05);
+  }
+
+  .value-title {
+    font-size: 2.2rem;
+    margin: 0 0 1.5rem;
+    color: #f5f5f5;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .gallery-item.visible .value-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .value-description {
     font-size: 1.1rem;
-    font-weight: 600;
-    padding: 1rem;
-    background: var(--bg-glass);
-    border: var(--border-glass);
-    border-radius: 12px;
-    backdrop-filter: blur(5px);
-    transition: var(--transition-smooth);
+    line-height: 1.7;
+    color: rgba(245, 245, 245, 0.9);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
   }
 
-  .value-item:hover {
-    border-color: rgba(255, 60, 43, 0.2);
-    transform: translateX(8px);
+  .gallery-item.visible .value-description {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.5s;
   }
 
-  .value-item svg {
-    color: var(--accent0);
-  }
-
-  /* Studio Features */
-  .studio-features {
+  /* Journey Conclusion */
+  .journey-conclusion {
     padding: 6rem 0;
-    background: var(--bg-glass);
-    border-top: var(--border-glass);
+    background: linear-gradient(135deg, rgba(255, 60, 43, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
+
+  .journey-conclusion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, #ff3c2b, #d4af37);
+  }
+
+  .conclusion-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .conclusion-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: rgba(255, 60, 43, 0.1);
+    border: 2px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    position: relative;
+    overflow: hidden;
+    padding: 15px;
+  }
+
+  .conclusion-icon .cursed-logo {
+    filter: brightness(1.3) contrast(1.2);
+  }
+
+  .conclusion-icon:hover .cursed-logo {
+    filter: brightness(1.5) contrast(1.4);
+    transform: scale(1.1);
+  }
+
+  .conclusion-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+  }
+
+  .conclusion-title {
+    font-size: 2.5rem;
+    margin: 0 0 2rem;
+    color: #f5f5f5;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .conclusion-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: rgba(245, 245, 245, 0.9);
+    margin: 0 0 4rem;
+    font-style: italic;
+  }
+
+  .momentum-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  .momentum-stat {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .momentum-stat:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .momentum-stat .stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .momentum-stat .stat-label {
+    font-size: 1rem;
+    opacity: 0.8;
+    color: #f5f5f5;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Studio Features - Enhanced */
+  .studio-features {
+    padding: 8rem 0;
+    background: rgba(255, 255, 255, 0.01);
+  }
+
+  .features-showcase {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .feature-experience {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-experience::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 60, 43, 0.1), transparent);
+    transition: left 0.8s ease;
+  }
+
+  .feature-experience:hover::before {
+    left: 100%;
+  }
+
+  .feature-experience:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 60, 43, 0.4);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .feature-visual {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .feature-icon-large {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 3px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    padding: 15px;
+  }
+
+  .feature-icon-large .cursed-logo {
+    filter: brightness(1.2) contrast(1.1);
+  }
+
+  .feature-experience:hover .feature-icon-large {
+    background: rgba(255, 60, 43, 0.2);
+    border-color: rgba(255, 60, 43, 0.6);
+    transform: scale(1.1) rotateY(15deg);
+  }
+
+  .feature-experience:hover .feature-icon-large .cursed-logo {
+    filter: brightness(1.4) contrast(1.3);
+    transform: scale(1.05);
+  }
+
+  .feature-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .feature-experience:hover .feature-glow {
+    opacity: 1;
+  }
+
+  .feature-content {
+    flex: 1;
+  }
+
+  .feature-title-enhanced {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: #f5f5f5;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .feature-description-enhanced {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+    color: rgba(245, 245, 245, 0.85);
+  }
+
+  .feature-accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff3c2b, #d4af37);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .feature-experience:hover .feature-accent {
+    transform: scaleX(1);
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin: 0 0 2rem;
+    color: #f5f5f5;
+    text-align: center;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .section-description {
     text-align: center;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    line-height: 1.7;
     opacity: 0.9;
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto 4rem;
+    color: rgba(245, 245, 245, 0.9);
+  }
+
+  .text-center {
+    text-align: center;
   }
 
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 4rem;
   }
 
   .feature-card {
     text-align: center;
-    padding: 2.5rem 2rem;
+    padding: 3rem 2rem;
     background: rgba(255, 255, 255, 0.03);
-    border: var(--border-glass);
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .feature-card:hover::before {
+    left: 100%;
   }
 
   .feature-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 60, 43, 0.2);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px);
+    border-color: rgba(255, 60, 43, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .feature-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     background: rgba(255, 60, 43, 0.1);
-    border: 1px solid rgba(255, 60, 43, 0.2);
+    border: 2px solid rgba(255, 60, 43, 0.3);
     border-radius: 50%;
-    color: var(--accent0);
+    color: #d4af37;
     margin: 0 auto 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .feature-icon {
+    background: rgba(255, 60, 43, 0.15);
+    border-color: rgba(255, 60, 43, 0.5);
+    transform: scale(1.1);
   }
 
   .feature-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin: 0 0 1rem;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
+    color: #f5f5f5;
+    font-weight: 600;
   }
 
   .feature-description {
-    font-size: 0.95rem;
-    opacity: 0.8;
+    font-size: 1rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin: 0;
+    color: rgba(245, 245, 245, 0.8);
+  }
+
+  /* Safety & Certifications - Enhanced */
+  .safety-certifications {
+    padding: 8rem 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 60, 43, 0.02) 50%, rgba(0, 0, 0, 0.1) 100%);
+    position: relative;
+  }
+
+  .safety-showcase {
+    position: relative;
+  }
+
+  .safety-experience {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .safety-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+  }
+
+  .safety-icon-hero {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 3px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    position: relative;
+    animation: pulse-glow 3s ease-in-out infinite;
+    padding: 20px;
+  }
+
+  .safety-icon-hero .cursed-logo {
+    filter: brightness(1.3) contrast(1.2);
+  }
+
+  .safety-icon-hero:hover .cursed-logo {
+    filter: brightness(1.5) contrast(1.4);
+    transform: scale(1.1);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 60, 43, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(255, 60, 43, 0.6);
+    }
+  }
+
+  .safety-text-hero {
+    flex: 1;
+    text-align: left;
+  }
+
+  .safety-promise {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+    color: #f5f5f5;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .safety-commitment {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: rgba(245, 245, 245, 0.9);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .safety-highlight-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .safety-highlight-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .highlight-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    transition: all 0.3s ease;
+  }
+
+  .safety-highlight-card:hover .highlight-icon {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: scale(1.1);
+  }
+
+  .safety-highlight-card h4 {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+    color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  .safety-highlight-card p {
+    font-size: 1rem;
     line-height: 1.5;
+    color: rgba(245, 245, 245, 0.8);
     margin: 0;
   }
 
-  /* Safety & Certifications */
-  .safety-certifications {
-    padding: 6rem 0;
+  .certifications-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .certification-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+    min-width: 280px;
+  }
+
+  .certification-badge:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 60, 43, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .badge-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 60, 43, 0.1);
+    border: 2px solid rgba(255, 60, 43, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .certification-badge:hover .badge-icon {
+    background: rgba(255, 60, 43, 0.15);
+    border-color: rgba(255, 60, 43, 0.5);
+    transform: scale(1.05);
+  }
+
+  .badge-content {
+    flex: 1;
+  }
+
+  .badge-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: #f5f5f5;
+  }
+
+  .badge-description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+    color: rgba(245, 245, 245, 0.8);
   }
 
   .safety-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 5rem;
     align-items: start;
   }
 
   .safety-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    line-height: 1.7;
     opacity: 0.9;
     margin: 0 0 3rem;
+    color: rgba(245, 245, 245, 0.9);
   }
 
   .safety-highlights {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
+  }
+
+  .safety-highlight {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .safety-highlight:last-child {
+    border-bottom: none;
   }
 
   .safety-highlight h4 {
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem;
-    color: var(--accent0);
-    text-shadow: var(--glow-subtle);
+    font-size: 1.2rem;
+    margin: 0 0 0.8rem;
+    color: #d4af37;
+    font-weight: 600;
   }
 
   .safety-highlight p {
-    font-size: 0.95rem;
-    opacity: 0.8;
+    font-size: 1rem;
+    opacity: 0.85;
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.6;
+    color: rgba(245, 245, 245, 0.8);
   }
 
   .certifications-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .certification-card {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: var(--bg-glass);
-    border: var(--border-glass);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    transition: var(--transition-smooth);
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
   }
 
   .certification-card:hover {
-    border-color: rgba(255, 60, 43, 0.2);
+    transform: translateY(-3px);
+    border-color: rgba(255, 60, 43, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   }
 
   .certification-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background: rgba(255, 60, 43, 0.1);
-    border: 1px solid rgba(255, 60, 43, 0.2);
+    border: 2px solid rgba(255, 60, 43, 0.3);
     border-radius: 50%;
-    color: var(--accent0);
+    color: #d4af37;
     flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .certification-card:hover .certification-icon {
+    background: rgba(255, 60, 43, 0.15);
+    border-color: rgba(255, 60, 43, 0.5);
+    transform: scale(1.05);
   }
 
   .certification-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin: 0 0 0.5rem;
-    color: var(--ink);
+    margin: 0 0 0.8rem;
+    color: #f5f5f5;
   }
 
   .certification-description {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     opacity: 0.8;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
+    color: rgba(245, 245, 245, 0.8);
   }
 
-  /* Community Involvement */
-  .community-involvement {
-    padding: 6rem 0;
-    background: 
-      radial-gradient(1000px 600px at 30% 50%, rgba(255, 60, 43, 0.02) 0%, transparent 60%);
-  }
 
-  .community-grid {
+
+
+  .community-showcase {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
+    margin-top: 4rem;
   }
 
-  .community-card {
-    text-align: center;
+  .showcase-card {
+    position: relative;
+    height: 400px;
+    border-radius: 25px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
+
+  .showcase-card:hover {
+    transform: translateY(-15px) rotateX(5deg);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+    filter: brightness(0.7) contrast(1.1);
+  }
+
+  .showcase-card:hover .background-image {
+    transform: scale(1.1);
+    filter: brightness(0.9) contrast(1.2);
+  }
+
+  .background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    transition: all 0.4s ease;
+  }
+
+  .showcase-card:hover .background-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 60, 43, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(212, 175, 55, 0.3) 100%
+    );
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 2rem;
-    background: var(--bg-glass);
-    border: var(--border-glass);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    transition: var(--transition-smooth);
+    color: white;
   }
 
-  .community-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 60, 43, 0.2);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
   }
 
   .community-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 70px;
-    background: rgba(255, 60, 43, 0.1);
-    border: 1px solid rgba(255, 60, 43, 0.2);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    color: var(--accent0);
-    margin: 0 auto 1.5rem;
+    color: #d4af37;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
   }
 
-  .community-title {
-    font-size: 1.1rem;
-    margin: 0 0 1rem;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
+  .showcase-card:hover .community-icon {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #d4af37;
+    transform: scale(1.1);
   }
 
-  .community-description {
-    font-size: 0.95rem;
+  .artist-credit {
+    text-align: right;
     opacity: 0.8;
-    line-height: 1.5;
+  }
+
+  .artist-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #d4af37;
+    margin-bottom: 0.2rem;
+  }
+
+  .art-style {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-body {
+    transform: translateY(20px);
+    opacity: 0.9;
+    transition: all 0.4s ease;
+  }
+
+  .showcase-card:hover .card-body {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .showcase-title {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: white;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+  }
+
+  .showcase-description {
+    font-size: 1rem;
+    line-height: 1.6;
     margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Unique styling for each card type */
+  .showcase-card:nth-child(1) .community-icon {
+    background: rgba(255, 60, 43, 0.15);
+    border-color: rgba(255, 60, 43, 0.4);
+  }
+
+  .showcase-card:nth-child(2) .community-icon {
+    background: rgba(255, 105, 180, 0.15);
+    border-color: rgba(255, 105, 180, 0.4);
+  }
+
+  .showcase-card:nth-child(3) .community-icon {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+
+  .showcase-card:nth-child(4) .community-icon {
+    background: rgba(138, 43, 226, 0.15);
+    border-color: rgba(138, 43, 226, 0.4);
+  }
+
+  .showcase-card:nth-child(5) .community-icon {
+    background: rgba(0, 191, 255, 0.15);
+    border-color: rgba(0, 191, 255, 0.4);
+  }
+
+  .showcase-card:nth-child(6) .community-icon {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
   }
 
   /* Location & Contact */
   .location-contact {
-    padding: 6rem 0;
-    background: var(--bg-glass);
-    border-top: var(--border-glass);
+    padding: 8rem 0;
+    background: rgba(0, 0, 0, 0.1);
   }
 
   .location-contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 5rem;
     align-items: center;
   }
 
   .location-details {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
   .location-item {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .location-item:last-child {
+    border-bottom: none;
+  }
+
+  .location-item:hover {
+    padding-left: 1rem;
+    border-bottom-color: rgba(255, 60, 43, 0.2);
   }
 
   .location-item svg {
-    color: var(--accent0);
+    color: #d4af37;
     margin-top: 0.25rem;
     flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .location-item:hover svg {
+    color: #ff3c2b;
+    transform: scale(1.1);
   }
 
   .location-item h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     margin: 0 0 0.5rem;
-    color: var(--accent0);
+    color: #d4af37;
   }
 
   .location-item p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.6;
+    color: rgba(245, 245, 245, 0.9);
   }
 
   .location-item a {
-    color: var(--ink);
+    color: rgba(245, 245, 245, 0.9);
     text-decoration: none;
-    transition: var(--transition-smooth);
+    transition: all 0.3s ease;
   }
 
   .location-item a:hover {
-    color: var(--accent0);
-    text-shadow: var(--glow-subtle);
+    color: #ff3c2b;
+    text-shadow: 0 0 10px rgba(255, 60, 43, 0.3);
   }
 
-  .contact-cta {
-    text-align: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: var(--border-glass);
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
+
+  .btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    position: relative;
+    overflow: hidden;
   }
 
-  .contact-cta h3 {
-    font-size: 1.5rem;
-    margin: 0 0 1rem;
-    color: var(--ink);
-    text-shadow: var(--glow-subtle);
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.3s ease;
   }
 
-  .contact-cta p {
-    font-size: 1rem;
-    opacity: 0.9;
-    margin: 0 0 2rem;
-    line-height: 1.6;
+  .btn:hover::before {
+    left: 100%;
   }
 
-  .contact-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  .btn--primary {
+    background: linear-gradient(135deg, #ff3c2b, #d4af37);
+    color: white;
+    border-color: transparent;
+  }
+
+  .btn--primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 60, 43, 0.3);
+  }
+
+  .btn--outline {
+    background: transparent;
+    color: #f5f5f5;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .btn--outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #d4af37;
+    color: #d4af37;
+    transform: translateY(-3px);
   }
 
   /* Mobile Optimizations */
   @media (max-width: 768px) {
-    .about-hero {
-      padding: 6rem 0 3rem;
+    .enhanced-hero {
+      min-height: 100vh;
+      padding: 0;
     }
 
-    .mission-values-grid,
+    .hero-content {
+      padding: 4rem 0 2rem;
+    }
+
+    .hero-main {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero-text-section {
+      order: 2;
+    }
+
+    .hero-visual-section {
+      order: 1;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      padding: 0 0.5rem;
+      text-align: center;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      gap: 0.2em;
+    }
+
+    .title-word {
+      margin-right: 0.1em;
+      margin-bottom: 0.2em;
+      display: inline-flex;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links {
+      gap: 1.5rem;
+    }
+
+    .social-link {
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .social-heading {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+
+
+    .hero-logo {
+      width: 220px;
+      max-width: 80vw;
+    }
+
+    .glow-ring.ring-1 { width: 280px; height: 280px; }
+    .glow-ring.ring-2 { width: 340px; height: 340px; }
+    .glow-ring.ring-3 { width: 400px; height: 400px; }
+
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .our-story {
+      padding: 6rem 0;
+    }
+
+    .story-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .story-scrolls {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .mystical-stats {
+      gap: 2rem;
+    }
+
+    .stat-constellation {
+      width: 120px;
+      height: 120px;
+    }
+
+    .constellation-center {
+      width: 80px;
+      height: 80px;
+    }
+
+    .cosmic-number {
+      font-size: 2rem;
+    }
+
+    .chronicle-title {
+      font-size: 2.5rem;
+    }
+
+    .rune {
+      font-size: 1.5rem;
+    }
+
+    .glass-card {
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+    }
+
+    .values-section,
+    .studio-features,
+    .safety-certifications,
+    .location-contact {
+      padding: 6rem 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+    }
+
+    .gallery-container {
+      padding: 0 1rem;
+    }
+
+    .gallery-item {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      margin-bottom: 6rem;
+      min-height: auto;
+    }
+
+    .gallery-item.video-left .video-side,
+    .gallery-item.video-left .content-side,
+    .gallery-item.video-right .video-side,
+    .gallery-item.video-right .content-side {
+      order: initial;
+      transform: none;
+    }
+
+    .gallery-item.video-right .content-side {
+      text-align: left;
+    }
+
+    .gallery-item.video-right .value-content {
+      margin-left: 0;
+      text-align: left;
+    }
+
+    .gallery-item.video-right .value-icon {
+      margin-left: 0;
+    }
+
+    .value-title {
+      font-size: 1.8rem;
+    }
+
+    .value-description {
+      font-size: 1rem;
+    }
+
+    .video-container {
+      aspect-ratio: 9/16;
+      max-height: 450px;
+      max-width: 280px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 15px;
+    }
+
+    .gallery-item {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      min-height: auto;
+      align-items: center;
+    }
+
+    .gallery-item.video-left .video-side,
+    .gallery-item.video-left .content-side,
+    .gallery-item.video-right .video-side,
+    .gallery-item.video-right .content-side {
+      order: initial;
+      transform: none;
+      width: 100%;
+    }
+
+    .video-side {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .content-side {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .gallery-item.video-right .value-content {
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .gallery-item.video-right .value-icon {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-showcase {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .feature-experience {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .feature-icon-large {
+      width: 80px;
+      height: 80px;
+    }
+
+    .safety-visual {
+      flex-direction: column;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    .safety-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .certifications-showcase {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .certification-badge {
+      min-width: auto;
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .preview-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .mystical-title {
+      font-size: 2.2rem;
+    }
+
+    .shop-announcement-title {
+      font-size: 2rem;
+    }
+
+    .cta-mystical-border {
+      padding: 2rem;
+    }
+
     .safety-content,
     .location-contact-grid {
       grid-template-columns: 1fr;
       gap: 3rem;
     }
 
-    .studio-stats {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .features-grid,
-    .community-grid {
-      grid-template-columns: 1fr;
+    .certifications-grid {
       gap: 1.5rem;
     }
 
-    .certifications-grid {
-      gap: 1rem;
-    }
-
     .certification-card {
-      padding: 1rem;
+      padding: 1.5rem;
     }
 
     .contact-actions {
       flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .story-paragraph {
+      text-align: left;
+    }
+
+    .feature-card,
+    .value-card,
+    .community-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .momentum-stats {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .conclusion-title {
+      font-size: 2rem;
+    }
+
+    .conclusion-text {
+      font-size: 1.1rem;
+    }
+
+    .momentum-stat .stat-number {
+      font-size: 2.5rem;
+    }
+  }
+
+  /* Extra Small Mobile */
+  @media (max-width: 480px) {
+    .hero-content {
+      padding: 3rem 0 1rem;
+    }
+
+    .hero-main {
+      padding: 1rem 0.5rem;
+      gap: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+      margin-bottom: 0.8rem;
+      padding: 0 1rem;
+      line-height: 1.4;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      gap: 0.15em;
+    }
+
+    .title-word {
+      margin-right: 0.05em;
+      margin-bottom: 0.1em;
+      display: inline-flex;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .hero-actions {
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .social-links {
+      flex-direction: column;
+      gap: 1rem;
       align-items: center;
     }
 
-    .contact-actions .btn {
+    .social-link {
       width: 100%;
+      max-width: 280px;
+      justify-content: center;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .social-heading {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+
+
+    .hero-logo {
+      width: 200px;
+      max-width: 70vw;
+    }
+
+    .glow-ring.ring-1 { width: 250px; height: 250px; }
+    .glow-ring.ring-2 { width: 300px; height: 300px; }
+    .glow-ring.ring-3 { width: 350px; height: 350px; }
+
+
+    .container {
+      padding: 0 0.8rem;
+    }
+
+    .hero-pretitle {
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .pretitle-accent {
+      font-size: 1rem;
+    }
+
+    .pretitle-text {
+      font-size: 0.75rem;
+    }
+
+    .video-container {
+      aspect-ratio: 9/16;
+      max-height: 380px;
       max-width: 250px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+    .gallery-item {
+      margin-bottom: 3rem;
+      gap: 1.5rem;
+    }
+
+    .value-title {
+      font-size: 1.6rem;
+    }
+
+    .value-description {
+      font-size: 0.95rem;
+      padding: 0 0.5rem;
     }
   }
 
-  /* Reduced motion support */
+  /* Tablet Optimizations */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .story-content {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+
+    .story-stats {
+      position: static;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .gallery-item {
+      gap: 3rem;
+      margin-bottom: 6rem;
+    }
+
+    .value-title {
+      font-size: 2rem;
+    }
+
+    .value-content {
+      max-width: 600px;
+    }
+
+    .community-showcase {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+
+  /* Performance & Accessibility */
   @media (prefers-reduced-motion: reduce) {
-    .value-item:hover {
-      transform: none;
+    .animate-fade-up,
+    .floating,
+    .animate-on-scroll {
+      animation: none;
+    }
+
+    .letter,
+    .hero-pretitle,
+    .hero-subtitle,
+    .hero-visual-section {
+      animation: none;
+      opacity: 1;
+    }
+
+    .glow-ring,
+    .floating-particles,
+    .holographic-overlay,
+    .pretitle-accent {
+      animation: none;
+    }
+
+    .hero-title {
+      animation: none;
     }
 
     .feature-card:hover,
-    .community-card:hover {
+    .community-card:hover,
+    .value-card:hover,
+    .glass-card:hover,
+    .certification-card:hover {
       transform: none;
+    }
+
+    .feature-card::before,
+    .value-card::before,
+    .community-card::before,
+    .btn::before {
+      display: none;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .hero-overlay {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .glass-card,
+    .feature-card,
+    .value-card,
+    .community-card,
+    .certification-card {
+      border-width: 2px;
+      border-color: rgba(255, 255, 255, 0.5);
     }
   }
 </style>
+
+<!-- JavaScript for scroll animations -->
+<script>
+  // Initialize fade-up animations
+  const fadeUpElements = document.querySelectorAll('.animate-fade-up');
+  fadeUpElements.forEach((el, index) => {
+    setTimeout(() => {
+      (el as HTMLElement).style.animationDelay = `${index * 0.1}s`;
+    }, 100);
+  });
+
+  // Intersection Observer for scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // Observe all animate-on-scroll elements
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Enhanced observer for gallery items with parallax effects
+  const galleryObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 200);
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  });
+
+  // Video Container Specific Observer for Consistent Animations
+  const videoContainerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const videoContainer = entry.target;
+      if (entry.isIntersecting) {
+        // Add staggered delay based on container position
+        const allContainers = Array.from(document.querySelectorAll('.video-container'));
+        const delay = allContainers.indexOf(videoContainer) * 400;
+        setTimeout(() => {
+          videoContainer.classList.add('in-view');
+        }, delay);
+      }
+    });
+  }, {
+    threshold: 0.3,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  // Observe gallery items separately for enhanced effect
+  document.querySelectorAll('.gallery-item').forEach(el => {
+    galleryObserver.observe(el);
+  });
+
+  // Observe video containers specifically for consistent animations
+  document.querySelectorAll('.video-container').forEach(container => {
+    videoContainerObserver.observe(container);
+  });
+
+  // Advanced Parallax Scrolling System
+  let ticking = false;
+  
+  function updateParallax() {
+    const scrollTop = window.pageYOffset;
+    const windowHeight = window.innerHeight;
+    
+    document.querySelectorAll('.gallery-item[data-scroll-speed]').forEach(item => {
+      const rect = item.getBoundingClientRect();
+      const itemEl = item as HTMLElement;
+      const speed = parseFloat(itemEl.dataset.scrollSpeed || '1');
+      const yPos = rect.top + scrollTop;
+      const diff = scrollTop - yPos + windowHeight;
+      const rate = diff / windowHeight;
+      
+      // Only apply parallax when item is in viewport
+      if (rect.bottom >= 0 && rect.top <= windowHeight) {
+        const translateY = (rate * speed * 50) - 25; // Adjust multiplier for effect intensity
+        
+        // Apply different transforms based on scroll position
+        const videoSide = item.querySelector('.video-side') as HTMLElement;
+        const contentSide = item.querySelector('.content-side') as HTMLElement;
+        
+        if (videoSide && contentSide) {
+          // Create subtle parallax movement
+          videoSide.style.transform = `translateY(${translateY * 0.3}px)`;
+          contentSide.style.transform = `translateY(${translateY * -0.2}px)`;
+          
+          // Add rotation effect based on scroll
+          const rotationY = (rate - 0.5) * 2; // Range from -1 to 1
+          const videoContainer = videoSide.querySelector('.video-container') as HTMLElement;
+          if (videoContainer) {
+            videoContainer.style.transform = `rotateY(${rotationY * 1}deg) scale(${1 + Math.abs(rotationY) * 0.02})`;
+          }
+        }
+      }
+    });
+    
+    ticking = false;
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  // Throttled scroll listener for performance
+  window.addEventListener('scroll', requestTick, { passive: true });
+
+  // Mouse movement parallax effect
+  document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    document.querySelectorAll('.video-container').forEach(container => {
+      const rect = container.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const moveX = (mouseX - 0.5) * 10;
+        const moveY = (mouseY - 0.5) * 10;
+        
+        const video = container.querySelector('.gallery-video, .gallery-image') as HTMLElement;
+        if (video) {
+          video.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+        }
+      }
+    });
+  });
+
+  // Enhanced video intersection observer for performance
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target as HTMLVideoElement;
+      if (entry.isIntersecting) {
+        video.play().catch(() => {
+          // Autoplay failed, but that's okay
+        });
+      } else {
+        video.pause();
+      }
+    });
+  }, {
+    threshold: 0.25
+  });
+
+  // Observe all videos for performance optimization
+  document.querySelectorAll('.gallery-video').forEach(video => {
+    videoObserver.observe(video);
+  });
+
+  // Video loading optimization
+  const videos = document.querySelectorAll('video');
+  videos.forEach(video => {
+    video.addEventListener('loadstart', () => {
+      (video as HTMLVideoElement).style.opacity = '0';
+    });
+    
+    video.addEventListener('canplay', () => {
+      const videoEl = video as HTMLVideoElement;
+      videoEl.style.transition = 'opacity 0.5s ease';
+      videoEl.style.opacity = '1';
+    });
+  });
+
+  // Enhanced 3D Logo Interaction for About Page
+  class AboutLogoInteraction {
+    private logo: HTMLElement | null;
+    private container: HTMLElement | null;
+    private mouse: { x: number; y: number };
+    private animationId: number | null;
+
+    constructor() {
+      this.logo = document.getElementById('about-interactive-logo');
+      this.container = document.getElementById('about-logo-container');
+      this.mouse = { x: 0, y: 0 };
+      this.animationId = null;
+      this.init();
+    }
+
+    init(): void {
+      if (!this.logo || !this.container) return;
+
+      window.addEventListener('mousemove', this.handleMouseMove.bind(this), { passive: true });
+      window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Add hover effects
+      this.container.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+      this.container.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+
+      this.animate();
+    }
+
+    handleMouseMove(e: MouseEvent): void {
+      this.updateMousePosition(e.clientX, e.clientY);
+    }
+
+    handleTouchMove(e: TouchEvent): void {
+      if (e.touches.length > 0) {
+        this.updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }
+
+    updateMousePosition(clientX: number, clientY: number): void {
+      if (!this.container) return;
+
+      const rect = this.container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      this.mouse.x = (clientX - centerX) / (window.innerWidth / 2);
+      this.mouse.y = (clientY - centerY) / (window.innerHeight / 2);
+    }
+
+    handleMouseEnter(): void {
+      if (this.logo) {
+        (this.logo as HTMLElement).style.filter = `
+          drop-shadow(0 0 80px rgba(255, 60, 43, 1))
+          drop-shadow(0 0 160px rgba(255, 60, 43, 0.7))
+          drop-shadow(0 0 240px rgba(255, 60, 43, 0.4))
+        `;
+      }
+    }
+
+    handleMouseLeave(): void {
+      if (this.logo) {
+        (this.logo as HTMLElement).style.filter = `
+          drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+          drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+          drop-shadow(0 0 150px rgba(255, 60, 43, 0.3))
+        `;
+      }
+    }
+
+    animate(): void {
+      if (!this.logo) return;
+
+      const rotationX = -this.mouse.y * 20;
+      const rotationY = this.mouse.x * 20;
+      const rotationZ = Math.sin(Date.now() * 0.001) * 3;
+      const scale = 1 + Math.min(Math.sqrt(this.mouse.x * this.mouse.x + this.mouse.y * this.mouse.y) * 0.1, 0.2);
+
+      (this.logo as HTMLElement).style.transform = `
+        perspective(1200px)
+        rotateX(${rotationX}deg)
+        rotateY(${rotationY}deg)
+        rotateZ(${rotationZ}deg)
+        scale(${scale})
+      `;
+
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+  }
+
+
+  // Initialize About Page Hero Components
+  function initAboutHeroComponents() {
+    new AboutLogoInteraction();
+  }
+
+  // Three.js Background for About Hero
+  async function initAboutHeroBackground(): Promise<void> {
+    try {
+      const canvas = document.getElementById('about-hero-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // WebGL capability check
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      const THREE = await import('three');
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? 'low-power' : 'high-performance'
+      });
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
+      camera.position.set(0, 0, 5);
+
+      // Optimized resize handler
+      function resize(): void {
+        const { clientWidth: w, clientHeight: h } = canvas;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+
+      resize();
+      new ResizeObserver(resize).observe(canvas);
+      renderer.setPixelRatio(Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1));
+
+      // Create floating particles
+      const particleCount = isMobile ? 400 : (prefersReducedMotion ? 200 : 800);
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 20;
+        positions[i3 + 1] = (Math.random() - 0.5) * 12;
+        positions[i3 + 2] = -(Math.random() * 8 + 2);
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffe7d0,
+        size: isMobile ? 0.01 : 0.02,
+        transparent: true,
+        opacity: prefersReducedMotion ? 0.3 : 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, particleMaterial);
+      scene.add(particles);
+
+      // Mouse interaction
+      const mouse = new THREE.Vector2();
+      let mouseUpdateId = 0;
+
+      const updateMouse = (e: PointerEvent): void => {
+        cancelAnimationFrame(mouseUpdateId);
+        mouseUpdateId = requestAnimationFrame(() => {
+          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+      };
+
+      window.addEventListener('pointermove', updateMouse, { passive: true });
+
+      // Animation loop
+      const clock = new THREE.Clock();
+      let animationId: number;
+
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+
+        // Smooth camera movement
+        const cameraSpeed = prefersReducedMotion ? 0.01 : (isMobile ? 0.03 : 0.05);
+        camera.position.x += (mouse.x * 0.5 - camera.position.x) * cameraSpeed;
+        camera.position.y += (-mouse.y * 0.3 - camera.position.y) * cameraSpeed;
+        camera.lookAt(0, 0, 0);
+
+        // Particle rotation
+        if (!prefersReducedMotion) {
+          particles.rotation.y += dt * (isMobile ? 0.005 : 0.01);
+          particles.rotation.x += dt * 0.002;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        cancelAnimationFrame(animationId);
+        renderer.dispose();
+        geometry.dispose();
+        particleMaterial.dispose();
+      });
+
+    } catch (error) {
+      console.warn('About hero background initialization failed:', error);
+      const canvas = document.getElementById('about-hero-canvas');
+      if (canvas) canvas.style.display = 'none';
+    }
+  }
+
+  // Initialize About Hero with optimized loading
+  function initializeAboutComponents() {
+    // Initialize critical components first
+    initAboutHeroComponents();
+    
+    // Queue Three.js initialization with optimized loader
+    if ((window as any).threeLoader) {
+      (window as any).threeLoader.queueThreeJSInit('about-hero-canvas', initAboutHeroBackground);
+    } else {
+      // Fallback if loader not available
+      setTimeout(initAboutHeroBackground, 1000);
+    }
+  }
+
+  // Initialize About Hero when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAboutComponents);
+  } else {
+    initializeAboutComponents();
+  }
+</script>

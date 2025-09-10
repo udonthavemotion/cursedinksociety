@@ -1,0 +1,46 @@
+
+- Seth Wood ✅ FULLY UPDATED
+  - Years: 7 years tattooing
+  - Policy: Does not tattoo minors
+  - Specialties (TEXT): Illustrative, Neo, Black & Grey, Freehand flowers & vines
+  - Title: Neo-Black & Gray Illustrative Artist (updated from "Pixel Artist & Precision Master")
+  - Positioning: Neo-traditional black and gray mastery with illustrative depth
+  - Portfolio: "7 Years of Neo-Traditional & Illustrative Mastery" (fixed from "25+ Years of Precision & Artistry")
+  - CTA: "Experience neo-traditional mastery and 7 years of illustrative artistry" (fixed from precision/25+ years)
+
+
+  - Ashley ✅ FULLY UPDATED
+  - Years: 5 years tattooing (updated from "10+ years")
+  - Policy: Does not tattoo minors
+  - Specialties (TEXT): Watercolor, Color specialist, Fine line, Soft shading
+  • Default state label shown = "WATERCOLOR & COLOR SPECIALIST" ✅ IMPLEMENTED
+  - Title: "Watercolor & Color Specialist" (updated from "Chromancer & Pop Culture Specialist")
+  - Positioning: "Watercolor & Color Specialist - Precision artistry with vibrant color mastery and delicate fine line work"
+  - Template badges: ["Watercolor Specialist", "Color Master", "Fine Line Artist", "5yr Veteran"]
+  
+  
+  - Cody ✅ FULLY UPDATED
+  - Years: 11 years tattooing (updated from "10+ years")
+  - Specialties (TEXT): Manga, Anime, Blackwork panels ✅ ADDED to current techniques
+  - Updated specialties: ["Manga", "Anime", "Blackwork Panels", "Illustrative Realism", "Color Mastery", "Videogame Tattoos"]
+  - Template badges: ["Anime Master", "Color Virtuoso", "Manga Artist", "Character Creator", "11yr Veteran"]
+
+- Trent
+  - Years: 1 year tattooing
+  - Policy: (no minors restriction text unless it already appears)
+    - Specialties (TEXT): Color, Playful character work, Sticker style
+
+    - Luis ✅ FULLY UPDATED
+  - Years: 9 years tattooing (updated from "12+ years")
+  - Policy: Does not tattoo minors
+  - Specialties (TEXT): Traditional Japanese artwork ✅ MATCHES
+
+  - Anthony ✅ FULLY UPDATED
+  - Years: 5 years tattooing (updated from "15+ years")
+  - Policy: (no minors restriction text unless it already appears) ✅ REMOVED
+  - Specialties (TEXT): Black & Grey, Realism, High contrast, Texture detail ✅ IMPLEMENTED
+  - Title: "Black & Grey Realism Master" (updated from "The Versatile Craftsman")
+  - Template: "High Contrast & Texture Detail Specialist", badges: ["Black & Grey Master", "Realism Specialist", "5yr Veteran", "High Contrast", "Texture Detail"]
+
+
+

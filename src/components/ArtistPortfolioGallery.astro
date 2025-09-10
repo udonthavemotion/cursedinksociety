@@ -7,13 +7,29 @@ export interface Props {
 }
 
 const { images, artistName, artistSlug } = Astro.props;
+
+// Check if this is Anthony's page for special gothic styling
+const isAnthonyPage = artistSlug === 'anthony-boudreaux';
+// Check if this is Seth's page for modern clean styling
+const isSethPage = artistSlug === 'seth-wood';
 ---
 
-<div class="artist-portfolio-gallery">
+<div class={`artist-portfolio-gallery ${isAnthonyPage ? 'anthony-portfolio-theme' : ''} ${isSethPage ? 'seth-portfolio-theme' : ''}`}>
   <!-- Gallery Header -->
   <div class="gallery-header">
-    <h3 class="gallery-title">Portfolio Showcase</h3>
-    <p class="gallery-subtitle">Explore {artistName}'s artistry through carefully curated works</p>
+    <h3 class="gallery-title">
+      {isAnthonyPage ? 'Photorealism Mastery' : 
+       isSethPage ? 'Portfolio' : 
+       'Portfolio Showcase'}
+    </h3>
+    <p class="gallery-subtitle">
+      {isAnthonyPage 
+        ? `Experience the precision of ${artistName}'s photorealistic black & grey artistry`
+        : isSethPage
+        ? `7 Years of Neo-Traditional & Illustrative Mastery`
+        : `Explore ${artistName}'s artistry through carefully curated works`
+      }
+    </p>
   </div>
 
   <!-- Masonry Gallery Grid -->
@@ -457,6 +473,469 @@ const { images, artistName, artistSlug } = Astro.props;
   .lightbox-nav:focus {
     outline: 2px solid var(--accent0);
     outline-offset: 2px;
+  }
+
+  /* Anthony's Horror Photorealism Portfolio Theme */
+  .anthony-portfolio-theme .gallery-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 400;
+    color: #f5f5f5;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow: 
+      0 0 20px rgba(220, 20, 60, 0.6),
+      0 0 40px rgba(220, 20, 60, 0.4),
+      2px 2px 8px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg, #f5f5f5 0%, #dc143c 50%, #8b0000 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: horrorGlow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes horrorGlow {
+    0% {
+      background-position: 0% 50%;
+      text-shadow: 
+        0 0 20px rgba(220, 20, 60, 0.6),
+        0 0 40px rgba(220, 20, 60, 0.4),
+        2px 2px 8px rgba(0, 0, 0, 0.8);
+    }
+    100% {
+      background-position: 100% 50%;
+      text-shadow: 
+        0 0 30px rgba(220, 20, 60, 0.8),
+        0 0 60px rgba(220, 20, 60, 0.6),
+        0 0 80px rgba(139, 0, 0, 0.4),
+        2px 2px 12px rgba(0, 0, 0, 1);
+    }
+  }
+
+  .anthony-portfolio-theme .gallery-title::before {
+    content: '☠';
+    position: absolute;
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6em;
+    color: #dc143c;
+    opacity: 0.7;
+    text-shadow: 0 0 15px rgba(220, 20, 60, 0.8);
+    animation: skullPulse 2s ease-in-out infinite;
+  }
+
+  .anthony-portfolio-theme .gallery-title::after {
+    content: '☠';
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6em;
+    color: #dc143c;
+    opacity: 0.7;
+    text-shadow: 0 0 15px rgba(220, 20, 60, 0.8);
+    animation: skullPulse 2s ease-in-out infinite 1s;
+  }
+
+  @keyframes skullPulse {
+    0%, 100% { 
+      opacity: 0.7;
+      transform: translateY(-50%) scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+  }
+
+  .anthony-portfolio-theme .gallery-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: rgba(245, 245, 245, 0.85);
+    font-weight: 300;
+    font-style: italic;
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    line-height: 1.8;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-shadow: 
+      0 0 10px rgba(220, 20, 60, 0.3),
+      1px 1px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+  }
+
+  .anthony-portfolio-theme .gallery-subtitle::before,
+  .anthony-portfolio-theme .gallery-subtitle::after {
+    content: '⚰';
+    position: absolute;
+    top: 50%;
+    font-size: 1.2em;
+    color: rgba(220, 20, 60, 0.6);
+    text-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
+    animation: coffin-float 4s ease-in-out infinite;
+  }
+
+  .anthony-portfolio-theme .gallery-subtitle::before {
+    left: -40px;
+    transform: translateY(-50%);
+  }
+
+  .anthony-portfolio-theme .gallery-subtitle::after {
+    right: -40px;
+    transform: translateY(-50%) scaleX(-1);
+    animation-delay: 2s;
+  }
+
+  @keyframes coffin-float {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(5px); }
+  }
+
+  .anthony-portfolio-theme .gallery-masonry {
+    gap: 2rem;
+  }
+
+  .anthony-portfolio-theme .gallery-item {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+
+  .anthony-portfolio-theme .gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      transparent 0%, 
+      rgba(220, 20, 60, 0.05) 25%, 
+      transparent 50%, 
+      rgba(139, 0, 0, 0.05) 75%, 
+      transparent 100%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .anthony-portfolio-theme .gallery-item:hover {
+    transform: translateY(-12px) rotateX(5deg);
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(220, 20, 60, 0.3),
+      0 0 30px rgba(220, 20, 60, 0.2),
+      inset 0 0 0 1px rgba(220, 20, 60, 0.1);
+  }
+
+  .anthony-portfolio-theme .gallery-item:hover::before {
+    opacity: 1;
+  }
+
+  .anthony-portfolio-theme .gallery-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: #000;
+  }
+
+  .anthony-portfolio-theme .gallery-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, 
+      transparent 0%, 
+      rgba(0, 0, 0, 0.1) 70%, 
+      rgba(0, 0, 0, 0.3) 100%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .anthony-portfolio-theme .gallery-item:hover .gallery-image-wrapper::after {
+    opacity: 1;
+  }
+
+  .anthony-portfolio-theme .gallery-image,
+  .anthony-portfolio-theme .gallery-video {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: grayscale(10%) contrast(1.15) brightness(0.9) saturate(1.1);
+  }
+
+  .anthony-portfolio-theme .gallery-item:hover .gallery-image,
+  .anthony-portfolio-theme .gallery-item:hover .gallery-video {
+    transform: scale(1.08);
+    filter: grayscale(0%) contrast(1.3) brightness(1.1) saturate(1.2);
+  }
+
+  .anthony-portfolio-theme .gallery-overlay {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      rgba(220, 20, 60, 0.1) 70%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 3;
+  }
+
+  .anthony-portfolio-theme .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn {
+    background: linear-gradient(135deg, 
+      rgba(220, 20, 60, 0.9) 0%, 
+      rgba(139, 0, 0, 0.9) 100%);
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    border-radius: 0;
+    width: 55px;
+    height: 55px;
+    backdrop-filter: blur(15px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.2), 
+      transparent);
+    transition: all 0.6s;
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn:hover::before {
+    left: 100%;
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn:hover {
+    background: linear-gradient(135deg, 
+      rgba(220, 20, 60, 1) 0%, 
+      rgba(139, 0, 0, 1) 100%);
+    border-color: rgba(220, 20, 60, 0.6);
+    transform: scale(1.15) rotateZ(5deg);
+    box-shadow: 
+      0 0 25px rgba(220, 20, 60, 0.6),
+      0 0 50px rgba(220, 20, 60, 0.3),
+      inset 0 0 10px rgba(139, 0, 0, 0.5);
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn svg {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+  }
+
+  .anthony-portfolio-theme .gallery-zoom-btn:hover svg {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.8));
+  }
+
+  .anthony-portfolio-theme .lightbox-image-container {
+    background: rgba(0, 0, 0, 0.95);
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+  }
+
+  .anthony-portfolio-theme .lightbox-artist-name {
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .anthony-portfolio-theme .lightbox-caption {
+    font-family: 'Inter', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .anthony-portfolio-theme .lightbox-close,
+  .anthony-portfolio-theme .lightbox-nav {
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .anthony-portfolio-theme .lightbox-close:hover,
+  .anthony-portfolio-theme .lightbox-nav:hover {
+    background: rgba(220, 20, 60, 0.8);
+    transform: scale(1.1);
+  }
+
+  /* Anthony Horror Theme Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .anthony-portfolio-theme .gallery-title::before,
+    .anthony-portfolio-theme .gallery-title::after {
+      display: none;
+    }
+
+    .anthony-portfolio-theme .gallery-subtitle::before,
+    .anthony-portfolio-theme .gallery-subtitle::after {
+      display: none;
+    }
+
+    .anthony-portfolio-theme .gallery-item:hover {
+      transform: translateY(-8px);
+    }
+
+    .anthony-portfolio-theme .gallery-masonry {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .anthony-portfolio-theme .gallery-title {
+      font-size: clamp(2rem, 8vw, 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .anthony-portfolio-theme .gallery-subtitle {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      margin-bottom: 3rem;
+    }
+
+    .anthony-portfolio-theme .gallery-masonry {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .anthony-portfolio-theme .gallery-zoom-btn {
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+  /* Seth Wood Portfolio Theme - Modern Clean Aesthetic */
+  .seth-portfolio-theme .gallery-header {
+    text-align: left;
+    margin-bottom: 4rem;
+    max-width: 700px;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .seth-portfolio-theme .gallery-title {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0;
+    position: relative;
+    padding-left: 1rem;
+    text-shadow: none;
+  }
+
+  .seth-portfolio-theme .gallery-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 30px;
+    background: #c9a96e;
+  }
+
+  .seth-portfolio-theme .gallery-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #c9a96e;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-style: italic;
+    padding-left: 1rem;
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(201, 169, 110, 0.4);
+  }
+
+  /* Mobile responsive for Seth */
+  @media (max-width: 768px) {
+    .seth-portfolio-theme .gallery-header {
+      padding: 0 1rem;
+      text-align: left;
+      margin-bottom: 2.5rem;
+    }
+
+    .seth-portfolio-theme .gallery-title {
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .seth-portfolio-theme .gallery-title::before {
+      height: 22px;
+      width: 2px;
+    }
+
+    .seth-portfolio-theme .gallery-subtitle {
+      font-size: 0.85rem;
+      color: #c9a96e;
+      text-shadow: 0 0 8px rgba(201, 169, 110, 0.4);
+    }
+
+    .seth-portfolio-theme .gallery-masonry {
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .seth-portfolio-theme .gallery-header {
+      margin-bottom: 2rem;
+    }
+
+    .seth-portfolio-theme .gallery-title {
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+
+    .seth-portfolio-theme .gallery-title::before {
+      height: 20px;
+    }
+
+    .seth-portfolio-theme .gallery-subtitle {
+      font-size: 0.8rem;
+      color: #c9a96e;
+      text-shadow: 0 0 6px rgba(201, 169, 110, 0.4);
+    }
+
+    .seth-portfolio-theme .gallery-masonry {
+      gap: 0.75rem;
+    }
   }
 </style>
 

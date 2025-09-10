@@ -1,0 +1,265 @@
+---
+// Performance Monitor - Tracks Core Web Vitals and scroll performance
+---
+
+<script>
+  // Performance Monitor for Core Web Vitals and Scroll Issues
+  class PerformanceMonitor {
+    private static instance: PerformanceMonitor;
+    private metrics: Record<string, any> = {};
+    private isEnabled = false;
+
+    static getInstance(): PerformanceMonitor {
+      if (!PerformanceMonitor.instance) {
+        PerformanceMonitor.instance = new PerformanceMonitor();
+      }
+      return PerformanceMonitor.instance;
+    }
+
+    private constructor() {
+      // Only enable in development or with debug flag
+      this.isEnabled = 
+        window.location.hostname === 'localhost' || 
+        window.location.search.includes('debug=true') ||
+        localStorage.getItem('debug-performance') === 'true';
+      
+      if (this.isEnabled) {
+        this.init();
+      }
+    }
+
+    private init(): void {
+      this.trackCoreWebVitals();
+      this.trackScrollPerformance();
+      this.trackLoadingTimes();
+      this.setupConsoleCommands();
+    }
+
+    private trackCoreWebVitals(): void {
+      // Track Largest Contentful Paint (LCP)
+      new PerformanceObserver((entryList) => {
+        const entries = entryList.getEntries();
+        const lastEntry = entries[entries.length - 1];
+        this.metrics.lcp = Math.round(lastEntry.startTime);
+        this.logMetric('LCP', this.metrics.lcp, 'ms', this.metrics.lcp < 2500 ? 'good' : this.metrics.lcp < 4000 ? 'needs improvement' : 'poor');
+      }).observe({ entryTypes: ['largest-contentful-paint'] });
+
+      // Track First Input Delay (FID)
+      new PerformanceObserver((entryList) => {
+        const entries = entryList.getEntries();
+        entries.forEach((entry) => {
+          this.metrics.fid = Math.round(entry.processingStart - entry.startTime);
+          this.logMetric('FID', this.metrics.fid, 'ms', this.metrics.fid < 100 ? 'good' : this.metrics.fid < 300 ? 'needs improvement' : 'poor');
+        });
+      }).observe({ entryTypes: ['first-input'] });
+
+      // Track Cumulative Layout Shift (CLS)
+      let clsValue = 0;
+      new PerformanceObserver((entryList) => {
+        const entries = entryList.getEntries();
+        entries.forEach((entry) => {
+          if (!(entry as any).hadRecentInput) {
+            clsValue += (entry as any).value;
+          }
+        });
+        this.metrics.cls = Math.round(clsValue * 1000) / 1000;
+        this.logMetric('CLS', this.metrics.cls, '', this.metrics.cls < 0.1 ? 'good' : this.metrics.cls < 0.25 ? 'needs improvement' : 'poor');
+      }).observe({ entryTypes: ['layout-shift'] });
+
+      // Track Time to First Byte (TTFB)
+      const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      if (navigationEntry) {
+        this.metrics.ttfb = Math.round(navigationEntry.responseStart - navigationEntry.requestStart);
+        this.logMetric('TTFB', this.metrics.ttfb, 'ms', this.metrics.ttfb < 800 ? 'good' : this.metrics.ttfb < 1800 ? 'needs improvement' : 'poor');
+      }
+    }
+
+    private trackScrollPerformance(): void {
+      let scrollCount = 0;
+      let smoothScrolling = true;
+      let lastScrollTime = 0;
+
+      const trackScroll = () => {
+        const now = performance.now();
+        const timeDiff = now - lastScrollTime;
+        
+        if (timeDiff > 0) {
+          scrollCount++;
+          
+          // Check for janky scrolling (>16ms between frames)
+          if (timeDiff > 16.67 && scrollCount > 5) {
+            smoothScrolling = false;
+          }
+        }
+        
+        lastScrollTime = now;
+      };
+
+      window.addEventListener('scroll', trackScroll, { passive: true });
+
+      // Report scroll performance after 5 seconds
+      setTimeout(() => {
+        this.metrics.scrollPerformance = smoothScrolling ? 'smooth' : 'janky';
+        this.metrics.scrollEvents = scrollCount;
+        
+        if (!smoothScrolling) {
+          console.warn('🚨 Scroll Performance Issue Detected:', {
+            scrollEvents: scrollCount,
+            averageFrameTime: scrollCount > 0 ? (performance.now() / scrollCount).toFixed(2) + 'ms' : 'N/A'
+          });
+        } else {
+          console.log('✅ Scroll Performance: Smooth', { scrollEvents: scrollCount });
+        }
+      }, 5000);
+    }
+
+    private trackLoadingTimes(): void {
+      // Track page load time
+      window.addEventListener('load', () => {
+        const loadTime = performance.now();
+        this.metrics.pageLoadTime = Math.round(loadTime);
+        this.logMetric('Page Load Time', this.metrics.pageLoadTime, 'ms', this.metrics.pageLoadTime < 3000 ? 'good' : this.metrics.pageLoadTime < 5000 ? 'needs improvement' : 'poor');
+      });
+
+      // Track DOM ready time
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          this.metrics.domReadyTime = Math.round(performance.now());
+          this.logMetric('DOM Ready Time', this.metrics.domReadyTime, 'ms', this.metrics.domReadyTime < 1500 ? 'good' : this.metrics.domReadyTime < 3000 ? 'needs improvement' : 'poor');
+        });
+      } else {
+        this.metrics.domReadyTime = 0;
+        this.logMetric('DOM Ready Time', 'Already loaded', '', 'good');
+      }
+
+      // Track Three.js loading time
+      const originalConsoleLog = console.log;
+      console.log = (...args) => {
+        if (args[0] === 'Three.js initialized successfully') {
+          this.metrics.threeJSLoadTime = Math.round(performance.now());
+          this.logMetric('Three.js Load Time', this.metrics.threeJSLoadTime, 'ms', this.metrics.threeJSLoadTime < 2000 ? 'good' : this.metrics.threeJSLoadTime < 4000 ? 'needs improvement' : 'poor');
+        }
+        originalConsoleLog.apply(console, args);
+      };
+    }
+
+    private logMetric(name: string, value: any, unit: string, status: string): void {
+      const color = status === 'good' ? '#22c55e' : status === 'needs improvement' ? '#f59e0b' : '#ef4444';
+      const icon = status === 'good' ? '✅' : status === 'needs improvement' ? '⚠️' : '🚨';
+      
+      console.log(
+        `%c${icon} ${name}: %c${value}${unit} %c(${status})`,
+        'color: #3b82f6; font-weight: bold;',
+        `color: ${color}; font-weight: bold;`,
+        `color: ${color}; font-style: italic;`
+      );
+    }
+
+    private setupConsoleCommands(): void {
+      // Add debug commands to console
+      (window as any).debugPerformance = {
+        getMetrics: () => this.metrics,
+        getLighthouseScore: () => this.calculateLighthouseScore(),
+        testScrolling: () => this.testScrolling(),
+        forceScrollFix: () => {
+          if ((window as any).scrollManager) {
+            (window as any).scrollManager.forceScrollFix();
+            console.log('✅ Forced scroll fix applied');
+          } else {
+            console.warn('⚠️ Scroll manager not available');
+          }
+        }
+      };
+
+      console.log(
+        '%c🔍 Performance Debug Commands Available:\n' +
+        '%cdebugPerformance.getMetrics() - Get all metrics\n' +
+        'debugPerformance.getLighthouseScore() - Estimate Lighthouse score\n' +
+        'debugPerformance.testScrolling() - Test scroll performance\n' +
+        'debugPerformance.forceScrollFix() - Force scroll fix',
+        'color: #3b82f6; font-weight: bold; font-size: 14px;',
+        'color: #6b7280; font-size: 12px;'
+      );
+    }
+
+    private calculateLighthouseScore(): object {
+      const scores = {
+        performance: 0,
+        accessibility: 85, // Baseline - would need actual testing
+        bestPractices: 90, // Baseline - would need actual testing
+        seo: 95 // Baseline - would need actual testing
+      };
+
+      // Calculate performance score based on Core Web Vitals
+      let performanceScore = 100;
+      
+      if (this.metrics.lcp > 4000) performanceScore -= 30;
+      else if (this.metrics.lcp > 2500) performanceScore -= 15;
+      
+      if (this.metrics.fid > 300) performanceScore -= 20;
+      else if (this.metrics.fid > 100) performanceScore -= 10;
+      
+      if (this.metrics.cls > 0.25) performanceScore -= 25;
+      else if (this.metrics.cls > 0.1) performanceScore -= 10;
+      
+      if (this.metrics.ttfb > 1800) performanceScore -= 15;
+      else if (this.metrics.ttfb > 800) performanceScore -= 8;
+      
+      if (this.metrics.scrollPerformance === 'janky') performanceScore -= 10;
+
+      scores.performance = Math.max(0, performanceScore);
+
+      console.log(
+        '%c🎯 Estimated Lighthouse Scores:',
+        'color: #3b82f6; font-weight: bold; font-size: 14px;'
+      );
+      
+      Object.entries(scores).forEach(([key, value]) => {
+        const color = value >= 90 ? '#22c55e' : value >= 50 ? '#f59e0b' : '#ef4444';
+        console.log(`%c${key}: ${value}/100`, `color: ${color}; font-weight: bold;`);
+      });
+
+      return scores;
+    }
+
+    private testScrolling(): void {
+      console.log('🧪 Testing scroll performance...');
+      
+      let frameCount = 0;
+      let startTime = performance.now();
+      
+      const testScroll = () => {
+        frameCount++;
+        window.scrollBy(0, 1);
+        
+        if (frameCount < 60) {
+          requestAnimationFrame(testScroll);
+        } else {
+          const endTime = performance.now();
+          const duration = endTime - startTime;
+          const fps = Math.round((frameCount * 1000) / duration);
+          
+          console.log(
+            `%c📊 Scroll Test Results:\n` +
+            `FPS: ${fps}\n` +
+            `Duration: ${Math.round(duration)}ms\n` +
+            `Status: ${fps >= 55 ? 'Excellent' : fps >= 45 ? 'Good' : fps >= 30 ? 'Needs Improvement' : 'Poor'}`,
+            `color: ${fps >= 55 ? '#22c55e' : fps >= 45 ? '#3b82f6' : fps >= 30 ? '#f59e0b' : '#ef4444'}; font-weight: bold;`
+          );
+        }
+      };
+      
+      requestAnimationFrame(testScroll);
+    }
+  }
+
+  // Initialize performance monitor
+  if (typeof window !== 'undefined') {
+    const monitor = PerformanceMonitor.getInstance();
+    (window as any).performanceMonitor = monitor;
+  }
+</script>
+
+<style>
+  /* No visual styles needed for performance monitor */
+</style>

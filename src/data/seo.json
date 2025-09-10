@@ -2,7 +2,7 @@
   "site": {
     "name": "Cursed Ink Society",
     "domain": "cursedingksociety.com",
-    "description": "Houma's premier tattoo collective featuring six master artists. Custom designs, traditional work, and mystical ink with 50+ years combined experience.",
+    "description": "Houma's premier tattoo collective featuring six master artists. Custom designs, traditional work, and mystical ink with 38+ years combined experience.",
     "keywords": [
       "tattoo shop houma",
       "premium tattoos louisiana",
@@ -30,7 +30,7 @@
     },
     "artists": {
       "title": "Meet Our Artists — Cursed Ink Society | Houma, LA",
-      "description": "Meet Anthony, Ashley, Cody, Seth, Luis, and Trent — six master artists with 50+ years combined experience. Discover your perfect tattoo artist in Houma.",
+      "description": "Meet Anthony, Ashley, Cody, Seth, Luis, and Trent — six master artists with 38+ years combined experience. Discover your perfect tattoo artist in Houma.",
       "keywords": ["tattoo artists houma", "tattoo collective", "master tattooists", "custom tattoo artists"],
       "ogImage": "/og/artists-og.jpg",
       "canonical": "/artists"
@@ -57,9 +57,9 @@
       "canonical": "/about"
     },
     "contact": {
-      "title": "Contact & Book — Cursed Ink Society | Start Your Tattoo Journey",
+      "title": "Contact — Cursed Ink Society | Start Your Tattoo Journey",
       "description": "Ready to get inked? Contact Cursed Ink Society for consultations, walk-ins with Anthony, or to start planning your custom tattoo design.",
-      "keywords": ["book tattoo appointment", "tattoo consultation", "contact tattoo shop", "tattoo booking"],
+      "keywords": ["tattoo consultation", "contact tattoo shop", "tattoo inquiries", "custom tattoo design"],
       "ogImage": "/og/contact-og.jpg",
       "canonical": "/contact"
     }
@@ -71,7 +71,7 @@
     "description": "Houma's premier tattoo collective featuring six master artists",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "123 Main Street",
+      "streetAddress": "488 Corporate Dr, STE 11",
       "addressLocality": "Houma",
       "addressRegion": "LA",
       "postalCode": "70360",

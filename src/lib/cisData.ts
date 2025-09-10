@@ -11,6 +11,7 @@ export interface CISArtist {
   experience: string;
   avatar: string;
   instagram: string;
+  facebook?: string;
   featuredWork: string[];
   portfolio: string[];
   cta: {

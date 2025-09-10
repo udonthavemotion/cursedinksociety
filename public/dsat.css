@@ -1,0 +1,14 @@
+#dsat-root{display:flex;align-items:center;justify-content:center;gap:.5rem;opacity:.6;transition:opacity .3s ease;z-index:2147483646;margin:0;padding:0}
+#dsat-root:hover{opacity:.8}
+#dsat-link{display:flex;align-items:center;gap:.4rem;text-decoration:none;color:rgba(255,255,255,.5);transition:all .3s ease}
+#dsat-link:hover{color:rgba(255,60,43,.7)}
+#dsat-video,#dsat-fallback{width:18px;height:18px;border-radius:50%;box-shadow:none}
+#dsat-video{animation:dsat-spin 15s linear infinite;filter:none;opacity:.7}
+#dsat-fallback{display:grid;place-items:center;background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.2);font:500 8px/1 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;animation:dsat-spin 15s linear infinite}
+#dsat-brand-text{font-size:.7rem;font-weight:400;letter-spacing:.02em;text-transform:none}
+@keyframes dsat-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  #dsat-video,#dsat-fallback{animation:none}
+}
+#dsat-fixed{position:fixed;right:20px;bottom:20px;background:rgba(10,10,12,.95);padding:1rem 1.5rem;border-radius:12px;border:1px solid rgba(255,60,43,.2);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+#dsat-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;clip-path:inset(50%)}

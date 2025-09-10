@@ -4,7 +4,7 @@ import '../styles/global.css';
 
 // SEO and Meta Configuration
 const title = "Cursed Ink Society — Coming Soon";
-const description = "Cursed Ink Society — tattoos, sigils, and community. Official site conjuring soon. Join the circle for first access to bookings & drops.";
+const description = "Cursed Ink Society — tattoos, sigils, and community. Official site conjuring soon. Join the circle for first access to services & drops.";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og/og-image.jpg', Astro.url);
 
@@ -88,12 +88,16 @@ export const prerender = true;
     <meta name="msapplication-TileImage" content="/android-chrome-192x192.png" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
+    <!-- Preload Critical Resources for LCP optimization with cache busting -->
+    <link rel="preload" href="/brand/cursed-ink-logo.png?v=4" as="image" type="image/png" fetchpriority="high" />
     
     <!-- DNS Prefetch for External Resources -->
     <link rel="dns-prefetch" href="//formspree.io" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//unpkg.com" />
+    
+    <!-- Resource hints for better loading -->
+    <link rel="modulepreload" href="https://unpkg.com/three@0.180.0/build/three.module.js" />
     
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -147,10 +151,17 @@ export const prerender = true;
         top: 6px;
       }
 
-      /* Critical loading styles */
+      /* Critical loading styles with cache prevention */
       body {
         opacity: 0;
         animation: fadeIn 0.5s ease-out 0.1s forwards;
+      }
+      
+      /* Force browser to revalidate critical resources */
+      .hero canvas,
+      .logo {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
       }
 
       @keyframes fadeIn {
@@ -159,15 +170,46 @@ export const prerender = true;
         }
       }
 
-      /* Prevent layout shift */
+      /* Prevent layout shift (CLS optimization) */
       .hero {
         min-height: 100vh;
         contain: layout style paint;
+        /* Reserve space to prevent layout shift */
+        position: relative;
+      }
+      
+      /* Prevent layout shift for logo */
+      .logo-centerpiece {
+        /* Reserve space for logo container */
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
 
       /* Performance: GPU acceleration for animations */
       .btn, .logo, .shine {
         will-change: transform;
+      }
+      
+      /* Optimize for Core Web Vitals */
+      .hero canvas {
+        /* Prevent canvas from causing layout shift */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      
+      /* Prevent layout shift during font load */
+      .brand-mark, .tagline {
+        font-display: swap;
+        /* Reserve space for text */
+        min-height: 1.2em;
+        line-height: 1.2;
       }
 
       /* Reduce motion for accessibility */

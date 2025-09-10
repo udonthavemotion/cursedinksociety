@@ -40,7 +40,7 @@ const rawArtists: Artist[] = [
     name: "Seth Wood",
     slug: "seth-wood",
     avatar: "/assets/artists/seth-wood/SETH PROFILE PICTURE.jpg",
-    title: "Pixel Artist & Precision Master",
+    title: "Neo-Black & Gray Illustrative Artist",
     styles: ["Illustrative", "Neo", "Black & Grey", "Freehand Botanicals"],
     stats: {
       creativity: 95,
@@ -49,10 +49,10 @@ const rawArtists: Artist[] = [
       technique: 96,
       artistry: 94
     },
-    blurb: "High-contrast tattoos with pixel-perfect precision. Seth's 25+ years of experience brings illustrative mastery and neo-traditional excellence to every piece with technical precision that sets the standard.",
-    bio: "Seth Wood is a tattoo artist with over 25 years of experience, specializing in illustrative work, neo-traditional designs, black & grey mastery, and freehand botanical pieces. His work reflects decades of dedication to the craft, bringing high-contrast precision and artistic depth to every piece.",
+    blurb: "Neo-traditional black and gray mastery with illustrative depth. Seth's 7 years of dedicated experience brings artistic vision and technical excellence to every piece through his signature illustrative style.",
+    bio: "Seth Wood is a tattoo artist with 7 years of experience, specializing in illustrative work, neo-traditional designs, black & grey mastery, and freehand botanical pieces. His work reflects years of dedication to the craft, bringing artistic vision and illustrative depth to every piece.",
     specialties: ["Illustrative", "Neo", "Black & Grey", "Freehand Botanicals", "High-Contrast Work"],
-    experience: "25+ years",
+    experience: "7 years",
     instagram: "@sethta2_bp",
     featuredWork: [
       "/assets/artists/seth-wood/image1 (2).jpeg",
@@ -77,8 +77,8 @@ const rawArtists: Artist[] = [
     name: "Ashley Wood",
     slug: "ashley-wood",
     avatar: "/assets/artists/ashley-wood/ashley-profile-pic.jpg",
-    title: "Chromancer & Pop Culture Specialist",
-    styles: ["Color Mastery", "Newschool", "Kawaii", "Pop Culture", "Illustrative"],
+    title: "Watercolor & Color Specialist",
+    styles: ["Watercolor", "Color Specialist", "Fine Line", "Soft Shading", "Illustrative"],
     stats: {
       creativity: 97,
       experience: 89,
@@ -86,10 +86,10 @@ const rawArtists: Artist[] = [
       technique: 93,
       artistry: 96
     },
-    blurb: "The Chromancer weaves color magic into every tattoo. Ashley's vibrant mastery of color work and pop culture themes brings characters to life with bold energy and kawaii charm that captures the soul of modern tattooing.",
-    bio: "Ashley Wood brings vibrant energy to tattooing through her mastery of color work and newschool styles. Her passion for pop culture and kawaii aesthetics creates pieces that are both bold and playful. As a true color specialist, Ashley's work represents the evolution of tattooing into a vibrant, contemporary art form that celebrates imagination and self-expression.",
-    specialties: ["Color Mastery", "Newschool", "Kawaii", "Pop Culture", "Dotwork", "Character Design"],
-    experience: "10+ years",
+    blurb: "Watercolor mastery meets precision artistry. Ashley's 5 years of dedicated experience brings vibrant color specialization and delicate fine line work to life with soft shading techniques that define modern color tattooing.",
+    bio: "Ashley Wood brings vibrant energy to tattooing through her mastery of watercolor techniques and color specialization. Her expertise in fine line work and soft shading creates pieces that are both delicate and bold. As a true watercolor and color specialist, Ashley's work represents the evolution of tattooing into a refined art form that celebrates precision and artistic expression.",
+    specialties: ["Watercolor", "Color Specialist", "Fine Line", "Soft Shading", "Dotwork", "Character Design"],
+    experience: "5 years",
     instagram: "@ashleyxxkarma",
     featuredWork: [
       "/assets/artists/ashley-wood/tattoo-01.jpg",
@@ -120,8 +120,8 @@ const rawArtists: Artist[] = [
     name: "Anthony Boudreaux",
     slug: "anthony-boudreaux",
     avatar: "/assets/artists/Anthony/anthon.jpg",
-    title: "The Versatile Craftsman",
-    styles: ["Traditional", "Color", "Custom Design", "Walk-in Specialist", "Mixed Media"],
+    title: "Black & Grey Realism Master",
+    styles: ["Black & Grey", "Realism", "High Contrast", "Texture Detail", "Mixed Media"],
     stats: {
       creativity: 91,
       experience: 94,
@@ -129,10 +129,10 @@ const rawArtists: Artist[] = [
       technique: 92,
       artistry: 88
     },
-    blurb: "Anthony's versatility knows no bounds. With 15+ years crafting custom tattoos, he seamlessly blends traditional techniques with modern innovation. Perfect for walk-ins and those seeking a personalized artistic journey.",
-    bio: "Anthony Boudreaux is known for his versatility and approachable style, making him the perfect choice for walk-in consultations. His work spans traditional and modern styles with a focus on custom design work. Having worked at prestigious shops like Hard 2 Love Tattoo and Another Realm Tattoo, Anthony brings a wealth of experience and adaptability to every client interaction.",
-    specialties: ["Traditional Mastery", "Color Work", "Custom Design", "Walk-in Consultations", "Mixed Style Pieces"],
-    experience: "15+ years",
+    blurb: "Anthony's mastery of black & grey realism creates stunning depth and texture. With 5 years of dedicated experience, he specializes in high-contrast work and intricate texture detail that brings tattoos to life with photorealistic precision.",
+    bio: "Anthony Boudreaux is known for his exceptional skill in black & grey realism and high-contrast work. His mastery of texture detail and photorealistic techniques creates tattoos with incredible depth and dimension. With 5 years of focused experience, Anthony brings precision and artistry to every piece, specializing in the subtle gradations and intricate details that define masterful realism work.",
+    specialties: ["Black & Grey", "Realism", "High Contrast", "Texture Detail", "Photorealistic Work"],
+    experience: "5 years",
     instagram: "@buddha_ta2",
     featuredWork: [
       "/assets/artists/Anthony/buddha_ta2_1750266594_3657823770568595277_522395724.jpg",
@@ -149,7 +149,6 @@ const rawArtists: Artist[] = [
       "/assets/artists/Anthony/buddha_ta2_1704584449_3274614044673070561_522395724.mp4",
       "/assets/artists/Anthony/buddha_ta2_1719781935_3402099796843496868_522395724.mp4",
       "/assets/artists/Anthony/buddha_ta2_1722653033_3426184080010990405_522395724.mp4",
-      "/assets/artists/Anthony/buddha_ta2_1725325270_3448600777101722467_522395724.jpg",
       "/assets/artists/Anthony/buddha_ta2_1728619400_3476233731405443269_522395724.mp4",
       "/assets/artists/Anthony/buddha_ta2_1730947386_3495762239106116395_522395724.mp4",
       "/assets/artists/Anthony/buddha_ta2_1732606265_3509678193076629234_522395724.jpg",
@@ -184,10 +183,10 @@ const rawArtists: Artist[] = [
       technique: 97,
       artistry: 92
     },
-    blurb: "Luis Reymundo is a master of traditional Japanese tattooing. With 12+ years of dedication to authentic Japanese techniques, he creates stunning pieces that honor the rich history and cultural significance of this ancient art form.",
-    bio: "Luis Reymundo specializes in traditional Japanese artwork, bringing authentic techniques and cultural depth to every piece. With 12+ years of experience, he creates stunning traditional Japanese tattoos that honor the rich history and symbolism of this timeless art form. Having worked at esteemed studios like Another Realm Tattoo and Black Pearl Tattoo, Luis brings deep respect for traditional Japanese tattooing methods.",
+    blurb: "Luis Reymundo is a master of traditional Japanese tattooing. With 9 years of dedication to authentic Japanese techniques, he creates stunning pieces that honor the rich history and cultural significance of this ancient art form.",
+    bio: "Luis Reymundo specializes in traditional Japanese artwork, bringing authentic techniques and cultural depth to every piece. With 9 years of experience, he creates stunning traditional Japanese tattoos that honor the rich history and symbolism of this timeless art form. Having worked at esteemed studios like Another Realm Tattoo and Black Pearl Tattoo, Luis brings deep respect for traditional Japanese tattooing methods.",
     specialties: ["Traditional Japanese", "Irezumi", "Japanese Dragons", "Koi Fish", "Cherry Blossoms"],
-    experience: "12+ years",
+    experience: "9 years",
     instagram: "@luisreyart",
     featuredWork: [
       "/assets/artists/Luis/456455404_18445571008001635_6969315202827007293_n.jpg",
@@ -230,10 +229,10 @@ const rawArtists: Artist[] = [
       technique: 94,
       artistry: 98
     },
-    blurb: "Cody Crochet bends reality through masterful illustration. As a 10-year veteran specializing in anime, videogame, and character tattoos, he brings fantastical worlds to life with unparalleled detail and vibrant color mastery.",
-    bio: "Cody Crochet is a 10-year veteran tattoo artist specializing in anime, illustrated, and videogame tattoos. His color work brings characters and designs to life with incredible detail and vibrancy. With thousands of posts showcasing his work, Cody has established himself as a leading voice in the anime and videogame tattoo community, known for his ability to capture the essence of beloved characters and worlds.",
-    specialties: ["Anime Character Tattoos", "Illustrative Realism", "Color Mastery", "Videogame Tattoos", "Fantasy Art", "Character Portraits"],
-    experience: "10+ years",
+    blurb: "Cody Crochet bends reality through masterful illustration. As an 11-year veteran specializing in anime, manga, videogame, and blackwork panel tattoos, he brings fantastical worlds to life with unparalleled detail and vibrant color mastery.",
+    bio: "Cody Crochet is an 11-year veteran tattoo artist specializing in anime, manga, illustrated, and videogame tattoos. His color work and blackwork panels bring characters and designs to life with incredible detail and vibrancy. With thousands of posts showcasing his work, Cody has established himself as a leading voice in the anime and videogame tattoo community, known for his ability to capture the essence of beloved characters and worlds.",
+    specialties: ["Manga", "Anime", "Blackwork Panels", "Illustrative Realism", "Color Mastery", "Videogame Tattoos"],
+    experience: "11 years",
     instagram: "@codycrochettattoos",
     featuredWork: [
       "/assets/artists/cody-crochet/madman.jpg",

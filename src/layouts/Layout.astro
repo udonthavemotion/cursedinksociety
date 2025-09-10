@@ -1,5 +1,9 @@
 ---
 import '../styles/global.css';
+import pricingData from '../data/pricing.json';
+import ScrollManager from '../components/ScrollManager.astro';
+import OptimizedThreeLoader from '../components/OptimizedThreeLoader.astro';
+import PerformanceMonitor from '../components/PerformanceMonitor.astro';
 
 export interface Props {
   title: string;
@@ -17,6 +21,8 @@ const {
   noIndex = false
 } = Astro.props;
 
+const pricing = pricingData;
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "TattooParlor",
@@ -27,7 +33,7 @@ const structuredData = {
   "telephone": "(985) 855-3826",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Houma, LA",
+    "streetAddress": "488 Corporate Dr, STE 11",
     "addressLocality": "Houma",
     "addressRegion": "LA",
     "postalCode": "70360",
@@ -60,13 +66,18 @@ const structuredData = {
 	<head>
     <!-- Essential Meta Tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#dc143c" />
     <meta name="color-scheme" content="dark" />
-    <!-- Prevent caching during development -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    
+    <!-- iOS Safari specific optimizations -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Cursed Ink Society" />
+    
+    <!-- Prevent zoom on form inputs (iOS) -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     
     <!-- Additional theme colors for different platforms -->
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#dc143c" />
@@ -129,9 +140,14 @@ const structuredData = {
     <!-- Preload Critical Resources -->
     <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
     
+    <!-- Preload Critical Fonts with font-display swap for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" /></noscript>
+    
     <!-- DNS Prefetch for External Resources -->
     <link rel="dns-prefetch" href="//formspree.io" />
-		<link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//instagram.com" />
     
     <!-- Structured Data -->
@@ -143,11 +159,18 @@ const structuredData = {
   </head>
   
   <body>
+    <!-- Scroll and Loading Manager -->
+    <ScrollManager />
+    <OptimizedThreeLoader />
+    <PerformanceMonitor />
+    
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
     <!-- Navigation -->
     <nav class="main-nav" role="navigation" aria-label="Main navigation">
+      <!-- Screen reader announcements -->
+      <div id="nav-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
       <div class="container nav-container">
         <a href="/" class="nav-logo" aria-label="Cursed Ink Society Home">
           <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" width="60" height="60" />
@@ -159,12 +182,43 @@ const structuredData = {
           <span></span>
         </button>
         
-        <div class="nav-menu" id="nav-menu">
+        <div class="nav-menu" id="nav-menu" role="navigation" aria-label="Mobile navigation menu">
           <ul class="nav-links">
             <li><a href="/" class="nav-link">Home</a></li>
             <li><a href="/artists" class="nav-link">Artists</a></li>
             <li><a href="/gallery" class="nav-link">Gallery</a></li>
-            <li><a href="/services" class="nav-link">Services</a></li>
+            <li class="nav-item-with-dropdown">
+              <a href="/services" class="nav-link nav-link-pricing" aria-expanded="false" aria-haspopup="true" aria-controls="pricing-dropdown">Pricing</a>
+              <div class="pricing-dropdown" id="pricing-dropdown" role="menu" aria-labelledby="nav-link-pricing">
+                <div class="pricing-dropdown-content">
+                  <div class="pricing-essentials">
+                    <div class="pricing-grid-mini">
+                      <div class="pricing-item-mini">
+                        <span class="pricing-label-mini">Deposit</span>
+                        <span class="pricing-value-mini">{pricing.essentials.deposit.amount} {pricing.essentials.deposit.refundable ? 'refundable' : 'non-refundable'}</span>
+                      </div>
+                      <div class="pricing-item-mini">
+                        <span class="pricing-label-mini">Minimum</span>
+                        <span class="pricing-value-mini">{pricing.essentials.minimum.amount}</span>
+                      </div>
+                    </div>
+                    <div class="pricing-features-mini">
+                      <div class="feature-mini">✓ {pricing.essentials.styles}</div>
+                      <div class="feature-mini">✓ {pricing.essentials.walkIns}</div>
+                      <div class="feature-mini">✓ {pricing.essentials.contact}</div>
+                      <div class="feature-mini">✓ {pricing.essentials.consultation.description}</div>
+                    </div>
+                  </div>
+                  <div class="pricing-cta-mini">
+                    <a href={pricing.cta.primary.href} class="btn btn--primary btn--mini">{pricing.cta.primary.text}</a>
+                    <div class="pricing-contact-mini">
+                      <a href={`tel:${pricing.cta.primary.phone.replace(/[^0-9+]/g, '')}`} class="contact-phone-mini">{pricing.cta.primary.phone}</a>
+                      <a href={`https://instagram.com/${pricing.contact.instagram.replace('@', '')}`} target="_blank" class="contact-instagram-mini">{pricing.contact.instagram}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
             <li><a href="/about" class="nav-link">About</a></li>
             <li><a href="/contact" class="nav-link">Contact</a></li>
           </ul>
@@ -195,14 +249,13 @@ const structuredData = {
           <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
             <a href="/artists" class="footer-link">Artists</a>
             <a href="/gallery" class="footer-link">Gallery</a>
-            <a href="/services" class="footer-link">Services</a>
             <a href="/about" class="footer-link">About</a>
             <a href="/contact" class="footer-link">Contact</a>
           </nav>
           
           <!-- Contact Info - Compact -->
           <div class="footer-contact">
-            <p class="contact-location">Houma, LA 70360</p>
+            <p class="contact-location">488 Corporate Dr, STE 11, Houma, LA 70360</p>
             <p class="contact-hours">Mon-Thu: 1PM-8PM • Fri-Sat: 1PM-10PM • Sun: Appt Only</p>
             <p class="contact-phone"><a href="tel:+19858553826" class="contact-link">(985) 855-3826</a></p>
             <p class="contact-services">Tattoo • Piercing</p>
@@ -210,7 +263,7 @@ const structuredData = {
 
           <!-- CTA Section -->
           <div class="footer-cta">
-            <a href="/contact" class="btn btn--primary btn--footer">Book Your Session</a>
+            <a href="/contact" class="btn btn--primary btn--footer">Contact Us</a>
           </div>
 
           <!-- Social Links -->
@@ -249,20 +302,38 @@ const structuredData = {
 
     <!-- Navigation JavaScript -->
 		<script>
-      // Enhanced navigation with accessibility
+      // Enhanced navigation with accessibility and pricing dropdown
       class Navigation {
         private navToggle: HTMLElement | null;
         private navMenu: HTMLElement | null;
         private navLinks: NodeListOf<HTMLElement>;
+        private pricingDropdown: HTMLElement | null;
+        private pricingTrigger: HTMLElement | null;
+        private announcements: HTMLElement | null;
         private isOpen: boolean;
+        private pricingOpen: boolean;
+        private isMobile: boolean;
+        private isSmallMobile: boolean;
 
         constructor() {
           this.navToggle = document.querySelector('.nav-toggle');
           this.navMenu = document.querySelector('.nav-menu');
           this.navLinks = document.querySelectorAll('.nav-link');
+          this.pricingDropdown = document.querySelector('.pricing-dropdown');
+          this.pricingTrigger = document.querySelector('.nav-link-pricing');
+          this.announcements = document.querySelector('#nav-announcements');
           this.isOpen = false;
+          this.pricingOpen = false;
+          this.isMobile = window.innerWidth <= 768;
+          this.isSmallMobile = window.innerWidth <= 480;
           
           this.init();
+        }
+
+        private announce(message: string): void {
+          if (this.announcements) {
+            this.announcements.textContent = message;
+          }
         }
 
         init(): void {
@@ -270,23 +341,90 @@ const structuredData = {
           
           this.navToggle.addEventListener('click', this.toggleMenu.bind(this));
           
-          // Close menu when clicking nav links
+          // Close menu when clicking nav links (except pricing dropdown trigger)
           this.navLinks.forEach((link: HTMLElement) => {
-            link.addEventListener('click', () => this.closeMenu());
+            if (!link.classList.contains('nav-link-pricing')) {
+              link.addEventListener('click', () => this.closeMenu());
+            }
           });
+          
+          // Handle pricing dropdown
+          this.initPricingDropdown();
           
           // Close menu when clicking outside
           document.addEventListener('click', (e: Event) => {
             const target = e.target as HTMLElement;
+            
+            // Close main mobile menu when clicking outside
             if (target && !target.closest('.main-nav') && this.isOpen) {
               this.closeMenu();
             }
+            
+            // Close pricing dropdown when clicking outside
+            if (target && !target.closest('.nav-item-with-dropdown') && this.pricingOpen) {
+              this.closePricingDropdown();
+            }
+            
+            // Also close pricing dropdown when clicking on other nav links
+            if (target && target.closest('.nav-link') && !target.closest('.nav-link-pricing') && this.pricingOpen) {
+              this.closePricingDropdown();
+            }
           });
           
-          // Handle escape key
+          // Handle escape key and mobile menu navigation
           document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.isOpen) {
+            if (e.key === 'Escape') {
+              if (this.pricingOpen) {
+                this.closePricingDropdown();
+              } else if (this.isOpen) {
+                this.closeMenu();
+              }
+            }
+
+            // Enhanced mobile menu keyboard navigation
+            if (this.isOpen && this.isMobile && this.navMenu) {
+              const navLinks = Array.from(this.navMenu.querySelectorAll('.nav-link, .btn--mini, .contact-phone-mini, .contact-instagram-mini')) as HTMLElement[];
+              const currentFocus = document.activeElement as HTMLElement;
+              const currentIndex = navLinks.indexOf(currentFocus);
+
+              if (currentIndex !== -1) {
+                switch (e.key) {
+                  case 'ArrowDown':
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % navLinks.length;
+                    navLinks[nextIndex].focus();
+                    break;
+                  case 'ArrowUp':
+                    e.preventDefault();
+                    const prevIndex = currentIndex === 0 ? navLinks.length - 1 : currentIndex - 1;
+                    navLinks[prevIndex].focus();
+                    break;
+                  case 'Home':
+                    e.preventDefault();
+                    navLinks[0].focus();
+                    break;
+                  case 'End':
+                    e.preventDefault();
+                    navLinks[navLinks.length - 1].focus();
+                    break;
+                }
+              }
+            }
+          });
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 768;
+            this.isSmallMobile = window.innerWidth <= 480;
+            
+            if (!this.isMobile && this.isOpen) {
               this.closeMenu();
+            }
+            
+            // Reinitialize pricing dropdown if mobile state changed
+            if (wasMobile !== this.isMobile) {
+              this.closePricingDropdown();
             }
           });
           
@@ -330,22 +468,167 @@ const structuredData = {
 
         openMenu(): void {
           if (!this.navMenu || !this.navToggle) return;
-          
+
           this.isOpen = true;
           this.navMenu.classList.add('nav-menu--open');
           this.navToggle.classList.add('nav-toggle--open');
           this.navToggle.setAttribute('aria-expanded', 'true');
           document.body.style.overflow = 'hidden';
+
+          // Scroll to top when opening mobile menu for better UX
+          if (this.isMobile && this.navMenu) {
+            this.navMenu.scrollTop = 0;
+          }
+
+          // Focus management for accessibility
+          if (this.isMobile) {
+            // Announce menu opening
+            this.announce('Mobile navigation menu opened');
+
+            // Focus first nav link after menu opens
+            const firstNavLink = this.navMenu.querySelector('.nav-link') as HTMLElement;
+            if (firstNavLink) {
+              setTimeout(() => firstNavLink.focus(), 300); // Wait for animation
+            }
+          }
         }
 
         closeMenu(): void {
           if (!this.navMenu || !this.navToggle) return;
-          
+
           this.isOpen = false;
           this.navMenu.classList.remove('nav-menu--open');
           this.navToggle.classList.remove('nav-toggle--open');
           this.navToggle.setAttribute('aria-expanded', 'false');
           document.body.style.overflow = '';
+
+          // Reset mobile menu scroll position after closing
+          if (this.isMobile && this.navMenu) {
+            this.navMenu.scrollTop = 0;
+          }
+
+          // Return focus to toggle button for accessibility
+          if (this.navToggle) {
+            this.navToggle.focus();
+          }
+
+          // Announce menu closing
+          if (this.isMobile) {
+            this.announce('Mobile navigation menu closed');
+          }
+        }
+
+        initPricingDropdown(): void {
+          if (!this.pricingTrigger || !this.pricingDropdown) return;
+
+          // Click to toggle (both mobile and desktop)
+          this.pricingTrigger.addEventListener('click', (e: Event) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // Update mobile detection on each click for accuracy
+            this.isMobile = window.innerWidth <= 768;
+            this.isSmallMobile = window.innerWidth <= 480;
+            this.togglePricingDropdown();
+          });
+
+          if (!this.isMobile) {
+            // Desktop: Hover to show, with delay for better UX
+            let hoverTimeout: NodeJS.Timeout;
+            
+            const dropdownContainer = this.pricingTrigger.closest('.nav-item-with-dropdown');
+            if (dropdownContainer) {
+              dropdownContainer.addEventListener('mouseenter', () => {
+                clearTimeout(hoverTimeout);
+                this.openPricingDropdown();
+              });
+
+              dropdownContainer.addEventListener('mouseleave', () => {
+                hoverTimeout = setTimeout(() => {
+                  this.closePricingDropdown();
+                }, 150); // Small delay to prevent flickering
+              });
+            }
+          }
+
+          // Close mobile menu when clicking CTA links inside dropdown
+          const dropdownLinks = this.pricingDropdown.querySelectorAll('a');
+          dropdownLinks.forEach((link: HTMLElement) => {
+            link.addEventListener('click', () => {
+              if (this.isMobile) {
+                this.closeMenu();
+              }
+            });
+          });
+
+          // Keyboard accessibility
+          this.pricingTrigger.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              this.togglePricingDropdown();
+            }
+          });
+        }
+
+        togglePricingDropdown(): void {
+          this.pricingOpen ? this.closePricingDropdown() : this.openPricingDropdown();
+        }
+
+        openPricingDropdown(): void {
+          if (!this.pricingDropdown) return;
+
+          this.pricingOpen = true;
+          this.pricingDropdown.classList.add('pricing-dropdown--open');
+
+          // Add state class to parent for additional styling hooks
+          const parent = this.pricingTrigger?.closest('.nav-item-with-dropdown');
+          if (parent) {
+            parent.classList.add('dropdown-open');
+          }
+
+          // Add ARIA attributes for accessibility
+          if (this.pricingTrigger) {
+            this.pricingTrigger.setAttribute('aria-expanded', 'true');
+          }
+
+          // Ensure proper centering on mobile
+          if (this.isMobile && this.pricingDropdown) {
+            // Force reflow to ensure proper positioning
+            this.pricingDropdown.style.margin = '0.5rem auto';
+            this.pricingDropdown.style.left = 'auto';
+            this.pricingDropdown.style.right = 'auto';
+            this.pricingDropdown.style.transform = 'none';
+          }
+        }
+
+        closePricingDropdown(): void {
+          if (!this.pricingDropdown) return;
+
+          this.pricingOpen = false;
+          this.pricingDropdown.classList.remove('pricing-dropdown--open');
+
+          // Remove state class from parent
+          const parent = this.pricingTrigger?.closest('.nav-item-with-dropdown');
+          if (parent) {
+            parent.classList.remove('dropdown-open');
+          }
+
+          // Update ARIA attributes
+          if (this.pricingTrigger) {
+            this.pricingTrigger.setAttribute('aria-expanded', 'false');
+          }
+
+          // Reset any inline styles that might have been applied
+          if (this.pricingDropdown) {
+            this.pricingDropdown.style.margin = '';
+            this.pricingDropdown.style.left = '';
+            this.pricingDropdown.style.right = '';
+            this.pricingDropdown.style.transform = '';
+          }
+
+          // Announce dropdown closing for accessibility
+          if (this.isMobile) {
+            this.announce('Pricing menu closed');
+          }
         }
 
         setActiveLink(): void {
@@ -375,18 +658,19 @@ const structuredData = {
         left: 0;
         right: 0;
         z-index: 1000;
-        background: rgba(11, 11, 13, 0.95);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(180deg, rgba(11, 11, 13, 0.98) 0%, rgba(15, 15, 17, 0.95) 100%);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 60, 43, 0.2);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 60, 43, 0.1);
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
 
       /* Transparent navbar on scroll */
       .main-nav.nav-transparent {
-        background: rgba(11, 11, 13, 0.1);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(180deg, rgba(11, 11, 13, 0.85) 0%, rgba(15, 15, 17, 0.8) 100%);
+        backdrop-filter: blur(25px);
+        border-bottom: 1px solid rgba(255, 60, 43, 0.15);
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2), 0 0 40px rgba(255, 60, 43, 0.08);
       }
 
       .main-nav.nav-transparent .nav-logo img {
@@ -402,32 +686,43 @@ const structuredData = {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem 1.2rem;
+        padding: 1.2rem 1.5rem;
         position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
       .nav-logo img {
-        height: 50px;
+        height: 55px;
         width: auto;
-        filter: drop-shadow(0 0 10px rgba(255, 60, 43, 0.3));
-        transition: var(--transition-smooth);
+        filter: drop-shadow(0 0 15px rgba(255, 60, 43, 0.4));
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .nav-logo:hover img {
-        filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
-        transform: scale(1.05);
+        filter: drop-shadow(0 0 25px rgba(255, 60, 43, 0.7));
+        transform: scale(1.08);
       }
 
-      .nav-toggle {
-        display: none;
-        flex-direction: column;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-        position: relative;
-        z-index: 1001;
-      }
+        .nav-toggle {
+          display: none;
+          flex-direction: column;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0.75rem;
+          position: relative;
+          z-index: 1001;
+          min-width: 48px;
+          min-height: 48px;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+        }
+
+        .nav-toggle:hover,
+        .nav-toggle:focus {
+          background: rgba(255, 255, 255, 0.1);
+        }
 
       .nav-toggle span {
         display: block;
@@ -454,13 +749,13 @@ const structuredData = {
       .nav-menu {
         display: flex;
         align-items: center;
-        gap: 2rem;
+        gap: 2.5rem;
       }
 
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 2rem;
+        gap: 2.5rem;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -469,39 +764,50 @@ const structuredData = {
       .nav-link {
         color: var(--ink);
         text-decoration: none;
-        font-weight: 500;
-        font-size: 0.95rem;
-        letter-spacing: 0.02em;
-        transition: var(--transition-smooth);
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: 0.03em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
-        padding: 0.5rem 0;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        text-shadow: 0 0 8px rgba(255, 60, 43, 0.2);
       }
 
-      .nav-link::after {
+      .nav-link::before {
         content: '';
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--accent0);
-        transition: width 0.3s ease;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 60, 43, 0.1), rgba(255, 60, 43, 0.05));
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
       }
 
-      .nav-link:hover::after,
-      .nav-link--active::after {
-        width: 100%;
+      .nav-link:hover::before,
+      .nav-link--active::before {
+        opacity: 1;
       }
 
       .nav-link:hover,
       .nav-link--active {
         color: var(--accent0);
-        text-shadow: var(--glow-subtle);
+        text-shadow: 0 0 15px rgba(255, 60, 43, 0.6);
+        transform: translateY(-1px);
       }
 
       .nav-cta .btn {
-        font-size: 0.9rem;
-        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+        padding: 0.8rem 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 15px rgba(255, 60, 43, 0.3);
+      }
+
+      .nav-cta .btn:hover {
+        box-shadow: 0 6px 20px rgba(255, 60, 43, 0.4);
+        transform: translateY(-2px);
       }
 
       /* Footer Styles - Modern, Elegant, Compact */
@@ -511,7 +817,6 @@ const structuredData = {
           linear-gradient(135deg, #0a0a0c 0%, #0f0f11 100%);
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         padding: 3rem 0 1.5rem;
-        margin-top: 4rem;
       }
 
       .footer-content {
@@ -725,6 +1030,17 @@ const structuredData = {
         font-size: 0.8rem;
       }
 
+      /* Tablet Navigation */
+      @media (max-width: 1024px) {
+        .nav-container {
+          padding: 1rem 1.5rem;
+        }
+
+        .nav-logo img {
+          height: 45px;
+        }
+      }
+
       /* Mobile Navigation */
       @media (max-width: 768px) {
         .nav-toggle {
@@ -740,11 +1056,37 @@ const structuredData = {
           background: rgba(11, 11, 13, 0.98);
           backdrop-filter: blur(20px);
           flex-direction: column;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
           gap: 0;
           transform: translateX(-100%);
           transition: transform 0.3s ease;
+          overflow-y: auto;
+          overflow-x: hidden;
+          padding-top: 100px;
+          padding-bottom: 2rem;
+          z-index: 1000;
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom scrollbar for mobile menu */
+        .nav-menu::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .nav-menu::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 2px;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+          background: rgba(255, 60, 43, 0.6);
+          border-radius: 2px;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 60, 43, 0.8);
         }
 
         .nav-menu--open {
@@ -753,13 +1095,231 @@ const structuredData = {
 
         .nav-links {
           flex-direction: column;
-          gap: 2.5rem;
-          margin-bottom: 3rem;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          padding: 0 1rem;
+          width: 100%;
+          max-width: 350px;
+        }
+
+        .nav-item-with-dropdown {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
 
         .nav-link {
           font-size: 1.2rem;
           text-align: center;
+          padding: 1rem 1.5rem;
+          border-radius: 8px;
+          margin: 0.25rem 0;
+          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.01);
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 280px;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+          background: rgba(255, 60, 43, 0.05);
+        }
+
+        /* Mobile pricing dropdown - compact and properly positioned */
+        .pricing-dropdown {
+          position: static;
+          width: calc(100% - 2rem);
+          max-width: 320px;
+          margin: 0.5rem auto;
+          transform: none;
+          opacity: 0;
+          visibility: hidden;
+          max-height: 0;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          left: auto;
+          right: auto;
+          background: rgba(15, 15, 17, 0.95);
+          border: 1px solid rgba(255, 60, 43, 0.4);
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          /* Ensure proper centering */
+          align-self: center;
+          justify-self: center;
+        }
+
+        .pricing-dropdown--open {
+          opacity: 1;
+          visibility: visible;
+          max-height: 350px;
+        }
+
+        .nav-item-with-dropdown:hover .pricing-dropdown {
+          transform: none;
+          /* Disable hover on mobile */
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        /* Touch-friendly mobile interactions */
+        .nav-link-pricing {
+          position: relative;
+          padding: 1rem 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.2rem;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 8px;
+          margin: 0.25rem 0;
+          transition: all 0.2s ease;
+        }
+
+        .nav-link-pricing:hover,
+        .nav-link-pricing:focus,
+        .dropdown-open .nav-link-pricing {
+          background: rgba(255, 60, 43, 0.1);
+          border-color: rgba(255, 60, 43, 0.2);
+        }
+
+        .pricing-dropdown-content {
+          padding: 1rem;
+          text-align: center;
+        }
+
+        .pricing-grid-mini {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.4rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .pricing-item-mini {
+          padding: 1rem 0.8rem;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 6px;
+          text-align: center;
+          min-height: 48px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.25rem;
+        }
+
+        .pricing-label-mini {
+          font-size: 0.7rem;
+          color: rgba(245, 245, 245, 0.7);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.2rem;
+          display: block;
+        }
+
+        .pricing-value-mini {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--accent0);
+          display: block;
+        }
+
+        .pricing-features-mini {
+          gap: 0.4rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .feature-mini {
+          font-size: 0.75rem;
+          color: rgba(245, 245, 245, 0.9);
+          padding: 0.15rem 0;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+
+        .feature-mini::before {
+          content: '✓';
+          color: var(--accent0);
+          font-weight: bold;
+          font-size: 0.8rem;
+          flex-shrink: 0;
+        }
+
+        .pricing-cta-mini {
+          text-align: center;
+          padding-top: 0.6rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn--mini {
+          font-size: 0.9rem;
+          padding: 0.75rem 1.25rem;
+          margin-bottom: 0.75rem;
+          display: block;
+          width: 100%;
+          max-width: 200px;
+          margin-left: auto;
+          margin-right: auto;
+          min-height: 48px;
+        }
+
+        .pricing-contact-mini {
+          display: flex;
+          flex-direction: row;
+          gap: 0.5rem;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .contact-phone-mini,
+        .contact-instagram-mini {
+          font-size: 0.8rem;
+          color: rgba(245, 245, 245, 0.8);
+          text-decoration: none;
+          transition: all 0.2s ease;
+          padding: 0.5rem 0.75rem;
+          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          min-width: 90px;
+          text-align: center;
+          flex: 1;
+          max-width: 120px;
+          min-height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .contact-phone-mini:hover,
+        .contact-instagram-mini:hover {
+          color: var(--accent0);
+          background: rgba(255, 60, 43, 0.05);
+          border-color: rgba(255, 60, 43, 0.2);
+        }
+
+        /* Clean pricing link without arrows */
+
+        .nav-cta {
+          margin-top: 1rem;
+          padding: 0 2rem;
+          width: 100%;
+          max-width: 400px;
+        }
+
+        .nav-cta .btn {
+          width: 100%;
+          min-height: 48px;
+          font-size: 1rem;
+          padding: 0.875rem 1.5rem;
         }
 
         .footer-nav {
@@ -781,29 +1341,454 @@ const structuredData = {
         }
       }
 
+      /* Extra Small Mobile Devices */
+      @media (max-width: 480px) {
+        .nav-container {
+          padding: 0.75rem 1rem;
+        }
+
+        .nav-toggle {
+          padding: 0.5rem;
+          min-width: 44px;
+          min-height: 44px;
+        }
+
+        .nav-toggle span {
+          width: 22px;
+          height: 1.5px;
+        }
+
+        .nav-menu {
+          padding-top: 80px;
+          padding-bottom: 1.5rem;
+        }
+
+        .nav-link {
+          font-size: 1.1rem;
+          padding: 0.875rem 1.25rem;
+          margin: 0.2rem 0;
+          max-width: 240px;
+        }
+
+        .nav-link-pricing {
+          font-size: 1.1rem;
+          padding: 0.875rem 1.25rem;
+          width: 100%;
+          max-width: 240px;
+        }
+
+        .pricing-dropdown {
+          width: calc(100% - 2rem);
+          max-width: 280px;
+          margin: 0.75rem auto;
+        }
+
+        .pricing-dropdown-content {
+          padding: 0.875rem;
+        }
+
+        .pricing-grid-mini {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .pricing-item-mini {
+          padding: 0.875rem 0.6rem;
+          min-height: 44px;
+        }
+
+        .pricing-label-mini {
+          font-size: 0.65rem;
+        }
+
+        .pricing-value-mini {
+          font-size: 0.85rem;
+        }
+
+        .btn--mini {
+          font-size: 0.85rem;
+          padding: 0.625rem 1rem;
+          max-width: 180px;
+        }
+
+        .contact-phone-mini,
+        .contact-instagram-mini {
+          font-size: 0.75rem;
+          padding: 0.4rem 0.6rem;
+          min-width: 80px;
+          max-width: 100px;
+          min-height: 36px;
+        }
+
+        .nav-cta {
+          padding: 0 1.5rem;
+          max-width: 320px;
+        }
+
+        .nav-cta .btn {
+          font-size: 0.95rem;
+          padding: 0.75rem 1.25rem;
+        }
+      }
+
+      /* Very Small Devices */
+      @media (max-width: 360px) {
+        .nav-link {
+          font-size: 1rem;
+          padding: 0.75rem 1rem;
+          max-width: 200px;
+        }
+
+        .nav-link-pricing {
+          font-size: 1rem;
+          padding: 0.75rem 1rem;
+          width: 100%;
+          max-width: 200px;
+        }
+
+        .pricing-dropdown {
+          width: calc(100% - 1.5rem);
+          max-width: 260px;
+          margin: 0.5rem auto;
+        }
+
+        .pricing-dropdown-content {
+          padding: 0.75rem;
+        }
+
+        .nav-cta {
+          padding: 0 1rem;
+          max-width: 280px;
+        }
+      }
+
+      /* iPhone specific optimizations */
+      @media (max-width: 414px) and (-webkit-min-device-pixel-ratio: 2) {
+        .pricing-dropdown {
+          width: calc(100% - 1rem);
+          max-width: 300px;
+          margin: 0.5rem auto;
+          /* Ensure it doesn't go off-screen on iPhone */
+          left: 0;
+          right: 0;
+        }
+
+        .nav-link-pricing {
+          width: 100%;
+          max-width: 280px;
+          margin: 0 auto;
+        }
+
+        .pricing-dropdown-content {
+          padding: 1rem 0.75rem;
+        }
+
+        /* Better touch targets for iPhone */
+        .pricing-item-mini {
+          min-height: 48px;
+          padding: 0.75rem 0.5rem;
+        }
+
+        .contact-phone-mini,
+        .contact-instagram-mini {
+          min-height: 44px;
+          font-size: 0.8rem;
+        }
+      }
+
+      /* iPhone SE and similar small screens */
+      @media (max-width: 375px) and (max-height: 667px) {
+        .pricing-dropdown {
+          width: calc(100vw - 2rem);
+          max-width: 300px;
+          margin: 0.5rem auto;
+        }
+
+        .nav-link-pricing {
+          width: 100%;
+          max-width: 260px;
+        }
+      }
+
+      /* Ensure proper centering on all mobile devices */
+      @media (max-width: 768px) {
+        .nav-item-with-dropdown {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+
+        .pricing-dropdown {
+          position: relative;
+          left: auto !important;
+          right: auto !important;
+          transform: none !important;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
+      /* Pricing Dropdown Styles */
+      .nav-item-with-dropdown {
+        position: relative;
+      }
+
+      .pricing-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        width: 450px;
+        max-width: 90vw;
+        background: linear-gradient(135deg, rgba(11, 11, 13, 0.98) 0%, rgba(15, 15, 17, 0.96) 100%);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 60, 43, 0.3);
+        border-radius: 20px;
+        box-shadow: 
+          0 25px 50px rgba(0, 0, 0, 0.4), 
+          0 0 40px rgba(255, 60, 43, 0.15),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+        margin-top: 0.75rem;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .pricing-dropdown::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 60, 43, 0.6), transparent);
+      }
+
+      .pricing-dropdown--open,
+      .nav-item-with-dropdown:hover .pricing-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+
+      /* Smart positioning to prevent overflow */
+      .pricing-dropdown {
+        /* Prevent dropdown from going off-screen on small screens */
+        left: clamp(10px, 50%, calc(100vw - 430px));
+        transform: translateX(clamp(-90%, -50%, -10%)) translateY(-10px);
+      }
+
+      .pricing-dropdown--open,
+      .nav-item-with-dropdown:hover .pricing-dropdown {
+        transform: translateX(clamp(-90%, -50%, -10%)) translateY(0);
+      }
+
+      .pricing-dropdown-content {
+        padding: 2.5rem;
+        contain: layout style paint;
+        position: relative;
+      }
+
+      /* Performance optimizations */
+      .pricing-dropdown {
+        will-change: transform, opacity;
+        contain: layout;
+      }
+
+      .nav-item-with-dropdown:hover .pricing-dropdown,
+      .pricing-dropdown--open {
+        will-change: auto;
+      }
+
+      .pricing-grid-mini {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .pricing-item-mini {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 60, 43, 0.15);
+        border-radius: 16px;
+        padding: 1.25rem;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-item-mini::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 60, 43, 0.1) 0%, rgba(255, 60, 43, 0.05) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 16px;
+      }
+
+      .pricing-item-mini:hover::before {
+        opacity: 1;
+      }
+
+      .pricing-item-mini:hover {
+        border-color: rgba(255, 60, 43, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 60, 43, 0.15);
+      }
+
+      .pricing-label-mini {
+        display: block;
+        font-size: 0.85rem;
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink);
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+      }
+
+      .pricing-value-mini {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--accent0);
+        text-shadow: 0 0 12px rgba(255, 60, 43, 0.6);
+        position: relative;
+        z-index: 1;
+      }
+
+      .pricing-features-mini {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-mini {
+        font-size: 0.85rem;
+        color: var(--ink);
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .feature-mini::before {
+        content: '●';
+        color: var(--accent0);
+        font-weight: bold;
+        font-size: 0.8rem;
+        text-shadow: 0 0 8px rgba(255, 60, 43, 0.6);
+      }
+
+      .pricing-cta-mini {
+        text-align: center;
+        border-top: 1px solid rgba(255, 60, 43, 0.15);
+        padding-top: 2rem;
+        margin-top: 1rem;
+      }
+
+      .btn--mini {
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+        margin-bottom: 1rem;
+        display: inline-block;
+        width: auto;
+      }
+
+      .pricing-contact-mini {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 0.85rem;
+      }
+
+      .contact-phone-mini,
+      .contact-instagram-mini {
+        color: var(--ink);
+        text-decoration: none;
+        opacity: 0.8;
+        transition: var(--transition-smooth);
+        font-weight: 500;
+      }
+
+      .contact-phone-mini:hover,
+      .contact-instagram-mini:hover {
+        opacity: 1;
+        color: var(--accent0);
+        text-shadow: var(--glow-subtle);
+      }
+
+      .nav-link-pricing {
+        position: relative;
+      }
+
+      /* Remove arrow/emoji indicators for cleaner look */
+
+      /* Enhanced focus styles for accessibility */
+      .nav-link-pricing:focus {
+        outline: 2px solid var(--accent0);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      .pricing-dropdown a:focus {
+        outline: 2px solid var(--accent0);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
       /* Add top padding to body to account for fixed nav */
       body {
         padding-top: 80px;
       }
 
-      /* Skip link styles */
-      .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--accent0);
-        color: white;
-        padding: 8px;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 1000;
-        font-weight: 600;
-        transition: top 0.2s;
-      }
+    /* Skip link styles */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--accent0);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 1000;
+      font-weight: 600;
+      transition: top 0.2s;
+    }
 
-      .skip-link:focus {
-        top: 6px;
-      }
+    .skip-link:focus {
+      top: 6px;
+    }
+
+    /* Screen reader only content */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
     </style>
+
+    <!-- DSAT Attribution System -->
+    <link href="/dsat.css" rel="stylesheet" />
+    <script src="/dsat.js" defer></script>
 	</body>
 </html>

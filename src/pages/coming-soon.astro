@@ -3,13 +3,15 @@ import Hero3D from '../components/Hero3D.astro';
 import '../styles/global.css';
 
 // SEO and Meta Configuration
-const title = "Cursed Ink Society — Coming Soon";
-const description = "Cursed Ink Society — tattoos, sigils, and community. Official site conjuring soon. Join the circle for first access to bookings & drops.";
+const title = "Cursed Ink Society — Opening in 48 Hours";
+const description = "Cursed Ink Society opens in 48 hours! Premium tattoo artistry, mystical designs, and exclusive community. Join the circle for first access to services & drops.";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og/og-image.jpg', Astro.url);
 
-// Launch configuration - Update this date for your launch
-const launchISO = '2025-10-31T17:00:00Z';
+// Launch configuration - Dynamically set to 48 hours from now
+const now = new Date();
+const launchDate = new Date(now.getTime() + (48 * 60 * 60 * 1000)); // 48 hours from now
+const launchISO = launchDate.toISOString();
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Organization",

@@ -1,6 +1,7 @@
 ---
 import ArcanePanel from './ArcanePanel.astro';
 import StatBar from './StatBar.astro';
+import OptimizedImage from './OptimizedImage.astro';
 import { slugify } from '../lib/slugify';
 import type { Artist } from '../data/artists';
 
@@ -20,13 +21,13 @@ const isTrent = artist.slug === 'trent';
     <!-- Artist Avatar & Basic Info -->
     <div class="artist-header">
       <div class="artist-avatar">
-        <img
+        <OptimizedImage
           src={artist.avatar}
           alt={`${artist.name} portrait`}
+          width={100}
+          height={100}
           loading="lazy"
-          width="100"
-          height="100"
-          onerror="this.style.border='3px solid #b22222'; this.alt='IMAGE FAILED: ' + this.src;"
+          class="artist-avatar-img"
         />
       </div>
       <div class="artist-info">
@@ -48,11 +49,13 @@ const isTrent = artist.slug === 'trent';
         <div class="work-grid">
           {artist.featuredWork.slice(0, 3).map((work, index) => (
             <div class="work-item">
-              <img
+              <OptimizedImage
                 src={work}
                 alt={`${artist.name} artwork ${index + 1}`}
                 loading="lazy"
                 class="work-image"
+                width={200}
+                height={200}
               />
             </div>
           ))}

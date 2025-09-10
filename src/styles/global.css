@@ -33,6 +33,18 @@ body{
   font-family:"Cinzel Variable", ui-serif, Georgia, serif;
   font-display: swap;
   line-height: 1.6;
+  
+  /* iOS Safari safe area support */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* iOS Safari viewport fix */
+@supports (-webkit-touch-callout: none) {
+  .hero {
+    min-height: -webkit-fill-available;
+  }
 }
 
 /* Reduced motion support */
@@ -144,6 +156,36 @@ h1, .badge, p, small, .btn, .brand-mark, .tagline, .social-link {
   .input{width:100%; max-width:320px}
   .social{flex-direction:row; gap:.6rem}
   .social .btn{width:auto; max-width:none; flex:1}
+  
+  /* iOS Safari specific mobile fixes */
+  .hero{
+    min-height:100svh; /* Use small viewport height for better mobile support */
+  }
+}
+
+/* Touch interaction optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover {
+    transform: none; /* Disable hover effects on touch devices */
+  }
+  
+  .btn:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Improve touch targets */
+  .btn, .input, a[href] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text selection on buttons */
+  .btn {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 }
 
 /* High contrast mode support */
@@ -196,7 +238,7 @@ h1, .badge, p, small, .btn, .brand-mark, .tagline, .social-link {
    MORTAL KOMBAT THEME - Seth Wood Elder Warrior
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+/* Orbitron font will be loaded via preload in Layout.astro for better performance */
 
 /* MK Color Variables - Aligned with Cursed Ink Society Brand */
 :root {

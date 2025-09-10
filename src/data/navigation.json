@@ -16,9 +16,9 @@
       "description": "Explore our portfolio"
     },
     {
-      "label": "Services",
+      "label": "Pricing",
       "href": "/services",
-      "description": "Our offerings and pricing"
+      "description": "Transparent pricing and consultation details"
     },
     {
       "label": "About",
@@ -100,7 +100,7 @@
       }
     ],
     "contact": {
-      "address": "123 Main Street, Houma, LA 70360",
+      "address": "488 Corporate Dr, STE 11, Houma, LA 70360",
       "phone": "(985) 555-2873",
       "hours": [
         "Tue-Thu: 12PM-8PM",

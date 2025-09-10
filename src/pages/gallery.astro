@@ -1,100 +1,112 @@
+
 ---
 import Layout from '../layouts/Layout.astro';
 import { slugify } from '../lib/slugify';
+import { getPrioritizedPortfolioItems, getMergedArtists, getTotalPortfolioCount } from '../lib/portfolioAggregator';
 
 const title = "Gallery — Cursed Ink Society Portfolio";
 const description = "Browse our extensive portfolio of tattoo artwork. See examples of traditional, realism, fine line, Japanese, and custom tattoo designs by our master artists.";
 
-// Import portfolio data from structured data source
-import cisData from '../data/cis.json';
+// Get prioritized and randomized portfolio items 
+const allPortfolioItems = getPrioritizedPortfolioItems();
 
-// Get all artists and their portfolio images
-const artists = cisData.artists.map(artist => ({
-  ...artist,
-  portfolioImages: artist.portfolio || []
-}));
+// Get merged artist data for the artist showcase section
+const artists = getMergedArtists();
 
-// Calculate total images across all artists
-const totalImages = artists.reduce((total, artist) => total + artist.portfolioImages.length, 0);
-
-// Create unified portfolio items for the big gallery
-const allPortfolioItems: Array<{
-  id: string;
-  image: string;
-  artist: string;
-  artistSlug: string;
-  title: string;
-  alt: string;
-  specialty: string;
-}> = [];
-
-// Define artistic descriptors that match Cursed Ink Society's style
-const artisticDescriptors = [
-  "Masterful Creation", "Artistic Vision", "Ink Mastery", "Cursed Artistry", 
-  "Dark Elegance", "Timeless Craft", "Bold Expression", "Sacred Ink",
-  "Mystical Design", "Shadow & Light", "Eternal Art", "Forbidden Ink"
-];
-
-artists.forEach((artist, artistIndex) => {
-  artist.portfolioImages.forEach((image, imageIndex) => {
-    const descriptorIndex = (artistIndex * 10 + imageIndex) % artisticDescriptors.length;
-    const primarySpecialty = artist.specialties[0] || "Custom Art";
-    
-    allPortfolioItems.push({
-      id: `artist-${artist.slug}-${imageIndex}`,
-      image: image,
-      artist: artist.name,
-      artistSlug: artist.slug,
-      title: artisticDescriptors[descriptorIndex],
-      alt: `${primarySpecialty} tattoo by ${artist.name} - Cursed Ink Society artistry`,
-      specialty: primarySpecialty
-    });
-  });
-});
+// Calculate total items (now includes videos too)
+const totalImages = getTotalPortfolioCount();
 ---
 
 <Layout title={title} description={description}>
-  <!-- Hero Section -->
-  <section class="gallery-hero">
-    <!-- Video Background -->
-    <video
-      class="hero-video"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster="/assets/patterns/hero-pattern.jpg"
-    >
-      <source src="/assets/gallery-hero-video.mp4" type="video/mp4">
-      <!-- Fallback image for browsers that don't support video -->
-      <img src="/assets/patterns/hero-pattern.jpg" alt="Cursed Ink Society Tattoo Artistry" class="hero-fallback">
-    </video>
+  <!-- Hero Section with Enhanced Logo Display -->
+  <section class="gallery-hero enhanced-hero">
+    <!-- Three.js Canvas Background -->
+    <canvas id="gallery-hero-canvas" aria-hidden="true" role="presentation"></canvas>
 
-    <div class="container">
-      <div class="hero-content">
-        <span class="badge">Our Work</span>
-        <h1 class="hero-title shine">Portfolio Gallery</h1>
-        <p class="hero-description">
-          Explore our extensive collection of tattoo artistry. Each piece represents hours of
-          collaboration, creativity, and craftsmanship between our artists and clients.
-        </p>
-        
-        <!-- Gallery Stats -->
-        <div class="gallery-stats">
-          <div class="stat-item">
-            <span class="stat-number">{artists.length}</span>
-            <span class="stat-label">Master Artists</span>
+    <div class="hero-content">
+      <div class="container">
+        <!-- Main Hero Content -->
+        <div class="hero-main">
+          <div class="hero-text-section">
+            <div class="hero-pretitle">
+              <span class="pretitle-accent">✦</span>
+              <span class="pretitle-text">OUR MASTERPIECES</span>
+              <span class="pretitle-accent">✦</span>
+            </div>
+
+            <h1 class="hero-title">
+              <span class="title-word">
+                <span class="letter" data-letter="C">C</span>
+                <span class="letter" data-letter="U">U</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="S">S</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="D">D</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="I">I</span>
+                <span class="letter" data-letter="N">N</span>
+                <span class="letter" data-letter="K">K</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="S">S</span>
+                <span class="letter" data-letter="O">O</span>
+                <span class="letter" data-letter="C">C</span>
+                <span class="letter" data-letter="I">I</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="T">T</span>
+                <span class="letter" data-letter="Y">Y</span>
+              </span>
+              <span class="title-word">
+                <span class="letter" data-letter="G">G</span>
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="L">L</span>
+                <span class="letter" data-letter="L">L</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="Y">Y</span>
+              </span>
+            </h1>
+
+            <p class="hero-subtitle">
+              WITNESS THE ARTISTRY OF SIX MASTER TATTOO ARTISTS. EXPLORE OUR EXTENSIVE COLLECTION OF SACRED INK, FROM TRADITIONAL MASTERPIECES TO CONTEMPORARY VISIONS, EACH PIECE CRAFTED WITH PASSION AND PRECISION.
+            </p>
+
           </div>
-          <div class="stat-item">
-            <span class="stat-number">55+</span>
-            <span class="stat-label">Portfolio Pieces</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <span class="stat-label">Years Combined Experience</span>
+
+          <div class="hero-visual-section">
+            <!-- 3D Interactive Logo -->
+            <div class="logo-showcase">
+              <div class="logo-container" id="gallery-logo-container">
+                <img
+                  src="/brand/cursed-ink-logo.png"
+                  alt="Cursed Ink Society Logo"
+                  class="hero-logo"
+                  id="gallery-interactive-logo"
+                  loading="eager"
+                />
+
+                <!-- Animated Glow Rings -->
+                <div class="glow-ring ring-1"></div>
+                <div class="glow-ring ring-2"></div>
+                <div class="glow-ring ring-3"></div>
+
+                <!-- Floating Particles -->
+                <div class="floating-particles">
+                  <div class="particle particle-1"></div>
+                  <div class="particle particle-2"></div>
+                  <div class="particle particle-3"></div>
+                  <div class="particle particle-4"></div>
+                  <div class="particle particle-5"></div>
+                </div>
+              </div>
+
+              <!-- Holographic Effect Overlay -->
+              <div class="holographic-overlay"></div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -106,30 +118,54 @@ artists.forEach((artist, artistIndex) => {
     <div class="container">
       <div class="gallery-grid" id="gallery-grid">
         {allPortfolioItems.map((item) => (
-          <article class="gallery-item" data-category="all" data-item-id={item.id}>
+          <article class="gallery-item" data-category="all" data-item-id={item.id} data-type={item.type}>
             <div class="gallery-image-container">
-              <img
-                src={item.image}
-                alt={item.alt}
-                class="gallery-image"
-                loading="lazy"
-                width="300"
-                height="400"
-              />
+              {item.type === 'video' ? (
+                <video
+                  src={item.video}
+                  class="gallery-video"
+                  loop
+                  muted
+                  playsinline
+                  preload="metadata"
+                  poster={item.image || undefined}
+                  width="300"
+                  height="400"
+                />
+              ) : (
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  class="gallery-image"
+                  loading="lazy"
+                  width="300"
+                  height="400"
+                />
+              )}
               <div class="image-placeholder">
                 <div class="placeholder-shimmer"></div>
               </div>
+              {item.type === 'video' && (
+                <div class="video-play-indicator">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              )}
               <div class="gallery-overlay">
                 <div class="gallery-info">
                   <h3 class="gallery-title">{item.title}</h3>
                   <p class="gallery-artist">by {item.artist}</p>
                   <span class="gallery-specialty">{item.specialty}</span>
+                  {item.type === 'video' && (
+                    <span class="media-type-badge">Video</span>
+                  )}
                 </div>
-                <button class="gallery-view-btn" data-lightbox={item.id}>
+                <button class="gallery-view-btn" data-lightbox={item.id} data-type={item.type}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                   </svg>
-                  View Masterpiece
+                  {item.type === 'video' ? 'Play Video' : 'View Masterpiece'}
                 </button>
               </div>
             </div>
@@ -151,12 +187,12 @@ artists.forEach((artist, artistIndex) => {
     <div class="container">
       <h2 class="section-title">Meet the Artists Behind the Work</h2>
       <div class="artist-preview-grid">
-        {cisData.artists.map((artist) => (
+        {artists.map((artist) => (
           <div class="artist-preview">
             <img src={artist.avatar} alt={`${artist.name} - Professional tattoo artist`} class="artist-avatar" />
             <div class="artist-preview-info">
               <h3>{artist.name}</h3>
-              <p>{artist.positioning}</p>
+              <p>{artist.title || artist.blurb}</p>
               <a href={`/artists/${slugify(artist.slug ?? artist.name)}`} class="artist-link">View Profile →</a>
             </div>
           </div>
@@ -270,12 +306,39 @@ artists.forEach((artist, artistIndex) => {
       // Initial load
       this.updateGalleryDisplay();
       this.collectAllImages();
+      this.setupVideoHovers();
+    }
+
+    setupVideoHovers() {
+      // Add hover interactions for videos
+      this.galleryItems.forEach(item => {
+        const video = item.querySelector('.gallery-video') as HTMLVideoElement;
+        if (video) {
+          item.addEventListener('mouseenter', () => {
+            video.play().catch(() => {
+              // Handle autoplay restrictions
+            });
+          });
+          
+          item.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // Reset to beginning
+          });
+        }
+      });
     }
 
     collectAllImages() {
       this.allImages = Array.from(this.galleryItems).map(item => {
         const img = item.querySelector('.gallery-image') as HTMLImageElement;
-        return img ? img.src || '' : '';
+        const video = item.querySelector('.gallery-video') as HTMLVideoElement;
+        
+        if (video && video.src) {
+          return video.src;
+        } else if (img && img.src) {
+          return img.src;
+        }
+        return '';
       }).filter(src => src !== '');
     }
 
@@ -312,22 +375,80 @@ artists.forEach((artist, artistIndex) => {
       e.preventDefault();
       const button = e.currentTarget as HTMLElement;
       const galleryItem = button.closest('.gallery-item') as HTMLElement;
+      const mediaType = button.getAttribute('data-type') || 'image';
       const image = galleryItem.querySelector('.gallery-image') as HTMLImageElement;
+      const video = galleryItem.querySelector('.gallery-video') as HTMLVideoElement;
       const title = galleryItem.querySelector('.gallery-title')?.textContent || '';
       const artist = galleryItem.querySelector('.gallery-artist')?.textContent || '';
       const specialty = galleryItem.querySelector('.gallery-specialty')?.textContent || '';
 
-      if (!image) return;
+      let mediaSrc = '';
+      let mediaAlt = '';
 
-      // Find current image index in all images array
-      const imageSrc = image.src || '';
-      this.currentImageIndex = this.allImages.indexOf(imageSrc);
+      if (mediaType === 'video' && video) {
+        mediaSrc = video.src || '';
+        mediaAlt = `Video by ${artist}`;
+        
+        // Find current media index in all media array
+        this.currentImageIndex = this.allImages.indexOf(mediaSrc);
+      } else if (image) {
+        mediaSrc = image.src || '';
+        mediaAlt = image.alt;
+        
+        // Find current image index in all images array
+        this.currentImageIndex = this.allImages.indexOf(mediaSrc);
+      } else {
+        return;
+      }
 
       // Update lightbox content
       if (this.lightboxImage) {
-        (this.lightboxImage as HTMLImageElement).src = imageSrc;
-        (this.lightboxImage as HTMLImageElement).alt = image.alt;
+        if (mediaType === 'video') {
+          // Convert img element to video element for video content
+          const lightboxContent = this.lightbox?.querySelector('.lightbox-content');
+          if (lightboxContent) {
+            const existingImage = lightboxContent.querySelector('.lightbox-image');
+            if (existingImage) {
+              const videoElement = document.createElement('video');
+              videoElement.className = 'lightbox-image';
+              videoElement.id = 'lightbox-image';
+              videoElement.src = mediaSrc;
+              videoElement.controls = true;
+              videoElement.autoplay = true;
+              videoElement.loop = true;
+              videoElement.muted = false;
+              videoElement.style.maxWidth = '100%';
+              videoElement.style.maxHeight = '70vh';
+              videoElement.style.objectFit = 'contain';
+              
+              existingImage.replaceWith(videoElement);
+              this.lightboxImage = videoElement;
+            }
+          }
+        } else {
+          // Ensure it's an image element
+          if (this.lightboxImage.tagName === 'VIDEO') {
+            const lightboxContent = this.lightbox?.querySelector('.lightbox-content');
+            if (lightboxContent) {
+              const imageElement = document.createElement('img');
+              imageElement.className = 'lightbox-image';
+              imageElement.id = 'lightbox-image';
+              imageElement.src = mediaSrc;
+              imageElement.alt = mediaAlt;
+              imageElement.style.maxWidth = '100%';
+              imageElement.style.maxHeight = '70vh';
+              imageElement.style.objectFit = 'contain';
+              
+              this.lightboxImage.replaceWith(imageElement);
+              this.lightboxImage = imageElement;
+            }
+          } else {
+            (this.lightboxImage as HTMLImageElement).src = mediaSrc;
+            (this.lightboxImage as HTMLImageElement).alt = mediaAlt;
+          }
+        }
       }
+      
       if (this.lightboxInfo) {
         this.lightboxInfo.querySelector('.lightbox-title')!.textContent = title;
         this.lightboxInfo.querySelector('.lightbox-artist')!.textContent = artist;
@@ -556,115 +677,538 @@ artists.forEach((artist, artistIndex) => {
     }
   }
 
-  // Initialize everything when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      new GalleryManager();
-      new OptimizedImageLoader();
-      new HeroVideoManager();
-    });
-  } else {
+  // Enhanced 3D Logo Interaction for Gallery Page
+  class GalleryLogoInteraction {
+    private logo: HTMLElement | null;
+    private container: HTMLElement | null;
+    private mouse: { x: number; y: number };
+    private animationId: number | null;
+
+    constructor() {
+      this.logo = document.getElementById('gallery-interactive-logo');
+      this.container = document.getElementById('gallery-logo-container');
+      this.mouse = { x: 0, y: 0 };
+      this.animationId = null;
+      this.init();
+    }
+
+    init(): void {
+      if (!this.logo || !this.container) return;
+
+      window.addEventListener('mousemove', this.handleMouseMove.bind(this), { passive: true });
+      window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Add hover effects
+      this.container.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+      this.container.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+
+      this.animate();
+    }
+
+    handleMouseMove(e: MouseEvent): void {
+      this.updateMousePosition(e.clientX, e.clientY);
+    }
+
+    handleTouchMove(e: TouchEvent): void {
+      if (e.touches.length > 0) {
+        this.updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }
+
+    updateMousePosition(clientX: number, clientY: number): void {
+      if (!this.container) return;
+
+      const rect = this.container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      this.mouse.x = (clientX - centerX) / (window.innerWidth / 2);
+      this.mouse.y = (clientY - centerY) / (window.innerHeight / 2);
+    }
+
+    handleMouseEnter(): void {
+      if (this.logo) {
+        (this.logo as HTMLElement).style.filter = `
+          drop-shadow(0 0 80px rgba(255, 60, 43, 1))
+          drop-shadow(0 0 160px rgba(255, 60, 43, 0.7))
+          drop-shadow(0 0 240px rgba(255, 60, 43, 0.4))
+        `;
+      }
+    }
+
+    handleMouseLeave(): void {
+      if (this.logo) {
+        (this.logo as HTMLElement).style.filter = `
+          drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+          drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+          drop-shadow(0 0 150px rgba(255, 60, 43, 0.3))
+        `;
+      }
+    }
+
+    animate(): void {
+      if (!this.logo) return;
+
+      const rotationX = -this.mouse.y * 20;
+      const rotationY = this.mouse.x * 20;
+      const rotationZ = Math.sin(Date.now() * 0.001) * 3;
+      const scale = 1 + Math.min(Math.sqrt(this.mouse.x * this.mouse.x + this.mouse.y * this.mouse.y) * 0.1, 0.2);
+
+      (this.logo as HTMLElement).style.transform = `
+        perspective(1200px)
+        rotateX(${rotationX}deg)
+        rotateY(${rotationY}deg)
+        rotateZ(${rotationZ}deg)
+        scale(${scale})
+      `;
+
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+  }
+
+  // Initialize Gallery Hero Components
+  function initGalleryHeroComponents() {
+    new GalleryLogoInteraction();
+  }
+
+  // Three.js Background for Gallery Hero
+  async function initGalleryHeroBackground(): Promise<void> {
+    try {
+      const canvas = document.getElementById('gallery-hero-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // WebGL capability check
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      const THREE = await import('three');
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? 'low-power' : 'high-performance'
+      });
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
+      camera.position.set(0, 0, 5);
+
+      // Optimized resize handler
+      function resize(): void {
+        const { clientWidth: w, clientHeight: h } = canvas;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+
+      resize();
+      new ResizeObserver(resize).observe(canvas);
+      renderer.setPixelRatio(Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1));
+
+      // Create floating particles with gallery theme
+      const particleCount = isMobile ? 500 : (prefersReducedMotion ? 300 : 1000);
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 25;
+        positions[i3 + 1] = (Math.random() - 0.5) * 15;
+        positions[i3 + 2] = -(Math.random() * 10 + 3);
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffd4b3,
+        size: isMobile ? 0.015 : 0.025,
+        transparent: true,
+        opacity: prefersReducedMotion ? 0.4 : 0.7,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, particleMaterial);
+      scene.add(particles);
+
+      // Mouse interaction
+      const mouse = new THREE.Vector2();
+      let mouseUpdateId = 0;
+
+      const updateMouse = (e: PointerEvent): void => {
+        cancelAnimationFrame(mouseUpdateId);
+        mouseUpdateId = requestAnimationFrame(() => {
+          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+      };
+
+      window.addEventListener('pointermove', updateMouse, { passive: true });
+
+      // Animation loop
+      const clock = new THREE.Clock();
+      let animationId: number;
+
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+
+        // Smooth camera movement
+        const cameraSpeed = prefersReducedMotion ? 0.01 : (isMobile ? 0.04 : 0.06);
+        camera.position.x += (mouse.x * 0.6 - camera.position.x) * cameraSpeed;
+        camera.position.y += (-mouse.y * 0.4 - camera.position.y) * cameraSpeed;
+        camera.lookAt(0, 0, 0);
+
+        // Particle rotation with gallery-specific motion
+        if (!prefersReducedMotion) {
+          particles.rotation.y += dt * (isMobile ? 0.008 : 0.015);
+          particles.rotation.x += dt * 0.003;
+          particles.rotation.z += dt * 0.001;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        cancelAnimationFrame(animationId);
+        renderer.dispose();
+        geometry.dispose();
+        particleMaterial.dispose();
+      });
+
+    } catch (error) {
+      console.warn('Gallery hero background initialization failed:', error);
+      const canvas = document.getElementById('gallery-hero-canvas');
+      if (canvas) canvas.style.display = 'none';
+    }
+  }
+
+  // Initialize with optimized loading
+  function initializeGalleryComponents() {
+    // Initialize critical components first
     new GalleryManager();
     new OptimizedImageLoader();
     new HeroVideoManager();
+    initGalleryHeroComponents();
+    
+    // Queue Three.js initialization with optimized loader
+    if ((window as any).threeLoader) {
+      (window as any).threeLoader.queueThreeJSInit('gallery-hero-canvas', initGalleryHeroBackground);
+    } else {
+      // Fallback if loader not available
+      setTimeout(initGalleryHeroBackground, 1000);
+    }
+  }
+
+  // Initialize everything when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGalleryComponents);
+  } else {
+    initializeGalleryComponents();
   }
 </script>
 
 <style>
-  /* Gallery Hero */
-  .gallery-hero {
+  /* Enhanced Hero Section - Matching About Page */
+  .enhanced-hero {
     position: relative;
-    padding: 8rem 0 4rem;
-    text-align: center;
+    min-height: 100vh;
     overflow: hidden;
-    background:
-      radial-gradient(1000px 600px at 50% 20%, rgba(255, 60, 43, 0.03) 0%, transparent 60%);
+    background: 
+      radial-gradient(ellipse at 20% 30%, rgba(255, 60, 43, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(255, 122, 24, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #0b0b0d 0%, #1a1a1f 50%, #0b0b0d 100%);
+    perspective: 1200px;
   }
 
-  /* Video Background */
-  .hero-video {
+  #gallery-hero-canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     z-index: 1;
-    opacity: 0.4;
-    filter: blur(0.5px) contrast(1.1);
-    transform: scale(1.1);
-    transition: opacity 0.3s ease;
-  }
-
-  /* Fallback image for video */
-  .hero-fallback {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    opacity: 0.3;
-    filter: blur(1px);
-  }
-
-  /* Ensure text appears over video */
-  .gallery-hero .container {
-    position: relative;
-    z-index: 2;
+    pointer-events: none;
   }
 
   .hero-content {
-    max-width: 700px;
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+  }
+
+  .container {
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+  }
+
+  .hero-text-section {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  /* Enhanced Typography */
+  .hero-pretitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--accent1);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+  }
+
+  .pretitle-accent {
+    color: var(--accent0);
+    font-size: 1.2rem;
+    animation: pulse 2s ease-in-out infinite;
   }
 
   .hero-title {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    margin: 1rem 0 1.5rem;
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-family: 'Cinzel', serif;
+    position: relative;
+    text-align: center;
+    max-width: 100%;
+    word-wrap: break-word;
+    hyphens: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3em;
   }
 
-  .hero-description {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    opacity: 0.9;
-    margin: 0;
+  .title-word {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
 
-  /* Gallery Stats in Hero */
-  .gallery-stats {
+  .letter {
+    display: inline-block;
+    position: relative;
+    color: transparent;
+    background: linear-gradient(45deg, var(--accent0), var(--accent1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255, 60, 43, 0.5));
+    animation: letterGlow 2s ease-out forwards;
+    animation-delay: calc(var(--index) * 0.1s);
+  }
+
+  .letter:nth-child(1) { --index: 1; }
+  .letter:nth-child(2) { --index: 2; }
+  .letter:nth-child(3) { --index: 3; }
+  .letter:nth-child(4) { --index: 4; }
+  .letter:nth-child(5) { --index: 5; }
+  .letter:nth-child(6) { --index: 6; }
+  .letter:nth-child(7) { --index: 7; }
+  .letter:nth-child(8) { --index: 8; }
+  .letter:nth-child(9) { --index: 9; }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--accent1);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.6s forwards;
+  }
+
+
+  /* Enhanced Logo Section */
+  .hero-visual-section {
+    position: relative;
+    opacity: 0;
+    animation: fadeInRight 1.5s ease-out 0.4s forwards;
+  }
+
+  .logo-showcase {
+    position: relative;
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: center;
   }
 
-  .stat-item {
-    text-align: center;
-    padding: 0.5rem;
+  .logo-container {
+    position: relative;
+    perspective: 1200px;
+    cursor: pointer;
   }
 
-  .stat-number {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 700;
-    color: var(--accent0);
-    margin: 0 0 0.5rem;
-    text-shadow: var(--glow-subtle);
-    display: block;
+  .hero-logo {
+    width: 350px;
+    height: auto;
+    filter:
+      drop-shadow(0 0 50px rgba(255, 60, 43, 0.8))
+      drop-shadow(0 0 100px rgba(255, 60, 43, 0.5))
+      drop-shadow(0 0 150px rgba(255, 60, 43, 0.3));
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
   }
 
-  .stat-label {
-    font-size: 0.85rem;
-    opacity: 0.9;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 600;
-    color: var(--ink);
+  .glow-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 60, 43, 0.3);
+    transform: translate(-50%, -50%);
+    animation: pulseRing 3s ease-in-out infinite;
+  }
+
+  .ring-1 {
+    width: 450px;
+    height: 450px;
+    animation-delay: 0s;
+  }
+
+  .ring-2 {
+    width: 550px;
+    height: 550px;
+    animation-delay: 1s;
+  }
+
+  .ring-3 {
+    width: 650px;
+    height: 650px;
+    animation-delay: 2s;
+  }
+
+  .floating-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--accent0);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .particle-1 { top: 20%; left: 30%; animation-delay: 0s; }
+  .particle-2 { top: 60%; left: 70%; animation-delay: 1.5s; }
+  .particle-3 { top: 40%; left: 20%; animation-delay: 3s; }
+  .particle-4 { top: 80%; left: 50%; animation-delay: 4.5s; }
+  .particle-5 { top: 30%; left: 80%; animation-delay: 2s; }
+
+  .holographic-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(45deg, transparent 30%, rgba(255, 122, 24, 0.1) 50%, transparent 70%),
+      linear-gradient(-45deg, transparent 30%, rgba(255, 60, 43, 0.05) 50%, transparent 70%);
+    border-radius: 50%;
+    animation: hologram 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Keyframe Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes letterGlow {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseRing {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+  }
+
+  @keyframes hologram {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.02) rotate(1deg);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
   }
 
   /* Gallery Section */
@@ -745,7 +1289,8 @@ artists.forEach((artist, artistIndex) => {
     to { transform: rotate(360deg); }
   }
 
-  .gallery-image {
+  .gallery-image,
+  .gallery-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -754,17 +1299,59 @@ artists.forEach((artist, artistIndex) => {
     filter: grayscale(0.1) contrast(1.05);
   }
 
-  .gallery-image.loaded {
+  .gallery-image.loaded,
+  .gallery-video {
     opacity: 1;
   }
 
-  .gallery-image.loaded + .image-placeholder {
+  .gallery-image.loaded + .image-placeholder,
+  .gallery-video + .image-placeholder {
     display: none;
   }
 
-  .gallery-item:hover .gallery-image {
+  .gallery-item:hover .gallery-image,
+  .gallery-item:hover .gallery-video {
     transform: scale(1.08);
     filter: grayscale(0) contrast(1.1) brightness(1.05);
+  }
+
+  /* Video-specific styles */
+  .video-play-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    z-index: 2;
+  }
+
+  .gallery-item:hover .video-play-indicator {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .media-type-badge {
+    display: inline-block;
+    background: rgba(255, 60, 43, 0.3);
+    color: var(--accent0);
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 60, 43, 0.4);
+    text-shadow: var(--glow-subtle);
+    margin-top: 0.25rem;
   }
 
   .gallery-overlay {
@@ -1082,19 +1669,65 @@ artists.forEach((artist, artistIndex) => {
 
   /* Mobile Optimizations */
   @media (max-width: 768px) {
-    .gallery-hero {
-      padding: 6rem 0 3rem;
+    .enhanced-hero {
+      min-height: 100vh;
+      padding: 0;
     }
 
-    .hero-video {
-      opacity: 0.2;
-      filter: blur(1px) contrast(0.8);
-      transform: scale(1.05);
+    .hero-content {
+      padding: 4rem 0 2rem;
     }
 
-    .hero-fallback {
-      opacity: 0.15;
-      filter: blur(2px);
+    .hero-main {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero-text-section {
+      order: 2;
+    }
+
+    .hero-visual-section {
+      order: 1;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      padding: 0 0.5rem;
+      text-align: center;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      gap: 0.2em;
+    }
+
+    .title-word {
+      margin-right: 0.1em;
+      margin-bottom: 0.2em;
+      display: inline-flex;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+
+    .hero-logo {
+      width: 220px;
+      max-width: 80vw;
+    }
+
+    .glow-ring.ring-1 { width: 280px; height: 280px; }
+    .glow-ring.ring-2 { width: 340px; height: 340px; }
+    .glow-ring.ring-3 { width: 400px; height: 400px; }
+
+    .container {
+      padding: 0 1rem;
     }
 
     /* Gallery Stats in Hero - Mobile */
@@ -1201,5 +1834,90 @@ artists.forEach((artist, artistIndex) => {
     .lightbox-nav:hover {
       transform: translateY(-50%);
     }
+  }
+
+  /* Extra Small Mobile */
+  @media (max-width: 480px) {
+    .hero-content {
+      padding: 3rem 0 1rem;
+    }
+
+    .hero-main {
+      padding: 1rem 0.5rem;
+      gap: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+      margin-bottom: 0.8rem;
+      padding: 0 1rem;
+      line-height: 1.4;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      gap: 0.15em;
+    }
+
+    .title-word {
+      margin-right: 0.05em;
+      margin-bottom: 0.1em;
+      display: inline-flex;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+
+
+    .hero-logo {
+      width: 200px;
+      max-width: 70vw;
+    }
+
+    .glow-ring.ring-1 { width: 250px; height: 250px; }
+    .glow-ring.ring-2 { width: 300px; height: 300px; }
+    .glow-ring.ring-3 { width: 350px; height: 350px; }
+
+    .container {
+      padding: 0 0.8rem;
+    }
+
+    .hero-pretitle {
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .pretitle-accent {
+      font-size: 1rem;
+    }
+
+    .pretitle-text {
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Performance & Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .letter,
+    .hero-pretitle,
+    .hero-subtitle,
+    .hero-visual-section {
+      animation: none;
+      opacity: 1;
+    }
+
+    .glow-ring,
+    .floating-particles,
+    .holographic-overlay,
+    .pretitle-accent {
+      animation: none;
+    }
+
+    .hero-title {
+      animation: none;
+    }
+
   }
 </style>

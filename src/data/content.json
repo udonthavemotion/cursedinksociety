@@ -109,7 +109,7 @@
     },
     {
       "question": "Do you do walk-ins?",
-      "answer": "Anthony specializes in walk-ins and can accommodate same-day appointments for smaller pieces when his schedule allows. For larger or custom work, we recommend booking in advance to ensure your preferred artist's availability."
+      "answer": "Anthony specializes in walk-ins and can accommodate same-day appointments for smaller pieces when his schedule allows. For larger or custom work, we recommend contacting us in advance to ensure your preferred artist's availability."
     },
     {
       "question": "What should I bring to my appointment?",
@@ -143,12 +143,12 @@
       "description": "Call for quick questions or to schedule consultations"
     },
     "location": {
-      "address": "123 Main Street, Houma, LA 70360",
+      "address": "488 Corporate Dr, STE 11, Houma, LA 70360",
       "description": "Located in downtown Houma with easy parking"
     },
     "hours": {
       "walkIn": "Anthony available for walk-ins during business hours",
-      "appointment": "Book appointments in advance for best availability"
+      "appointment": "Contact us in advance for best availability"
     }
   }
 }

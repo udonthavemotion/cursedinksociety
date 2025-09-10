@@ -8,11 +8,18 @@
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4321",
     "build": "astro build",
+    "build:prod": "astro check && astro build",
+    "build:fresh": "rm -rf dist .astro node_modules/.cache && npm ci && astro build",
     "preview": "astro preview",
+    "preview:prod": "astro preview --host 0.0.0.0",
+    "analyze": "astro build --analyze",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx,.astro",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "astro": "astro"
+    "astro": "astro",
+    "perf:audit": "node scripts/performance-monitor.js audit",
+    "perf:report": "node scripts/performance-monitor.js report",
+    "perf:ci": "npm run build && npm run preview & sleep 5 && npm run perf:audit && kill %1"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -20,6 +27,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.5",
+    "sharp": "^0.33.0",
     "tailwindcss": "^4.1.13",
     "three": "^0.180.0",
     "typescript": "^5.9.2"
@@ -27,12 +35,15 @@
   "devDependencies": {
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "@types/three": "^0.180.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "astro-compress": "^2.3.5",
+    "autoprefixer": "^10.4.21",
     "eslint": "^8.0.0",
     "eslint-plugin-astro": "^1.0.0",
+    "postcss-import": "^16.1.1",
     "prettier": "^3.0.0"
   }
 }
