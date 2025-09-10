@@ -138,7 +138,7 @@ const structuredData = {
     <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
+    <link rel="preload" href="/brand/cursed-ink-logo.png?v=5" as="image" type="image/png" />
     
     <!-- Preload Critical Fonts with font-display swap for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -172,8 +172,8 @@ const structuredData = {
       <!-- Screen reader announcements -->
       <div id="nav-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
       <div class="container nav-container">
-        <a href="/" class="nav-logo" aria-label="Cursed Ink Society Home">
-          <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" width="60" height="60" />
+        <a href="/homepage" class="nav-logo" aria-label="Cursed Ink Society Home">
+          <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" />
         </a>
         
         <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
@@ -184,7 +184,7 @@ const structuredData = {
         
         <div class="nav-menu" id="nav-menu" role="navigation" aria-label="Mobile navigation menu">
           <ul class="nav-links">
-            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/homepage" class="nav-link">Home</a></li>
             <li><a href="/artists" class="nav-link">Artists</a></li>
             <li><a href="/gallery" class="nav-link">Gallery</a></li>
             <li class="nav-item-with-dropdown">
@@ -240,7 +240,7 @@ const structuredData = {
         <div class="footer-content">
           <!-- Brand Section - Centered -->
           <div class="footer-brand">
-            <img src="/brand/cursed-ink-logo.png" alt="Cursed Ink Society" width="60" height="60" class="footer-logo" />
+            <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" class="footer-logo" />
             <h3 class="footer-title">Cursed Ink Society</h3>
             <p class="footer-tagline">Where artistry meets the mystical</p>
           </div>

@@ -95,7 +95,7 @@ export const prerender = true;
     <meta name="msapplication-config" content="/browserconfig.xml" />
     
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="/brand/cursed-ink-logo.png" as="image" type="image/png" />
+    <link rel="preload" href="/brand/cursed-ink-logo.png?v=5" as="image" type="image/png" />
     
     <!-- DNS Prefetch for External Resources -->
     <link rel="dns-prefetch" href="//formspree.io" />
@@ -111,18 +111,27 @@ export const prerender = true;
   
   <body>
     <main id="main-content">
-      <Hero3D showPreviewButton={false} />
-      
-      <!-- Inline bottom content with copyright, legal links, and DSAT system -->
-      <div class="bottom-content">
-        <small class="copyright-text">© {new Date().getFullYear()} Cursed Ink Society LLC — forged in fire & pigment.</small>
-        <div class="footer-legal">
-          <a href="/privacy" class="legal-link">Privacy</a>
-          <span class="legal-separator">•</span>
-          <a href="/terms" class="legal-link">Terms</a>
+      <Hero3D showPreviewButton={true} previewUrl="/homepage" />
+    </main>
+    
+    <!-- Compact footer section -->
+    <footer class="compact-footer">
+      <div class="footer-content">
+        <div class="brand-emphasis">Cursed Ink Society</div>
+        <small class="copyright">© {new Date().getFullYear()} Cursed Ink Society LLC — forged in fire & pigment.</small>
+        <div class="legal-links">
+          <a href="/privacy" class="link">Privacy</a>
+          <span class="dot">•</span>
+          <a href="/terms" class="link">Terms</a>
+        </div>
+        <div class="attribution">
+          <a href="https://zeromotionmarketing.com" target="_blank" rel="noopener noreferrer" class="zm-link">
+            <img src="/assets/videos/55555.png" alt="ZeroMotion Marketing" class="zm-logo" />
+            <span class="zm-text">Website was designed and developed by Zero Motion Marketing</span>
+          </a>
         </div>
       </div>
-    </main>
+    </footer>
 
     <!-- Service Worker Registration for Future PWA -->
     <script>
@@ -136,9 +145,7 @@ export const prerender = true;
       }
     </script>
 
-    <!-- DSAT Attribution System (Zero Motion Marketing Footer) -->
-    <link href="/dsat.css" rel="stylesheet" />
-    <script src="/dsat.js" defer></script>
+    <!-- DSAT disabled for coming-soon page - using inline footer instead -->
 
     <style>
 
@@ -200,34 +207,127 @@ export const prerender = true;
         will-change: transform;
       }
 
-      /* Bottom content styling - completely transparent, no edges */
-      .bottom-content {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        z-index: 20;
-        width: 100%;
-        max-width: 600px;
-        padding: 0 1rem;
+      /* Coming soon footer styling */
+      .coming-soon-footer {
         background: transparent;
-        border: none;
-        box-shadow: none;
+        padding: 1rem 0 2rem 0;
+        text-align: center;
+        position: relative;
+        z-index: 10;
       }
 
-      .copyright-text {
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 0.8rem;
-        font-weight: 300;
-        letter-spacing: 0.02em;
-        display: block;
-        margin-bottom: 0.5rem;
+      .footer-content {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      /* Compact footer styling - much smaller */
+      .compact-footer {
         background: transparent;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        text-shadow: none;
+        padding: 0.75rem 0.5rem 0.5rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .footer-content {
+        max-width: 500px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .brand-emphasis {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.15rem;
+        text-shadow: 0 0 8px rgba(255, 60, 43, 0.3);
+      }
+
+      .copyright {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.65rem;
+        font-weight: 300;
+        letter-spacing: 0.01em;
+        display: block;
+        margin: 0;
+      }
+
+      .legal-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+        margin: 0;
+      }
+
+      .legal-links .link {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.6rem;
+        font-weight: 300;
+        text-decoration: none;
+        letter-spacing: 0.01em;
+        transition: color 0.3s ease;
+      }
+
+      .legal-links .link:hover,
+      .legal-links .link:focus {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        outline: none;
+      }
+
+      .legal-links .dot {
+        color: rgba(255, 255, 255, 0.25);
+        font-size: 0.6rem;
+        font-weight: 300;
+        margin: 0 0.15rem;
+      }
+
+      .attribution {
+        margin-top: 0.15rem;
+      }
+
+      .zm-link {
+        color: rgba(255, 255, 255, 0.25);
+        font-size: 0.55rem;
+        font-weight: 300;
+        text-decoration: none;
+        letter-spacing: 0.01em;
+        transition: color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        justify-content: center;
+      }
+
+      .zm-link:hover,
+      .zm-link:focus {
+        color: rgba(255, 60, 43, 0.6);
+        text-decoration: none;
+        outline: none;
+      }
+
+      .zm-logo {
+        width: 12px;
+        height: 12px;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+      }
+
+      .zm-link:hover .zm-logo,
+      .zm-link:focus .zm-logo {
+        opacity: 1;
+      }
+
+      .zm-text {
+        font-size: 0.55rem;
+        font-weight: 300;
+        letter-spacing: 0.01em;
       }
 
       .footer-legal {
@@ -271,49 +371,11 @@ export const prerender = true;
       /* Ensure main content is positioned relative for absolute positioning */
       main {
         position: relative;
-        min-height: 100vh;
         width: 100%;
+        display: flex;
+        flex-direction: column;
       }
 
-      /* Desktop DSAT system - completely transparent */
-      #dsat-root {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-
-      #dsat-fixed {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        padding: 0.5rem 0 !important;
-        margin: 0 !important;
-        position: relative !important;
-        right: auto !important;
-        bottom: auto !important;
-      }
-
-      #dsat-link {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-
-      #dsat-brand-text {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
 
       /* Mobile-specific fixes for perfect centering and zero motion footer */
       @media (max-width: 768px) {
@@ -368,73 +430,55 @@ export const prerender = true;
           background: transparent;
           width: 100vw !important;
           max-width: 100vw !important;
-          flex: 1;
           display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-          min-height: calc(100vh - 120px); /* Account for footer space */
+          flex-direction: column !important;
         }
         
-        /* Mobile bottom content positioning */
-        .bottom-content {
-          bottom: 1rem !important;
+        /* Mobile footer adjustments */
+        .coming-soon-footer {
+          padding: 0.5rem 0 1rem 0 !important;
+        }
+
+        .footer-content {
           padding: 0 0.5rem !important;
           max-width: 90vw !important;
         }
 
-        .copyright-text {
-          font-size: 0.8rem !important;
-          margin-bottom: 0.75rem !important;
+        .compact-footer {
+          padding: 0.5rem 0.25rem 0.25rem !important;
         }
 
-        /* Ensure DSAT system appears completely transparent inline */
-        #dsat-root {
-          position: static !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-          background: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
-          border-radius: 0 !important;
+        .footer-content {
+          gap: 0.2rem !important;
+          max-width: 95vw !important;
         }
 
-        /* Override any component styling for seamless transparent appearance */
-        #dsat-fixed {
-          position: static !important;
-          right: auto !important;
-          bottom: auto !important;
-          background: transparent !important;
-          padding: 0 !important;
-          border: none !important;
-          box-shadow: none !important;
-          border-radius: 0 !important;
-          margin: 0 !important;
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
+        .brand-emphasis {
+          font-size: 0.9rem !important;
         }
 
-        /* Ensure DSAT link and text are completely transparent */
-        #dsat-link {
-          background: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
-          border-radius: 0 !important;
-          padding: 0 !important;
-          margin: 0 !important;
+        .copyright {
+          font-size: 0.6rem !important;
         }
 
-        #dsat-brand-text {
-          background: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
-          text-shadow: none !important;
-          padding: 0 !important;
-          margin: 0 !important;
+        .legal-links .link,
+        .legal-links .dot {
+          font-size: 0.55rem !important;
         }
+
+        .zm-link {
+          font-size: 0.5rem !important;
+        }
+
+        .zm-text {
+          font-size: 0.5rem !important;
+        }
+
+        .zm-logo {
+          width: 10px !important;
+          height: 10px !important;
+        }
+
       }
 
       /* Additional mobile viewport fixes for perfect centering */

@@ -515,7 +515,7 @@ const {
           <img 
             class="logo" 
             id="rotating-logo"
-            src="/brand/cursed-ink-logo.png?v=4" 
+            src="/brand/cursed-ink-logo.png?v=5" 
             alt="Cursed Ink Society - Professional tattoo artistry and mystical designs" 
             loading="eager"
             decoding="async"
@@ -562,13 +562,17 @@ const {
       <!-- Conditional Site Preview Access -->
       {showPreviewButton && (
         <div class="temp-preview-access" style="margin: 2rem 0; text-align: center;">
-          <a href="/homepage" class="preview-text-link" aria-label="Preview full website">
+          <div class="thank-you-message" style="margin-bottom: 1.5rem; max-width: 450px; margin-left: auto; margin-right: auto;">
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; line-height: 1.6; font-weight: 300; letter-spacing: 0.02em; margin: 0;">
+              We want to thank you for visiting our website and for taking the time to check us out in person. Your support means everything to us. Our artists are beyond excited to welcome you, share their craft, and get back to doing what they love most—creating unforgettable work.
+            </p>
+            <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.05em; margin-top: 1rem; font-style: italic;">
+              — The Cursed Ink Society Team
+            </p>
+          </div>
+          <a href={previewUrl} class="preview-text-link" aria-label="Preview full website">
             Preview Full Site
           </a>
-          <small style="display: block; margin-top: 0.5rem; opacity: 0.7; font-size: 0.75rem; line-height: 1.4; max-width: 300px; margin-left: auto; margin-right: auto;">
-            Thank you for your continued patience. Our artists are so excited to have you and get back to work! 
-            <br>— The Cursed Ink Society Team
-          </small>
         </div>
       )}
 
@@ -1373,6 +1377,21 @@ const {
     .temp-preview-access {
       margin: 1.5rem 0 !important;
     }
+    
+    .thank-you-message {
+      max-width: 95% !important;
+      padding: 0 0.5rem !important;
+    }
+    
+    .thank-you-message p:first-child {
+      font-size: 0.85rem !important;
+      line-height: 1.5 !important;
+    }
+    
+    .thank-you-message p:last-child {
+      font-size: 0.75rem !important;
+      margin-top: 0.8rem !important;
+    }
   }
 
   /* Tablet adjustments */
@@ -1423,6 +1442,21 @@ const {
     
     .grain-overlay {
       animation: none;
+    }
+  }
+
+  /* Extra small mobile devices */
+  @media (max-width: 375px) {
+    .thank-you-message {
+      padding: 0 0.25rem !important;
+    }
+    
+    .thank-you-message p:first-child {
+      font-size: 0.8rem !important;
+    }
+    
+    .thank-you-message p:last-child {
+      font-size: 0.7rem !important;
     }
   }
 </style>
