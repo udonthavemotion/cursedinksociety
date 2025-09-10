@@ -6,11 +6,6 @@
   "framework": "astro",
   "trailingSlash": false,
   "regions": ["iad1"],
-  "functions": {
-    "src/pages/**/*.astro": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/_astro/(.*)",
