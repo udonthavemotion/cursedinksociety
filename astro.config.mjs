@@ -86,6 +86,7 @@ export default defineConfig({
   },
   // SEO and accessibility optimizations
   site: 'https://cursedinksocietytattoo.com',
+  trailingSlash: 'never',
   // Integrations for enhanced performance and SEO
   integrations: [
     sitemap({
