@@ -8,7 +8,7 @@
 const https = require('https');
 const http = require('http');
 
-const SITE_URL = 'https://cursedingksociety.com';
+const SITE_URL = 'https://cursedinksocietytattoo.com';
 const TEST_ENDPOINTS = [
   '/',
   '/brand/cursed-ink-logo.png',
