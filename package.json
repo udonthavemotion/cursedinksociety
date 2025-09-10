@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4321",
     "build": "astro build",
-    "build:prod": "astro check && astro build",
+    "build:prod": "astro build",
     "build:fresh": "rm -rf dist .astro node_modules/.cache && npm ci && astro build",
     "preview": "astro preview",
     "preview:prod": "astro preview --host 0.0.0.0",

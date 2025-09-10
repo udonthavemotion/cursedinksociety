@@ -150,5 +150,59 @@
       "walkIn": "Anthony available for walk-ins during business hours",
       "appointment": "Contact us in advance for best availability"
     }
+  },
+  "products": {
+    "categories": {
+      "aftercare": { "name": "Aftercare Products", "description": "Professional healing products" },
+      "apparel": { "name": "Apparel", "description": "Cursed Ink Society branded clothing" },
+      "accessories": { "name": "Accessories", "description": "Tattoo-related accessories" }
+    },
+    "items": [
+      {
+        "id": "healing-balm",
+        "title": "Professional Healing Balm",
+        "description": "Medical-grade ointment for optimal tattoo healing",
+        "price": 15.00,
+        "category": "aftercare",
+        "images": ["/assets/products/healing-balm.jpg"],
+        "tags": ["healing", "aftercare", "professional"],
+        "inStock": true,
+        "features": ["Medical-grade", "Optimal moisture balance", "Fast healing"],
+        "variants": [
+          { "size": "1oz", "price": 15.00 },
+          { "size": "2oz", "price": 25.00 }
+        ]
+      },
+      {
+        "id": "gentle-cleanser",
+        "title": "Gentle Tattoo Cleanser",
+        "description": "pH-balanced soap for sensitive healing skin",
+        "price": 12.00,
+        "category": "aftercare",
+        "images": ["/assets/products/cleanser.jpg"],
+        "tags": ["cleaning", "aftercare", "gentle"],
+        "inStock": true,
+        "features": ["pH-balanced", "For sensitive skin", "Antimicrobial"],
+        "variants": [
+          { "size": "4oz", "price": 12.00 },
+          { "size": "8oz", "price": 20.00 }
+        ]
+      },
+      {
+        "id": "sun-protection",
+        "title": "Tattoo Sun Protection SPF 50+",
+        "description": "Zinc-based sunscreen specifically for tattoos",
+        "price": 18.00,
+        "category": "aftercare",
+        "images": ["/assets/products/sunscreen.jpg"],
+        "tags": ["sunscreen", "protection", "spf"],
+        "inStock": true,
+        "features": ["SPF 50+", "Zinc-based", "Tattoo-safe"],
+        "variants": [
+          { "size": "3oz", "price": 18.00 },
+          { "size": "6oz", "price": 30.00 }
+        ]
+      }
+    ]
   }
 }
