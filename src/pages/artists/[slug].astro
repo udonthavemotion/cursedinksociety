@@ -203,14 +203,24 @@ const codyData = {
     <!-- Hero Section -->
     <section class="anthony-hero">
       <!-- Video Background -->
-      <video 
-        class="anthony-hero-video" 
-        autoplay 
-        muted 
-        loop 
+      <video
+        class="anthony-hero-video"
+        autoplay
+        muted
+        loop
         playsinline
+        preload="auto"
+        poster="/assets/artists/anthony-boudreaux/anthony profile pic.jpg"
+        aria-hidden="true"
       >
-          <source src="/assets/1730395-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+        <source src="/assets/1730395-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+        <!-- Fallback image -->
+        <img
+          src="/assets/artists/anthony-boudreaux/anthony profile pic.jpg"
+          alt="Anthony Boudreaux - Black & Grey Realism Master"
+          class="anthony-hero-fallback"
+          loading="eager"
+        />
       </video>
       
       <!-- Video Overlay -->
@@ -259,7 +269,132 @@ const codyData = {
       </div>
     </section>
 
+    <!-- Video Performance Manager for Anthony -->
+    <script>
+      class AnthonyHeroVideoManager {
+        video: HTMLVideoElement | null;
+        fallback: HTMLElement | null;
 
+        constructor() {
+          this.video = document.querySelector('.anthony-hero-video') as HTMLVideoElement | null;
+          this.fallback = document.querySelector('.anthony-hero-fallback') as HTMLElement | null;
+          this.init();
+        }
+
+        init() {
+          if (!this.video) return;
+
+          // Performance optimization: Optimize video for mobile while maintaining quality
+          if (this.isMobile()) {
+            // Use higher quality settings for modern mobile devices
+            this.video.style.opacity = '0.5';
+            this.video.style.filter = 'contrast(1.1) brightness(0.9) saturate(1.2)';
+          }
+
+          // Handle video loading and errors
+          this.video.addEventListener('loadeddata', () => {
+            if (this.video) {
+              // Set final opacity based on device with better visibility
+              this.video.style.opacity = this.isMobile() ? '0.5' : '0.7';
+
+              // Ensure video plays on mobile
+              if (this.isMobile()) {
+                const playPromise = this.video.play();
+                if (playPromise !== undefined) {
+                  playPromise.catch(error => {
+                    console.warn('Anthony hero video autoplay failed on mobile:', error);
+                    // Show fallback image if video fails
+                    if (this.fallback) {
+                      this.fallback.style.display = 'block';
+                    }
+                  });
+                }
+              }
+            }
+          });
+
+          // Handle video errors gracefully
+          this.video.addEventListener('error', (e) => {
+            console.warn('Anthony hero video failed to load:', e);
+            // Show fallback image
+            if (this.fallback) {
+              this.fallback.style.display = 'block';
+            }
+          });
+
+          // Intersection Observer for performance
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting && this.video) {
+                  // Ensure video is playing when visible
+                  const playPromise = this.video.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                      // Silently handle autoplay failures
+                    });
+                  }
+                } else if (this.video && !this.isMobile()) {
+                  // Pause when not visible (except on mobile to prevent issues)
+                  this.video.pause();
+                }
+              });
+            }, { threshold: 0.1 });
+
+            observer.observe(this.video);
+          }
+
+          // Handle visibility change for performance
+          document.addEventListener('visibilitychange', () => {
+            if (this.video) {
+              if (document.hidden) {
+                this.video.pause();
+              } else if (!this.isMobile()) {
+                // Only auto-resume on desktop, mobile handles this differently
+                const playPromise = this.video.play();
+                if (playPromise !== undefined) {
+                  playPromise.catch(() => {
+                    // Handle autoplay restrictions
+                  });
+                }
+              }
+            }
+          });
+
+          // Mobile-specific handling
+          if (this.isMobile()) {
+            // Add touch event to ensure video plays on user interaction
+            const handleUserInteraction = () => {
+              if (this.video && this.video.paused) {
+                const playPromise = this.video.play();
+                if (playPromise !== undefined) {
+                  playPromise.catch(() => {
+                    console.warn('Video play failed after user interaction');
+                  });
+                }
+              }
+            };
+
+            // Listen for various touch events
+            document.addEventListener('touchstart', handleUserInteraction, { once: true, passive: true });
+            document.addEventListener('touchend', handleUserInteraction, { once: true, passive: true });
+            document.addEventListener('click', handleUserInteraction, { once: true });
+          }
+        }
+
+        isMobile(): boolean {
+          return window.innerWidth < 768 ||
+                 /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+      }
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => new AnthonyHeroVideoManager());
+      } else {
+        new AnthonyHeroVideoManager();
+      }
+    </script>
 
   ) : isAshleyPage ? (
     <!-- ASHLEY'S WATERCOLOR FEMININE LAYOUT -->
@@ -449,6 +584,90 @@ const codyData = {
         new AshleyHeroVideoManager();
       }
     </script>
+
+  /* Mobile Optimizations for Anthony's Hero Video */
+  @media (max-width: 768px) {
+    .anthony-hero {
+      min-height: 90vh;
+      padding: 4rem 0;
+    }
+
+    .anthony-hero-video {
+      opacity: 0.5;
+      filter: contrast(1.1) brightness(0.9) saturate(1.2);
+    }
+
+    .anthony-video-overlay {
+      background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.8) 100%);
+    }
+
+    .anthony-hero-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .anthony-portrait {
+      width: 250px;
+      height: 300px;
+    }
+
+    .modern-frame {
+      margin: 0 auto;
+    }
+
+    .anthony-name {
+      font-size: 2rem;
+    }
+
+    .anthony-title {
+      font-size: 1.1rem;
+    }
+
+    .anthony-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .anthony-hero {
+      padding: 3rem 0;
+      min-height: 80vh;
+    }
+
+    .anthony-hero-video {
+      opacity: 0.4;
+      filter: contrast(1.2) brightness(0.85) saturate(1.3);
+    }
+
+    .anthony-video-overlay {
+      background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.9) 100%);
+    }
+
+    .anthony-name {
+      font-size: 1.75rem;
+    }
+
+    .anthony-portrait {
+      width: 200px;
+      height: 250px;
+    }
+  }
+
+  /* Accessibility - Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .anthony-hero-video {
+      animation: none;
+      transition: none;
+    }
+  }
 
   ) : isSethPage ? (
     <!-- SETH'S ENHANCED TATTOO PORTFOLIO LAYOUT -->
@@ -7563,6 +7782,23 @@ const codyData = {
     z-index: -2;
     transform: translateX(-50%) translateY(-50%);
     object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Anthony Hero Fallback Image */
+  .anthony-hero-fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -3;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+    display: none; /* Hidden by default, shown on video error */
   }
 
   /* Anthony Video Overlay */

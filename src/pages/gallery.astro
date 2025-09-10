@@ -248,6 +248,10 @@ const totalImages = getTotalPortfolioCount();
     visibleItems: number;
     allImages: string[];
     currentImageIndex: number;
+    touchStartX: number;
+    touchStartY: number;
+    touchEndX: number;
+    touchEndY: number;
 
     constructor() {
       this.galleryItems = document.querySelectorAll('.gallery-item');
@@ -262,6 +266,10 @@ const totalImages = getTotalPortfolioCount();
       this.visibleItems = 12; // Initially show 12 items
       this.allImages = [];
       this.currentImageIndex = 0;
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.touchEndX = 0;
+      this.touchEndY = 0;
 
       this.init();
     }
@@ -283,6 +291,11 @@ const totalImages = getTotalPortfolioCount();
             this.closeLightbox();
           }
         });
+
+        // Add touch gesture support for mobile navigation
+        this.lightbox.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+        this.lightbox.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+        this.lightbox.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
       }
 
       // Load more functionality
@@ -388,13 +401,13 @@ const totalImages = getTotalPortfolioCount();
       if (mediaType === 'video' && video) {
         mediaSrc = video.src || '';
         mediaAlt = `Video by ${artist}`;
-        
+
         // Find current media index in all media array
         this.currentImageIndex = this.allImages.indexOf(mediaSrc);
       } else if (image) {
         mediaSrc = image.src || '';
         mediaAlt = image.alt;
-        
+
         // Find current image index in all images array
         this.currentImageIndex = this.allImages.indexOf(mediaSrc);
       } else {
@@ -420,7 +433,7 @@ const totalImages = getTotalPortfolioCount();
               videoElement.style.maxWidth = '100%';
               videoElement.style.maxHeight = '70vh';
               videoElement.style.objectFit = 'contain';
-              
+
               existingImage.replaceWith(videoElement);
               this.lightboxImage = videoElement;
             }
@@ -438,7 +451,7 @@ const totalImages = getTotalPortfolioCount();
               imageElement.style.maxWidth = '100%';
               imageElement.style.maxHeight = '70vh';
               imageElement.style.objectFit = 'contain';
-              
+
               this.lightboxImage.replaceWith(imageElement);
               this.lightboxImage = imageElement;
             }
@@ -448,7 +461,7 @@ const totalImages = getTotalPortfolioCount();
           }
         }
       }
-      
+
       if (this.lightboxInfo) {
         this.lightboxInfo.querySelector('.lightbox-title')!.textContent = title;
         this.lightboxInfo.querySelector('.lightbox-artist')!.textContent = artist;
@@ -457,7 +470,28 @@ const totalImages = getTotalPortfolioCount();
 
       // Show lightbox with smooth animation
       this.lightbox?.classList.add('lightbox--open');
-      document.body.style.overflow = 'hidden';
+
+      // Mobile-friendly overflow handling - improved to prevent scrolling issues
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        // Store current scroll position
+        const scrollY = window.scrollY;
+
+        // Prevent background scrolling while lightbox is open
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+
+        // Ensure lightbox takes full viewport height
+        if (this.lightbox) {
+          this.lightbox.style.height = '100vh';
+          this.lightbox.style.overflow = 'hidden';
+        }
+      } else {
+        document.body.style.overflow = 'hidden';
+      }
 
       // Add navigation arrows if there are multiple images
       if (this.allImages.length > 1) {
@@ -467,7 +501,32 @@ const totalImages = getTotalPortfolioCount();
 
     closeLightbox() {
       this.lightbox?.classList.remove('lightbox--open');
-      document.body.style.overflow = '';
+
+      // Mobile-friendly overflow restoration - improved
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        // Restore scroll position and body styles
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.top = '';
+
+        // Restore scroll position
+        if (scrollY) {
+          const scrollPosition = parseInt(scrollY) * -1;
+          window.scrollTo(0, scrollPosition);
+        }
+
+        // Clear any inline styles on lightbox
+        if (this.lightbox) {
+          this.lightbox.style.height = '';
+          this.lightbox.style.overflow = '';
+        }
+      } else {
+        document.body.style.overflow = '';
+      }
 
       // Remove navigation arrows
       this.removeNavigationArrows();
@@ -548,6 +607,42 @@ const totalImages = getTotalPortfolioCount();
           }
         }
       }
+    }
+
+    // Touch gesture handling for mobile navigation
+    handleTouchStart(e: TouchEvent) {
+      this.touchStartX = e.changedTouches[0].screenX;
+      this.touchStartY = e.changedTouches[0].screenY;
+    }
+
+    handleTouchMove(e: TouchEvent) {
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.touchEndY = e.changedTouches[0].screenY;
+    }
+
+    handleTouchEnd(e: TouchEvent) {
+      if (!this.touchStartX || !this.touchStartY) return;
+
+      const deltaX = this.touchStartX - this.touchEndX;
+      const deltaY = this.touchStartY - this.touchEndY;
+      const minSwipeDistance = 50;
+
+      // Check if it's a horizontal swipe (more significant than vertical)
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+          // Swipe left - next image
+          this.navigateLightbox(1);
+        } else {
+          // Swipe right - previous image
+          this.navigateLightbox(-1);
+        }
+      }
+
+      // Reset touch coordinates
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.touchEndX = 0;
+      this.touchEndY = 0;
     }
   }
 
@@ -696,7 +791,12 @@ const totalImages = getTotalPortfolioCount();
       if (!this.logo || !this.container) return;
 
       window.addEventListener('mousemove', this.handleMouseMove.bind(this), { passive: true });
-      window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+
+      // Only add touch events on non-mobile devices to prevent scroll interference
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (!isMobile) {
+        window.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+      }
 
       // Add hover effects
       this.container.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
@@ -815,8 +915,8 @@ const totalImages = getTotalPortfolioCount();
       new ResizeObserver(resize).observe(canvas);
       renderer.setPixelRatio(Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1));
 
-      // Create floating particles with gallery theme
-      const particleCount = isMobile ? 500 : (prefersReducedMotion ? 300 : 1000);
+      // Create floating particles with gallery theme - optimized for mobile
+      const particleCount = isMobile ? 200 : (prefersReducedMotion ? 150 : 600);
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
 
@@ -831,11 +931,14 @@ const totalImages = getTotalPortfolioCount();
 
       const particleMaterial = new THREE.PointsMaterial({
         color: 0xffd4b3,
-        size: isMobile ? 0.015 : 0.025,
+        size: isMobile ? 0.012 : 0.025,
         transparent: true,
-        opacity: prefersReducedMotion ? 0.4 : 0.7,
+        opacity: prefersReducedMotion ? 0.3 : (isMobile ? 0.5 : 0.7),
         blending: THREE.AdditiveBlending,
-        depthWrite: false
+        depthWrite: false,
+        // Performance optimization: reduce quality on mobile
+        alphaTest: isMobile ? 0.01 : 0,
+        sizeAttenuation: !isMobile
       });
 
       const particles = new THREE.Points(geometry, particleMaterial);
@@ -855,25 +958,36 @@ const totalImages = getTotalPortfolioCount();
 
       window.addEventListener('pointermove', updateMouse, { passive: true });
 
-      // Animation loop
+      // Animation loop - optimized for mobile performance
       const clock = new THREE.Clock();
       let animationId: number;
+      let lastFrameTime = 0;
+      const targetFPS = isMobile ? 30 : 60;
+      const frameInterval = 1000 / targetFPS;
 
-      function animate() {
+      function animate(currentTime = 0) {
+        // Throttle animation on mobile for better performance
+        if (isMobile && currentTime - lastFrameTime < frameInterval) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = currentTime;
+
         animationId = requestAnimationFrame(animate);
-        const dt = clock.getDelta();
+        const dt = Math.min(clock.getDelta(), 1/30); // Cap delta time to prevent large jumps
 
-        // Smooth camera movement
-        const cameraSpeed = prefersReducedMotion ? 0.01 : (isMobile ? 0.04 : 0.06);
-        camera.position.x += (mouse.x * 0.6 - camera.position.x) * cameraSpeed;
-        camera.position.y += (-mouse.y * 0.4 - camera.position.y) * cameraSpeed;
-        camera.lookAt(0, 0, 0);
-
-        // Particle rotation with gallery-specific motion
+        // Smooth camera movement - reduced frequency on mobile
         if (!prefersReducedMotion) {
-          particles.rotation.y += dt * (isMobile ? 0.008 : 0.015);
-          particles.rotation.x += dt * 0.003;
-          particles.rotation.z += dt * 0.001;
+          const cameraSpeed = isMobile ? 0.03 : 0.06;
+          camera.position.x += (mouse.x * 0.6 - camera.position.x) * cameraSpeed;
+          camera.position.y += (-mouse.y * 0.4 - camera.position.y) * cameraSpeed;
+          camera.lookAt(0, 0, 0);
+
+          // Particle rotation with gallery-specific motion - reduced on mobile
+          const rotationSpeed = isMobile ? 0.5 : 1;
+          particles.rotation.y += dt * 0.015 * rotationSpeed;
+          particles.rotation.x += dt * 0.003 * rotationSpeed;
+          particles.rotation.z += dt * 0.001 * rotationSpeed;
         }
 
         renderer.render(scene, camera);
@@ -1672,6 +1786,9 @@ const totalImages = getTotalPortfolioCount();
     .enhanced-hero {
       min-height: 100vh;
       padding: 0;
+      /* Prevent momentum scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
+      overflow-x: hidden;
     }
 
     .hero-content {
@@ -1745,14 +1862,22 @@ const totalImages = getTotalPortfolioCount();
       font-size: 0.75rem;
     }
 
-    /* Gallery Grid */
+    /* Gallery Grid - Enhanced Mobile */
     .gallery-grid {
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 1.5rem;
+      /* Prevent horizontal scroll */
+      overflow-x: hidden;
+      /* Smooth scrolling */
+      scroll-behavior: smooth;
     }
 
     .gallery-item {
       border-radius: 12px;
+      /* Prevent tap highlight on mobile */
+      -webkit-tap-highlight-color: transparent;
+      /* Ensure proper touch handling */
+      touch-action: manipulation;
     }
 
     .gallery-overlay {
@@ -1768,6 +1893,13 @@ const totalImages = getTotalPortfolioCount();
     .gallery-view-btn {
       padding: 0.6rem 0.8rem;
       font-size: 0.85rem;
+      /* Ensure button is touch-friendly */
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Prevent double-tap zoom on iOS */
+      touch-action: manipulation;
     }
 
     /* Artist Showcase */
@@ -1785,10 +1917,31 @@ const totalImages = getTotalPortfolioCount();
       max-width: 300px;
     }
 
-    /* Lightbox */
+    /* Enhanced Lightbox for Mobile */
+    .lightbox {
+      /* Ensure full viewport coverage on mobile */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2000;
+      /* Prevent background interaction */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     .lightbox-content {
       max-width: 95vw;
       max-height: 95vh;
+      /* Better touch handling */
+      -webkit-overflow-scrolling: touch;
+      /* Prevent momentum scrolling conflicts */
+      overscroll-behavior: contain;
     }
 
     .lightbox-info {
@@ -1798,6 +1951,11 @@ const totalImages = getTotalPortfolioCount();
     .lightbox-nav {
       width: 50px;
       height: 50px;
+      /* Ensure touch targets are large enough */
+      min-width: 44px;
+      min-height: 44px;
+      /* Prevent tap highlight */
+      -webkit-tap-highlight-color: transparent;
     }
 
     .lightbox-nav--left {
@@ -1806,6 +1964,14 @@ const totalImages = getTotalPortfolioCount();
 
     .lightbox-nav--right {
       right: 1rem;
+    }
+
+    .lightbox-close {
+      /* Ensure close button is touch-friendly */
+      width: 48px;
+      height: 48px;
+      min-width: 44px;
+      min-height: 44px;
     }
   }
 
