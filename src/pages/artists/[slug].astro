@@ -126,7 +126,7 @@ const codyData = {
   <!-- Micro Interactions -->
   <MicroInteractions />
 
-  {isTrentPage ? (
+  {isTrentPage && (
     <!-- TRENT'S PROFESSIONAL APPRENTICE LAYOUT -->
 
     <!-- Background Overlay -->
@@ -194,7 +194,9 @@ const codyData = {
       </div>
     </section>
 
-  ) : isAnthonyPage ? (
+  )}
+
+  {isAnthonyPage && (
     <!-- ANTHONY'S BLACK & WHITE GOTHIC LAYOUT -->
 
     <!-- Gothic Background Overlay -->
@@ -396,7 +398,9 @@ const codyData = {
       }
     </script>
 
-  ) : isAshleyPage ? (
+  )}
+
+  {isAshleyPage && (
     <!-- ASHLEY'S WATERCOLOR FEMININE LAYOUT -->
 
     <!-- Watercolor Background Overlay -->
@@ -585,6 +589,7 @@ const codyData = {
       }
     </script>
 
+<style>
   /* Mobile Optimizations for Anthony's Hero Video */
   @media (max-width: 768px) {
     .anthony-hero {
@@ -668,8 +673,11 @@ const codyData = {
       transition: none;
     }
   }
+</style>
 
-  ) : isSethPage ? (
+  )}
+
+  {isSethPage && (
     <!-- SETH'S ENHANCED TATTOO PORTFOLIO LAYOUT -->
     
     <!-- Import Modern Tattoo Fonts -->
@@ -818,7 +826,9 @@ const codyData = {
       </div>
     </section>
 
-  ) : isMangaMode ? (
+  )}
+
+  {isMangaMode && (
     <!-- CODY'S MANGA COMIC LAYOUT -->
     
     <!-- Import Manga Fonts -->
@@ -998,7 +1008,9 @@ const codyData = {
     </div>
   </section>
 
-  ) : (
+  )}
+
+  {!isTrentPage && !isAnthonyPage && (
     <!-- ORIGINAL LAYOUT FOR OTHER ARTISTS -->
   <section class="artist-hero">
     <div class="container">
