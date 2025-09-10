@@ -710,9 +710,11 @@
   }
 
   .hero-stats {
-    gap: 2rem;
+    gap: 2.5rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 1rem;
   }
 
   .hero-actions {
@@ -760,6 +762,27 @@
   }
 }
 
+@media (max-width: 360px) {
+  .hero-stats {
+    gap: 0.5rem;
+    padding: 0 0.2rem;
+  }
+
+  .stat-item {
+    padding: 0.3rem 0.1rem;
+  }
+
+  .stat-number {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+    line-height: 1.2;
+  }
+}
+
 @media (max-width: 480px) {
   .hero-content {
     padding: 3rem 0 1rem;
@@ -794,17 +817,32 @@
   }
 
   .hero-stats {
-    flex-direction: column;
-    gap: 1.5rem;
+    flex-direction: row;
+    gap: 1rem;
     margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+    justify-content: space-between;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.2rem;
   }
 
   .stat-number {
-    font-size: clamp(2.2rem, 8vw, 3rem);
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    margin-bottom: 0.4rem;
+    white-space: nowrap;
   }
 
   .stat-label {
-    font-size: clamp(0.75rem, 3vw, 0.9rem);
+    font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .hero-actions {

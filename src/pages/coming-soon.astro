@@ -36,8 +36,12 @@ export const prerender = true;
     <meta name="theme-color" content="#0b0b0d" />
     <meta name="color-scheme" content="dark" />
     
+    <!-- iOS Safari Status Bar Styling -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
     <!-- Safari Pinned Tab -->
-    <link rel="mask-icon" href="/favicon.svg" color="#dc143c" />
+    <link rel="mask-icon" href="/favicon.svg" color="#0b0b0d" />
     
     <!-- SEO Meta Tags -->
     <title>{title}</title>
@@ -106,16 +110,19 @@ export const prerender = true;
   </head>
   
   <body>
-    <!-- Skip Link for Accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
     <main id="main-content">
-      <Hero3D showPreviewButton={true} previewUrl="/preview" />
+      <Hero3D showPreviewButton={false} />
+      
+      <!-- Inline bottom content with copyright, legal links, and DSAT system -->
+      <div class="bottom-content">
+        <small class="copyright-text">© {new Date().getFullYear()} Cursed Ink Society LLC — forged in fire & pigment.</small>
+        <div class="footer-legal">
+          <a href="/privacy" class="legal-link">Privacy</a>
+          <span class="legal-separator">•</span>
+          <a href="/terms" class="legal-link">Terms</a>
+        </div>
+      </div>
     </main>
-
-    <footer class="container">
-      <small>© {new Date().getFullYear()} Cursed Ink Society — forged in fire & pigment.</small>
-    </footer>
 
     <!-- Service Worker Registration for Future PWA -->
     <script>
@@ -129,30 +136,51 @@ export const prerender = true;
       }
     </script>
 
-    <style>
-      /* Skip link for accessibility */
-      .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--accent0);
-        color: white;
-        padding: 8px;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 1000;
-        font-weight: 600;
-        transition: top 0.2s;
-      }
+    <!-- DSAT Attribution System (Zero Motion Marketing Footer) -->
+    <link href="/dsat.css" rel="stylesheet" />
+    <script src="/dsat.js" defer></script>
 
-      .skip-link:focus {
-        top: 6px;
-      }
+    <style>
 
       /* Critical loading styles */
       body {
         opacity: 0;
         animation: fadeIn 0.5s ease-out 0.1s forwards;
+        overflow-x: hidden;
+      }
+
+      /* Comprehensive fix for red line at top */
+      html {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        outline: none !important;
+        background: #0a0a0c !important;
+        overflow-x: hidden;
+      }
+      
+      /* Remove any red borders or backgrounds */
+      *, *::before, *::after {
+        border-color: transparent !important;
+      }
+      
+      /* Target any elements that might have red styling */
+      [style*="red"], [style*="#dc143c"], [style*="#ff"], [class*="red"] {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      
+      /* Ensure no unwanted elements appear */
+      * {
+        box-sizing: border-box;
+      }
+      
+      /* Hide any potential browser UI elements */
+      html, body {
+        position: relative;
+        margin: 0;
+        padding: 0;
       }
 
       @keyframes fadeIn {
@@ -170,6 +198,273 @@ export const prerender = true;
       /* Performance: GPU acceleration for animations */
       .btn, .logo, .shine {
         will-change: transform;
+      }
+
+      /* Bottom content styling - completely transparent, no edges */
+      .bottom-content {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 20;
+        width: 100%;
+        max-width: 600px;
+        padding: 0 1rem;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .copyright-text {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.8rem;
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        display: block;
+        margin-bottom: 0.5rem;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        text-shadow: none;
+      }
+
+      .footer-legal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .legal-link {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.75rem;
+        font-weight: 300;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.3s ease;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+
+      .legal-link:hover,
+      .legal-link:focus {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        outline: none;
+      }
+
+      .legal-separator {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.75rem;
+        font-weight: 300;
+        margin: 0 0.25rem;
+      }
+
+      /* Ensure main content is positioned relative for absolute positioning */
+      main {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+      }
+
+      /* Desktop DSAT system - completely transparent */
+      #dsat-root {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #dsat-fixed {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0.5rem 0 !important;
+        margin: 0 !important;
+        position: relative !important;
+        right: auto !important;
+        bottom: auto !important;
+      }
+
+      #dsat-link {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #dsat-brand-text {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* Mobile-specific fixes for perfect centering and zero motion footer */
+      @media (max-width: 768px) {
+        /* Reset all margins and padding for perfect mobile layout */
+        html {
+          background: #0a0a0c !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
+          width: 100vw !important;
+          max-width: 100vw !important;
+          overflow-x: hidden !important;
+          height: 100%;
+        }
+        
+        body {
+          background: #0a0a0c !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
+          position: relative;
+          width: 100vw !important;
+          max-width: 100vw !important;
+          overflow-x: hidden !important;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          /* Remove any iOS Safari padding issues */
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+        
+        /* Eliminate any potential red line at top */
+        body::before {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: #0a0a0c !important;
+          z-index: 9999;
+        }
+        
+        /* Main content takes full space and centers everything */
+        main {
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          background: transparent;
+          width: 100vw !important;
+          max-width: 100vw !important;
+          flex: 1;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          min-height: calc(100vh - 120px); /* Account for footer space */
+        }
+        
+        /* Mobile bottom content positioning */
+        .bottom-content {
+          bottom: 1rem !important;
+          padding: 0 0.5rem !important;
+          max-width: 90vw !important;
+        }
+
+        .copyright-text {
+          font-size: 0.8rem !important;
+          margin-bottom: 0.75rem !important;
+        }
+
+        /* Ensure DSAT system appears completely transparent inline */
+        #dsat-root {
+          position: static !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+        }
+
+        /* Override any component styling for seamless transparent appearance */
+        #dsat-fixed {
+          position: static !important;
+          right: auto !important;
+          bottom: auto !important;
+          background: transparent !important;
+          padding: 0 !important;
+          border: none !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+          margin: 0 !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
+
+        /* Ensure DSAT link and text are completely transparent */
+        #dsat-link {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        #dsat-brand-text {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          text-shadow: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+
+      /* Additional mobile viewport fixes for perfect centering */
+      @media (max-width: 480px) {
+        .hero .content {
+          padding: 0 0.5rem !important;
+        }
+        
+        .logo-centerpiece {
+          max-width: 350px !important;
+        }
+      }
+      
+      /* Extra small devices (iPhone SE, etc.) */
+      @media (max-width: 375px) {
+        .hero .content {
+          padding: 0 0.25rem !important;
+        }
+        
+        .logo-centerpiece {
+          max-width: 320px !important;
+        }
+      }
+      
+      /* Landscape mobile devices */
+      @media (max-height: 600px) and (orientation: landscape) {
+        .logo-centerpiece {
+          min-height: auto !important;
+          padding: 1rem 0 !important;
+        }
       }
 
       /* Reduce motion for accessibility */
