@@ -79,7 +79,7 @@
   "redirects": [
     {
       "source": "/preview",
-      "destination": "/homepage",
+      "destination": "/",
       "permanent": true
     }
   ]
