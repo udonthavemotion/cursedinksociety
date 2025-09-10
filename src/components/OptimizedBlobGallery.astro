@@ -564,17 +564,17 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   /* Responsive Design */
   @media (max-width: 768px) {
     .blob-gallery {
-      padding: 4rem 0;
+      padding: 3rem 0;
     }
 
     .blob-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
       padding: 0 1rem;
     }
 
     .gallery-header {
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
     }
 
     .spotlight-reveal {
@@ -668,6 +668,152 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       transform: scale(0.98);
       background: rgba(255, 60, 43, 0.4);
       border-color: var(--accent0);
+    }
+  }
+
+  /* Extra Small Mobile Devices - More Compact */
+  @media (max-width: 480px) {
+    .blob-gallery {
+      padding: 2.5rem 0;
+    }
+
+    .blob-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      padding: 0 0.8rem;
+    }
+
+    .gallery-header {
+      margin-bottom: 2rem;
+    }
+
+    .gallery-title {
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .gallery-subtitle {
+      font-size: 1rem;
+      padding: 0 1rem;
+    }
+
+    .artist-counter {
+      margin: 1.5rem 0 0;
+    }
+
+    .counter-content {
+      padding: 1rem 2rem;
+    }
+
+    .counter-number {
+      font-size: 2.5rem;
+    }
+
+    .counter-label {
+      font-size: 0.8rem;
+    }
+
+    .spotlight-reveal {
+      padding: 0.8rem;
+    }
+
+    .item-info {
+      margin-bottom: 1rem;
+    }
+
+    .item-title {
+      font-size: clamp(1rem, 4.5vw, 1.3rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .item-artist {
+      font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+      margin-bottom: 0.6rem;
+    }
+
+    .specialty-tag {
+      font-size: clamp(0.65rem, 2.8vw, 0.8rem);
+      padding: 0.3rem 0.7rem;
+    }
+
+    .item-actions {
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    .btn--ghost {
+      min-width: 140px;
+      max-width: 180px;
+      padding: 0.8rem 1.2rem;
+      font-size: clamp(0.85rem, 3.2vw, 1rem);
+    }
+
+    .gallery-cta {
+      margin-top: 3rem;
+    }
+  }
+
+  /* Ultra Small Mobile Devices (iPhone SE, etc.) - Ultra Compact */
+  @media (max-width: 360px) {
+    .blob-gallery {
+      padding: 2rem 0;
+    }
+
+    .blob-grid {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.6rem;
+      padding: 0 0.6rem;
+    }
+
+    .gallery-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .gallery-title {
+      font-size: clamp(1.8rem, 5.5vw, 2.5rem);
+      margin-bottom: 0.6rem;
+    }
+
+    .gallery-subtitle {
+      font-size: 0.9rem;
+      padding: 0 0.8rem;
+    }
+
+    .counter-content {
+      padding: 0.8rem 1.5rem;
+    }
+
+    .counter-number {
+      font-size: 2rem;
+    }
+
+    .spotlight-reveal {
+      padding: 0.6rem;
+    }
+
+    .item-title {
+      font-size: clamp(0.95rem, 4vw, 1.2rem);
+    }
+
+    .item-artist {
+      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .specialty-tag {
+      font-size: clamp(0.6rem, 2.5vw, 0.75rem);
+      padding: 0.25rem 0.6rem;
+    }
+
+    .btn--ghost {
+      min-width: 120px;
+      max-width: 160px;
+      padding: 0.7rem 1rem;
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+    }
+
+    .gallery-cta {
+      margin-top: 2.5rem;
     }
   }
 
