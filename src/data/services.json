@@ -22,8 +22,8 @@
       "title": "Traditional Tattoo",
       "description": "Classic American traditional style with bold lines, vibrant colors, and timeless motifs.",
       "pricing": {
-        "hourly": "$190-230",
-        "minimum": "$120"
+        "hourly": "Discussed during consultation",
+        "minimum": "$80"
       },
       "features": [
         "Bold linework and vibrant colors",
@@ -39,8 +39,8 @@
       "title": "Japanese Traditional",
       "description": "Authentic Japanese tattoo artistry with intricate details and cultural symbolism.",
       "pricing": {
-        "hourly": "$200-250",
-        "minimum": "$150"
+        "hourly": "Discussed during consultation",
+        "minimum": "$80"
       },
       "features": [
         "Traditional Japanese techniques",
@@ -56,8 +56,8 @@
       "title": "Realism & Portrait",
       "description": "Photorealistic tattoos that capture lifelike detail and emotional depth.",
       "pricing": {
-        "hourly": "$220-280",
-        "minimum": "$180"
+        "hourly": "Discussed during consultation",
+        "minimum": "$80"
       },
       "features": [
         "Photorealistic detail",
@@ -73,8 +73,8 @@
       "title": "Black & Grey Work",
       "description": "Monochromatic tattoos with exceptional depth, contrast, and artistic expression.",
       "pricing": {
-        "hourly": "$180-220",
-        "minimum": "$120"
+        "hourly": "Discussed during consultation",
+        "minimum": "$80"
       },
       "features": [
         "Exceptional shading techniques",
@@ -90,8 +90,8 @@
       "title": "Full Color Tattoo",
       "description": "Vibrant, colorful tattoos that bring designs to life with premium pigments.",
       "pricing": {
-        "hourly": "$210-260",
-        "minimum": "$150"
+        "hourly": "Discussed during consultation",
+        "minimum": "$80"
       },
       "features": [
         "Premium pigment selection",
@@ -139,7 +139,7 @@
     }
   ],
   "pricing": {
-    "deposit": "25% of estimated total or $100 minimum",
+    "deposit": "$50 non-refundable deposit required",
     "payment": "Cash, card, or digital payment accepted",
     "cancellation": "24-hour notice required for deposit refund",
     "rescheduling": "Flexible rescheduling with 48-hour notice"

@@ -1,0 +1,10 @@
+[33m24856c3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/release-prep[m[33m)[m feat: implement final deployment action plan
+[33me671937[m[33m ([m[1;31morigin/chore/release-prep[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: resolve artists page routing issue
+[33mb3af63b[m fix: Critical domain configuration - update all config files to cursedinksocietytattoo.com
+[33m5274105[m fix: Final mobile optimizations and critical routing fix
+[33m32ff0f7[m fix: Update contact info and resolve deployment errors
+[33m88d6385[m feat: implement comprehensive mobile optimizations
+[33m45d5183[m feat: Deploy live site - Replace index with homepage
+[33m452b325[m fix: Final cache bust for coming-soon deployment - ensure mobile shows thank you message
+[33ma8d1399[m fix: Force cache invalidation for coming-soon page deployment
+[33m3f3fb38[m feat: Enable thank you message and preview site functionality

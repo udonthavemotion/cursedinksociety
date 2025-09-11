@@ -463,51 +463,58 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     to { transform: rotate(360deg); }
   }
 
-  /* Artist-Specific Colors - Only on Enhanced Load */
-  .enhanced-loaded .blob-item[data-artist="seth-wood"]:hover .specialty-tag {
+  /* Artist-Specific Colors - Available Immediately */
+  .blob-item[data-artist="seth-wood"]:hover .specialty-tag,
+  .blob-item[data-artist="seth-wood"].touch-active .specialty-tag {
     background: rgba(138, 43, 226, 0.3);
     border-color: rgba(138, 43, 226, 0.5);
     color: rgba(138, 43, 226, 1);
     text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
   }
 
-  .enhanced-loaded .blob-item[data-artist="ashley-wood"]:hover .specialty-tag {
+  .blob-item[data-artist="ashley-wood"]:hover .specialty-tag,
+  .blob-item[data-artist="ashley-wood"].touch-active .specialty-tag {
     background: rgba(255, 105, 180, 0.3);
     border-color: rgba(255, 105, 180, 0.5);
     color: rgba(255, 105, 180, 1);
     text-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
   }
 
-  .enhanced-loaded .blob-item[data-artist="trent"]:hover .specialty-tag {
+  .blob-item[data-artist="trent"]:hover .specialty-tag,
+  .blob-item[data-artist="trent"].touch-active .specialty-tag {
     background: rgba(30, 144, 255, 0.3);
     border-color: rgba(30, 144, 255, 0.5);
     color: rgba(30, 144, 255, 1);
     text-shadow: 0 0 8px rgba(30, 144, 255, 0.6);
   }
 
-  .enhanced-loaded .blob-item[data-artist="cody-crochet"]:hover .specialty-tag {
+  .blob-item[data-artist="cody-crochet"]:hover .specialty-tag,
+  .blob-item[data-artist="cody-crochet"].touch-active .specialty-tag {
     background: rgba(50, 205, 50, 0.3);
     border-color: rgba(50, 205, 50, 0.5);
     color: rgba(50, 205, 50, 1);
     text-shadow: 0 0 8px rgba(50, 205, 50, 0.6);
   }
 
-  .enhanced-loaded .blob-item[data-artist="luis-reymundo"]:hover .specialty-tag {
+  .blob-item[data-artist="luis-reymundo"]:hover .specialty-tag,
+  .blob-item[data-artist="luis-reymundo"].touch-active .specialty-tag {
     background: rgba(255, 140, 0, 0.3);
     border-color: rgba(255, 140, 0, 0.5);
     color: rgba(255, 140, 0, 1);
     text-shadow: 0 0 8px rgba(255, 140, 0, 0.6);
   }
 
-  .enhanced-loaded .blob-item[data-artist="anthony-boudreaux"]:hover .specialty-tag {
+  .blob-item[data-artist="anthony-boudreaux"]:hover .specialty-tag,
+  .blob-item[data-artist="anthony-boudreaux"].touch-active .specialty-tag {
     background: rgba(255, 60, 43, 0.3);
     border-color: rgba(255, 60, 43, 0.5);
     color: rgba(255, 60, 43, 1);
     text-shadow: 0 0 8px rgba(255, 60, 43, 0.6);
   }
 
-  /* Artist-Specific Glow Effects - Only on Enhanced Load */
-  .enhanced-loaded .blob-item[data-artist="seth-wood"]:hover .blob-shape {
+  /* Artist-Specific Glow Effects - Available Immediately */
+  .blob-item[data-artist="seth-wood"]:hover .blob-shape,
+  .blob-item[data-artist="seth-wood"].touch-active .blob-shape {
     border-color: rgba(138, 43, 226, 0.8);
     box-shadow: 
       0 0 40px rgba(138, 43, 226, 0.6),
@@ -516,7 +523,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .enhanced-loaded .blob-item[data-artist="ashley-wood"]:hover .blob-shape {
+  .blob-item[data-artist="ashley-wood"]:hover .blob-shape,
+  .blob-item[data-artist="ashley-wood"].touch-active .blob-shape {
     border-color: rgba(255, 105, 180, 0.8);
     box-shadow: 
       0 0 40px rgba(255, 105, 180, 0.6),
@@ -525,7 +533,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .enhanced-loaded .blob-item[data-artist="trent"]:hover .blob-shape {
+  .blob-item[data-artist="trent"]:hover .blob-shape,
+  .blob-item[data-artist="trent"].touch-active .blob-shape {
     border-color: rgba(30, 144, 255, 0.8);
     box-shadow: 
       0 0 40px rgba(30, 144, 255, 0.6),
@@ -534,7 +543,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .enhanced-loaded .blob-item[data-artist="cody-crochet"]:hover .blob-shape {
+  .blob-item[data-artist="cody-crochet"]:hover .blob-shape,
+  .blob-item[data-artist="cody-crochet"].touch-active .blob-shape {
     border-color: rgba(50, 205, 50, 0.8);
     box-shadow: 
       0 0 40px rgba(50, 205, 50, 0.6),
@@ -543,7 +553,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .enhanced-loaded .blob-item[data-artist="luis-reymundo"]:hover .blob-shape {
+  .blob-item[data-artist="luis-reymundo"]:hover .blob-shape,
+  .blob-item[data-artist="luis-reymundo"].touch-active .blob-shape {
     border-color: rgba(255, 140, 0, 0.8);
     box-shadow: 
       0 0 40px rgba(255, 140, 0, 0.6),
@@ -552,13 +563,31 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .enhanced-loaded .blob-item[data-artist="anthony-boudreaux"]:hover .blob-shape {
+  .blob-item[data-artist="anthony-boudreaux"]:hover .blob-shape,
+  .blob-item[data-artist="anthony-boudreaux"].touch-active .blob-shape {
     border-color: rgba(255, 60, 43, 0.8);
     box-shadow: 
       0 0 40px rgba(255, 60, 43, 0.6),
       0 0 80px rgba(255, 60, 43, 0.4),
       0 12px 48px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  /* Mobile-specific touch states */
+  @media (max-width: 768px) {
+    /* Ensure touch-active colors show immediately on mobile */
+    .blob-item.touch-active .specialty-tag {
+      transition: all 0.2s ease !important;
+    }
+    
+    .blob-item.touch-active .blob-shape {
+      transition: all 0.3s ease !important;
+    }
+    
+    /* Reduce motion for better mobile performance */
+    .blob-item:hover {
+      transform: scale(1.01);
+    }
   }
 
   /* Responsive Design */
@@ -881,10 +910,10 @@ const galleryItems = cisData.artists.map((artist, index) => ({
         return; // Skip enhancements
       }
 
-      // Progressive loading - delay enhancements
+      // Progressive loading - reduced delay for mobile
       setTimeout(() => {
         this.loadEnhancements();
-      }, isMobile ? 2000 : 1500);
+      }, isMobile ? 800 : 1200);
 
       // Also load on user interaction with gallery
       const galleryElement = document.querySelector('.blob-gallery');
@@ -957,13 +986,25 @@ const galleryItems = cisData.artists.map((artist, index) => ({
           if (!isButton) {
             e.preventDefault();
           }
-          this.addBasicHover(item as HTMLElement);
+          
+          // Apply artist-specific colors immediately on touch
+          const artistSlug = item.getAttribute('data-artist');
+          if (artistSlug) {
+            this.addArtistGlow(item as HTMLElement, artistSlug);
+          } else {
+            this.addBasicHover(item as HTMLElement);
+          }
           item.classList.add('touch-active');
         }, { passive: false });
 
         item.addEventListener('touchend', () => {
           setTimeout(() => {
-            this.removeBasicHover(item as HTMLElement);
+            const artistSlug = item.getAttribute('data-artist');
+            if (artistSlug) {
+              this.removeArtistGlow(item as HTMLElement);
+            } else {
+              this.removeBasicHover(item as HTMLElement);
+            }
             item.classList.remove('touch-active');
           }, 300);
         });

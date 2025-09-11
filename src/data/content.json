@@ -101,7 +101,7 @@
   "faq": [
     {
       "question": "How much do tattoos cost?",
-      "answer": "Pricing varies based on size, complexity, and style. Our hourly rates range from $180-280, with a $120 minimum. Custom designs start at $50 (applied to tattoo cost). We provide transparent pricing with no hidden fees."
+      "answer": "Our shop minimum is $80, and we require a $50 non-refundable deposit for all appointments. Full pricing is discussed between artists and clients during consultation based on your specific design, complexity, and artist selection. We provide transparent pricing with no hidden fees."
     },
     {
       "question": "How long does a tattoo take?",
@@ -121,7 +121,7 @@
     },
     {
       "question": "Do you offer payment plans?",
-      "answer": "We accept various payment methods and can discuss flexible payment arrangements for larger pieces. A 25% deposit is required to secure your appointment, with the balance due at completion."
+      "answer": "We accept various payment methods and can discuss flexible payment arrangements for larger pieces. A $50 non-refundable deposit is required to secure your appointment, with the balance due at completion."
     },
     {
       "question": "What if I need to cancel or reschedule?",
@@ -139,7 +139,7 @@
       "description": "Best for initial inquiries and design discussions"
     },
     "phone": {
-      "number": "(985) 555-2873",
+      "number": "(985) 208-2334",
       "description": "Call for quick questions or to schedule consultations"
     },
     "location": {
