@@ -117,7 +117,7 @@ const rawArtists: Artist[] = [
     cta: { text: "View Instagram", url: "https://instagram.com/ashleyxxkarma" }
   },
   {
-    name: "Anthony Boudreaux",
+    name: "Anthony (Buddha) Boudreaux",
     slug: "anthony-boudreaux",
     avatar: "/assets/artists/Anthony/anthon.jpg",
     title: "Black & Grey Realism Master",
