@@ -8,6 +8,7 @@ Trent is a tattoo apprentice associated with Cursed Ink Society in Houma, Louisi
     *   Followers: 2K+
     *   Posts: 97
     *   Bio: "21 Houma Louisiana Tattoo apprentice Cursed Ink Society Books open"
+*   **Facebook:** [Tattoos by Trent](https://www.facebook.com/tattoos.by.trent.2025)
 
 ## Specialties
 As an apprentice, his specialties are likely still developing, but his Instagram profile would showcase his current work.

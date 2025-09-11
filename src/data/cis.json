@@ -93,10 +93,10 @@
       "cta": {"text": "DM Ashley", "url": "https://instagram.com/ashleyxxkarma"}
     },
     {
-      "name": "Anthony Boudreaux",
+      "name": "Anthony (Buddha) Boudreaux",
       "slug": "anthony-boudreaux",
       "positioning": "Black & Grey Realism Master - Photorealistic precision with high-contrast texture detail mastery",
-      "bio": "Anthony Boudreaux is known for his exceptional skill in black & grey realism and high-contrast work. His mastery of texture detail and photorealistic techniques creates tattoos with incredible depth and dimension.",
+      "bio": "Anthony (Buddha) Boudreaux is known for his exceptional skill in black & grey realism and high-contrast work. His mastery of texture detail and photorealistic techniques creates tattoos with incredible depth and dimension.",
       "specialties": ["Black & Grey", "Realism", "High Contrast", "Texture Detail"],
       "experience": "5 years",
       "avatar": "/assets/artists/Anthony/anthon.jpg",
@@ -232,7 +232,8 @@
       "specialties": ["Neo-Traditional", "Illustrative", "Watercolor"],
       "experience": "8+ years",
       "avatar": "/assets/artists/trent/476833994_122094030662771821_3662901814165087047_n.jpg",
-      "instagram": "@trenttattoo",
+      "instagram": "@tattooz_by_trent",
+      "facebook": "https://www.facebook.com/tattoos.by.trent.2025",
       "featuredWork": [
         "/assets/artists/trent/r.jpg",
         "/assets/artists/trent/rr.jpg",
@@ -252,7 +253,7 @@
         "/assets/artists/trent/trent.jpg",
         "/assets/artists/trent/tt.jpg"
       ],
-      "cta": {"text": "DM Trent", "url": "https://instagram.com/trenttattoo"}
+      "cta": {"text": "DM Trent", "url": "https://www.instagram.com/tattooz_by_trent/"}
     }
   ],
   "portfolio": {
