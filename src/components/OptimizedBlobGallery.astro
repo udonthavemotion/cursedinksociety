@@ -162,6 +162,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     animation-delay: var(--delay);
     cursor: pointer;
     transition: transform 0.2s ease;
+    /* Ensure proper touch handling for mobile scrolling */
+    touch-action: manipulation;
   }
 
   .blob-item:hover {
@@ -979,25 +981,85 @@ const galleryItems = cisData.artists.map((artist, index) => ({
           this.removeBasicHover(item as HTMLElement);
         });
 
-        // Touch events for mobile
+        // Improved mobile touch handling - allows scrolling
+        let touchStartY = 0;
+        let touchStartX = 0;
+        let touchMoved = false;
+        const scrollThreshold = 10; // pixels
+
         item.addEventListener('touchstart', (e) => {
+          const touch = e.touches[0];
+          touchStartY = touch.clientY;
+          touchStartX = touch.clientX;
+          touchMoved = false;
+
           const target = e.target as HTMLElement;
           const isButton = target.closest('.btn--ghost');
-          if (!isButton) {
-            e.preventDefault();
+          
+          // Don't prevent default immediately - allow scrolling to be detected
+          if (isButton) {
+            return; // Let button handle its own events
           }
           
-          // Apply artist-specific colors immediately on touch
-          const artistSlug = item.getAttribute('data-artist');
-          if (artistSlug) {
-            this.addArtistGlow(item as HTMLElement, artistSlug);
-          } else {
-            this.addBasicHover(item as HTMLElement);
-          }
-          item.classList.add('touch-active');
-        }, { passive: false });
+          // Add subtle feedback after a short delay to detect scroll intent
+          setTimeout(() => {
+            if (!touchMoved) {
+              const artistSlug = item.getAttribute('data-artist');
+              if (artistSlug) {
+                this.addArtistGlow(item as HTMLElement, artistSlug);
+              } else {
+                this.addBasicHover(item as HTMLElement);
+              }
+              item.classList.add('touch-active');
+            }
+          }, 100);
+          
+        }, { passive: true });
 
-        item.addEventListener('touchend', () => {
+        item.addEventListener('touchmove', (e) => {
+          const touch = e.touches[0];
+          const deltaY = Math.abs(touch.clientY - touchStartY);
+          const deltaX = Math.abs(touch.clientX - touchStartX);
+          
+          // If user moved more than threshold, they're scrolling
+          if (deltaY > scrollThreshold || deltaX > scrollThreshold) {
+            touchMoved = true;
+            // Remove any active feedback
+            const artistSlug = item.getAttribute('data-artist');
+            if (artistSlug) {
+              this.removeArtistGlow(item as HTMLElement);
+            } else {
+              this.removeBasicHover(item as HTMLElement);
+            }
+            item.classList.remove('touch-active');
+          }
+        }, { passive: true });
+
+        item.addEventListener('touchend', (e) => {
+          const target = e.target as HTMLElement;
+          const isButton = target.closest('.btn--ghost');
+          
+          // If user didn't move much and didn't tap a button, treat as intentional tap
+          if (!touchMoved && !isButton) {
+            // Ensure overlay is shown for tap feedback
+            const artistSlug = item.getAttribute('data-artist');
+            if (artistSlug) {
+              this.addArtistGlow(item as HTMLElement, artistSlug);
+            } else {
+              this.addBasicHover(item as HTMLElement);
+            }
+            item.classList.add('touch-active');
+            
+            // Navigate after brief feedback
+            setTimeout(() => {
+              const link = item.querySelector('.btn--ghost') as HTMLAnchorElement;
+              if (link) {
+                window.location.href = link.href;
+              }
+            }, 150);
+          }
+          
+          // Clean up after delay
           setTimeout(() => {
             const artistSlug = item.getAttribute('data-artist');
             if (artistSlug) {
@@ -1007,9 +1069,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
             }
             item.classList.remove('touch-active');
           }, 300);
-        });
+        }, { passive: true });
 
-        // Click navigation
+        // Click navigation for desktop
         item.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
           const isButton = target.closest('.btn--ghost');
@@ -1018,10 +1080,14 @@ const galleryItems = cisData.artists.map((artist, index) => ({
             return; // Let button handle navigation
           }
           
-          const link = item.querySelector('.btn--ghost') as HTMLAnchorElement;
-          if (link && !e.defaultPrevented) {
-            e.preventDefault();
-            window.location.href = link.href;
+          // Only handle click if not a touch device (avoid double handling)
+          const isTouchDevice = 'ontouchstart' in window;
+          if (!isTouchDevice) {
+            const link = item.querySelector('.btn--ghost') as HTMLAnchorElement;
+            if (link && !e.defaultPrevented) {
+              e.preventDefault();
+              window.location.href = link.href;
+            }
           }
         });
       });
