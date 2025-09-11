@@ -49,10 +49,10 @@ const rawArtists: Artist[] = [
       technique: 96,
       artistry: 94
     },
-    blurb: "Neo-traditional black and gray mastery with illustrative depth. Seth's 7 years of dedicated experience brings artistic vision and technical excellence to every piece through his signature illustrative style.",
-    bio: "Seth Wood is a tattoo artist with 7 years of experience, specializing in illustrative work, neo-traditional designs, black & grey mastery, and freehand botanical pieces. His work reflects years of dedication to the craft, bringing artistic vision and illustrative depth to every piece.",
+    blurb: "Neo-traditional black and gray mastery with illustrative depth. Seth's dedicated experience brings artistic vision and technical excellence to every piece through his signature illustrative style.",
+    bio: "Seth Wood is a master tattoo artist specializing in illustrative work, neo-traditional designs, black & grey mastery, and freehand botanical pieces. His work reflects unwavering dedication to the craft, bringing artistic vision and illustrative depth to every piece.",
     specialties: ["Illustrative", "Neo", "Black & Grey", "Freehand Botanicals", "High-Contrast Work"],
-    experience: "7 years",
+    experience: "Master Artist",
     instagram: "@sethta2_bp",
     featuredWork: [
       "/assets/artists/seth-wood/image1 (2).jpeg",
