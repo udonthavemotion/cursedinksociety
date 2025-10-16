@@ -1,0 +1,1168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PricingSection from '../components/PricingSection.astro';
+import PiercingGuideSection from '../components/PiercingGuideSection.astro';
+import { getPiercingImagesByCategory } from '../utils/piercingImages';
+import { piercingGuides } from '../data/piercingGuides';
+
+const pageTitle = 'Piercings by Harley Halford | Houma, LA';
+const pageDesc = 'Professional body piercing by Harley Halford in Houma, Louisiana. Over 8 years of experience. Clean, safe, and beautiful results.';
+
+// All available piercing categories
+const categories = ['lobe', 'nostril', 'septum', 'helix', 'navel', 'tragus', 'rook', 'industrial', 'flat', 'eyebrow', 'nipple', 'oral', 'surface', 'genital', 'other'] as const;
+const imagesByCat = await getPiercingImagesByCategory(categories);
+
+// Only include categories that have images
+const availableCategories = categories.filter(cat => {
+  const images = imagesByCat[cat];
+  return images && images.length > 0;
+});
+
+// Flatten all images for unified gallery (only from available categories)
+const allImages = availableCategories.flatMap(cat => 
+  imagesByCat[cat]?.map(img => ({ ...img, category: cat })) ?? []
+).filter(img => img.src); // Filter out any images without src
+
+// Capitalize category names for display
+const categoryDisplay: Record<string, string> = {
+  lobe: 'Lobe',
+  nostril: 'Nostril',
+  septum: 'Septum',
+  helix: 'Helix',
+  navel: 'Navel',
+  tragus: 'Tragus',
+  rook: 'Rook',
+  industrial: 'Industrial',
+  flat: 'Flat',
+  eyebrow: 'Eyebrow',
+  nipple: 'Nipple',
+  oral: 'Oral',
+  surface: 'Surface',
+  genital: 'Genital',
+  other: 'Other'
+};
+
+// JSON-LD Schema for Harley Halford
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Harley Halford",
+  "jobTitle": "Professional Body Piercer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Cursed Ink Society"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Houma",
+    "addressRegion": "LA"
+  },
+  "url": "https://www.facebook.com/harley.halford",
+  "description": "Houma's most trusted tattoo piercer with over 8 years of professional experience, specializing in precision placement and detailed aftercare."
+};
+
+// JSON-LD Schema for Image Gallery
+const gallerySchema = {
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "Piercing Gallery by Harley Halford",
+  "description": pageDesc,
+  "image": allImages.slice(0, 20).map(img => ({
+    "@type": "ImageObject",
+    "contentUrl": new URL(img.src, Astro.site).href,
+    "description": img.alt,
+    "width": img.width,
+    "height": img.height
+  }))
+};
+
+// JSON-LD Schema for Service Offerings
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Body Piercing Services by Harley Halford",
+  "description": "Professional body piercing services and educational resources in Houma, Louisiana",
+  "provider": {
+    "@type": "Person",
+    "name": "Harley Halford",
+    "jobTitle": "Professional Body Piercer"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Houma",
+    "containedInPlace": {
+      "@type": "State",
+      "name": "Louisiana"
+    }
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Piercing Services",
+    "itemListElement": piercingGuides.map(guide => ({
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": guide.title,
+        "description": guide.description
+      },
+      "availability": "https://schema.org/InStock"
+    }))
+  }
+};
+---
+
+<Layout title={pageTitle} description={pageDesc} canonicalURL={new URL('/piercing', Astro.site)}>
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(gallerySchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)}></script>
+
+  <!-- Hero Section: Harley Halford -->
+  <section class="harley-hero" aria-labelledby="harley-heading">
+    <div class="hero-container">
+      <img 
+        src="/brand/cursed-ink-logo.webp" 
+        alt="" 
+        class="hero-watermark" 
+        width="200" 
+        height="200"
+        loading="eager"
+        aria-hidden="true"
+      />
+      <h1 id="harley-heading" class="hero-title">Meet Harley Halford</h1>
+      <p class="hero-subtitle">Houma's most trusted tattoo piercer — 8+ years of experience</p>
+      
+      <div class="hero-content">
+        <p class="hero-description">
+          Harley Halford is our lead piercer in Houma, blending precision, safety, and clean aesthetics. 
+          With over eight years of professional experience, she's known for gentle placement, perfect angles, 
+          and detailed aftercare. Whether it's curated lobe stacks or advanced helix work, Harley makes every 
+          piercing smooth, safe, and beautiful.
+        </p>
+        
+        <div class="badges">
+          <span class="badge">Sterile Studio Standards</span>
+          <span class="badge">Premium Jewelry Options</span>
+          <span class="badge">8+ Years Experience</span>
+        </div>
+        
+        <div class="hero-ctas">
+          <a href="#piercing-guides" class="btn btn-primary">View Guidebook</a>
+          <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Message Harley
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <PricingSection />
+
+  <!-- Piercing Guide Section -->
+  <PiercingGuideSection />
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section" aria-labelledby="gallery-heading">
+    <div class="gallery-container">
+      <h2 id="gallery-heading" class="section-heading">Portfolio</h2>
+      
+      <!-- Category Filters -->
+      <nav class="filter-nav" role="navigation" aria-label="Category filters">
+        <button class="filter-chip active" data-category="all" aria-pressed="true">All</button>
+        {availableCategories.map(cat => (
+          <button class="filter-chip" data-category={cat} aria-pressed="false">
+            {categoryDisplay[cat]}
+          </button>
+        ))}
+      </nav>
+      
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" role="list">
+        {allImages.map((img, index) => (
+          <figure 
+            class="gallery-item" 
+            data-category={img.category}
+            role="listitem"
+            style="animation-delay: 0ms;"
+          >
+            <button 
+              class="image-btn" 
+              data-index={index}
+              aria-label={`View ${img.alt} in lightbox`}
+              type="button"
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                data-loaded="false"
+                onload="this.setAttribute('data-loaded', 'true')"
+              />
+              <figcaption class="image-caption">{img.alt}</figcaption>
+            </button>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div 
+    id="lightbox" 
+    class="lightbox" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="lightbox-caption"
+    hidden
+  >
+    <button 
+      class="lightbox-close" 
+      aria-label="Close lightbox" 
+      type="button"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+    <div class="lightbox-content">
+      <img 
+        id="lightbox-image" 
+        src="" 
+        alt=""
+        width="1200"
+        height="1600"
+      />
+      <p id="lightbox-caption" class="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous image" type="button">
+      <span aria-hidden="true">‹</span>
+    </button>
+    <button class="lightbox-nav lightbox-next" aria-label="Next image" type="button">
+      <span aria-hidden="true">›</span>
+    </button>
+  </div>
+
+  <!-- Aftercare Section -->
+  <section class="aftercare-section" aria-labelledby="aftercare-heading">
+    <div class="aftercare-container">
+      <h2 id="aftercare-heading" class="section-heading">Aftercare Guide</h2>
+      
+      <div class="accordion">
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>How do I clean my new piercing?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p>Clean twice daily with sterile saline solution. Avoid touching with unwashed hands, and don't rotate the jewelry. Pat dry with clean paper towels — never use cloth towels that can harbor bacteria.</p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>What are typical healing times?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p>Lobe piercings: 6-8 weeks. Cartilage (helix, tragus, rook): 3-12 months. Navel: 6-12 months. Nostril: 4-6 months. Septum: 6-8 weeks. Everyone heals differently — be patient and consistent with aftercare.</p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>When should I contact my piercer?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p>Contact Harley if you experience excessive redness, swelling beyond 48 hours, hot skin around the piercing, yellow or green discharge, or persistent pain. Early intervention prevents complications.</p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>Can I change my jewelry myself?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p>Wait until your piercing is fully healed before changing jewelry. For your first change, visit Harley to ensure proper sizing and technique. Changing too early can irritate or infect the piercing site.</p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>What jewelry materials are safest?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p>Implant-grade titanium, 14k or 18k solid gold, and niobium are the safest options. Avoid surgical steel if you have nickel sensitivities. Harley only uses premium materials for initial piercings.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Footer -->
+  <section class="cta-footer" aria-labelledby="cta-heading">
+    <div class="cta-container">
+      <img 
+        src="/brand/cursed-ink-logo.webp" 
+        alt="" 
+        class="footer-watermark" 
+        width="200" 
+        height="200"
+        loading="lazy"
+        aria-hidden="true"
+      />
+      <h2 id="cta-heading" class="cta-heading">Ready When You Are.</h2>
+      <div class="cta-buttons">
+        <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Message Harley
+        </a>
+        <a href="/contact" class="btn btn-secondary">Contact Studio</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @import "../styles/tattoo-theme.css";
+
+    /* ===== CSS Variables (Aligned with Artists Page) ===== */
+    :root {
+      --transition: all 0.15s ease-out;
+    }
+
+    /* ===== Global Styles ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* ===== Harley Hero Section ===== */
+    .harley-hero {
+      background: var(--bg-dark);
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 120px;
+      height: 120px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-watermark {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: 0 0 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      margin: 0 0 3rem;
+      font-weight: 400;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0 0 2rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+    }
+
+    .badge:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.25rem;
+      height: 44px;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      border: 1px solid;
+    }
+
+    .btn-primary {
+      background: transparent;
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg-dark);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== Gallery Section ===== */
+    .gallery-section {
+      padding: clamp(6rem, 12vw, 8rem) 1.5rem;
+      background: #0A0A0A;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      text-align: center;
+      margin: 0 0 3rem;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ===== Filter Navigation ===== */
+    .filter-nav {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-chip {
+      padding: 0 0.75rem;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--muted);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .filter-chip:hover,
+    .filter-chip:focus-visible {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .filter-chip.active {
+      background: transparent;
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .filter-chip:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== Gallery Grid ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.375rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .gallery-item {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .gallery-item[data-hidden] {
+      display: none;
+    }
+    
+    .gallery-item figure {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .image-btn {
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      border: none;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      group: true;
+    }
+
+    .image-btn:hover,
+    .image-btn:focus-visible {
+      transform: scale(1.03);
+    }
+
+    .image-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .image-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.15s ease-out;
+      pointer-events: none;
+    }
+
+    .image-btn:hover::after {
+      opacity: 1;
+    }
+
+    .image-btn img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.15s ease-out, opacity 0.3s ease;
+      will-change: transform;
+      opacity: 0;
+      background: #000;
+    }
+
+    .image-btn img[data-loaded="true"] {
+      opacity: 1;
+    }
+
+    .image-caption {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ===== Lightbox ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.96);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .lightbox:not([hidden]) {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .lightbox-caption {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      color: var(--text);
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10000;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .lightbox-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      font-size: 2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .lightbox-prev {
+      left: 1.5rem;
+    }
+
+    .lightbox-next {
+      right: 1.5rem;
+    }
+
+    .lightbox-nav:hover,
+    .lightbox-nav:focus-visible {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .lightbox-nav:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 1.75rem;
+      }
+      
+      .lightbox-prev {
+        left: 0.5rem;
+      }
+      
+      .lightbox-next {
+        right: 0.5rem;
+      }
+    }
+
+    /* ===== Aftercare Section ===== */
+    .aftercare-section {
+      padding: clamp(6rem, 12vw, 8rem) 1.5rem;
+      background: var(--bg-dark);
+    }
+
+    .aftercare-container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .accordion-item {
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .accordion-item[open] {
+      border-color: var(--line);
+    }
+
+    .accordion-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      list-style: none;
+      transition: var(--transition);
+      gap: 1rem;
+    }
+
+    .accordion-trigger::-webkit-details-marker {
+      display: none;
+    }
+
+    .accordion-trigger:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .accordion-trigger h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .accordion-icon {
+      font-size: 1.25rem;
+      color: var(--muted);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      font-weight: 300;
+    }
+
+    .accordion-item[open] .accordion-icon {
+      transform: rotate(90deg);
+    }
+
+    .accordion-content {
+      padding: 0 1.5rem 1.25rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .accordion-content p {
+      margin: 0;
+    }
+
+    /* ===== CTA Footer ===== */
+    .cta-footer {
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      background: linear-gradient(180deg, #000 0%, #111 100%);
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .footer-watermark {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 120px;
+      height: 120px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .footer-watermark {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .cta-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin: 0 0 2rem;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Mobile Responsive ===== */
+    @media (max-width: 768px) {
+      .section-heading {
+        font-size: 1.75rem;
+      }
+
+      .hero-ctas,
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .gallery-grid {
+        gap: 0.25rem;
+      }
+
+      .btn {
+        height: 48px;
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* ===== Accessibility & Focus Styles ===== */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      html {
+        scroll-behavior: auto;
+      }
+
+      .gallery-item {
+        animation: none;
+        opacity: 1;
+      }
+
+      .image-btn:hover {
+        transform: none;
+      }
+    }
+  </style>
+
+  <script>
+    // Gallery filtering and lightbox functionality
+    interface ImageData {
+      src: string;
+      alt: string;
+      category: string;
+    }
+
+    const allImages: ImageData[] = Array.from(
+      document.querySelectorAll<HTMLElement>('.gallery-item')
+    ).map((item) => {
+      const img = item.querySelector('img');
+      return {
+        src: img?.src || '',
+        alt: img?.alt || '',
+        category: item.dataset.category || ''
+      };
+    });
+
+    let currentImageIndex = 0;
+    let filteredImages: ImageData[] = [...allImages];
+
+    // Category filtering
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+    const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-item');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+
+        // Update active state
+        filterButtons.forEach((btn) => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+
+        // Filter gallery items
+        galleryItems.forEach((item, index) => {
+          const itemCategory = item.dataset.category;
+          if (category === 'all' || itemCategory === category) {
+            item.removeAttribute('data-hidden');
+            // Stagger animation
+            (item as HTMLElement).style.animationDelay = `${index * 30}ms`;
+          } else {
+            item.setAttribute('data-hidden', 'true');
+          }
+        });
+
+        // Update filtered images for lightbox
+        if (category === 'all') {
+          filteredImages = [...allImages];
+        } else {
+          filteredImages = allImages.filter((img) => img.category === category);
+        }
+      });
+    });
+
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('lightbox-caption') as HTMLElement;
+    const closeBtn = lightbox.querySelector('.lightbox-close') as HTMLButtonElement;
+    const prevBtn = lightbox.querySelector('.lightbox-prev') as HTMLButtonElement;
+    const nextBtn = lightbox.querySelector('.lightbox-next') as HTMLButtonElement;
+
+    function openLightbox(index: number) {
+      currentImageIndex = index;
+      updateLightboxImage();
+      lightbox.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.setAttribute('hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightboxImage() {
+      const image = filteredImages[currentImageIndex];
+      if (image) {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightboxCaption.textContent = image.alt;
+      }
+    }
+
+    function showPrevImage() {
+      currentImageIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length;
+      updateLightboxImage();
+    }
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % filteredImages.length;
+      updateLightboxImage();
+    }
+
+    // Image click handlers
+    document.querySelectorAll<HTMLButtonElement>('.image-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.dataset.index || '0', 10);
+        // Find index in filtered images
+        const globalImage = allImages[index];
+        const filteredIndex = filteredImages.findIndex(
+          (img) => img.src === globalImage.src
+        );
+        if (filteredIndex !== -1) {
+          openLightbox(filteredIndex);
+        }
+      });
+    });
+
+    // Lightbox controls
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrevImage);
+    nextBtn.addEventListener('click', showNextImage);
+
+    // Close on backdrop click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.hasAttribute('hidden')) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          showPrevImage();
+        } else if (e.key === 'ArrowRight') {
+          showNextImage();
+        }
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = (this as HTMLAnchorElement).getAttribute('href');
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+
+    // Image error handling - hide broken images
+    document.querySelectorAll<HTMLImageElement>('.gallery-item img').forEach((img) => {
+      img.addEventListener('error', function() {
+        const galleryItem = this.closest<HTMLElement>('.gallery-item');
+        if (galleryItem) {
+          galleryItem.style.display = 'none';
+        }
+      });
+    });
+
+    // Image load optimization
+    document.querySelectorAll<HTMLImageElement>('.gallery-item img').forEach((img) => {
+      if (img.complete && img.naturalHeight !== 0) {
+        img.setAttribute('data-loaded', 'true');
+      }
+    });
+  </script>
+</Layout>
+
+
