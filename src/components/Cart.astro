@@ -61,6 +61,16 @@
       this.init();
     }
 
+    // Security: Escape HTML to prevent XSS
+    escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     init() {
       this.bindEvents();
       this.updateCartDisplay();
@@ -198,32 +208,40 @@
           </div>
         `;
       } else {
-        this.cartContent.innerHTML = this.cart.items.map(item => `
-          <div class="cart-item" data-product-id="${item.productId}" data-variant="${item.variant || ''}">
+        // Security: Escape all user-controlled data to prevent XSS
+        this.cartContent.innerHTML = this.cart.items.map(item => {
+          const escapedProductId = this.escapeHtml(String(item.productId));
+          const escapedProductName = this.escapeHtml(String(item.productName));
+          const escapedVariant = item.variant ? this.escapeHtml(String(item.variant)) : '';
+          const escapedImage = this.escapeHtml(String(item.image || '/assets/products/placeholder.jpg'));
+          
+          return `
+          <div class="cart-item" data-product-id="${escapedProductId}" data-variant="${escapedVariant}">
             <div class="cart-item-image">
-              <img src="${item.image || '/assets/products/placeholder.jpg'}" alt="${item.productName}" />
+              <img src="${escapedImage}" alt="${escapedProductName}" />
             </div>
 
             <div class="cart-item-details">
-              <h4 class="cart-item-title">${item.productName}</h4>
-              ${item.variant ? `<p class="cart-item-variant">${item.variant}</p>` : ''}
+              <h4 class="cart-item-title">${escapedProductName}</h4>
+              ${escapedVariant ? `<p class="cart-item-variant">${escapedVariant}</p>` : ''}
               <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
             </div>
 
             <div class="cart-item-controls">
               <div class="quantity-controls">
-                <button class="quantity-btn" onclick="window.shoppingCart.updateQuantity('${item.productId}', ${item.quantity - 1}, '${item.variant || ''}')">-</button>
+                <button class="quantity-btn" onclick="window.shoppingCart.updateQuantity('${escapedProductId}', ${item.quantity - 1}, '${escapedVariant}')">-</button>
                 <span class="quantity">${item.quantity}</span>
-                <button class="quantity-btn" onclick="window.shoppingCart.updateQuantity('${item.productId}', ${item.quantity + 1}, '${item.variant || ''}')">+</button>
+                <button class="quantity-btn" onclick="window.shoppingCart.updateQuantity('${escapedProductId}', ${item.quantity + 1}, '${escapedVariant}')">+</button>
               </div>
-              <button class="remove-btn" onclick="window.shoppingCart.removeItem('${item.productId}', '${item.variant || ''}')">
+              <button class="remove-btn" onclick="window.shoppingCart.removeItem('${escapedProductId}', '${escapedVariant}')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
               </button>
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
     }
 
@@ -239,11 +257,15 @@
       // Create notification
       const notification = document.createElement('div');
       notification.className = 'cart-notification';
+      
+      // Security: Escape product name to prevent XSS
+      const escapedProductName = this.escapeHtml(String(productName));
+      
       notification.innerHTML = `
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
         </svg>
-        <span>Added ${productName} to cart</span>
+        <span>Added ${escapedProductName} to cart</span>
       `;
 
       document.body.appendChild(notification);

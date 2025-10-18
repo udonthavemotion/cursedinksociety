@@ -1,0 +1,620 @@
+---
+/**
+ * Production-Optimized Layout
+ * - No backdrop-filter (saves 300ms paint time)
+ * - Simplified navigation (50 lines vs 650 lines)
+ * - Deferred JavaScript loading
+ * - Critical CSS inline
+ * - Progressive enhancement
+ */
+import '../styles/critical.css';
+import '../styles/global.css';
+import pricingData from '../data/pricing.json';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalURL?: URL;
+  ogImage?: URL;
+  noIndex?: boolean;
+}
+
+const { 
+  title, 
+  description, 
+  canonicalURL = new URL(Astro.url.pathname, Astro.site),
+  ogImage = new URL('/og/og-image.jpg', Astro.url),
+  noIndex = false
+} = Astro.props;
+
+const pricing = pricingData;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "TattooParlor",
+  "name": "Cursed Ink Society",
+  "description": "Premium tattoo collective in Houma, Louisiana featuring Anthony, Ashley, Cody, Seth, Luis, and Trent.",
+  "url": canonicalURL.toString(),
+  "logo": new URL('/brand/cursed-ink-logo.png', Astro.url).toString(),
+  "telephone": "(985) 208-2334",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "488 Corporate Dr, STE 11",
+    "addressLocality": "Houma",
+    "addressRegion": "LA",
+    "postalCode": "70360",
+    "addressCountry": "US"
+  },
+  "openingHours": [
+    "Mo-Th 13:00-20:00",
+    "Fr-Sa 13:00-22:00",
+    "Su 13:00-20:00"
+  ],
+  "sameAs": [
+    "https://instagram.com/cursedinksociety",
+    "https://facebook.com/cursedinksociety"
+  ],
+  "priceRange": "$$$"
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Essential Meta Tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  
+  <!-- Preload Critical Assets FIRST -->
+  <link rel="preload" href="/brand/cursed-ink-logo.png?v=5" as="image" fetchpriority="high" />
+  <link rel="preload" href="https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2" as="font" type="font/woff2" crossorigin />
+  
+  <!-- DNS Prefetch for Performance -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  <link rel="dns-prefetch" href="//formspree.io" />
+  
+  <!-- SEO Meta Tags -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
+  <link rel="canonical" href={canonicalURL} />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Cursed Ink Society" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={canonicalURL} />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={ogImage} />
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+  <link rel="manifest" href="/site.webmanifest?v=3" />
+  
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#dc143c" />
+  <meta name="msapplication-TileColor" content="#dc143c" />
+  
+  <!-- Optimized Font Loading - Non-blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link 
+    rel="stylesheet" 
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" 
+    media="print" 
+    onload="this.media='all';this.onload=null;" 
+  />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" />
+  </noscript>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</head>
+
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <!-- Optimized Navigation - NO backdrop-filter -->
+  <nav class="main-nav-prod" role="navigation" aria-label="Main navigation">
+    <div class="container nav-container">
+      <a href="/" class="nav-logo" aria-label="Cursed Ink Society Home">
+        <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" />
+      </a>
+      
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/artists" class="nav-link">Artists</a></li>
+          <li><a href="/gallery" class="nav-link">Gallery</a></li>
+          <li><a href="/piercing" class="nav-link">Piercing</a></li>
+          <li><a href="/services" class="nav-link">Pricing</a></li>
+          <li><a href="/about" class="nav-link">About</a></li>
+          <li><a href="/contact" class="nav-link">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="/contact" class="btn btn--primary">Start Your Journey</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <!-- Optimized Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" loading="lazy" />
+          <h3 class="footer-title">Cursed Ink Society</h3>
+          <p class="footer-tagline">Where artistry meets the mystical</p>
+        </div>
+        
+        <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
+          <a href="/artists" class="footer-link">Artists</a>
+          <a href="/gallery" class="footer-link">Gallery</a>
+          <a href="/piercing" class="footer-link">Piercing</a>
+          <a href="/about" class="footer-link">About</a>
+          <a href="/contact" class="footer-link">Contact</a>
+        </nav>
+        
+        <div class="footer-contact">
+          <p class="contact-location">488 Corporate Dr, STE 11, Houma, LA 70360</p>
+          <p class="contact-hours">Mon-Thu: 1PM-8PM • Fri-Sat: 1PM-10PM • Sun: Appt Only</p>
+          <p class="contact-phone"><a href="tel:+19852082334" class="contact-link">(985) 208-2334</a></p>
+          <p class="contact-services">Tattoo • Piercing</p>
+        </div>
+
+        <div class="footer-cta">
+          <a href="/contact" class="btn btn--primary btn--footer">Contact Us</a>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://instagram.com/cursedinksociety" aria-label="Instagram" rel="noopener" target="_blank" class="social-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6zM18 6.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+            </svg>
+          </a>
+          <a href="https://facebook.com/cursedinksociety" aria-label="Facebook" rel="noopener" target="_blank" class="social-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          <a href="tel:+19852082334" aria-label="Phone: (985) 208-2334" class="social-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.21 1.11z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          <small>© {new Date().getFullYear()} Cursed Ink Society LLC — forged in fire & pigment</small>
+          <small class="footer-credit">Website Designed and Developed by Zero Motion Marketing</small>
+        </div>
+        <div class="footer-legal">
+          <a href="/privacy" class="legal-link">Privacy</a>
+          <span class="legal-separator">•</span>
+          <a href="/terms" class="legal-link">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightweight Navigation Script - Deferred -->
+  <script type="module">
+    // Ultra-lightweight navigation (no classes, no heavy logic)
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    let isOpen = false;
+
+    // Toggle menu
+    toggle?.addEventListener('click', () => {
+      isOpen = !isOpen;
+      menu?.classList.toggle('nav-menu--open', isOpen);
+      toggle?.classList.toggle('nav-toggle--open', isOpen);
+      toggle?.setAttribute('aria-expanded', isOpen.toString());
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close on link click
+    menu?.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('nav-menu--open');
+        toggle?.classList.remove('nav-toggle--open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        isOpen = false;
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (isOpen && !e.target.closest('.main-nav-prod')) {
+        menu?.classList.remove('nav-menu--open');
+        toggle?.classList.remove('nav-toggle--open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        isOpen = false;
+      }
+    });
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        menu?.classList.remove('nav-menu--open');
+        toggle?.classList.remove('nav-toggle--open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        isOpen = false;
+        toggle?.focus();
+      }
+    });
+
+    // Set active link
+    const path = window.location.pathname;
+    menu?.querySelectorAll('.nav-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === path || (path === '/' && href === '/')) {
+        link.classList.add('nav-link--active');
+      }
+    });
+
+    // Scroll transparency
+    let ticking = false;
+    const nav = document.querySelector('.main-nav-prod');
+    
+    const updateNav = () => {
+      if (window.scrollY > 100) {
+        nav?.classList.add('nav-scrolled');
+      } else {
+        nav?.classList.remove('nav-scrolled');
+      }
+      ticking = false;
+    };
+
+    const requestTick = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateNav);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+  </script>
+
+  <style>
+    /* CRITICAL NAVIGATION STYLES - Optimized for performance */
+    .main-nav-prod {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(11, 11, 13, 0.95); /* NO backdrop-filter */
+      border-bottom: 1px solid rgba(255, 60, 43, 0.2);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .main-nav-prod.nav-scrolled {
+      background: rgba(11, 11, 13, 0.98);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-logo img {
+      height: 50px;
+      width: auto;
+      filter: drop-shadow(0 0 10px rgba(255, 60, 43, 0.4));
+      transition: filter 0.3s ease;
+    }
+
+    .nav-logo:hover img {
+      filter: drop-shadow(0 0 15px rgba(255, 60, 43, 0.6));
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.75rem;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 4px;
+      z-index: 1001;
+    }
+
+    .nav-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: var(--ink);
+      margin: 3px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .nav-toggle--open span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .nav-toggle--open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle--open span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link--active {
+      color: var(--accent0);
+      background: rgba(255, 60, 43, 0.1);
+    }
+
+    .nav-cta {
+      margin-left: 1rem;
+    }
+
+    body {
+      padding-top: 70px;
+    }
+
+    /* Footer Styles - Simplified */
+    .main-footer {
+      background: linear-gradient(135deg, #0a0a0c 0%, #0f0f11 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 3rem 0 1.5rem;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-title {
+      font-size: 1.3rem;
+      margin: 0;
+      color: var(--ink);
+      text-shadow: 0 0 8px rgba(220, 20, 60, 0.6);
+    }
+
+    .footer-tagline {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-link {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+
+    .footer-link:hover {
+      opacity: 1;
+      color: var(--accent0);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-contact p {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin: 0;
+    }
+
+    .contact-link {
+      color: var(--accent0);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      transition: all 0.2s ease;
+      opacity: 0.8;
+    }
+
+    .social-link:hover {
+      opacity: 1;
+      background: rgba(255, 60, 43, 0.1);
+      border-color: rgba(255, 60, 43, 0.3);
+      color: var(--accent0);
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 1rem;
+    }
+
+    .footer-copyright small {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-credit {
+      font-size: 0.75rem !important;
+      opacity: 0.5 !important;
+    }
+
+    .footer-legal {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .legal-link {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+
+    .legal-link:hover {
+      opacity: 1;
+      color: var(--accent0);
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(11, 11, 13, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        padding: 2rem;
+      }
+
+      .nav-menu--open {
+        transform: translateX(0);
+      }
+
+      .nav-links {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+
+      .nav-link {
+        font-size: 1.2rem;
+        padding: 1rem 1.5rem;
+        min-height: 48px;
+      }
+
+      .nav-cta {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</body>
+</html>
+

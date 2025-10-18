@@ -8,6 +8,12 @@ dist/
 .astro/
 .next/
 .turbo/
+
+# Archives & local tooling
+archive/
+.devtools/
+.next/
+.turbo/
 .eslintcache
 coverage/
 *.log

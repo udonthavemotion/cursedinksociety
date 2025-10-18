@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4321",
     "build": "astro build",
-    "build:prod": "astro build",
+    "build:prod": "astro build && node scripts/production-performance-check.js",
     "build:fresh": "rm -rf dist .astro node_modules/.cache && npm ci && astro build",
     "preview": "astro preview",
     "preview:prod": "astro preview --host 0.0.0.0",
@@ -19,7 +19,8 @@
     "astro": "astro",
     "perf:audit": "node scripts/performance-monitor.js audit",
     "perf:report": "node scripts/performance-monitor.js report",
-    "perf:ci": "npm run build && npm run preview & sleep 5 && npm run perf:audit && kill %1"
+    "perf:ci": "npm run build && npm run preview & sleep 5 && npm run perf:audit && kill %1",
+    "perf:check": "node scripts/production-performance-check.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -27,6 +28,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.5",
+    "heic-convert": "^2.1.0",
     "sharp": "^0.33.0",
     "tailwindcss": "^4.1.13",
     "three": "^0.180.0",

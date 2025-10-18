@@ -536,15 +536,35 @@ const totalImages = getTotalPortfolioCount();
     addNavigationArrows() {
       if (!this.lightbox) return;
 
-      // Create navigation arrows
+      // Create navigation arrows using safe SVG creation methods
       const leftArrow = document.createElement('button');
       leftArrow.className = 'lightbox-nav lightbox-nav--left';
-      leftArrow.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>';
+      leftArrow.setAttribute('aria-label', 'Previous image');
+      
+      const leftSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      leftSvg.setAttribute('width', '24');
+      leftSvg.setAttribute('height', '24');
+      leftSvg.setAttribute('viewBox', '0 0 24 24');
+      leftSvg.setAttribute('fill', 'currentColor');
+      const leftPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      leftPath.setAttribute('d', 'M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z');
+      leftSvg.appendChild(leftPath);
+      leftArrow.appendChild(leftSvg);
       leftArrow.addEventListener('click', () => this.navigateLightbox(-1));
 
       const rightArrow = document.createElement('button');
       rightArrow.className = 'lightbox-nav lightbox-nav--right';
-      rightArrow.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
+      rightArrow.setAttribute('aria-label', 'Next image');
+      
+      const rightSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      rightSvg.setAttribute('width', '24');
+      rightSvg.setAttribute('height', '24');
+      rightSvg.setAttribute('viewBox', '0 0 24 24');
+      rightSvg.setAttribute('fill', 'currentColor');
+      const rightPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      rightPath.setAttribute('d', 'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z');
+      rightSvg.appendChild(rightPath);
+      rightArrow.appendChild(rightSvg);
       rightArrow.addEventListener('click', () => this.navigateLightbox(1));
 
       this.lightbox.appendChild(leftArrow);

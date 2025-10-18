@@ -248,7 +248,36 @@ const rawArtists: Artist[] = [
       "/assets/artists/cody-crochet/461528404_8425251827517550_2728663571583936772_n.jpg",
       "/assets/artists/cody-crochet/461579945_8425251807517552_3928962516021655041_n.jpg",
       "/assets/artists/cody-crochet/461609351_8425251820850884_9008576989091778140_n.jpg",
-      "/assets/artists/cody-crochet/461683376_8433512910024775_9068907170483629013_n.jpg"
+      "/assets/artists/cody-crochet/461683376_8433512910024775_9068907170483629013_n.jpg",
+      "/assets/artists/cody-crochet/512700095_1272504374878565_6871385579930887741_n.jpg",
+      "/assets/artists/cody-crochet/512743833_1272473491548320_1252336606293880441_n.jpg",
+      "/assets/artists/cody-crochet/515756794_1279109767551359_7433308173556670542_n.jpg",
+      "/assets/artists/cody-crochet/551895858_17925374004103233_1431822816699686204_n.webp",
+      "/assets/artists/cody-crochet/551498707_17925505314103233_713446114259496044_n.webp",
+      "/assets/artists/cody-crochet/553145530_17925543306103233_4864628118564891528_n.webp",
+      "/assets/artists/cody-crochet/553527628_17925692526103233_8378795979408169704_n.webp",
+      "/assets/artists/cody-crochet/553323814_17925692505103233_3248701386355364594_n.webp",
+      "/assets/artists/cody-crochet/555055505_17926276278103233_6504054179613668124_n.webp",
+      "/assets/artists/cody-crochet/553696774_17926276269103233_1409707838156036544_n.webp",
+      "/assets/artists/cody-crochet/554592087_17926276254103233_1210291066666000660_n.webp",
+      "/assets/artists/cody-crochet/558091717_17927024952103233_5377061818574684188_n.webp",
+      "/assets/artists/cody-crochet/560061466_17927631876103233_3334962177202159732_n.webp",
+      "/assets/artists/cody-crochet/561499135_17927631864103233_8215047193485129985_n.webp",
+      "/assets/artists/cody-crochet/561830245_17927631849103233_5948395559921807953_n.webp",
+      "/assets/artists/cody-crochet/560316921_17927677398103233_2391071177726773011_n.webp",
+      "/assets/artists/cody-crochet/560363761_17927677386103233_3731491173729073386_n.webp",
+      "/assets/artists/cody-crochet/562464642_17928013479103233_1377568602566360380_n.webp",
+      "/assets/artists/cody-crochet/564427072_17928013470103233_4567201685302469141_n.webp",
+      "/assets/artists/cody-crochet/565405198_17928357477103233_333828921747472899_n.webp",
+      "/assets/artists/cody-crochet/565726076_17928357468103233_5461458520724505171_n.webp",
+      "/assets/artists/cody-crochet/563541951_17928357459103233_5359610406385921092_n.webp",
+      "/assets/artists/cody-crochet/566408821_17928514821103233_2053187752450520346_n.webp",
+      "/assets/artists/cody-crochet/564844611_17928514803103233_2758880364002592544_n.webp",
+      "/assets/artists/cody-crochet/564929074_17928630903103233_6819823204555955212_n.webp",
+      "/assets/artists/cody-crochet/565612603_17928630927103233_9183950637499844894_n.webp",
+      "/assets/artists/cody-crochet/564222706_17928630918103233_7516494997236008135_n.webp",
+      "/assets/artists/cody-crochet/565268015_17928684324103233_4688383774593095014_n.webp",
+      "/assets/artists/cody-crochet/565719445_17928684333103233_8792554755163845755_n.webp"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/codycrochettattoos" }
   },
@@ -271,15 +300,19 @@ const rawArtists: Artist[] = [
     experience: "Apprentice",
     instagram: "@tattooz_by_trent",
     featuredWork: [
-      "/assets/artists/trent/r.jpg",
-      "/assets/artists/trent/rr.jpg",
-      "/assets/artists/trent/tt.jpg"
+      "/assets/artists/trent/Untitled design (44).png",
+      "/assets/artists/trent/Untitled design (45).png",
+      "/assets/artists/trent/Untitled design (46).png"
     ],
     portfolio: [
+      "/assets/artists/trent/Untitled design (44).png",
+      "/assets/artists/trent/Untitled design (45).png",
+      "/assets/artists/trent/Untitled design (46).png",
       "/assets/artists/trent/profile.jpg",
       "/assets/artists/trent/r.jpg",
       "/assets/artists/trent/rr.jpg",
-      "/assets/artists/trent/tt.jpg"
+      "/assets/artists/trent/tt.jpg",
+      "/assets/artists/trent/trent.jpg"
     ],
     cta: { text: "View Instagram", url: "https://instagram.com/tattooz_by_trent" }
   }

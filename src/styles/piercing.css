@@ -1,0 +1,54 @@
+/* Piercing page compact styles (≤120 lines) */
+
+/* Filter bar */
+.pierce-filters {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.pierce-filter {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.04);
+  color: var(--ink, #f5f5f5);
+  padding: .5rem .75rem;
+  border-radius: .5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pierce-filter[aria-pressed="true"],
+.pierce-filter:hover { border-color: rgba(220,20,60,.5); color: #fff; }
+
+/* Services grid */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+.service-card { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); border-radius: .75rem; padding: 1rem; }
+.service-title { font-weight: 700; margin: 0 0 .25rem; }
+.service-meta { font-size: .875rem; opacity: .9; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill,minmax(140px,1fr)); gap: .5rem; }
+.gallery figure { margin: 0; position: relative; overflow: hidden; border-radius: .5rem; border: 1px solid rgba(255,255,255,.08); }
+.gallery img { width: 100%; height: auto; display: block; }
+
+/* Details/accordion */
+details { border: 1px solid rgba(255,255,255,.08); border-radius: .75rem; background: rgba(255,255,255,.03); }
+summary { cursor: pointer; padding: .75rem 1rem; font-weight: 700; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+details > div { padding: 0 1rem 1rem; }
+
+/* Lightbox dialog */
+dialog.pierce-lightbox { border: none; padding: 0; background: transparent; max-width: 95vw; }
+dialog.pierce-lightbox::backdrop { background: rgba(0,0,0,.8); }
+.lightbox-inner { position: relative; }
+.lightbox-img { max-width: 95vw; max-height: 85vh; border-radius: .5rem; }
+.lightbox-close, .lightbox-prev, .lightbox-next { position: absolute; top: .5rem; background: rgba(0,0,0,.5); color: #fff; border: 1px solid rgba(255,255,255,.2); padding: .5rem .6rem; border-radius: .5rem; cursor: pointer; }
+.lightbox-close { right: .5rem; }
+.lightbox-prev { left: .5rem; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: .5rem; top: 50%; transform: translateY(-50%); }
+
+/* Sections */
+.section { margin: 2rem 0; }
+.section h2 { margin: 0 0 .75rem; }
+
+

@@ -99,12 +99,17 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   .gallery-header {
     text-align: center;
     margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centered all header content horizontally */
   }
 
   .gallery-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 1rem;
     position: relative;
+    margin-left: auto;
+    margin-right: auto; /* Centered title */
   }
 
   .gallery-title::before {
@@ -142,6 +147,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     margin: 0 auto;
     line-height: 1.6;
     text-shadow: var(--glow-warm);
+    text-align: center; /* Centered subtitle text */
   }
 
   /* Simplified Grid for Performance */
@@ -303,6 +309,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     margin-bottom: 1.5rem;
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centered all info text horizontally */
   }
 
   .item-title {
@@ -315,6 +324,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     color: #ffffff;
     line-height: 1.2;
     letter-spacing: 0.02em;
+    text-align: center; /* Centered title text */
   }
 
   .item-artist {
@@ -327,6 +337,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       1px 1px 3px rgba(0, 0, 0, 0.9),
       0 0 8px rgba(255, 60, 43, 0.4);
     line-height: 1.3;
+    text-align: center; /* Centered artist name */
   }
 
   .item-specialties {
@@ -396,20 +407,25 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   .gallery-cta {
     text-align: center;
     margin-top: 4rem;
+    display: flex;
+    justify-content: center; /* Centered CTA button horizontally */
   }
 
   /* Artist Counter Styles */
   .artist-counter {
     display: flex;
     justify-content: center;
+    align-items: center; /* Vertically center counter */
     margin: 2rem 0 0;
     position: relative;
+    width: 100%; /* Full width for proper centering */
   }
 
   .counter-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centered counter number and label */
+    justify-content: center; /* Vertically center content */
     background: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 60, 43, 0.3);
     border-radius: 20px;
@@ -428,6 +444,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       0 0 40px rgba(255, 60, 43, 0.4);
     line-height: 1;
     margin-bottom: 0.5rem;
+    text-align: center; /* Centered number */
   }
 
   .counter-label {
@@ -436,6 +453,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
+    text-align: center; /* Centered label */
   }
 
   .counter-glow {
@@ -706,26 +724,31 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   @media (max-width: 480px) {
     .blob-gallery {
       padding: 2.5rem 0;
+      align-items: center; /* Centered gallery on small mobile */
     }
 
     .blob-grid {
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 0.8rem;
       padding: 0 0.8rem;
+      justify-items: center; /* Centered grid items */
     }
 
     .gallery-header {
       margin-bottom: 2rem;
+      align-items: center; /* Ensure centered on small mobile */
     }
 
     .gallery-title {
       font-size: clamp(2rem, 6vw, 3rem);
       margin-bottom: 0.8rem;
+      text-align: center; /* Ensure centered on small mobile */
     }
 
     .gallery-subtitle {
       font-size: 1rem;
       padding: 0 1rem;
+      text-align: center; /* Ensure centered on small mobile */
     }
 
     .artist-counter {
@@ -788,26 +811,31 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   @media (max-width: 360px) {
     .blob-gallery {
       padding: 2rem 0;
+      align-items: center; /* Centered gallery on ultra small mobile */
     }
 
     .blob-grid {
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 0.6rem;
       padding: 0 0.6rem;
+      justify-items: center; /* Centered grid items on ultra small mobile */
     }
 
     .gallery-header {
       margin-bottom: 1.5rem;
+      align-items: center; /* Ensure centered on ultra small mobile */
     }
 
     .gallery-title {
       font-size: clamp(1.8rem, 5.5vw, 2.5rem);
       margin-bottom: 0.6rem;
+      text-align: center; /* Ensure centered on ultra small mobile */
     }
 
     .gallery-subtitle {
       font-size: 0.9rem;
       padding: 0 0.8rem;
+      text-align: center; /* Ensure centered on ultra small mobile */
     }
 
     .counter-content {
@@ -987,8 +1015,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
         let touchMoved = false;
         const scrollThreshold = 10; // pixels
 
-        item.addEventListener('touchstart', (e) => {
-          const touch = e.touches[0];
+        item.addEventListener('touchstart', (e: Event) => {
+          const touchEvent = e as TouchEvent;
+          const touch = touchEvent.touches[0];
           touchStartY = touch.clientY;
           touchStartX = touch.clientX;
           touchMoved = false;
@@ -1016,8 +1045,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
           
         }, { passive: true });
 
-        item.addEventListener('touchmove', (e) => {
-          const touch = e.touches[0];
+        item.addEventListener('touchmove', (e: Event) => {
+          const touchEvent = e as TouchEvent;
+          const touch = touchEvent.touches[0];
           const deltaY = Math.abs(touch.clientY - touchStartY);
           const deltaX = Math.abs(touch.clientX - touchStartX);
           
