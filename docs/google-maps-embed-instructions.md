@@ -87,14 +87,41 @@ After updating the real embed URL:
 - [ ] Phone link in overlay card works
 - [ ] Map is interactive (zoom, pan, etc.)
 
+## Production Configuration (IMPORTANT)
+
+### Content Security Policy Fix
+
+**Issue:** Google Maps embeds will not display in production if the Content Security Policy (CSP) doesn't allow iframe embeds from Google.
+
+**Solution:** The `vercel.json` file has been configured with the correct CSP directive:
+
+```json
+"frame-src https://www.google.com;"
+```
+
+This directive is included in the Content-Security-Policy header on line 39 of `vercel.json` and allows Google Maps iframes to load in production.
+
+**What this fixes:**
+- ✅ Google Maps displays correctly on the live website
+- ✅ Maps work on both Contact and About pages
+- ✅ Maintains security by only allowing trusted iframe sources
+- ✅ Dev server and production now behave identically
+
+**If maps don't load after deployment:**
+1. Check browser console for CSP violations
+2. Verify `vercel.json` includes `frame-src https://www.google.com;` in the CSP value
+3. Ensure you've deployed the latest version with this change
+4. Clear browser cache and hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
+
 ## Notes
 
 - The current template URL uses placeholder coordinates that approximate Houma, LA
 - Once you add the real Google Maps URL, the map will show your exact location
 - Consider enabling Google Business features like reviews, photos, and hours directly on the map
 - The info card shows your phone number and current hours from the contact data
+- Maps are embedded on both the Contact page (`/contact`) and About page (`/about`)
 
 ---
 
-Last Updated: October 18, 2025
+Last Updated: October 18, 2025 (CSP fix implemented)
 
