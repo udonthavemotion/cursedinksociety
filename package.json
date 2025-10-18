@@ -20,7 +20,15 @@
     "perf:audit": "node scripts/performance-monitor.js audit",
     "perf:report": "node scripts/performance-monitor.js report",
     "perf:ci": "npm run build && npm run preview & sleep 5 && npm run perf:audit && kill %1",
-    "perf:check": "node scripts/production-performance-check.js"
+    "perf:check": "node scripts/production-performance-check.js",
+    "mobile:optimize-images": "node scripts/convert-images-mobile.js",
+    "mobile:download-fonts": "bash scripts/download-fonts.sh",
+    "mobile:audit-cls": "bash scripts/audit-cls-issues.sh",
+    "mobile:audit-ux": "node scripts/audit-mobile-ux.js",
+    "mobile:test": "playwright test",
+    "mobile:test-ui": "playwright test --ui",
+    "mobile:lighthouse": "lhci autorun --config=lighthouserc.json",
+    "mobile:all": "npm run mobile:optimize-images && npm run mobile:download-fonts && npm run build && npm run mobile:test && npm run mobile:lighthouse"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -38,6 +46,8 @@
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@fullhuman/postcss-purgecss": "^7.0.2",
+    "@lhci/cli": "^0.13.0",
+    "@playwright/test": "^1.40.0",
     "@types/three": "^0.180.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",

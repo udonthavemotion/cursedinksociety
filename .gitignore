@@ -1,44 +1,46 @@
-node_modules/
-.DS_Store
-.env
-.env.local
-.env.*.local
-.vercel
+# Build outputs
 dist/
 .astro/
-.next/
-.turbo/
 
-# Archives & local tooling
-archive/
-.devtools/
-.next/
-.turbo/
-.eslintcache
-coverage/
-*.log
-logs/
+# Node
+node_modules/
+
+# Performance reports & test results
+perf-reports/
+test-results/
+playwright-report/
+.lighthouseci/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Production optimization artifacts
-optimize-project.js
-cleanup-assets.js
+# Cache
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/
 
 # Temporary files
 *.tmp
 *.temp
-
-# Development artifacts
-AGENT.md
-AGENTS.md
-CLAUDE.md
-GEMINI.md
-opencode.json
-
-.vercel
