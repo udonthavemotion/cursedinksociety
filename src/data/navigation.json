@@ -21,6 +21,11 @@
       "description": "Transparent pricing and consultation details"
     },
     {
+      "label": "Piercings",
+      "href": "/piercing",
+      "description": "Professional body piercing services (18+)"
+    },
+    {
       "label": "About",
       "href": "/about",
       "description": "Our story and studio"
