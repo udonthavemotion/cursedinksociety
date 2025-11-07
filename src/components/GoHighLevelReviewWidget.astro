@@ -1,0 +1,159 @@
+---
+const heading = "Live Client Feedback";
+const description = "Real stories streaming straight from our clients — updated automatically so you can feel the pulse of Cursed Ink Society.";
+---
+
+<section class="live-reviews" aria-labelledby="live-reviews-title">
+  <div class="container">
+    <div class="reviews-header">
+      <div class="badge">Verified Reputation</div>
+      <h2 id="live-reviews-title" class="section-title">
+        {heading}
+      </h2>
+      <p class="section-description">{description}</p>
+    </div>
+
+    <div class="widget-shell">
+      <div class="widget-frame" role="region" aria-label="Customer reviews">
+        <script type="text/javascript" src="https://reputationhub.site/reputation/assets/review-widget.js"></script>
+        <iframe
+          class="lc_reviews_widget"
+          src="https://reputationhub.site/reputation/widgets/review_widget/FC0jm57lUIWtShhP9w2f?widgetId=690d0ef758251368e3985429"
+          frameborder="0"
+          scrolling="no"
+          title="Cursed Ink Society customer reviews"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .live-reviews {
+    position: relative;
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    background:
+      radial-gradient(1000px 600px at 15% 30%, rgba(255, 60, 43, 0.12) 0%, transparent 65%),
+      radial-gradient(900px 500px at 85% 70%, rgba(255, 122, 24, 0.08) 0%, transparent 60%),
+      linear-gradient(140deg, rgba(8, 8, 10, 0.95) 0%, rgba(18, 18, 24, 0.98) 50%, rgba(10, 10, 14, 0.95) 100%);
+    overflow: hidden;
+  }
+
+  .live-reviews::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255, 60, 43, 0.15) 0%, transparent 35%, transparent 65%, rgba(255, 122, 24, 0.15) 100%);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.6;
+  }
+
+  .live-reviews .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .reviews-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto clamp(3rem, 6vw, 4rem);
+  }
+
+  .reviews-header .badge {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 60, 43, 0.12);
+    border: 1px solid rgba(255, 60, 43, 0.4);
+    color: var(--accent0);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .reviews-header .section-title {
+    margin: 1rem 0 1.25rem;
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-shadow: var(--glow-subtle);
+  }
+
+  .reviews-header .section-description {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(240, 240, 245, 0.78);
+    line-height: 1.6;
+  }
+
+  .widget-shell {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: rgba(12, 12, 16, 0.8);
+    border: 1px solid rgba(255, 60, 43, 0.16);
+    border-radius: 28px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(14px);
+  }
+
+  .widget-shell::before,
+  .widget-shell::after {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+    inset: 12px;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  .widget-shell::before {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .widget-shell::after {
+    background: radial-gradient(circle at 20% 20%, rgba(255, 60, 43, 0.18), transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(255, 122, 24, 0.15), transparent 55%);
+    mix-blend-mode: screen;
+  }
+
+  .widget-frame {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .widget-frame iframe {
+    width: 100%;
+    min-height: 520px;
+    border: none;
+    border-radius: clamp(16px, 3vw, 20px);
+    background: rgba(14, 14, 18, 0.85);
+  }
+
+  @media (max-width: 768px) {
+    .live-reviews {
+      padding: 3.5rem 0;
+    }
+
+    .widget-shell {
+      padding: 1.25rem;
+    }
+
+    .widget-frame iframe {
+      min-height: 450px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .widget-shell {
+      padding: 1rem;
+    }
+
+    .widget-frame iframe {
+      min-height: 420px;
+    }
+  }
+</style>
