@@ -1,0 +1,24 @@
+---
+/**
+ * PRODUCTION HOME PAGE
+ * - Uses optimized components
+ * - No render-blocking code
+ * - Progressive enhancement
+ * - Fast initial load
+ */
+import ProductionLayout from '../layouts/ProductionLayout.astro';
+import ProductionHero from '../components/ProductionHero.astro';
+import ProductionGallery from '../components/ProductionGallery.astro';
+
+const title = "Cursed Ink Society — Premier Tattoo Artists in Houma, LA";
+const description = "Experience the finest tattoo artistry in Houma, Louisiana. Our collective of master artists specializes in custom designs, traditional work, and mystical ink. Start your artistic journey today.";
+---
+
+<ProductionLayout title={title} description={description}>
+  <!-- Performance-Optimized Homepage Hero Section -->
+  <ProductionHero />
+
+  <!-- Performance-Optimized Featured Artists Section -->
+  <ProductionGallery />
+</ProductionLayout>
+

@@ -99,12 +99,17 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   .gallery-header {
     text-align: center;
     margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centered all header content horizontally */
   }
 
   .gallery-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 1rem;
     position: relative;
+    margin-left: auto;
+    margin-right: auto; /* Centered title */
   }
 
   .gallery-title::before {
@@ -142,6 +147,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     margin: 0 auto;
     line-height: 1.6;
     text-shadow: var(--glow-warm);
+    text-align: center; /* Centered subtitle text */
   }
 
   /* Simplified Grid for Performance */
@@ -303,6 +309,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     margin-bottom: 1.5rem;
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centered all info text horizontally */
   }
 
   .item-title {
@@ -315,6 +324,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     color: #ffffff;
     line-height: 1.2;
     letter-spacing: 0.02em;
+    text-align: center; /* Centered title text */
   }
 
   .item-artist {
@@ -327,6 +337,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       1px 1px 3px rgba(0, 0, 0, 0.9),
       0 0 8px rgba(255, 60, 43, 0.4);
     line-height: 1.3;
+    text-align: center; /* Centered artist name */
   }
 
   .item-specialties {
@@ -396,20 +407,25 @@ const galleryItems = cisData.artists.map((artist, index) => ({
   .gallery-cta {
     text-align: center;
     margin-top: 4rem;
+    display: flex;
+    justify-content: center; /* Centered CTA button horizontally */
   }
 
   /* Artist Counter Styles */
   .artist-counter {
     display: flex;
     justify-content: center;
+    align-items: center; /* Vertically center counter */
     margin: 2rem 0 0;
     position: relative;
+    width: 100%; /* Full width for proper centering */
   }
 
   .counter-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centered counter number and label */
+    justify-content: center; /* Vertically center content */
     background: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 60, 43, 0.3);
     border-radius: 20px;
@@ -428,6 +444,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       0 0 40px rgba(255, 60, 43, 0.4);
     line-height: 1;
     margin-bottom: 0.5rem;
+    text-align: center; /* Centered number */
   }
 
   .counter-label {
@@ -436,6 +453,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
+    text-align: center; /* Centered label */
   }
 
   .counter-glow {
@@ -592,16 +610,27 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
   }
 
-  /* Responsive Design */
+  /* Responsive Design - Optimized for Modern Mobile UX */
+  
+  /* Tablets and Large Phones (768px and below) */
   @media (max-width: 768px) {
     .blob-gallery {
       padding: 3rem 0;
     }
 
     .blob-grid {
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      padding: 0 1rem;
+      /* EXPLICIT 1 column - prevents auto-fit grid collapse bug */
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .blob-item {
+      /* Ensure full width of grid cell */
+      width: 100%;
+      max-width: 100%;
     }
 
     .gallery-header {
@@ -702,16 +731,25 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
   }
 
-  /* Extra Small Mobile Devices - More Compact */
-  @media (max-width: 480px) {
+  /* Standard Mobile Phones (540px and below - iPhone 14 Pro, 13, 12, etc.) */
+  @media (max-width: 540px) {
     .blob-gallery {
       padding: 2.5rem 0;
     }
 
     .blob-grid {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.8rem;
-      padding: 0 0.8rem;
+      /* Explicit single column - clean, large, impactful */
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 0 1.25rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .blob-item {
+      /* Ensure full width of grid cell */
+      width: 100%;
+      max-width: 100%;
     }
 
     .gallery-header {
@@ -745,7 +783,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
 
     .spotlight-reveal {
-      padding: 0.8rem;
+      padding: 1rem;
     }
 
     .item-info {
@@ -753,30 +791,30 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
 
     .item-title {
-      font-size: clamp(1rem, 4.5vw, 1.3rem);
+      font-size: clamp(1.1rem, 4.5vw, 1.4rem);
       margin-bottom: 0.3rem;
     }
 
     .item-artist {
-      font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+      font-size: clamp(1rem, 3.8vw, 1.15rem);
       margin-bottom: 0.6rem;
     }
 
     .specialty-tag {
-      font-size: clamp(0.65rem, 2.8vw, 0.8rem);
-      padding: 0.3rem 0.7rem;
+      font-size: clamp(0.7rem, 2.8vw, 0.85rem);
+      padding: 0.35rem 0.8rem;
     }
 
     .item-actions {
-      gap: 0.6rem;
+      gap: 0.7rem;
       margin-top: 0.8rem;
     }
 
     .btn--ghost {
-      min-width: 140px;
-      max-width: 180px;
-      padding: 0.8rem 1.2rem;
-      font-size: clamp(0.85rem, 3.2vw, 1rem);
+      min-width: 150px;
+      max-width: 190px;
+      padding: 0.9rem 1.3rem;
+      font-size: clamp(0.9rem, 3.2vw, 1.05rem);
     }
 
     .gallery-cta {
@@ -784,16 +822,25 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
   }
 
-  /* Ultra Small Mobile Devices (iPhone SE, etc.) - Ultra Compact */
-  @media (max-width: 360px) {
+  /* Small Mobile Phones (400px and below - iPhone SE, older devices) */
+  @media (max-width: 400px) {
     .blob-gallery {
       padding: 2rem 0;
     }
 
     .blob-grid {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 0.6rem;
-      padding: 0 0.6rem;
+      /* Explicit single column with proper sizing */
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 1rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .blob-item {
+      /* Ensure full width of grid cell */
+      width: 100%;
+      max-width: 100%;
     }
 
     .gallery-header {
@@ -806,8 +853,8 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
 
     .gallery-subtitle {
-      font-size: 0.9rem;
-      padding: 0 0.8rem;
+      font-size: 0.95rem;
+      padding: 0 0.75rem;
     }
 
     .counter-content {
@@ -819,28 +866,28 @@ const galleryItems = cisData.artists.map((artist, index) => ({
     }
 
     .spotlight-reveal {
-      padding: 0.6rem;
+      padding: 0.75rem;
     }
 
     .item-title {
-      font-size: clamp(0.95rem, 4vw, 1.2rem);
+      font-size: clamp(1rem, 4.2vw, 1.25rem);
     }
 
     .item-artist {
-      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
       margin-bottom: 0.5rem;
     }
 
     .specialty-tag {
-      font-size: clamp(0.6rem, 2.5vw, 0.75rem);
-      padding: 0.25rem 0.6rem;
+      font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+      padding: 0.3rem 0.7rem;
     }
 
     .btn--ghost {
-      min-width: 120px;
-      max-width: 160px;
-      padding: 0.7rem 1rem;
-      font-size: clamp(0.8rem, 3vw, 0.95rem);
+      min-width: 130px;
+      max-width: 170px;
+      padding: 0.8rem 1.1rem;
+      font-size: clamp(0.85rem, 3vw, 1rem);
     }
 
     .gallery-cta {
@@ -987,8 +1034,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
         let touchMoved = false;
         const scrollThreshold = 10; // pixels
 
-        item.addEventListener('touchstart', (e) => {
-          const touch = e.touches[0];
+        item.addEventListener('touchstart', (e: Event) => {
+          const touchEvent = e as TouchEvent;
+          const touch = touchEvent.touches[0];
           touchStartY = touch.clientY;
           touchStartX = touch.clientX;
           touchMoved = false;
@@ -1016,8 +1064,9 @@ const galleryItems = cisData.artists.map((artist, index) => ({
           
         }, { passive: true });
 
-        item.addEventListener('touchmove', (e) => {
-          const touch = e.touches[0];
+        item.addEventListener('touchmove', (e: Event) => {
+          const touchEvent = e as TouchEvent;
+          const touch = touchEvent.touches[0];
           const deltaY = Math.abs(touch.clientY - touchStartY);
           const deltaX = Math.abs(touch.clientX - touchStartX);
           

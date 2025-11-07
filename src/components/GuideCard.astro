@@ -1,0 +1,709 @@
+---
+/**
+ * GuideCard Component
+ * Individual piercing guide card with anatomy diagram, pricing, and details
+ */
+import type { PiercingGuide } from '../data/piercingGuides';
+
+interface Props {
+  guide: PiercingGuide;
+  index: number;
+}
+
+const { guide, index } = Astro.props;
+
+// Pain level indicators
+const painIndicators = '●'.repeat(guide.painLevel) + '○'.repeat(5 - guide.painLevel);
+---
+
+<details class="guide-card" data-category={guide.category} style={`animation-delay: ${index * 100}ms;`}>
+  <summary class="guide-header">
+    <h3 class="guide-title">{guide.title}</h3>
+    <span class="expand-icon" aria-hidden="true">›</span>
+  </summary>
+  
+  <div class="guide-content">
+    <!-- Main Info Grid -->
+    <div class="guide-grid">
+      <!-- Anatomy Image Section -->
+      <div class="anatomy-section">
+        <div class="anatomy-viewer">
+          <img
+            src={guide.anatomyImage}
+            alt={`${guide.title} anatomy diagram showing piercing locations`}
+            width="600"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            class="anatomy-image"
+          />
+        </div>
+        {guide.exampleImages.length > 0 && (
+          <div class="example-photos">
+            <p class="section-label">Real Examples:</p>
+            <div class="photo-grid">
+              {guide.exampleImages.map((img, idx) => (
+                <img
+                  src={img}
+                  alt={`${guide.title} example ${idx + 1}`}
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                  class="example-image"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      
+      <!-- Info Section -->
+      <div class="info-section">
+        <p class="guide-description">{guide.description}</p>
+        
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat-item">
+            <span class="stat-label">Healing Time</span>
+            <span class="stat-value">{guide.healingTime}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Pain Level</span>
+            <span class="stat-value pain-level" title={`${guide.painLevel} out of 5`}>
+              {painIndicators}
+            </span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Age Requirement</span>
+            <span class="stat-value">{guide.ageRequirement}</span>
+          </div>
+        </div>
+        
+        <!-- Piercing Types -->
+        <div class="piercing-types">
+          <p class="section-label">Available Types:</p>
+          <div class="type-chips">
+            {guide.piercingTypes.map(type => (
+              <span class="type-chip">{type}</span>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Initial Jewelry Info -->
+        <div class="jewelry-info">
+          <p class="section-label">Initial Jewelry:</p>
+          <p class="jewelry-style">{guide.initialJewelryStyle}</p>
+        </div>
+
+        <!-- Downsize Alert -->
+        <div class="downsize-alert">
+          <div class="alert-icon" aria-hidden="true">⏰</div>
+          <div class="alert-content">
+            <strong>Downsizing Required:</strong>
+            <p>{guide.downsizeTimeline}</p>
+          </div>
+        </div>
+
+        {guide.anatomyNote && (
+          <div class="anatomy-notice">
+            <strong>⚠️ Anatomy Note:</strong> {guide.anatomyNote}
+          </div>
+        )}
+
+        <!-- Aftercare Highlights -->
+        <div class="aftercare-preview">
+          <p class="section-label">Aftercare Essentials:</p>
+          <ul class="aftercare-list">
+            {guide.aftercareHighlights.map(highlight => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Activity Restrictions -->
+        {guide.activityRestrictions.length > 0 && (
+          <div class="restrictions">
+            <p class="section-label">Activity Restrictions:</p>
+            <ul class="restrictions-list">
+              {guide.activityRestrictions.map(restriction => (
+                <li>{restriction}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Common Issues -->
+        {guide.commonIssues.length > 0 && (
+          <div class="common-issues">
+            <p class="section-label">Watch For:</p>
+            <ul class="issues-list">
+              {guide.commonIssues.map(issue => (
+                <li>{issue}</li>
+              ))}
+            </ul>
+            <p class="issues-note">Contact Harley at first sign of issues for guidance.</p>
+          </div>
+        )}
+        
+        <!-- CTA Button -->
+        <div class="guide-cta">
+          <a 
+            href="https://www.facebook.com/harley.halford" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="book-button"
+          >
+            Message Harley to Book
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+
+<style>
+  @import "../styles/tattoo-theme.css";
+
+  /* Piercing Room Color Palette */
+  :root {
+    --piercing-pink: #FF9FB2;
+    --piercing-coral: #FF8C82;
+    --piercing-peach: #FFB88C;
+    --piercing-mustard: #FFD166;
+    --piercing-mint: #A8E6CF;
+    --piercing-teal: #7DD6D6;
+    --piercing-dark: #2C1810;
+    --piercing-text-dark: #1A1A1A;
+    --piercing-text-light: #FFFFFF;
+  }
+
+  .guide-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border: 3px solid var(--piercing-coral);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.2s ease-out;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+    box-shadow: 0 4px 16px rgba(255, 140, 130, 0.2);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .guide-card[open] {
+    border-color: var(--piercing-teal);
+    box-shadow: 0 6px 24px rgba(125, 214, 214, 0.3);
+  }
+  
+  /* Header */
+  .guide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 2rem;
+    cursor: pointer;
+    list-style: none;
+    transition: all 0.2s ease-out;
+    gap: 1rem;
+    background: linear-gradient(135deg, #FFE4D9 0%, #FFD8D8 100%);
+  }
+  
+  .guide-header::-webkit-details-marker {
+    display: none;
+  }
+  
+  .guide-header:hover {
+    background: linear-gradient(135deg, #FFD8C8 0%, #FFC8C8 100%);
+  }
+  
+  .guide-title {
+    margin: 0;
+    font-size: clamp(1.375rem, 3.5vw, 1.875rem);
+    font-weight: 900;
+    color: var(--piercing-dark);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  
+  .expand-icon {
+    font-size: 1.75rem;
+    color: var(--piercing-coral);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    line-height: 1;
+    font-weight: 700;
+  }
+  
+  .guide-card[open] .expand-icon {
+    transform: rotate(90deg);
+    color: var(--piercing-teal);
+  }
+  
+  /* Content */
+  .guide-content {
+    padding: 2rem;
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF4F0 100%);
+  }
+  
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .guide-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+  
+  /* Anatomy Section */
+  .anatomy-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .anatomy-viewer {
+    background: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid var(--piercing-mint);
+    box-shadow: 0 3px 10px rgba(168, 230, 207, 0.25);
+  }
+  
+  .anatomy-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .example-photos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.625rem;
+  }
+  
+  .example-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 3px solid var(--piercing-peach);
+    transition: transform 0.2s ease-out;
+    box-shadow: 0 2px 8px rgba(255, 184, 140, 0.2);
+  }
+  
+  .example-image:hover {
+    transform: scale(1.05);
+    border-color: var(--piercing-coral);
+  }
+  
+  /* Info Section */
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .guide-description {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--piercing-text-dark);
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .section-label {
+    font-size: 0.8125rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--piercing-dark);
+    margin: 0 0 0.625rem;
+  }
+  
+  /* Quick Stats */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #D4F1F4 0%, #E8F5EC 100%);
+    border-radius: 12px;
+    border: 3px solid var(--piercing-teal);
+    box-shadow: 0 3px 10px rgba(125, 214, 214, 0.2);
+  }
+  
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--piercing-dark);
+    font-weight: 700;
+  }
+  
+  .stat-value {
+    font-size: 1rem;
+    color: var(--piercing-text-dark);
+    font-weight: 700;
+  }
+  
+  .pain-level {
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    color: var(--piercing-coral);
+  }
+  
+  /* Piercing Types */
+  .piercing-types {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  
+  .type-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+  
+  .type-chip {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--piercing-pink);
+    border: 2px solid var(--piercing-coral);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    color: var(--piercing-text-dark);
+    transition: all 0.2s ease-out;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(255, 159, 178, 0.2);
+  }
+  
+  .type-chip:hover {
+    background: var(--piercing-coral);
+    border-color: var(--piercing-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 140, 130, 0.3);
+  }
+  
+  /* Aftercare */
+  .aftercare-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  
+  .aftercare-list {
+    margin: 0;
+    padding-left: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  
+  .aftercare-list li {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--piercing-text-dark);
+    font-weight: 500;
+  }
+  
+  .aftercare-list li::marker {
+    color: var(--piercing-teal);
+    font-weight: 900;
+  }
+  
+  /* Jewelry Info */
+  .jewelry-info {
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #FFE8F0 0%, #FFD8E8 100%);
+    border-radius: 12px;
+    border: 3px solid var(--piercing-pink);
+    box-shadow: 0 3px 10px rgba(255, 159, 178, 0.2);
+  }
+
+  .jewelry-style {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    color: var(--piercing-text-dark);
+    font-weight: 600;
+  }
+
+  /* Downsize Alert */
+  .downsize-alert {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #FFE5B4 0%, #FFD8A8 100%);
+    border: 3px solid var(--piercing-mustard);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(255, 209, 102, 0.2);
+  }
+
+  .alert-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  .alert-content {
+    flex: 1;
+  }
+
+  .alert-content strong {
+    color: #C17800;
+    font-size: 0.9375rem;
+    display: block;
+    margin-bottom: 0.375rem;
+    font-weight: 800;
+  }
+
+  .alert-content p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--piercing-text-dark);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Anatomy Notice */
+  .anatomy-notice {
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #FFF4E0 0%, #FFE8C8 100%);
+    border: 3px solid var(--piercing-mustard);
+    border-radius: 12px;
+    font-size: 0.9375rem;
+    color: var(--piercing-text-dark);
+    line-height: 1.6;
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(255, 209, 102, 0.2);
+  }
+
+  .anatomy-notice strong {
+    color: #C17800;
+    font-weight: 800;
+  }
+
+  /* Restrictions & Issues */
+  .restrictions,
+  .common-issues {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .restrictions-list,
+  .issues-list {
+    margin: 0;
+    padding-left: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .restrictions-list li,
+  .issues-list li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--piercing-text-dark);
+    font-weight: 500;
+  }
+
+  .restrictions-list li::marker,
+  .issues-list li::marker {
+    color: var(--piercing-coral);
+    font-weight: 900;
+  }
+
+  .issues-note {
+    margin: 0.625rem 0 0;
+    font-size: 0.875rem;
+    color: var(--piercing-coral);
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  /* CTA */
+  .guide-cta {
+    margin-top: 0.75rem;
+  }
+  
+  .book-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 1.75rem;
+    height: 52px;
+    background: var(--piercing-teal);
+    border: 3px solid #4FB8B8;
+    color: var(--piercing-text-dark);
+    font-size: 1.125rem;
+    font-weight: 900;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.2s ease-out;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 4px 12px rgba(125, 214, 214, 0.3);
+  }
+  
+  .book-button:hover,
+  .book-button:focus-visible {
+    background: var(--piercing-mint);
+    border-color: #79C9A4;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(168, 230, 207, 0.4);
+  }
+  
+  .book-button:focus-visible {
+    outline: 3px solid var(--piercing-teal);
+    outline-offset: 3px;
+  }
+
+  .book-button:active {
+    transform: translateY(-1px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 767px) {
+    .guide-header {
+      padding: 1.5rem 1.75rem;
+    }
+    
+    .guide-content {
+      padding: 1.5rem;
+    }
+    
+    .guide-title {
+      font-size: 1.25rem;
+    }
+    
+    .quick-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .guide-card,
+    .expand-icon,
+    .example-image,
+    .type-chip,
+    .book-button {
+      animation: none;
+      transition: none;
+    }
+
+    .book-button:hover,
+    .example-image:hover,
+    .type-chip:hover {
+      transform: none;
+    }
+  }
+
+  /* Dark Mode Support */
+  @media (prefers-color-scheme: dark) {
+    .guide-card {
+      background: linear-gradient(135deg, rgba(44, 24, 16, 0.95) 0%, rgba(54, 30, 22, 0.95) 100%);
+      border-color: var(--piercing-coral);
+    }
+
+    .guide-card[open] {
+      border-color: var(--piercing-teal);
+    }
+
+    .guide-header {
+      background: linear-gradient(135deg, #4A3028 0%, #543830 100%);
+    }
+
+    .guide-header:hover {
+      background: linear-gradient(135deg, #543830 0%, #5E4038 100%);
+    }
+
+    .guide-title {
+      color: var(--piercing-text-light);
+    }
+
+    .guide-content {
+      background: linear-gradient(135deg, #3A2820 0%, #442E28 100%);
+    }
+
+    .guide-description,
+    .stat-value,
+    .jewelry-style,
+    .alert-content p,
+    .anatomy-notice,
+    .aftercare-list li,
+    .restrictions-list li,
+    .issues-list li {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .section-label,
+    .stat-label {
+      color: var(--piercing-mint);
+    }
+
+    .quick-stats {
+      background: linear-gradient(135deg, #2B4038 0%, #2E4540 100%);
+      border-color: var(--piercing-teal);
+    }
+
+    .anatomy-viewer {
+      background: #1A1A1A;
+      border-color: var(--piercing-mint);
+    }
+
+    .jewelry-info {
+      background: linear-gradient(135deg, #4A2E38 0%, #542E42 100%);
+      border-color: var(--piercing-pink);
+    }
+
+    .downsize-alert {
+      background: linear-gradient(135deg, #4D4020 0%, #544428 100%);
+      border-color: var(--piercing-mustard);
+    }
+
+    .alert-content strong {
+      color: var(--piercing-mustard);
+    }
+
+    .anatomy-notice {
+      background: linear-gradient(135deg, #4D4020 0%, #544428 100%);
+      border-color: var(--piercing-mustard);
+    }
+
+    .anatomy-notice strong {
+      color: var(--piercing-mustard);
+    }
+
+    .book-button {
+      color: var(--piercing-text-dark);
+    }
+  }
+</style>
+

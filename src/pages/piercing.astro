@@ -1,0 +1,2078 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PricingSection from '../components/PricingSection.astro';
+import PiercingGuideSection from '../components/PiercingGuideSection.astro';
+import AgeGateModal from '../components/AgeGateModal.astro';
+import { getPiercingImagesByCategory } from '../utils/piercingImages';
+import { piercingGuides } from '../data/piercingGuides';
+
+const pageTitle = 'Piercings by Harley Halford | Houma, LA (18+)';
+const pageDesc = 'Professional body piercing by Harley Halford in Houma, Louisiana. Over 8 years of experience. Clean, safe, and beautiful results. Age verification required.';
+
+// All available piercing categories
+const categories = ['lobe', 'nostril', 'septum', 'helix', 'navel', 'tragus', 'rook', 'industrial', 'flat', 'eyebrow', 'nipple', 'oral', 'surface', 'genital'] as const;
+const imagesByCat = await getPiercingImagesByCategory(categories);
+
+// Only include categories that have images
+const availableCategories = categories.filter(cat => {
+  const images = imagesByCat[cat];
+  return images && images.length > 0;
+});
+
+// Flatten all images for unified gallery (only from available categories)
+const allImages = availableCategories.flatMap(cat => 
+  imagesByCat[cat]?.map(img => ({ ...img, category: cat })) ?? []
+).filter(img => img.src); // Filter out any images without src
+
+// Capitalize category names for display
+const categoryDisplay: Record<string, string> = {
+  lobe: 'Lobe',
+  nostril: 'Nostril',
+  septum: 'Septum',
+  helix: 'Helix',
+  navel: 'Navel',
+  tragus: 'Tragus',
+  rook: 'Rook',
+  industrial: 'Industrial',
+  flat: 'Flat',
+  eyebrow: 'Eyebrow',
+  nipple: 'Nipple',
+  oral: 'Oral',
+  surface: 'Surface',
+  genital: 'Genital'
+};
+
+// Define sensitive/intimate categories that need extra blur and warnings
+const sensitiveCats = new Set(['genital', 'nipple']);
+const isIntimate = (cat: string) => sensitiveCats.has(cat);
+
+// JSON-LD Schema for Harley Halford
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Harley Halford",
+  "jobTitle": "Professional Body Piercer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Cursed Ink Society"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Houma",
+    "addressRegion": "LA"
+  },
+  "url": "https://www.facebook.com/harley.halford",
+  "description": "Houma's most trusted tattoo piercer with over 8 years of professional experience, specializing in precision placement and detailed aftercare."
+};
+
+// JSON-LD Schema for Image Gallery
+const gallerySchema = {
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "Piercing Gallery by Harley Halford",
+  "description": pageDesc,
+  "image": allImages.slice(0, 20).map(img => ({
+    "@type": "ImageObject",
+    "contentUrl": new URL(img.src, Astro.site).href,
+    "description": img.alt,
+    "width": img.width,
+    "height": img.height
+  }))
+};
+
+// JSON-LD Schema for Service Offerings
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Body Piercing Services by Harley Halford",
+  "description": "Professional body piercing services and educational resources in Houma, Louisiana",
+  "provider": {
+    "@type": "Person",
+    "name": "Harley Halford",
+    "jobTitle": "Professional Body Piercer"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Houma",
+    "containedInPlace": {
+      "@type": "State",
+      "name": "Louisiana"
+    }
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Piercing Services",
+    "itemListElement": piercingGuides.map(guide => ({
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": guide.title,
+        "description": guide.description
+      },
+      "availability": "https://schema.org/InStock"
+    }))
+  }
+};
+---
+
+<Layout title={pageTitle} description={pageDesc} canonicalURL={new URL('/piercing', Astro.site)}>
+  <!-- Age Verification Modal (18+ Required) -->
+  <AgeGateModal />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(gallerySchema)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)}></script>
+
+  <!-- Hero Section: Harley Halford -->
+  <section class="harley-hero" aria-labelledby="harley-heading">
+    <img 
+      src="/assets/IMG_3425.JPG" 
+      alt="Harley Halford's professional piercing studio in Houma, LA featuring turquoise piercing table, vibrant colorful murals, and sterile professional setup"
+      class="hero-bg-image"
+      width="1920"
+      height="1080"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+    <div class="hero-overlay"></div>
+    <div class="hero-container">
+      <img 
+        src="/brand/cursed-ink-logo.webp" 
+        alt="" 
+        class="hero-watermark" 
+        width="200" 
+        height="200"
+        loading="eager"
+        aria-hidden="true"
+      />
+      <h1 id="harley-heading" class="hero-title">Meet Harley Halford</h1>
+      <p class="hero-subtitle">Houma's most trusted tattoo piercer — 8+ years of experience</p>
+      
+      <div class="hero-content">
+        <p class="hero-description">
+          Harley Halford is our lead piercer in Houma, blending precision, safety, and clean aesthetics. 
+          With over eight years of professional experience, she's known for gentle placement, perfect angles, 
+          and detailed aftercare. Whether it's curated lobe stacks or advanced helix work, Harley makes every 
+          piercing smooth, safe, and beautiful.
+        </p>
+        
+        <div class="badges">
+          <span class="badge">Sterile Studio Standards</span>
+          <span class="badge">Premium Jewelry Options</span>
+          <span class="badge">8+ Years Experience</span>
+        </div>
+        
+        <div class="hero-ctas">
+          <a href="#piercing-guides" class="btn btn-primary">View Guidebook</a>
+          <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            Message Harley
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <PricingSection />
+
+  <!-- Jewelry Materials Section -->
+  <section class="materials-section" aria-labelledby="materials-heading">
+    <div class="materials-container">
+      <h2 id="materials-heading" class="section-heading">Jewelry Materials</h2>
+      <p class="materials-intro">
+        We only use high-quality materials for fresh piercings. Your safety matters.
+      </p>
+      
+      <div class="materials-grid">
+        <div class="material-card">
+          <div class="material-icon" aria-hidden="true">🛡️</div>
+          <h3>Implant-Grade Titanium</h3>
+          <p>
+            Medical-grade, hypoallergenic, lightweight. Our standard for all fresh piercings.
+          </p>
+          <ul class="material-features">
+            <li>99.9% nickel-free</li>
+            <li>Won't tarnish or corrode</li>
+            <li>Safe for sensitive skin</li>
+          </ul>
+        </div>
+        
+        <div class="material-card">
+          <div class="material-icon" aria-hidden="true">🔩</div>
+          <h3>Safe Threading</h3>
+          <p>
+            Internally threaded or threadless only. Smooth edges, no irritation.
+          </p>
+          <ul class="material-features">
+            <li>No sharp edges</li>
+            <li>Easy to change when healed</li>
+            <li>Professional standard</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="materials-note">
+        <strong>What we don't use:</strong> Externally threaded jewelry, mystery metals, plated jewelry, or nickel-containing "surgical steel" for fresh piercings.
+      </div>
+    </div>
+  </section>
+
+  <!-- Safety & Credentials Section -->
+  <section class="safety-section" aria-labelledby="safety-heading">
+    <div class="safety-container">
+      <h2 id="safety-heading" class="section-heading">Safety & Sterilization</h2>
+      
+      <div class="safety-grid">
+        <div class="safety-card">
+          <div class="safety-icon" aria-hidden="true">🏥</div>
+          <h3>Autoclave Sterilization</h3>
+          <ul>
+            <li>Medical-grade autoclave on-site</li>
+            <li>Spore tested monthly for effectiveness</li>
+            <li>All reusable tools fully sterilized</li>
+          </ul>
+        </div>
+        
+        <div class="safety-card">
+          <div class="safety-icon" aria-hidden="true">💉</div>
+          <h3>Single-Use Needles</h3>
+          <ul>
+            <li>Every needle used once and disposed</li>
+            <li>Opened in front of client</li>
+            <li>Never reused under any circumstances</li>
+          </ul>
+        </div>
+        
+        <div class="safety-card">
+          <div class="safety-icon" aria-hidden="true">📦</div>
+          <h3>Pre-Sterilized Jewelry</h3>
+          <ul>
+            <li>Jewelry arrives individually packaged</li>
+            <li>Autoclaved before use</li>
+            <li>Never handled until your appointment</li>
+          </ul>
+        </div>
+        
+        <div class="safety-card">
+          <div class="safety-icon" aria-hidden="true">🧤</div>
+          <h3>Strict Hygiene Protocol</h3>
+          <ul>
+            <li>Fresh gloves for every client</li>
+            <li>Surfaces disinfected between appointments</li>
+            <li>Hospital-grade disinfectants used</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="credentials">
+        <h3>Harley's Experience</h3>
+        <ul class="cred-list">
+          <li>✓ 8+ years professional experience</li>
+          <li>✓ Licensed LA Body Art Practitioner</li>
+          <li>✓ Health Department certified</li>
+          <li>✓ Sterile technique specialist</li>
+        </ul>
+        <p class="compliance-note">Louisiana Health Department compliant. Inspection records available on request.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Piercing Guide Section -->
+  <PiercingGuideSection />
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section" aria-labelledby="gallery-heading">
+    <div class="gallery-container">
+      <h2 id="gallery-heading" class="section-heading">Portfolio</h2>
+      
+      <!-- Content Warning Notice -->
+      <div class="content-warning" role="alert">
+        <span class="warning-icon" aria-hidden="true">⚠️</span>
+        <p>
+          <strong>18+ Content:</strong> This portfolio contains images of body piercings, 
+          including intimate areas. All images show professional piercing work and are presented 
+          for educational and consultation purposes only.
+        </p>
+      </div>
+      
+      <!-- Category Filters -->
+      <nav class="filter-nav" role="navigation" aria-label="Category filters">
+        <button class="filter-chip active" data-category="all" aria-pressed="true">All</button>
+        {availableCategories.map(cat => (
+          <button 
+            class="filter-chip" 
+            data-category={cat} 
+            aria-pressed="false"
+            data-sensitive={isIntimate(cat) ? 'true' : 'false'}
+          >
+            {categoryDisplay[cat]}
+            {isIntimate(cat) && <span class="sensitive-badge" aria-label="Intimate content">🔒</span>}
+          </button>
+        ))}
+      </nav>
+      
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" role="list">
+        {allImages.map((img, index) => (
+          <figure 
+            class="gallery-item" 
+            data-category={img.category}
+            data-sensitive={isIntimate(img.category) ? 'true' : 'false'}
+            role="listitem"
+            style="animation-delay: 0ms;"
+          >
+            <button 
+              class="image-btn" 
+              data-index={index}
+              aria-label={`View ${img.alt} in lightbox`}
+              type="button"
+            >
+              {isIntimate(img.category) && (
+                <div class="intimate-warning">
+                  <span class="lock-icon" aria-hidden="true">🔒</span>
+                  <span class="warning-text">Intimate Piercing</span>
+                </div>
+              )}
+              <img
+                src={img.src}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                data-loaded="false"
+                onload="this.setAttribute('data-loaded', 'true')"
+              />
+              <figcaption class="image-caption">{img.alt}</figcaption>
+            </button>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div 
+    id="lightbox" 
+    class="lightbox" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="lightbox-caption"
+    hidden
+  >
+    <button 
+      class="lightbox-close" 
+      aria-label="Close lightbox" 
+      type="button"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+    <div class="lightbox-content">
+      <img 
+        id="lightbox-image" 
+        src="" 
+        alt=""
+        width="1200"
+        height="1600"
+      />
+      <p id="lightbox-caption" class="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous image" type="button">
+      <span aria-hidden="true">‹</span>
+    </button>
+    <button class="lightbox-nav lightbox-next" aria-label="Next image" type="button">
+      <span aria-hidden="true">›</span>
+    </button>
+  </div>
+
+  <!-- Aftercare Section -->
+  <section class="aftercare-section" aria-labelledby="aftercare-heading">
+    <div class="aftercare-container">
+      <h2 id="aftercare-heading" class="section-heading">Aftercare Guide</h2>
+      
+      <div class="accordion">
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>How do I clean my new piercing?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <ol>
+              <li>Wash hands with antibacterial soap</li>
+              <li>Spray sterile saline on both sides</li>
+              <li>Let sit 30-60 seconds</li>
+              <li>Gently remove crusties with clean gauze</li>
+              <li>Pat dry with paper towels (not cloth)</li>
+            </ol>
+            
+            <p><strong>Use:</strong> NeilMed spray or any 0.9% sterile saline from pharmacies.</p>
+            
+            <p class="emphasis"><strong>Don't use:</strong> Alcohol, peroxide, tea tree oil, homemade salt water, ointments, harsh soaps.</p>
+            
+            <p class="emphasis"><strong>Never rotate or twist jewelry.</strong> You'll damage healing tissue.</p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>What should I avoid during healing?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <ul class="danger-list">
+              <li>Swimming (pools, hot tubs, lakes) for 6-8 weeks</li>
+              <li>Makeup, lotions, hair products near piercing</li>
+              <li>Touching or playing with jewelry</li>
+              <li>Sleeping on fresh ear/face piercings</li>
+              <li>Changing jewelry early</li>
+              <li>Alcohol 24hrs before/after (thins blood)</li>
+              <li>Oral contact for oral piercings</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>When do I need to downsize my jewelry?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p class="emphasis">
+              <strong>Downsizing is required.</strong> Initial jewelry is longer for swelling. Once swelling goes down, come back for proper-fitted jewelry or you'll get irritation bumps.
+            </p>
+            
+            <p><strong>When:</strong> Cartilage 6-8wks, Lobes 4-6wks, Nostril 6-8wks, Navel 8-12wks, Oral 2-4wks.</p>
+            
+            <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="inline-cta">
+              Message Harley to Schedule
+            </a>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-trigger">
+            <h3>What are signs of infection vs. normal healing?</h3>
+            <span class="accordion-icon" aria-hidden="true">›</span>
+          </summary>
+          <div class="accordion-content">
+            <p><strong>Normal:</strong> Mild tenderness/redness 1-2 weeks, clear/yellow crusties, slight swelling (peaks day 3-5), occasional itching.</p>
+            
+            <p><strong>Irritation (not infection):</strong> Small bumps from snagging, sleeping on it, or jewelry too long. Message Harley with a photo.</p>
+            
+            <p class="emphasis"><strong>Actual infection:</strong> Hot radiating pain, worsening swelling after 48hrs, green/yellow pus, red streaks, fever. <strong>See a doctor. Don't remove jewelry without medical okay.</strong></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking & Policies (Condensed) -->
+  <section class="policies-section" aria-labelledby="policies-heading">
+    <div class="policies-container">
+      <h2 id="policies-heading" class="section-heading">Booking Info</h2>
+      <p class="policies-intro">By appointment. Message Harley on Facebook. $25 deposit (applied to service). 24hr notice for refund.</p>
+      
+      <details class="policies-details">
+        <summary><strong>Policies & What to Bring</strong> <span aria-hidden="true">›</span></summary>
+        <div class="policies-content">
+          <p><strong>Payment:</strong> Cash, card, Venmo, CashApp. Prices include titanium jewelry.</p>
+          <p><strong>Bring:</strong> Government photo ID (required), payment, comfy clothes.</p>
+          <p><strong>For Minors:</strong> Must bring your ID, birth certificate, and a parent with their ID.</p>
+          <p><strong>Jewelry:</strong> We provide all initial jewelry. Can't use outside jewelry (safety). Downsizes $10-15.</p>
+          <p><strong>Cancellations:</strong> Same-day/no-shows forfeit deposit. Free reschedule with 48hr notice.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA Footer -->
+  <section class="cta-footer" aria-labelledby="cta-heading">
+    <div class="cta-container">
+      <img 
+        src="/brand/cursed-ink-logo.webp" 
+        alt="" 
+        class="footer-watermark" 
+        width="200" 
+        height="200"
+        loading="lazy"
+        aria-hidden="true"
+      />
+      <h2 id="cta-heading" class="cta-heading">Ready When You Are.</h2>
+      <div class="cta-buttons">
+        <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Message Harley
+        </a>
+        <a href="/contact" class="btn btn-secondary">Contact Studio</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @import "../styles/tattoo-theme.css";
+
+    /* ===== Hide Navigation Logo on Piercing Page ===== */
+    .nav-logo {
+      display: none !important;
+    }
+
+    /* ===== CSS Variables (Aligned with Artists Page) ===== */
+    :root {
+      --transition: all 0.15s ease-out;
+    }
+
+    /* ===== Global Styles ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* ===== Harley Hero Section ===== */
+    .harley-hero {
+      background: var(--bg-dark);
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center; /* Vertically center hero content */
+      justify-content: center;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    /* Hero background image - full quality, no compression */
+    .hero-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      /* Preserve image quality */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    /* Gradient overlay for text readability */
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.65) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered all hero content horizontally */
+      z-index: 2;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 120px;
+      height: 120px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-watermark {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: 0 0 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-align: center; /* Centered title text */
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      margin: 0 0 3rem;
+      font-weight: 400;
+      text-align: center; /* Centered subtitle text */
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered hero content group */
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0 0 2rem;
+      text-align: center; /* Centered description text */
+      max-width: 100%;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: center; /* Vertically align badges */
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+    }
+
+    .badge:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.25rem;
+      height: 44px;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      border: 1px solid;
+    }
+
+    .btn-primary {
+      background: transparent;
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg-dark);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== Gallery Section ===== */
+    .gallery-section {
+      padding: clamp(6rem, 12vw, 8rem) 1.5rem;
+      background: #0A0A0A;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      text-align: center;
+      margin: 0 0 3rem;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto; /* Centered heading */
+    }
+
+    /* ===== Filter Navigation ===== */
+    .filter-nav {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-chip {
+      padding: 0 0.75rem;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--muted);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .filter-chip:hover,
+    .filter-chip:focus-visible {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .filter-chip.active {
+      background: transparent;
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .filter-chip:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ===== Gallery Grid ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.375rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .gallery-item {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .gallery-item[data-hidden] {
+      display: none;
+    }
+    
+    .gallery-item figure {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .image-btn {
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      border: none;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      group: true;
+    }
+
+    .image-btn:hover,
+    .image-btn:focus-visible {
+      transform: scale(1.03);
+    }
+
+    .image-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .image-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.15s ease-out;
+      pointer-events: none;
+    }
+
+    .image-btn:hover::after {
+      opacity: 1;
+    }
+
+    .image-btn img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.15s ease-out, opacity 0.3s ease;
+      will-change: transform;
+      opacity: 0;
+      background: #000;
+    }
+
+    .image-btn img[data-loaded="true"] {
+      opacity: 1;
+    }
+
+    .image-caption {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ===== Lightbox ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.96);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .lightbox:not([hidden]) {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .lightbox-caption {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      color: var(--text);
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10000;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .lightbox-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      font-size: 2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .lightbox-prev {
+      left: 1.5rem;
+    }
+
+    .lightbox-next {
+      right: 1.5rem;
+    }
+
+    .lightbox-nav:hover,
+    .lightbox-nav:focus-visible {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .lightbox-nav:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav {
+        width: 44px;
+        height: 44px;
+        font-size: 1.75rem;
+      }
+      
+      .lightbox-prev {
+        left: 0.5rem;
+      }
+      
+      .lightbox-next {
+        right: 0.5rem;
+      }
+    }
+
+    /* ===== Aftercare Section ===== */
+    .aftercare-section {
+      padding: clamp(6rem, 12vw, 8rem) 1.5rem;
+      background: var(--bg-dark);
+      display: flex;
+      justify-content: center; /* Centered section container */
+    }
+
+    .aftercare-container {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered aftercare content */
+    }
+
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .accordion-item {
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .accordion-item[open] {
+      border-color: var(--line);
+    }
+
+    .accordion-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      list-style: none;
+      transition: var(--transition);
+      gap: 1rem;
+    }
+
+    .accordion-trigger::-webkit-details-marker {
+      display: none;
+    }
+
+    .accordion-trigger:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .accordion-trigger h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .accordion-icon {
+      font-size: 1.25rem;
+      color: var(--muted);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      font-weight: 300;
+    }
+
+    .accordion-item[open] .accordion-icon {
+      transform: rotate(90deg);
+    }
+
+    .accordion-content {
+      padding: 0 1.5rem 1.25rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .accordion-content p {
+      margin: 0;
+    }
+
+    /* ===== CTA Footer ===== */
+    .cta-footer {
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      background: linear-gradient(180deg, #000 0%, #111 100%);
+      text-align: center;
+      position: relative;
+      display: flex;
+      justify-content: center; /* Centered section container */
+      align-items: center;
+    }
+
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered CTA content */
+    }
+
+    .footer-watermark {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 120px;
+      height: 120px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .footer-watermark {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .cta-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin: 0 0 2rem;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center; /* Centered heading text */
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: center; /* Vertically align buttons */
+      flex-wrap: wrap;
+    }
+
+    /* ===== Mobile Responsive ===== */
+    @media (max-width: 768px) {
+      .harley-hero {
+        min-height: 500px;
+      }
+
+      .hero-bg-image {
+        object-position: center center;
+      }
+
+      .section-heading {
+        font-size: 1.75rem;
+        text-align: center; /* Ensure centered on tablet */
+      }
+
+      .hero-ctas,
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        align-items: center; /* Centered buttons on tablet */
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center; /* Centered button text */
+      }
+      
+      .hero-container,
+      .materials-container,
+      .safety-container,
+      .aftercare-container,
+      .policies-container,
+      .cta-container {
+        align-items: center; /* Maintain center alignment on tablet */
+      }
+    }
+
+    @media (max-width: 380px) {
+      .harley-hero {
+        min-height: 450px;
+        padding: clamp(3rem, 6vw, 4rem) 1rem;
+      }
+
+      .gallery-grid {
+        gap: 0.25rem;
+      }
+
+      .btn {
+        height: 48px;
+        font-size: 0.9375rem;
+      }
+    }
+
+    /* ===== Accessibility & Focus Styles ===== */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      html {
+        scroll-behavior: auto;
+      }
+
+      .gallery-item {
+        animation: none;
+        opacity: 1;
+      }
+
+      .image-btn:hover {
+        transform: none;
+      }
+    }
+
+    /* ===== Materials Section ===== */
+    .materials-section {
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      background: #0A0A0A;
+      display: flex;
+      justify-content: center; /* Centered section container */
+    }
+
+    .materials-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered all materials content */
+    }
+
+    .materials-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .material-card {
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: all 0.15s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered card content */
+      text-align: center;
+    }
+
+    .material-card:hover {
+      border-color: rgba(255, 182, 193, 0.5);
+      box-shadow: 0 4px 20px rgba(255, 182, 193, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .material-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: center; /* Centered icon */
+    }
+
+    .material-card h3 {
+      margin: 0 0 1rem;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: center; /* Centered heading */
+    }
+
+    .material-card p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      text-align: center; /* Centered paragraph text */
+    }
+
+    .material-features {
+      margin: 0;
+      padding-left: 0;
+      list-style: none; /* Remove bullets for cleaner centered look */
+      text-align: center; /* Centered list */
+      width: 100%;
+    }
+
+    .material-features li {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      text-align: center; /* Centered list items */
+    }
+
+    .material-features li::before {
+      content: '✓ '; /* Checkmark for visual interest */
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .materials-note {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    .materials-note strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ===== Safety Section ===== */
+    .safety-section {
+      padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+      background: #0A0A0A;
+      display: flex;
+      justify-content: center; /* Centered section container */
+    }
+
+    .safety-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered all safety content */
+    }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      width: 100%;
+    }
+
+    .safety-card {
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: all 0.15s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered card content */
+      text-align: center;
+    }
+
+    .safety-card:hover {
+      border-color: rgba(255, 182, 193, 0.5);
+    }
+
+    .safety-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: center; /* Centered icon */
+    }
+
+    .safety-card h3 {
+      margin: 0 0 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: center; /* Centered heading */
+    }
+
+    .safety-card ul {
+      margin: 0;
+      padding-left: 0;
+      list-style: none; /* Remove bullets for cleaner centered look */
+      text-align: center; /* Centered list */
+      width: 100%;
+    }
+
+    .safety-card li {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+      text-align: center; /* Centered list items */
+    }
+
+    .safety-card li::before {
+      content: '• '; /* Bullet for visual interest */
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .credentials {
+      background: rgba(255, 182, 193, 0.08);
+      border: 1px solid rgba(255, 182, 193, 0.3);
+      border-radius: 4px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered credentials content */
+      width: 100%;
+    }
+
+    .credentials h3 {
+      margin: 0 0 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .cred-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      justify-items: center; /* Centered grid items */
+    }
+
+    .cred-list li {
+      color: var(--text);
+      font-size: 0.9375rem;
+      padding: 0.5rem 0;
+      text-align: center; /* Centered list items */
+    }
+
+    .compliance-note {
+      margin-top: 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    /* ===== Enhanced Aftercare Styles ===== */
+    .accordion-content h4 {
+      margin: 1rem 0 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .accordion-content ol,
+    .accordion-content ul {
+      margin: 0 0 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .accordion-content ol li,
+    .accordion-content ul li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    .accordion-content .danger-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .accordion-content .danger-list li {
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .accordion-content .emphasis {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 1rem 0;
+      display: block;
+    }
+
+    .inline-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--text);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: all 0.15s ease-out;
+    }
+
+    .inline-cta:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    /* ===== Policies Section ===== */
+    .policies-section {
+      padding: clamp(3rem, 6vw, 4rem) 1.5rem;
+      background: #0A0A0A;
+      display: flex;
+      justify-content: center; /* Centered section container */
+    }
+
+    .policies-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered policies content */
+    }
+
+    .policies-intro {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .policies-details {
+      background: var(--bgcard);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .policies-details summary {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s ease-out;
+      color: var(--text);
+    }
+
+    .policies-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .policies-details summary:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .policies-content {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--muted);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    .policies-content p {
+      margin: 0 0 1rem;
+    }
+
+    .policies-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policies-content strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ===== Mobile Responsive for New Sections ===== */
+    @media (max-width: 768px) {
+      .materials-grid,
+      .safety-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cred-list {
+        grid-template-columns: 1fr;
+      }
+
+      .material-card,
+      .safety-card,
+      .credentials {
+        padding: 1.5rem;
+      }
+    }
+
+    /* ===== Age Verification & Content Protection ===== */
+    
+    /* Blur all gallery content until age verified */
+    html:not([data-age-ok]) .gallery-section .gallery-grid {
+      filter: blur(40px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    html:not([data-age-ok]) .gallery-section .filter-nav {
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    /* Content Warning Notice */
+    .content-warning {
+      background: linear-gradient(135deg, rgba(152, 251, 152, 0.1), rgba(152, 251, 152, 0.15));
+      border: 2px solid rgba(152, 251, 152, 0.4);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .content-warning .warning-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(152, 251, 152, 0.5));
+    }
+
+    .content-warning p {
+      margin: 0;
+      color: var(--text);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    .content-warning strong {
+      color: #98FB98;
+      font-weight: 600;
+    }
+
+    /* Sensitive category badges in filters */
+    .filter-chip[data-sensitive="true"] {
+      border-color: rgba(152, 251, 152, 0.4);
+    }
+
+    .filter-chip[data-sensitive="true"]:hover,
+    .filter-chip[data-sensitive="true"].active {
+      border-color: #98FB98;
+    }
+
+    .sensitive-badge {
+      margin-left: 0.375rem;
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    /* Intimate content blur protection */
+    .gallery-item[data-sensitive="true"] .image-btn img {
+      filter: blur(20px);
+      transition: filter 0.3s ease;
+    }
+
+    html[data-age-ok] .gallery-item[data-sensitive="true"] .image-btn:hover img,
+    html[data-age-ok] .gallery-item[data-sensitive="true"] .image-btn:focus-visible img {
+      filter: blur(0px);
+    }
+
+    /* Intimate warning overlay */
+    .intimate-warning {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(152, 251, 152, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    html[data-age-ok] .gallery-item[data-sensitive="true"] .image-btn:hover .intimate-warning,
+    html[data-age-ok] .gallery-item[data-sensitive="true"] .image-btn:focus-visible .intimate-warning {
+      opacity: 0;
+    }
+
+    .intimate-warning .lock-icon {
+      font-size: 0.875rem;
+      filter: drop-shadow(0 0 4px rgba(152, 251, 152, 0.6));
+    }
+
+    .intimate-warning .warning-text {
+      color: #98FB98;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    /* Ensure sensitive images remain blurred in lightbox initially */
+    html[data-age-ok] .lightbox .lightbox-content img[data-sensitive="true"] {
+      filter: blur(15px);
+      transition: filter 0.3s ease;
+      cursor: pointer;
+    }
+
+    /* Unblur on hover (desktop) or when clicked (mobile) */
+    html[data-age-ok] .lightbox .lightbox-content img[data-sensitive="true"]:hover,
+    html[data-age-ok] .lightbox .lightbox-content img[data-sensitive="true"][data-unblurred="true"] {
+      filter: blur(0px);
+    }
+
+    /* Visual indicator that image can be clicked to unblur */
+    .lightbox .lightbox-content {
+      position: relative;
+    }
+
+    .lightbox .lightbox-content[data-has-sensitive="true"]::after {
+      content: 'Click or tap to unblur';
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      color: #98FB98;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid rgba(152, 251, 152, 0.4);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+
+    .lightbox:not([hidden]) .lightbox-content[data-has-sensitive="true"]::after {
+      opacity: 1;
+    }
+
+    /* Hide indicator when image is unblurred */
+    .lightbox .lightbox-content[data-unblurred="true"]::after {
+      opacity: 0;
+    }
+
+    /* Mobile adjustments for warnings */
+    @media (max-width: 640px) {
+      .content-warning {
+        padding: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .content-warning .warning-icon {
+        font-size: 1.25rem;
+      }
+
+      .intimate-warning {
+        padding: 0.375rem 0.5rem;
+      }
+
+      .intimate-warning .warning-text {
+        font-size: 0.625rem;
+      }
+
+      .intimate-warning .lock-icon {
+        font-size: 0.75rem;
+      }
+
+      .lightbox .lightbox-content[data-has-sensitive="true"]::after {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+        bottom: 2rem;
+      }
+    }
+
+    /* Prevent screenshot/copy of sensitive content (best effort) */
+    html[data-age-ok] .gallery-item[data-sensitive="true"] img {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* Loading state - keep blur until age verified */
+    html:not([data-age-ok]) .gallery-section {
+      position: relative;
+    }
+
+    html:not([data-age-ok]) .gallery-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+
+  <script>
+    // Gallery filtering and lightbox functionality
+    interface ImageData {
+      src: string;
+      alt: string;
+      category: string;
+    }
+
+    const allImages: ImageData[] = Array.from(
+      document.querySelectorAll<HTMLElement>('.gallery-item')
+    ).map((item) => {
+      const img = item.querySelector('img');
+      return {
+        src: img?.src || '',
+        alt: img?.alt || '',
+        category: item.dataset.category || ''
+      };
+    });
+
+    let currentImageIndex = 0;
+    let filteredImages: ImageData[] = [...allImages];
+
+    // Category filtering
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+    const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-item');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+
+        // Update active state
+        filterButtons.forEach((btn) => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+
+        // Filter gallery items
+        galleryItems.forEach((item, index) => {
+          const itemCategory = item.dataset.category;
+          if (category === 'all' || itemCategory === category) {
+            item.removeAttribute('data-hidden');
+            // Stagger animation
+            (item as HTMLElement).style.animationDelay = `${index * 30}ms`;
+          } else {
+            item.setAttribute('data-hidden', 'true');
+          }
+        });
+
+        // Update filtered images for lightbox
+        if (category === 'all') {
+          filteredImages = [...allImages];
+        } else {
+          filteredImages = allImages.filter((img) => img.category === category);
+        }
+      });
+    });
+
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('lightbox-caption') as HTMLElement;
+    const closeBtn = lightbox.querySelector('.lightbox-close') as HTMLButtonElement;
+    const prevBtn = lightbox.querySelector('.lightbox-prev') as HTMLButtonElement;
+    const nextBtn = lightbox.querySelector('.lightbox-next') as HTMLButtonElement;
+
+    function openLightbox(index: number) {
+      currentImageIndex = index;
+      updateLightboxImage();
+      lightbox.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.setAttribute('hidden', 'true');
+      document.body.style.overflow = '';
+      // Reset unblur state when closing
+      lightboxImage.removeAttribute('data-unblurred');
+      const lightboxContent = lightbox.querySelector('.lightbox-content');
+      if (lightboxContent) {
+        lightboxContent.removeAttribute('data-unblurred');
+      }
+    }
+
+    function updateLightboxImage() {
+      const image = filteredImages[currentImageIndex];
+      const lightboxContent = lightbox.querySelector('.lightbox-content') as HTMLElement;
+      
+      if (image) {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightboxCaption.textContent = image.alt;
+        
+        // Mark sensitive images in lightbox
+        const sensitiveCats = new Set(['genital', 'nipple']);
+        const isSensitive = sensitiveCats.has(image.category);
+        
+        if (isSensitive) {
+          lightboxImage.setAttribute('data-sensitive', 'true');
+          lightboxContent?.setAttribute('data-has-sensitive', 'true');
+          // Reset unblur state when changing images
+          lightboxImage.removeAttribute('data-unblurred');
+          lightboxContent?.removeAttribute('data-unblurred');
+        } else {
+          lightboxImage.removeAttribute('data-sensitive');
+          lightboxContent?.removeAttribute('data-has-sensitive');
+          lightboxContent?.removeAttribute('data-unblurred');
+        }
+      }
+    }
+
+    function showPrevImage() {
+      currentImageIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length;
+      updateLightboxImage();
+    }
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % filteredImages.length;
+      updateLightboxImage();
+    }
+
+    // Image click handlers
+    document.querySelectorAll<HTMLButtonElement>('.image-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.dataset.index || '0', 10);
+        // Find index in filtered images
+        const globalImage = allImages[index];
+        const filteredIndex = filteredImages.findIndex(
+          (img) => img.src === globalImage.src
+        );
+        if (filteredIndex !== -1) {
+          openLightbox(filteredIndex);
+        }
+      });
+    });
+
+    // Lightbox controls
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrevImage);
+    nextBtn.addEventListener('click', showNextImage);
+
+    // Click on sensitive image to toggle unblur
+    lightboxImage.addEventListener('click', (e) => {
+      if (lightboxImage.hasAttribute('data-sensitive')) {
+        e.stopPropagation(); // Prevent lightbox close
+        const lightboxContent = lightbox.querySelector('.lightbox-content');
+        
+        // Toggle unblur state
+        if (lightboxImage.hasAttribute('data-unblurred')) {
+          lightboxImage.removeAttribute('data-unblurred');
+          lightboxContent?.removeAttribute('data-unblurred');
+        } else {
+          lightboxImage.setAttribute('data-unblurred', 'true');
+          lightboxContent?.setAttribute('data-unblurred', 'true');
+        }
+      }
+    });
+
+    // Close on backdrop click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.hasAttribute('hidden')) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          showPrevImage();
+        } else if (e.key === 'ArrowRight') {
+          showNextImage();
+        }
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = (this as HTMLAnchorElement).getAttribute('href');
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+
+    // Image error handling - hide broken images
+    document.querySelectorAll<HTMLImageElement>('.gallery-item img').forEach((img) => {
+      img.addEventListener('error', function() {
+        const galleryItem = this.closest<HTMLElement>('.gallery-item');
+        if (galleryItem) {
+          galleryItem.style.display = 'none';
+        }
+      });
+    });
+
+    // Image load optimization
+    document.querySelectorAll<HTMLImageElement>('.gallery-item img').forEach((img) => {
+      if (img.complete && img.naturalHeight !== 0) {
+        img.setAttribute('data-loaded', 'true');
+      }
+    });
+  </script>
+</Layout>
+
+

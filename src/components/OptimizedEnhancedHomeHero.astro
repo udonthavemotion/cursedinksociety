@@ -88,7 +88,10 @@
                 alt="Cursed Ink Society Logo"
                 class="hero-logo"
                 id="interactive-logo"
+                width="350"
+                height="350"
                 loading="eager"
+                fetchpriority="high"
               />
 
               <!-- Lightweight glow rings initially hidden -->
@@ -194,12 +197,16 @@
 .hero-text-section {
   max-width: 100%;
   padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centered group horizontally for all child elements */
 }
 
 /* Simplified Typography for faster rendering */
 .hero-pretitle {
   display: flex;
   align-items: center;
+  justify-content: center; /* Centered pretitle content */
   gap: 0.75rem;
   font-size: 0.9rem;
   font-weight: 500;
@@ -266,6 +273,9 @@
   color: rgba(255, 255, 255, 0.85);
   margin-bottom: 2.5rem;
   max-width: 550px;
+  margin-left: auto; /* Centered text block with max-width constraint */
+  margin-right: auto;
+  text-align: center; /* Centered text within block */
   opacity: 0;
   animation: fadeInUp 0.8s ease-out 0.8s forwards;
 }
@@ -274,12 +284,13 @@
 .hero-stats {
   display: flex;
   justify-content: center;
-  align-items: baseline;
+  align-items: center; /* Vertically center all stat items as a group */
   gap: clamp(3rem, 8vw, 6rem);
   margin-bottom: 4rem;
   opacity: 0;
   animation: fadeInUp 0.8s ease-out 1s forwards;
   position: relative;
+  width: 100%; /* Full width for proper centering */
 }
 
 .hero-stats::before {
@@ -355,6 +366,10 @@
 /* Social Links Container */
 .social-links-container {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centered heading and links as a group */
+  width: 100%;
 }
 
 .social-heading {
@@ -367,6 +382,8 @@
     0 0 20px rgba(255, 60, 43, 0.6),
     0 0 30px rgba(255, 60, 43, 0.4);
   letter-spacing: 0.02em;
+  margin-left: auto;
+  margin-right: auto; /* Centered heading text */
 }
 
 .social-links {
@@ -419,11 +436,15 @@
 /* Artists Link */
 .artists-link-container {
   text-align: center;
+  display: flex;
+  justify-content: center; /* Centered link horizontally */
+  width: 100%;
 }
 
 .artists-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center; /* Centered link content */
   gap: 0.6rem;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
@@ -688,10 +709,13 @@
     gap: 2rem;
     text-align: center;
     padding: 2rem 1rem;
+    align-items: center; /* Vertically center content on mobile */
+    justify-items: center; /* Horizontally center grid items */
   }
 
   .hero-text-section {
     order: 2;
+    align-items: center; /* Maintain center alignment on mobile */
   }
 
   .hero-visual-section {
@@ -794,90 +818,109 @@
   }
 }
 
-@media (max-width: 480px) {
-  .hero-content {
-    padding: 3rem 0 1rem;
-  }
+  @media (max-width: 480px) {
+    .hero-content {
+      padding: 3rem 0 1rem;
+      align-items: center; /* Maintain center alignment on small mobile */
+    }
 
-  .hero-main {
-    padding: 1rem 0.5rem;
-    gap: 1.5rem;
-  }
+    .hero-main {
+      padding: 1rem 0.5rem;
+      gap: 1.5rem;
+      justify-items: center; /* Centered grid items on small mobile */
+    }
 
-  .container {
-    padding: 0 0.8rem;
-  }
+    .container {
+      padding: 0 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered container on small mobile */
+    }
 
-  .hero-title {
-    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
-    margin-bottom: 0.8rem;
-    padding: 0 1rem;
-    line-height: 1.3;
-  }
+    .hero-title {
+      font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+      margin-bottom: 0.8rem;
+      padding: 0 1rem;
+      line-height: 1.3;
+      text-align: center; /* Ensure centered on small mobile */
+    }
 
-  .hero-subtitle {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
-  }
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+      text-align: center; /* Ensure centered on small mobile */
+    }
 
-  .hero-description {
-    font-size: 0.95rem;
-    padding: 0 1rem;
-    margin-bottom: 1.5rem;
-  }
+    .hero-description {
+      font-size: 0.95rem;
+      padding: 0 1rem;
+      margin-bottom: 1.5rem;
+      text-align: center; /* Ensure centered on small mobile */
+    }
 
-  .hero-stats {
-    flex-direction: row;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 0 0.5rem;
-    justify-content: space-between;
-    max-width: 100%;
-    overflow: visible;
-  }
+    .hero-stats {
+      flex-direction: row;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+      justify-content: center; /* Centered stats on small mobile */
+      align-items: center; /* Vertically center stats */
+      max-width: 100%;
+      overflow: visible;
+    }
 
-  .stat-item {
-    flex: 1;
-    min-width: 0;
-    padding: 0.5rem 0.2rem;
-  }
+    .stat-item {
+      flex: 1;
+      min-width: 0;
+      padding: 0.5rem 0.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centered stat content */
+    }
 
-  .stat-number {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-    margin-bottom: 0.4rem;
-    white-space: nowrap;
-  }
+    .stat-number {
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      margin-bottom: 0.4rem;
+      white-space: nowrap;
+      text-align: center; /* Centered number on small mobile */
+    }
 
-  .stat-label {
-    font-size: clamp(0.65rem, 2.5vw, 0.8rem);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    .stat-label {
+      font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center; /* Centered label on small mobile */
+    }
 
-  .hero-actions {
-    gap: 1.5rem;
-  }
+    .hero-actions {
+      gap: 1.5rem;
+      width: 100%;
+      align-items: center; /* Centered actions on small mobile */
+    }
 
-  .social-links {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
+    .social-links {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      width: 100%;
+    }
 
-  .social-link {
-    width: 100%;
-    max-width: 280px;
-    justify-content: center;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.9rem;
-  }
+    .social-link {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      margin: 0 auto; /* Centered link on small mobile */
+    }
 
-  .social-heading {
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
-  }
+    .social-heading {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      text-align: center; /* Centered heading on small mobile */
+    }
 
   .artists-link {
     font-size: 0.95rem;

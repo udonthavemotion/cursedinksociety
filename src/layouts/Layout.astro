@@ -11,6 +11,7 @@ export interface Props {
   canonicalURL?: URL;
   ogImage?: URL;
   noIndex?: boolean;
+  hideNavLogo?: boolean;
 }
 
 const { 
@@ -18,7 +19,8 @@ const {
   description, 
   canonicalURL = new URL(Astro.url.pathname, Astro.site),
   ogImage = new URL('/og/og-image.jpg', Astro.url),
-  noIndex = false
+  noIndex = false,
+  hideNavLogo = false
 } = Astro.props;
 
 const pricing = pricingData;
@@ -136,13 +138,13 @@ const structuredData = {
     <meta name="msapplication-TileImage" content="/android-chrome-192x192.png" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="/brand/cursed-ink-logo.png?v=5" as="image" type="image/png" />
+    <!-- Preload Critical Resources - LCP Image -->
+    <link rel="preload" href="/brand/cursed-ink-logo.png?v=5" as="image" type="image/png" fetchpriority="high" />
     
-    <!-- Preload Critical Fonts with font-display swap for better performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- Optimized Font Loading with Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" /></noscript>
     
     <!-- DNS Prefetch for External Resources -->
@@ -171,9 +173,11 @@ const structuredData = {
       <!-- Screen reader announcements -->
       <div id="nav-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
       <div class="container nav-container">
-        <a href="/" class="nav-logo" aria-label="Cursed Ink Society Home">
-          <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" />
-        </a>
+        {!hideNavLogo && (
+          <a href="/" class="nav-logo" aria-label="Cursed Ink Society Home">
+            <img src="/brand/cursed-ink-logo.png?v=5" alt="Cursed Ink Society" width="60" height="60" />
+          </a>
+        )}
         
         <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
           <span></span>
@@ -186,6 +190,7 @@ const structuredData = {
             <li><a href="/" class="nav-link">Home</a></li>
             <li><a href="/artists" class="nav-link">Artists</a></li>
             <li><a href="/gallery" class="nav-link">Gallery</a></li>
+            <li><a href="/piercing" class="nav-link">Piercing</a></li>
             <li class="nav-item-with-dropdown">
               <a href="/services" class="nav-link nav-link-pricing" aria-expanded="false" aria-haspopup="true" aria-controls="pricing-dropdown">Pricing</a>
               <div class="pricing-dropdown" id="pricing-dropdown" role="menu" aria-labelledby="nav-link-pricing">
@@ -248,6 +253,7 @@ const structuredData = {
           <nav class="footer-nav" role="navigation" aria-label="Footer navigation">
             <a href="/artists" class="footer-link">Artists</a>
             <a href="/gallery" class="footer-link">Gallery</a>
+            <a href="/piercing" class="footer-link">Piercing</a>
             <a href="/about" class="footer-link">About</a>
             <a href="/contact" class="footer-link">Contact</a>
           </nav>

@@ -1,6 +1,0 @@
-[33m06bcfcc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/release-prep[m[33m, [m[1;31morigin/chore/release-prep[m[33m, [m[1;31morigin/HEAD[m[33m)[m feat(coming-soon): Transform page with team thank you message and navigation updates
-[33m04711a3[m fix: Coming Soon page mobile centering and transparent Zero Motion footer
-[33m3d3b7a0[m clean: remove unnecessary functions config from vercel.json
-[33m074588f[m fix: resolve build issues for Vercel deployment
-[33m9bfdec9[m feat: prepare for Vercel deployment
-[33m0005959[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/release-prep[m[33m)[m feat(artists): Update Anthony's hero video to new 4K asset

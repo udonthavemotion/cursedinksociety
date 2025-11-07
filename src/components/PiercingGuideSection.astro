@@ -1,0 +1,418 @@
+---
+/**
+ * Piercing Guidebook Section
+ * Educational resource for learning about piercing types, placement, healing, and aftercare
+ */
+import GuideCard from './GuideCard.astro';
+import { piercingGuides } from '../data/piercingGuides';
+---
+
+<section id="piercing-guides" class="piercing-guides-section" aria-labelledby="guides-heading">
+  <div class="guides-container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 id="guides-heading" class="section-title">Piercing Guidebook</h2>
+      <p class="section-subtitle">
+        Your complete educational resource for understanding piercing types, placement, healing times, and aftercare. 
+        Explore each section to learn what to expect before booking your appointment with Harley.
+      </p>
+    </div>
+    
+    <!-- Age Requirement Notice -->
+    <div class="age-notice" role="alert">
+      <img 
+        src="/piercing-guides/compliance/age-requirement.webp" 
+        alt="18 and up only - Valid government-issued photo ID required"
+        width="200"
+        height="150"
+        loading="lazy"
+        decoding="async"
+        class="age-notice-image"
+      />
+      <div class="age-notice-text">
+        <strong>Age Requirement:</strong> All piercings require you to be 18+ with valid government-issued photo ID. No exceptions.
+      </div>
+    </div>
+    
+    <!-- Health & Eligibility Notice -->
+    <details class="health-notice">
+      <summary class="health-summary">
+        <strong>⚕️ Health & Eligibility Requirements</strong>
+        <span class="expand-icon" aria-hidden="true">›</span>
+      </summary>
+      <div class="health-content">
+        <p><strong>Can't pierce if you have:</strong> Active infections, uncontrolled diabetes, blood disorders, on blood thinners, fresh sunburn/tan, or active cold sores (oral piercings).</p>
+        <p><strong>Need consultation:</strong> Pregnant/breastfeeding, keloid history, autoimmune conditions, metal allergies, on immunosuppressants.</p>
+        <p><strong>Message Harley first</strong> if you have health concerns. We keep it confidential.</p>
+      </div>
+    </details>
+    
+    <!-- Guides Grid -->
+    <div class="guides-grid" role="list">
+      {piercingGuides.map((guide, index) => (
+        <GuideCard guide={guide} index={index} />
+      ))}
+    </div>
+    
+    <!-- Education Section -->
+    <div class="education-section">
+      <h3 class="education-title">Understanding Irritation Bumps</h3>
+      <div class="education-content">
+        <img 
+          src="/piercing-guides/education/irritation-bumps.webp" 
+          alt="Irritation bumps guide showing causes and treatment"
+          width="800"
+          height="600"
+          loading="lazy"
+          decoding="async"
+          class="education-image"
+        />
+        <div class="education-text">
+          <p>
+            <strong>Irritation bumps are not infections.</strong> They're typically caused by improper aftercare, 
+            snagging, sleeping on fresh piercings, or using harsh products. Most resolve with proper care adjustments.
+          </p>
+          <p>
+            If you notice bumps forming around your piercing, contact Harley immediately. Early intervention 
+            prevents complications and ensures successful healing.
+          </p>
+          <a href="https://www.facebook.com/harley.halford" target="_blank" rel="noopener noreferrer" class="education-link">
+            Message Harley About Aftercare
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import "../styles/tattoo-theme.css";
+
+  /* Piercing Room Color Palette */
+  :root {
+    --piercing-pink: #FF9FB2;
+    --piercing-coral: #FF8C82;
+    --piercing-peach: #FFB88C;
+    --piercing-mustard: #FFD166;
+    --piercing-mint: #A8E6CF;
+    --piercing-teal: #7DD6D6;
+    --piercing-dark: #2C1810;
+    --piercing-text-dark: #1A1A1A;
+    --piercing-text-light: #FFFFFF;
+  }
+
+  .piercing-guides-section {
+    padding: clamp(6rem, 12vw, 8rem) 1.5rem;
+    background: #0A0A0A;
+    position: relative;
+  }
+  
+  .guides-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0 0 1rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #FFB6C1;
+    text-shadow: 2px 2px 0px rgba(255, 159, 178, 0.3);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  .section-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #E0E0E0;
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: 500;
+  }
+  
+  /* Age Notice */
+  .age-notice {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+    background: linear-gradient(135deg, #FFE5B4 0%, #FFD8A8 100%);
+    border: 3px solid var(--piercing-mustard);
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.25);
+  }
+  
+  .age-notice-image {
+    width: 100px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  
+  .age-notice-text {
+    flex: 1;
+    min-width: 250px;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--piercing-text-dark);
+    font-weight: 500;
+  }
+  
+  .age-notice-text strong {
+    color: #C17800;
+    font-weight: 800;
+    font-size: 1.125rem;
+  }
+  
+  /* Health & Eligibility Notice */
+  .health-notice {
+    background: linear-gradient(135deg, #E8F5EC 0%, #D4F1EC 100%);
+    border: 3px solid var(--piercing-mint);
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(168, 230, 207, 0.25);
+  }
+
+  .health-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    cursor: pointer;
+    list-style: none;
+    transition: all 0.2s ease-out;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    color: var(--piercing-text-dark);
+  }
+
+  .health-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .health-summary:hover {
+    background: rgba(168, 230, 207, 0.2);
+  }
+
+  .health-summary .expand-icon {
+    font-size: 1.5rem;
+    color: var(--piercing-mint);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .health-notice[open] .expand-icon {
+    transform: rotate(90deg);
+  }
+
+  .health-content {
+    padding: 0 1.75rem 1.25rem;
+    color: var(--piercing-text-dark);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  .health-content p {
+    margin: 0 0 0.875rem;
+  }
+
+  .health-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .health-content strong {
+    color: #2C6854;
+    font-weight: 700;
+  }
+  
+  /* Guides Grid */
+  .guides-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* Education Section */
+  .education-section {
+    padding: 2rem;
+    background: linear-gradient(135deg, #FFE8F0 0%, #FFD4E5 100%);
+    border: 3px solid var(--piercing-pink);
+    border-radius: 16px;
+    margin-top: 4rem;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 12px rgba(255, 159, 178, 0.25);
+  }
+  
+  .education-title {
+    font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+    margin: 0 0 1.5rem;
+    color: var(--piercing-dark);
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-shadow: 1px 1px 0px rgba(255, 159, 178, 0.3);
+  }
+  
+  .education-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  
+  @media (min-width: 768px) {
+    .education-content {
+      grid-template-columns: 260px 1fr;
+      gap: 1.75rem;
+    }
+  }
+  
+  .education-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 3px solid var(--piercing-coral);
+    box-shadow: 0 3px 8px rgba(255, 140, 130, 0.2);
+  }
+  
+  .education-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .education-text p {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--piercing-text-dark);
+    font-weight: 500;
+  }
+  
+  .education-text strong {
+    color: #8B0032;
+    font-weight: 800;
+  }
+  
+  .education-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.75rem;
+    height: 48px;
+    background: var(--piercing-teal);
+    border: 3px solid #4FB8B8;
+    color: var(--piercing-text-dark);
+    font-size: 1.0625rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.2s ease-out;
+    align-self: flex-start;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 3px 8px rgba(125, 214, 214, 0.3);
+  }
+  
+  .education-link:hover,
+  .education-link:focus-visible {
+    background: var(--piercing-mint);
+    border-color: #79C9A4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(168, 230, 207, 0.4);
+  }
+  
+  .education-link:focus-visible {
+    outline: 3px solid var(--piercing-teal);
+    outline-offset: 3px;
+  }
+
+  .education-link:active {
+    transform: translateY(0);
+  }
+  
+  /* Responsive */
+  @media (max-width: 767px) {
+    .piercing-guides-section {
+      padding: clamp(4rem, 8vw, 6rem) 1rem;
+    }
+    
+    .section-title {
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+    
+    .age-notice {
+      padding: 1.25rem 1.5rem;
+      gap: 1rem;
+    }
+    
+    .age-notice-image {
+      width: 70px;
+    }
+    
+    .education-section {
+      padding: 1.5rem;
+    }
+
+    .education-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .education-link {
+      transition: none;
+    }
+
+    .education-link:hover {
+      transform: none;
+    }
+
+    .health-summary .expand-icon {
+      transition: none;
+    }
+  }
+
+</style>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#piercing-guides"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector('#piercing-guides');
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+</script>
+

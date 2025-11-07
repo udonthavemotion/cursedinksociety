@@ -1,0 +1,45 @@
+/* Cursed Ink Society - Piercings Theme Tokens */
+:root {
+  /* Background tokens */
+  --bg-dark: #0A0A0A;
+  --bg-card: #121212;
+  --line: #2A2A2A;
+  
+  /* Text tokens */
+  --text: #EDEDED;
+  --muted: #B3B3B3;
+  
+  /* Accent - Cursed Ink Society Red */
+  --accent: #dc143c;
+  
+  /* Spacing */
+  --radius: 4px;
+}
+
+/* Fade-up animation utility */
+.fade-up {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Focus visible utility */
+.focus-accent:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+

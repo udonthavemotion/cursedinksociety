@@ -18,40 +18,34 @@ export default defineConfig({
     // Optimize dev server for better HMR and file watching
     server: {
       hmr: {
-        overlay: false // Disable error overlay that might interfere with dev experience
+        overlay: false
       },
       watch: {
-        usePolling: false, // Use native file watching for better performance
-        interval: 300 // Check for changes every 300ms
+        usePolling: false,
+        interval: 300
       },
-      // Prevent caching issues during development
       fs: {
-        // Allow serving files from packages
         allow: ['../../']
       }
     },
-    // Disable caching for development
     define: {
       __DEV__: true
     },
     build: {
+      // PRODUCTION OPTIMIZATIONS
       rollupOptions: {
         output: {
           manualChunks: {
-            // Split Three.js into its own chunk for better caching
+            // Critical chunks for better caching
             'three': ['three'],
-            // Split vendor libraries
             'vendor': ['@fontsource-variable/cinzel']
           },
-          // Optimize chunk naming for better caching
-          chunkFileNames: (chunkInfo) => {
-            const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop().replace('.js', '') : 'chunk';
-            return `js/${facadeModuleId}-[hash].js`;
-          },
+          // Optimized chunk naming
+          chunkFileNames: 'js/[name]-[hash].js',
+          entryFileNames: 'js/[name]-[hash].js',
           assetFileNames: (assetInfo) => {
-            const info = assetInfo.name.split('.');
-            const ext = info[info.length - 1];
-            if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name)) {
+            const ext = assetInfo.name.split('.').pop();
+            if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
               return `images/[name]-[hash][extname]`;
             }
             if (/\.(css)$/i.test(assetInfo.name)) {
@@ -62,20 +56,51 @@ export default defineConfig({
             }
             return `assets/[name]-[hash][extname]`;
           }
+        },
+        // Tree-shaking optimizations
+        treeshake: {
+          moduleSideEffects: false,
+          propertyReadSideEffects: false,
+          tryCatchDeoptimization: false
         }
       },
-      // Optimize for performance
+      // Performance optimizations
       target: 'es2020',
       cssCodeSplit: true,
-      sourcemap: false, // Disable sourcemaps in production for smaller bundles
+      cssMinify: true,
+      sourcemap: false,
       minify: 'terser',
       terserOptions: {
         compress: {
-          drop_console: true, // Remove console.logs in production
+          drop_console: true,
           drop_debugger: true,
-          pure_funcs: ['console.log', 'console.info', 'console.debug']
+          pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+          passes: 2
+        },
+        mangle: {
+          safari10: true
+        },
+        format: {
+          comments: false
+        }
+      },
+      // Chunk size optimization
+      chunkSizeWarningLimit: 1000,
+      assetsInlineLimit: 4096
+    },
+    // CSS optimization
+    css: {
+      devSourcemap: false,
+      preprocessorOptions: {
+        scss: {
+          // Add any SCSS options here
         }
       }
+    },
+    // Enable optimizations
+    optimizeDeps: {
+      include: ['three'],
+      exclude: []
     }
   },
   image: {
