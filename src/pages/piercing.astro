@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import PricingSection from '../components/PricingSection.astro';
 import PiercingGuideSection from '../components/PiercingGuideSection.astro';
 import AgeGateModal from '../components/AgeGateModal.astro';
+import GoHighLevelReviewWidget from '../components/GoHighLevelReviewWidget.astro';
 import { getPiercingImagesByCategory } from '../utils/piercingImages';
 import { piercingGuides } from '../data/piercingGuides';
 
@@ -487,6 +488,9 @@ const serviceSchema = {
       </details>
     </div>
   </section>
+
+  <!-- Live Reviews Widget -->
+  <GoHighLevelReviewWidget />
 
   <!-- CTA Footer -->
   <section class="cta-footer" aria-labelledby="cta-heading">
