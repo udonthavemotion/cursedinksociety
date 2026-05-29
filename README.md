@@ -98,6 +98,8 @@ See `.env.example` for required environment variables. Currently includes:
 
 See `docs/HANDOFF.md` for detailed development setup, deployment instructions, and project maintenance guide.
 
+See `docs/context-engineered-frontend-agent.md` for the context-engineered front-end agent brief that should guide future polish and implementation work.
+
 ---
 
 Built with ❤️ for tattoo artists who deserve premium digital experiences.
