@@ -65,7 +65,7 @@ Use these facts unless the client explicitly updates them:
 - **Location:** 488 Corporate Dr, STE 11, Houma, LA 70360.
 - **Phone:** (985) 208-2334.
 - **Primary Instagram:** `@cursedinksociety`.
-- **Domain:** `cursedinksocietytattoo.com` appears in data; verify production domain before launch because some files reference `cursedinksociety.com`.
+- **Domain:** `www.cursedinksocietytattoo.com` is the canonical production domain; legacy `cursedinksociety.com` hostnames should redirect there when configured in Vercel/DNS.
 - **Tattoo deposit:** $50, non-refundable.
 - **Minimum tattoo price:** $80.
 - **Consultations:** Free; used to match clients with the best artist.
@@ -239,9 +239,9 @@ Run checks appropriate to the change:
 
 ## 12. Known repo risks the agent must resolve or avoid
 
-- Some social data uses `@cursedingksociety`; other files use `@cursedinksociety`. Normalize to the confirmed client handle.
+- Social data is normalized to the confirmed `@cursedinksociety` handle; keep new references aligned with that canonical handle.
 - Some footer/data links reference `/aftercare` and `/faq`; verify or create routes.
-- The sitemap route uses a lowercase `get` handler and may trigger Astro route warnings.
+- Keep `/sitemap.xml` reachable with an uppercase `GET` endpoint and confirm it returns XML after each deployment-oriented change.
 - There are multiple generations of hero/gallery/CTA components; consolidate rather than adding yet another variant.
 - Global styling currently makes too much text glow; reserve glow for brand moments and CTAs.
 - Global loaders such as Three.js/performance scripts should be reviewed so they do not tax every page.

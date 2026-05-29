@@ -5,7 +5,9 @@
   "installCommand": "npm ci",
   "framework": "astro",
   "trailingSlash": false,
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",
@@ -20,7 +22,7 @@
       "source": "/assets/(.*)",
       "headers": [
         {
-          "key": "Cache-Control", 
+          "key": "Cache-Control",
           "value": "public, max-age=86400, must-revalidate"
         }
       ]
@@ -70,13 +72,29 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap-index.xml"
-    }
-  ],
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cursedinksociety.com"
+        }
+      ],
+      "destination": "https://www.cursedinksocietytattoo.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.cursedinksociety.com"
+        }
+      ],
+      "destination": "https://www.cursedinksocietytattoo.com/:path*",
+      "permanent": true
+    },
     {
       "source": "/preview",
       "destination": "/",

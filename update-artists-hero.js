@@ -1,4 +1,5 @@
-Avoid blocking anything into a transparent-like block that I'm not a fan of.#!/usr/bin/env node
+#!/usr/bin/env node
+// Note: keep hero updates free of heavy transparent overlay blocks.
 
 /**
  * Professional Branding Update for ArtistsHero Component
@@ -6,7 +7,6 @@ Avoid blocking anything into a transparent-like block that I'm not a fan of.#!/u
  */
 
 import fs from 'fs/promises';
-import path from 'path';
 
 async function updateArtistsHero() {
   console.log('🎨 Updating Artists Hero with professional branding...');

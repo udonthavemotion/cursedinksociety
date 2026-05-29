@@ -89,8 +89,8 @@
       "Fr-Sa 12:00-22:00"
     ],
     "sameAs": [
-      "https://instagram.com/cursedingksociety",
-      "https://facebook.com/cursedingksociety"
+      "https://instagram.com/cursedinksociety",
+      "https://facebook.com/cursedinksociety"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -116,7 +116,7 @@
     }
   },
   "social": {
-    "instagram": "@cursedingksociety",
+    "instagram": "@cursedinksociety",
     "facebook": "Cursed Ink Society",
     "hashtags": [
       "#CursedInkSociety",
