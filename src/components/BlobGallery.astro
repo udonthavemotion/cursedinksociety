@@ -24,7 +24,7 @@ const galleryItems = cisData.artists.map((artist, index) => ({
       <!-- Artist Counter with Animation -->
       <div class="artist-counter">
         <div class="counter-content">
-          <span class="counter-number" data-count="6">0</span>
+          <span class="counter-number" data-count={galleryItems.length}>{galleryItems.length}</span>
           <span class="counter-label">Master Artists</span>
         </div>
         <div class="counter-glow"></div>

@@ -3,7 +3,7 @@ module.exports = {
   env: { node: true, es2022: true, browser: true },
   extends: [
     "eslint:recommended",
-    "@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:astro/recommended"
   ],
   parser: "@typescript-eslint/parser",
